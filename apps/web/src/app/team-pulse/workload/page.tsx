@@ -14,9 +14,13 @@ import type { ApexOptions } from 'apexcharts';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 /**
- * Team Pulse — Workload
+ * Team Pulse — Workload (Thesis §12 — Capacity, Maturity, Performance)
  *
- * Data: TeamPulseEntry from seed-pulse
+ * Use Case: UC-CAP-001 — View Team Capacity
+ * Entities: Case_Capacity_Model, Case_Demand_Model, Case_Backlog_State (L8)
+ * Standards: ITIL 4, Queueing Theory, Little's Law
+ *
+ * Data: TeamPulseEntry from seed-pulse + thesis capacity models
  * Route: /team-pulse/workload | Nav Group: Team Pulse | Status: BUILD
  * Shows analyst and team workload distribution with band indicators.
  */

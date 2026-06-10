@@ -8,7 +8,7 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/
 /**
  * Control Coverage — Overview
  *
- * Source: CFM (Control Framework Mapping) Build Unit
+ * Use Case: UC-CTRL-001. Entities: Control_Reference, Control_State (L10). Standards: NIST CSF, ISO 27001, COBIT
  * Data: control-framework.ts + seed-control-frameworks
  * Route: /controls | Nav Group: Controls
  *
