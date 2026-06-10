@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { describe, it, expect } from 'vitest';
 import type {
   ControlFramework,
@@ -63,7 +62,7 @@ const baseFw = (overrides: Partial<ControlFramework> = {}): ControlFramework => 
   updated_at: '2026-01-10T00:00:00.000Z',
   source: { connector_id: 'conn-test', import_run_id: 'run-test', source_system: 'test', source_timestamp: '2026-01-10T00:00:00.000Z' },
   framework_id: 'test-framework',
-  frameworkName: 'Test Framework',
+  framework_name: 'Test Framework',
   version: '1.0',
   category: 'industry',
   publisher: 'Test Publisher',

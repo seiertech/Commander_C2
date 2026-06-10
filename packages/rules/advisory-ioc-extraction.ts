@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Vendor Advisory IOC Extraction — Pure Function
  *
@@ -70,12 +69,12 @@ export function extractAdvisoryIocs(input: ExtractionInput): ExtractionResult {
     };
 
     const relationship: IocRelationship = {
-      id: `${ioc_id}-rel`,
+      id: `${iocId}-rel`,
       tenant: input.advisory.tenant,
       created_at: input.timestamp,
       updated_at: input.timestamp,
       source: input.advisory.source,
-      ioc_id: ioc_id,
+      ioc_id: iocId,
       relatedEntityId: input.advisory.id,
       relatedEntityType: 'advisory',
       relationshipState: 'linked_to_vendor_advisory',

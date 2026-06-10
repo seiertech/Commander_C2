@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { describe, it, expect } from 'vitest';
 import { resolveSla } from '../../packages/contracts/src/resolvers/case-sla-calculator';
 import { resolveRouting } from '../../packages/contracts/src/resolvers/case-router';
@@ -159,7 +158,7 @@ describe('Full Strategy Resolution (all 6 surfaces)', () => {
     expect(result.routing.status).toBe('resolved');
     expect(result.priority.status).toBe('resolved');
     expect(result.validation.status).toBe('resolved');
-    expect(result.closureGates.status).toBe('resolved');
+    expect(result.closure_gates.status).toBe('resolved');
     expect(result.reopening.status).toBe('resolved');
   });
 
@@ -170,7 +169,7 @@ describe('Full Strategy Resolution (all 6 surfaces)', () => {
     expect(result.sla.response_hours).toBe(24); // P1 SLA from strategy
     expect(result.priority.status).toBe('resolved');
     expect(result.validation.status).toBe('resolved');
-    expect(result.closureGates.status).toBe('resolved');
+    expect(result.closure_gates.status).toBe('resolved');
     expect(result.reopening.status).toBe('resolved');
   });
 });

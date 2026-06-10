@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Commander C2 Seed Fixtures — Central Export
  *

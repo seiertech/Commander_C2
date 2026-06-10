@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * IOC Deduplication + Source-Attribution Merger — Pure Function (C2)
  *
@@ -7,7 +6,7 @@
  *
  * Keyed on (normalisedValue, iocCategory): create-vs-merge decision.
  * Merge unions SourceAttributionEntry by sourceId; firstSeenAt = min,
- * lastSeenAt = max. Commutative and idempotent at catalogue level.
+ * last_seen_at = max. Commutative and idempotent at catalogue level.
  * Preserves every originalRawValue.
  */
 
@@ -31,7 +30,7 @@ export interface DedupResult {
  * Merge semantics:
  * - Unions source attributions by sourceId (set semantics)
  * - firstSeenAt = min across all attributions
- * - lastSeenAt = max across all attributions
+ * - last_seen_at = max across all attributions
  * - Preserves every originalRawValue in attribution entries
  */
 export function dedupAndMerge(
@@ -52,7 +51,7 @@ export function dedupAndMerge(
   for (const attr of incoming.sourceAttribution) {
     const existingAttr = mergedAttributions.get(attr.source_id);
     if (existingAttr) {
-      // Merge: keep min firstSeenAt, max lastSeenAt, latest confidence/severity
+      // Merge: keep min firstSeenAt, max last_seen_at, latest confidence/severity
       mergedAttributions.set(attr.source_id, {
         ...existingAttr,
         first_seen_at: attr.first_seen_at < existingAttr.first_seen_at ? attr.first_seen_at : existingAttr.first_seen_at,
@@ -67,12 +66,12 @@ export function dedupAndMerge(
 
   const attributions = Array.from(mergedAttributions.values());
 
-  // Compute min firstSeenAt and max lastSeenAt across all attributions
+  // Compute min firstSeenAt and max last_seen_at across all attributions
   const firstSeenAt = attributions.reduce(
     (min, a) => a.first_seen_at < min ? a.first_seen_at : min,
     attributions[0].first_seen_at,
   );
-  const lastSeenAt = attributions.reduce(
+  const last_seen_at = attributions.reduce(
     (max, a) => a.last_seen_at > max ? a.last_seen_at : max,
     attributions[0].last_seen_at,
   );
@@ -80,7 +79,7 @@ export function dedupAndMerge(
   const merged: IndicatorOfCompromise = {
     ...existing,
     sourceAttribution: attributions,
-    first_seen_at: first_seen_at,
+    first_seen_at: firstSeenAt,
     last_seen_at: last_seen_at,
     updated_at: new Date().toISOString(),
   };

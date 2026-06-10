@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Seed Threat Hunt Records — Deterministic Fixtures
  *

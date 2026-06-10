@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Case Validation Engine — Commander C2 (Unit 11)
  *
@@ -250,7 +249,7 @@ export function checkEvidenceFreshness(
   freshnessHours: number,
   current_time: string,
 ): { allFresh: boolean; staleRecords: EvidenceRecord[] } {
-  const now = new Date(currentTime).getTime();
+  const now = new Date(current_time).getTime();
   const freshnessMs = freshnessHours * 60 * 60 * 1000;
 
   const staleRecords = records.filter((record) => {
@@ -276,8 +275,8 @@ export function checkWindowExpiry(
   current_time: string,
 ): { expired: boolean; hoursRemaining: number } {
   const enteredAt = new Date(enteredStateAt).getTime();
-  const now = new Date(currentTime).getTime();
-  const windowMs = windowHours * 60 * 60 * 1000;
+  const now = new Date(current_time).getTime();
+  const windowMs = window_hours * 60 * 60 * 1000;
 
   const elapsed = now - enteredAt;
   const remaining = windowMs - elapsed;
@@ -324,8 +323,8 @@ export function shouldTriggerRevalidation(
   }
 
   // Check if window has expired
-  if (windowHours !== null) {
-    const windowCheck = checkWindowExpiry(state.enteredStateAt, window_hours, currentTime);
+  if (window_hours !== null) {
+    const windowCheck = checkWindowExpiry(state.enteredStateAt, window_hours, current_time);
     if (windowCheck.expired) {
       return true;
     }
@@ -333,7 +332,7 @@ export function shouldTriggerRevalidation(
 
   // Check if evidence has expired
   if (freshnessHours !== null && state.evidenceRecords.length > 0) {
-    const freshnessCheck = checkEvidenceFreshness(state.evidenceRecords, freshnessHours, currentTime);
+    const freshnessCheck = checkEvidenceFreshness(state.evidenceRecords, freshnessHours, current_time);
     if (!freshnessCheck.allFresh) {
       return true;
     }
@@ -379,7 +378,7 @@ export function evaluateValidation(
   // Check window expiry
   const windowCheck = checkWindowExpiry(
     request.enteredStateAt,
-    windowHours!,
+    window_hours!,
     request.current_time,
   );
 

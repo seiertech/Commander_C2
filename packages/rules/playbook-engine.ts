@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Playbook Engine — Commander C2
  *
@@ -254,7 +253,7 @@ export function advanceExecution(
     currentStep: stepResult.stepNumber,
     stepStatuses: updatedStepStatuses,
     status: executionStatus,
-    completed_at: completed_at,
+    completed_at: completedAt,
     updated_at: new Date().toISOString(),
   };
 }

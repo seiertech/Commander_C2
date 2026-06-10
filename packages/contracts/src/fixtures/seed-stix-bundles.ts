@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Seed STIX Bundle Ingests — Deterministic Fixtures
  *
@@ -11,7 +10,7 @@ import type { StixBundleIngest } from '../entities/stix-bundle-ingest';
 import { seedId, SEED_TENANT, SEED_SOURCE } from './seed-tenant';
 
 export const seedStixBundleIngests: StixBundleIngest[] = [
-  {
+  { entity_type: "entity",
     id: seedId('stixingest', 1),
     tenant: SEED_TENANT,
     created_at: '2026-01-16T06:00:00.000Z',
@@ -31,7 +30,7 @@ export const seedStixBundleIngests: StixBundleIngest[] = [
     ingested_at: '2026-01-16T06:00:00.000Z',
     status: 'complete',
   },
-  {
+  { entity_type: "entity",
     id: seedId('stixingest', 2),
     tenant: SEED_TENANT,
     created_at: '2026-01-16T07:00:00.000Z',

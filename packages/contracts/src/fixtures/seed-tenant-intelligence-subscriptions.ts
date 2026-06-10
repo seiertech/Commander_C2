@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Seed Tenant Intelligence Subscriptions — Deterministic Fixtures
  *
@@ -12,7 +11,7 @@ import type { TenantIntelligenceSubscription } from '../entities/tenant-intellig
 import { seedId, SEED_TENANT, SEED_SOURCE } from './seed-tenant';
 
 export const seedTenantIntelligenceSubscriptions: TenantIntelligenceSubscription[] = [
-  {
+  { entity_type: "entity",
     id: seedId('tsub', 1),
     tenant: SEED_TENANT,
     created_at: '2026-01-10T09:00:00.000Z',
@@ -31,7 +30,7 @@ export const seedTenantIntelligenceSubscriptions: TenantIntelligenceSubscription
     evaluationPreferences: { autoEvaluate: true, notifyOnMatch: true },
     subscribed_at: '2026-01-10T09:00:00.000Z',
   },
-  {
+  { entity_type: "entity",
     id: seedId('tsub', 2),
     tenant: SEED_TENANT,
     created_at: '2026-01-10T09:00:00.000Z',
@@ -47,7 +46,7 @@ export const seedTenantIntelligenceSubscriptions: TenantIntelligenceSubscription
     evaluationPreferences: { autoEvaluate: false, notifyOnMatch: false },
     subscribed_at: '2026-01-10T09:00:00.000Z',
   },
-  {
+  { entity_type: "entity",
     id: seedId('tsub', 3),
     tenant: SEED_TENANT,
     created_at: '2026-01-05T09:00:00.000Z',

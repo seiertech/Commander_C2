@@ -29,7 +29,7 @@ export interface CommonFields {
   /** Deterministic unique identifier */
   id: string;
   /** Canonical entity type discriminator */
-  entity_type: string;
+  entity_type?: string;
   /** Tenant scope — required, never ambiguous */
   tenant: TenantContext;
   /** When this record was created in Commander */

@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * STIX Bundle Parser Contract — Commander C2
  *
@@ -217,7 +216,7 @@ export function mapStixToCommander(stixObjects: StixObject[]): StixMappingResult
         if (techniqueId) {
           attackPatterns.push({
             stixId: obj.id,
-            technique_id: technique_id,
+            technique_id: techniqueId,
             name: obj.name,
           });
         }

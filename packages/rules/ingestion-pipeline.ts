@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Modelled Ingestion Pipeline Orchestrator (C1 + C2 + C7 composed)
  *

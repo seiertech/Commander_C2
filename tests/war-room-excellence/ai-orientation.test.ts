@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Unit Tests — War Room AI Orientation Contract
  *
@@ -50,7 +49,7 @@ describe('War Room AI Orientation Contract', () => {
     it('generates a briefing with all required fields', () => {
       const briefing = generateOrientationBriefing(warRoom, cases, riskObjects);
 
-      expect(briefing.whatHappened).toContain(warRoom.war_room_ref);
+      expect(briefing.whatHappened).toContain(warRoom.warRoomRef);
       expect(briefing.exploitAnalysis).toBeDefined();
       expect(briefing.blast_radius).toBeDefined();
       expect(briefing.actionsTaken).toEqual([]);

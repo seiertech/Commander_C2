@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Strategy Policy Lifecycle — Commander C2
  *
@@ -165,7 +164,7 @@ export function findEffectivePolicy(
   asOf?: string,
 ): StrategyPolicy | null {
   const candidates = policies.filter(
-    (p) => p.surface_type === surfaceType && isPolicyEffective(p, asOf),
+    (p) => p.surface_type === surface_type && isPolicyEffective(p, asOf),
   );
   if (candidates.length === 0) return null;
   // If multiple effective policies (shouldn't happen with proper supersession), take highest version

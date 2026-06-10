@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Seed Phishing Reports — Deterministic Fixtures
  *
@@ -11,7 +10,7 @@ import type { PhishingReport } from '../entities/phishing-report';
 import { seedId, SEED_TENANT, SEED_SOURCE } from './seed-tenant';
 
 export const seedPhishingReports: PhishingReport[] = [
-  {
+  { entity_type: "entity",
     id: seedId('phishreport', 1),
     tenant: SEED_TENANT,
     created_at: '2026-01-16T09:30:00.000Z',
@@ -30,7 +29,7 @@ export const seedPhishingReports: PhishingReport[] = [
     employeeNotificationStatus: 'sent',
     status: 'verdicted',
   },
-  {
+  { entity_type: "entity",
     id: seedId('phishreport', 2),
     tenant: SEED_TENANT,
     created_at: '2026-01-16T10:00:00.000Z',
@@ -49,7 +48,7 @@ export const seedPhishingReports: PhishingReport[] = [
     employeeNotificationStatus: 'pending',
     status: 'triaging',
   },
-  {
+  { entity_type: "entity",
     id: seedId('phishreport', 3),
     tenant: SEED_TENANT,
     created_at: '2026-01-16T11:00:00.000Z',

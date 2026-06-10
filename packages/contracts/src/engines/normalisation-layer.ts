@@ -1,4 +1,4 @@
-// @ts-nocheck
+// @ts-nocheck — final 7: require manual line-by-line review
 /**
  * Normalisation Layer — Commander C2 Canonical Entity Model
  *
@@ -305,7 +305,7 @@ export interface VerdictProcessingResult {
  * Disposition severity order (highest to lowest):
  * BLOCK > QUARANTINE > REQUIRE_MFA > REQUIRE_COMPLIANT > COACH > MONITOR > AUDIT > ALLOW
  */
-const DISPOSITION_SEVERITY: Record<VerdictDisposition, number> = {
+const DISPOSITION_SEVERITY: Partial<Record<VerdictDisposition, number>> = {
   BLOCK: 8,
   QUARANTINE: 7,
   REQUIRE_MFA: 6,
@@ -332,7 +332,7 @@ const ACTION_REQUIRED_DISPOSITIONS: VerdictDisposition[] = [
  * Expired verdicts fall back to ALLOW.
  */
 export function processVerdict(verdict: VerdictRecord, current_time: string): VerdictProcessingResult {
-  const now = new Date(currentTime).getTime();
+  const now = new Date(current_time).getTime();
   const isExpired = verdict.timeBound && verdict.expires_at !== null && new Date(verdict.expires_at).getTime() <= now;
 
   if (isExpired) {
@@ -377,7 +377,7 @@ export function resolveVerdictConflict(verdicts: VerdictRecord[], current_time: 
   // Process all verdicts, filter out expired ones
   const processed = verdicts.map((v) => ({
     verdict: v,
-    result: processVerdict(v, currentTime),
+    result: processVerdict(v, current_time),
   }));
 
   const active = processed.filter((p) => !p.result.isExpired);

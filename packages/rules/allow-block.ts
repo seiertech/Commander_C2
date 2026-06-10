@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Allow/Block Evaluator — Pure Function (C6)
  *
@@ -58,7 +57,7 @@ export function evaluateAllowBlock(
 ): AllowBlockDecision {
   // Filter to matching entries (same category + value, not expired)
   const matching = entries.filter(entry => {
-    if (entry.ioc_category !== iocCategory) return false;
+    if (entry.ioc_category !== ioc_category) return false;
     if (entry.value !== normalisedValue) return false;
     // Check expiry
     if (entry.expires_at !== null) {

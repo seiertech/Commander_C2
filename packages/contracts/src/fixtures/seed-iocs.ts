@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Seed Indicators of Compromise — Deterministic Fixtures
  *

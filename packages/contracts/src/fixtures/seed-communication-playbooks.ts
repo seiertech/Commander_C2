@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Seed Communication Playbooks — Deterministic Fixtures
  *
@@ -11,7 +10,7 @@ import type { CommunicationPlaybook } from '../entities/communication-playbook';
 import { seedId, SEED_TENANT, SEED_SOURCE } from './seed-tenant';
 
 export const seedCommunicationPlaybooks: CommunicationPlaybook[] = [
-  {
+  { entity_type: "entity",
     id: seedId('playbook', 1),
     tenant: SEED_TENANT,
     created_at: '2026-01-10T00:00:00.000Z',
@@ -64,7 +63,7 @@ export const seedCommunicationPlaybooks: CommunicationPlaybook[] = [
     version: '1.0.0',
     status: 'active',
   },
-  {
+  { entity_type: "entity",
     id: seedId('playbook', 2),
     tenant: SEED_TENANT,
     created_at: '2026-01-10T00:00:00.000Z',

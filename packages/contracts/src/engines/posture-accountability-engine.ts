@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Posture Accountability Engine — Commander C2 (Spec 39)
  *
@@ -203,7 +202,7 @@ export function evaluateTransition(
  * Compute time in current classification state (days).
  */
 export function computeTimeInState(classified_at: string, now?: string): number {
-  const classified = new Date(classifiedAt).getTime();
+  const classified = new Date(classified_at).getTime();
   const current = now ? new Date(now).getTime() : Date.now();
   const diffMs = current - classified;
   return Math.max(0, Math.floor(diffMs / (1000 * 60 * 60 * 24)));

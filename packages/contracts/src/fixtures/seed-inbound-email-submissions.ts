@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Seed Inbound Email Submissions — Deterministic Fixtures
  *
@@ -13,7 +12,7 @@ import type { InboundEmailSubmission } from '../entities/inbound-email-submissio
 import { seedId, SEED_TENANT, SEED_SOURCE } from './seed-tenant';
 
 export const seedInboundEmailSubmissions: InboundEmailSubmission[] = [
-  {
+  { entity_type: "entity",
     id: seedId('ies', 1),
     tenant: SEED_TENANT,
     created_at: '2026-01-15T09:00:00.000Z',
@@ -31,7 +30,7 @@ export const seedInboundEmailSubmissions: InboundEmailSubmission[] = [
     rawBodyReference: 'raw-email-body-ref-mock-001',
     submissionMetadata: { forwardedBy: 'analyst-mock-001', urgency: 'high' },
   },
-  {
+  { entity_type: "entity",
     id: seedId('ies', 2),
     tenant: SEED_TENANT,
     created_at: '2026-01-15T09:00:00.000Z',

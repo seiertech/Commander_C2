@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Seed Tenant IOC Matches — Deterministic Fixtures
  *

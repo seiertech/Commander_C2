@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Entitlement Enforcement Engine — Commander C2 (Spec 38)
  * Source: Spec #38 Commander Internal Control Plane UI Surface
@@ -61,7 +60,7 @@ export function evaluateEntitlement(
  * Check whether a specific module is accessible under the manifest.
  */
 export function checkModuleAccess(manifest: EntitlementManifest, module_id: string): boolean {
-  const module = manifest.modules.find((m) => m.module_id === moduleId);
+  const module = manifest.modules.find((m) => m.module_id === module_id);
   if (!module) return false;
   return module.enabled;
 }

@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Property-Based Tests — Structural Validation and Ownership
  *

@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Decision Explainability Engine — Commander C2 (Spec 36)
  *
@@ -58,13 +57,13 @@ export interface DecisionExplanation {
  * Explain all decisions associated with a case.
  */
 export function explainDecision(case_ref: string, allRecords: DecisionRecord[]): DecisionExplanation {
-  const decisions = allRecords.filter((r) => r.case_ref === caseRef);
+  const decisions = allRecords.filter((r) => r.case_ref === case_ref);
   return {
     case_ref,
     totalDecisions: decisions.length,
     decisions,
-    ruleHits: traceRuleHits(caseRef, allRecords),
-    engineOutputs: traceEngineOutputs(caseRef, allRecords),
+    ruleHits: traceRuleHits(case_ref, allRecords),
+    engineOutputs: traceEngineOutputs(case_ref, allRecords),
   };
 }
 
@@ -73,7 +72,7 @@ export function explainDecision(case_ref: string, allRecords: DecisionRecord[]):
  */
 export function traceRuleHits(case_ref: string, allRecords: DecisionRecord[]): RuleHit[] {
   return allRecords
-    .filter((r) => r.case_ref === caseRef && r.decision_type === 'rule_hit' && r.rule_ref)
+    .filter((r) => r.case_ref === case_ref && r.decision_type === 'rule_hit' && r.rule_ref)
     .map((r) => ({
       rule_ref: r.rule_ref!,
       decision_ref: r.recordId,
@@ -88,7 +87,7 @@ export function traceRuleHits(case_ref: string, allRecords: DecisionRecord[]): R
  */
 export function traceEngineOutputs(case_ref: string, allRecords: DecisionRecord[]): EngineOutput[] {
   return allRecords
-    .filter((r) => r.case_ref === caseRef && r.decision_type === 'engine_output' && r.engine_ref)
+    .filter((r) => r.case_ref === case_ref && r.decision_type === 'engine_output' && r.engine_ref)
     .map((r) => ({
       engine_ref: r.engine_ref!,
       decision_ref: r.recordId,

@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Drift Detection Engine — Commander C2 (Unit 24)
  * Source: Spec #17 Closed-Loop Control Architecture
@@ -62,8 +61,8 @@ export function classifyDriftSeverity(driftType: string, entity_type: string): n
   const criticalTypes = new Set(['policy', 'access']);
   const criticalEntities = new Set(['firewall', 'identity', 'database']);
 
-  if (criticalTypes.has(driftType) && criticalEntities.has(entityType)) return 5;
-  if (criticalTypes.has(driftType) || criticalEntities.has(entityType)) return 4;
+  if (criticalTypes.has(driftType) && criticalEntities.has(entity_type)) return 5;
+  if (criticalTypes.has(driftType) || criticalEntities.has(entity_type)) return 4;
   return 3;
 }
 

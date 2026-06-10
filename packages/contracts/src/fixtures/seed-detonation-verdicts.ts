@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Seed Detonation Verdicts — Deterministic Fixtures
  *
@@ -12,7 +11,7 @@ import type { DetonationVerdict } from '../entities/detonation-verdict';
 import { seedId, SEED_TENANT, SEED_SOURCE } from './seed-tenant';
 
 export const seedDetonationVerdicts: DetonationVerdict[] = [
-  {
+  { entity_type: "entity",
     id: seedId('detverd', 1),
     tenant: SEED_TENANT,
     created_at: '2026-01-16T07:00:00.000Z',
@@ -31,7 +30,7 @@ export const seedDetonationVerdicts: DetonationVerdict[] = [
     received_at: '2026-01-16T07:00:00.000Z',
     processed_at: '2026-01-16T07:05:00.000Z',
   },
-  {
+  { entity_type: "entity",
     id: seedId('detverd', 2),
     tenant: SEED_TENANT,
     created_at: '2026-01-16T08:00:00.000Z',
@@ -51,7 +50,7 @@ export const seedDetonationVerdicts: DetonationVerdict[] = [
     received_at: '2026-01-16T08:00:00.000Z',
     processed_at: '2026-01-16T08:10:00.000Z',
   },
-  {
+  { entity_type: "entity",
     id: seedId('detverd', 3),
     tenant: SEED_TENANT,
     created_at: '2026-01-16T09:00:00.000Z',

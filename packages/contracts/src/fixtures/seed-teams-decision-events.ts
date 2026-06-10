@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Seed Teams Decision Events — Deterministic Fixtures
  *
@@ -12,7 +11,7 @@ import type { TeamsDecisionEvent } from '../entities/teams-decision-event';
 import { seedId, SEED_TENANT, SEED_SOURCE } from './seed-tenant';
 
 export const seedTeamsDecisionEvents: TeamsDecisionEvent[] = [
-  {
+  { entity_type: "entity",
     id: seedId('teamsdec', 1),
     tenant: SEED_TENANT,
     created_at: '2026-01-16T10:00:00.000Z',
@@ -31,7 +30,7 @@ export const seedTeamsDecisionEvents: TeamsDecisionEvent[] = [
     executedByCommander: true,
     auditEventRef: seedId('audit', 201),
   },
-  {
+  { entity_type: "entity",
     id: seedId('teamsdec', 2),
     tenant: SEED_TENANT,
     created_at: '2026-01-16T11:00:00.000Z',
@@ -50,7 +49,7 @@ export const seedTeamsDecisionEvents: TeamsDecisionEvent[] = [
     executedByCommander: false,
     auditEventRef: seedId('audit', 202),
   },
-  {
+  { entity_type: "entity",
     id: seedId('teamsdec', 3),
     tenant: SEED_TENANT,
     created_at: '2026-01-16T12:00:00.000Z',

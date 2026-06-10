@@ -1,4 +1,4 @@
-// @ts-nocheck
+// @ts-nocheck — final 7: require manual line-by-line review
 import { describe, it, expect } from 'vitest';
 import {
   ALLOWED_TRANSITIONS,
@@ -274,7 +274,7 @@ describe('getCurrentStatusFromHistory (12-state)', () => {
 describe('Full lifecycle walk (12-state)', () => {
   it('detected → ... → closed_by_system (happy path)', () => {
     const caseId = 'case-lifecycle-walk';
-    let history: CaseLifecycleHistory = { case_id, records: [] };
+    let history: case_id = { caseId, records: [] };
     let status: CaseStatus = 'detected';
 
     const steps: [CaseStatus, CaseStatus, LifecycleActor][] = [
@@ -305,7 +305,7 @@ describe('Full lifecycle walk (12-state)', () => {
 
   it('reopening: closed_by_system → reopened_by_system → in_progress', () => {
     const caseId = 'case-reopen';
-    let history: CaseLifecycleHistory = { case_id, records: [] };
+    let history: case_id = { caseId, records: [] };
     let status: CaseStatus = 'closed_by_system';
 
     const steps: [CaseStatus, CaseStatus, LifecycleActor][] = [

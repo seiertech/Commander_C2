@@ -1,4 +1,4 @@
-// @ts-nocheck
+// @ts-nocheck — final 7: require manual line-by-line review
 /**
  * Property-Based Tests — Communications Excellence
  *

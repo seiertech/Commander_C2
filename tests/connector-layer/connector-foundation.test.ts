@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Connector Layer Foundation Tests — Unit 4
  *
@@ -75,7 +74,7 @@ describe('Signal Purpose Resolution (Spec #61 §3)', () => {
     expect(resolution.connector_id).toBe(seedConnectors[0].id);
     expect(resolution.pullRunId).toBe('run-test-001');
     expect(resolution.resolvedPurposes.length).toBeGreaterThan(0);
-    expect(resolution.resolvedAt).toBeTruthy();
+    expect(resolution.resolved_at).toBeTruthy();
   });
 });
 

@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Mock Signal Generator — Commander C2 (Unit 38, Connector Layer)
  *

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { describe, it, expect } from 'vitest';
 import {
   generateCaseRef,
@@ -68,7 +67,7 @@ describe('Case Ref Generator — generateCaseRef', () => {
   it('generates correct format for all 12 case types', () => {
     for (const caseType of CASE_TYPES) {
       const result = generateCaseRef({
-        case_type: case_type,
+        case_type: caseType,
         sequenceNumber: 1,
         tenantCode: 'TEST',
       });

@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Case Aggregation Resolver — Commander C2 (COIM-G)
  *
@@ -100,7 +99,7 @@ function countAffectedEntities(riskObjects: RiskObject[]): number {
  * (criticality weighting) can replace this without changing the contract.
  */
 function blastRadius(affected_entity_count: number): number {
-  return Math.min(MAX_BLAST_RADIUS_SCORE, affectedEntityCount * 10);
+  return Math.min(MAX_BLAST_RADIUS_SCORE, affected_entity_count * 10);
 }
 
 /**
@@ -171,7 +170,7 @@ export function computeCaseAggregation(
   const affectedEntityCount = countAffectedEntities(riskObjects);
   return {
     attacks: aggregateAttacks(riskObjects),
-    affected_entity_count: affected_entity_count,
+    affected_entity_count: affectedEntityCount,
     blastRadiusScore: blastRadius(affectedEntityCount),
     dwellTimeHours: computeDwellTimeHours(riskObjects, caseCreatedAt),
     confidenceAggregate: computeConfidenceAggregate(riskObjects),

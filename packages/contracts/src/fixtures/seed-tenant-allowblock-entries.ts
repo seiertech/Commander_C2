@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Seed Tenant IOC Allow/Block Entries — Deterministic Fixtures
  *
@@ -12,7 +11,7 @@ import type { TenantIocAllowBlockEntry } from '../entities/tenant-ioc-allowblock
 import { seedId, SEED_TENANT, SEED_SOURCE } from './seed-tenant';
 
 export const seedTenantAllowBlockEntries: TenantIocAllowBlockEntry[] = [
-  {
+  { entity_type: "entity",
     id: seedId('tab', 1),
     tenant: SEED_TENANT,
     created_at: '2026-01-10T09:00:00.000Z',
@@ -27,7 +26,7 @@ export const seedTenantAllowBlockEntries: TenantIocAllowBlockEntry[] = [
     reason: 'Known-good internal domain — false positive suppression (Mock)',
     expires_at: null,
   },
-  {
+  { entity_type: "entity",
     id: seedId('tab', 2),
     tenant: SEED_TENANT,
     created_at: '2026-01-11T09:00:00.000Z',
@@ -42,7 +41,7 @@ export const seedTenantAllowBlockEntries: TenantIocAllowBlockEntry[] = [
     reason: 'Sanctioned pen-test IP — temporary allow (Mock)',
     expires_at: '2026-03-01T00:00:00.000Z',
   },
-  {
+  { entity_type: "entity",
     id: seedId('tab', 3),
     tenant: SEED_TENANT,
     created_at: '2026-01-12T09:00:00.000Z',
@@ -57,7 +56,7 @@ export const seedTenantAllowBlockEntries: TenantIocAllowBlockEntry[] = [
     reason: 'Confirmed ransomware hash — force block regardless of confidence (Mock)',
     expires_at: null,
   },
-  {
+  { entity_type: "entity",
     id: seedId('tab', 4),
     tenant: SEED_TENANT,
     created_at: '2026-01-13T09:00:00.000Z',

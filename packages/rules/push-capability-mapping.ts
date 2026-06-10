@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Push Capability Mapping — Pure Total Function
  *
@@ -60,7 +59,7 @@ export const PUSH_CAPABILITY_MAP: Record<string, string[]> = {
  * Total: returns at least one target for every category (Req 15.3).
  */
 export function getTargetSystems(ioc_category: IocCategory): string[] {
-  return PUSH_CAPABILITY_MAP[iocCategory] ?? ['siem'];
+  return PUSH_CAPABILITY_MAP[ioc_category] ?? ['siem'];
 }
 
 /** Phase 1 allowed intent statuses (no live push — Req 15.4) */
@@ -87,18 +86,18 @@ export function buildPushActionIntent(params: {
   action_type: PushActionType;
   intent_status: PushIntentStatus;
   requestedBy: string;
-  requestedAt: string;
+  requested_at: string;
 }): PushActionIntent {
   return {
     id: params.id,
     tenant: { tenant_id: params.tenant_id, tenant_name: `Tenant ${params.tenant_id}` },
-    created_at: params.requestedAt,
-    updated_at: params.requestedAt,
+    created_at: params.requested_at,
+    updated_at: params.requested_at,
     source: {
       connector_id: 'push-intent-builder',
       import_run_id: `push-run-${params.id}`,
       source_system: 'intelligence-push',
-      source_timestamp: params.requestedAt,
+      source_timestamp: params.requested_at,
     },
     tenant_id: params.tenant_id,
     ioc_id: params.ioc_id,
@@ -106,8 +105,8 @@ export function buildPushActionIntent(params: {
     targetSystemType: params.targetSystemType,
     action_type: params.action_type,
     intent_status: params.intent_status,
-    requestedBy: params.requestedBy,
-    requestedAt: params.requestedAt,
+    requested_by: params.requestedBy,
+    requested_at: params.requested_at,
     approved_by: null,
     approved_at: null,
     executionReference: `mock-execution-${params.id}`,

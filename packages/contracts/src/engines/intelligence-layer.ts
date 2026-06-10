@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Intelligence Layer — Commander C2 Four-Stream Integration (Unit 14)
  *
@@ -95,7 +94,7 @@ export const STREAM_SURFACE_AFFINITY: Record<IntelligenceStream, SurfaceAttribut
  * (Spec #59 §3.4) — Class C provides its input data.
  */
 export function resolveStreamForClass(connector_class: ConnectorClass): IntelligenceStream {
-  return CLASS_TO_STREAM[connectorClass];
+  return CLASS_TO_STREAM[connector_class];
 }
 
 /**
@@ -320,13 +319,13 @@ export function detectVerdictDisagreement(verdicts: ToolVerdict[]): VerdictDisag
   const disagreement = hasNegative && hasAllow;
 
   return {
-    entity_id: entity_id,
+    entity_id: entityId,
     disagreement,
     polarities,
     contributingTools: tools,
     rationale: disagreement
-      ? `Verdict disagreement on ${entity_id}: contradictory polarities [${polarities.join(', ')}] across tools [${tools.join(', ')}]. Candidate Policy Effectiveness case.`
-      : `No disagreement on ${entity_id}: polarities [${polarities.join(', ')}] are consistent.`,
+      ? `Verdict disagreement on ${entityId}: contradictory polarities [${polarities.join(', ')}] across tools [${tools.join(', ')}]. Candidate Policy Effectiveness case.`
+      : `No disagreement on ${entityId}: polarities [${polarities.join(', ')}] are consistent.`,
   };
 }
 
