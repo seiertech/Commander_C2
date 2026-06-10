@@ -32,3 +32,13 @@ export {
   SEED_FIELD_MAPPINGS_TOGAF_ZACHMAN,
   validateAllTogafZachmanMappings,
 } from './seed-field-mappings-togaf-zachman';
+
+// ─── Field Mappings: OCSF + NATO/Admiralty + MITRE ATT&CK ───────────────────
+export {
+  SEED_FIELD_MAPPINGS_OCSF_SIGNAL,
+  SEED_FIELD_MAPPINGS_OCSF_FINDING,
+  SEED_FIELD_MAPPINGS_OCSF_REMEDIATION,
+  SEED_FIELD_MAPPINGS_OCSF_ASSESSMENT,
+  SEED_FIELD_MAPPINGS_OCSF_ALL,
+  validateAllOcsfMappings,
+} from './seed-field-mappings-ocsf';
