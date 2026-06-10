@@ -62,12 +62,12 @@ export type SurfaceAttribution = 'internal_attack_surface' | 'external_attack_su
 // ─── Signal Purpose ──────────────────────────────────────────────────────────
 
 /** What the signal is for in the intelligence pipeline */
-export type SignalPurpose = 'detection' | 'verdict' | 'identity_context' | 'coverage_state' | 'configuration_state' | 'behavioural_baseline';
+export type SignalPurpose = 'detection' | 'verdict' | 'identity_context' | 'coverage_state' | 'configuration_state' | 'behavioural_baseline' | 'case-creation' | 'case-enrichment' | 'verdict-pattern' | 'drift-evaluation' | 'coverage-assessment' | 'threat-correlation' | 'identity-behaviour' | 'posture-measurement';
 
 // ─── Verdict Disposition ─────────────────────────────────────────────────────
 
 /** Verdict outcome from a Class B connector */
-export type VerdictDisposition = 'malicious' | 'suspicious' | 'benign' | 'informational' | 'unresolved' | 'BLOCK' | 'QUARANTINE' | 'REQUIRE_MFA' | 'MONITOR' | 'ALLOW';
+export type VerdictDisposition = 'malicious' | 'suspicious' | 'benign' | 'informational' | 'unresolved' | 'BLOCK' | 'QUARANTINE' | 'REQUIRE_MFA' | 'MONITOR' | 'ALLOW' | 'REQUIRE_COMPLIANT' | 'COACH' | 'AUDIT';
 
 // ─── Build Status ────────────────────────────────────────────────────────────
 
