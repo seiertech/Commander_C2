@@ -25,17 +25,61 @@ import type { AssetSecurityPosture } from '../entities/asset-posture';
 
 // ─── Mission Adapter (L9) ────────────────────────────────────────────────────
 
-// ─── Mission (L9) — direct re-export (seeds are now thesis-canonical) ─────────
+// ─── Mission Thesis Adapter (L9) ─────────────────────────────────────────────
+// Spreads raw entity + adds thesis-enriched fields.
+// Pages can access BOTH raw (.id, .name) and thesis (.mission_id, .delta_score).
 
-export const thesisMissions: any[] = seedMissions as any[];
+export const thesisMissions: any[] = seedMissions.map((m) => ({
+  ...m,
+  mission_id: m.id,
+  mission_name: m.name,
+  capability_domain: m.impact_domains?.[0] ?? 'security_operations',
+  derived_from_model: 'CBP',
+  current_state_score: m.progress_percent,
+  target_state_score: 100,
+  delta_score: 100 - m.progress_percent,
+  priority_score: (6 - m.priority) * 20,
+  impact_weighting: m.priority <= 2 ? 8 : m.priority <= 3 ? 5 : 3,
+  risk_reduction_value: Math.round((100 - m.progress_percent) * 0.7),
+  mission_type: 'posture' as const,
+  timeframe: m.target_date,
+  standard_marker: 'CBP + OKR',
+}));
 
-// ─── Asset (L4) — direct re-export (seeds are now thesis-canonical) ──────────
+// ─── Asset Thesis Adapter (L4) ──────────────────────────────────────────────
+// Spreads raw entity + adds thesis-enriched fields.
 
-export const thesisAssets: any[] = seedAssets as any[];
+export const thesisAssets: any[] = seedAssets.map((a) => ({
+  ...a,
+  asset_id: a.id,
+  asset_name: a.name,
+  asset_class: a.classification,
+  asset_subclass: a.classification,
+  platform_os: a.platform?.os ?? 'unknown',
+  location: a.surface_attribution === 'external_attack_surface' ? 'Internet-facing' : 'Internal',
+  source_of_truth: a.source?.source_system ?? 'commander',
+  first_seen: a.created_at,
+  last_seen: a.updated_at,
+  standard_marker: 'ISO/IEC 19770-1:2017',
+}));
 
-// ─── Case (L7) — direct re-export (seeds are now thesis-canonical) ───────────
+// ─── Case Thesis Adapter (L7) ───────────────────────────────────────────────
+// Spreads raw entity + adds thesis-enriched fields (ITIL, OODA, CTEM overlays).
 
-export const thesisCases: any[] = seedCases as any[];;
+export const thesisCases: any[] = seedCases.map((c) => ({
+  ...c,
+  case_id: c.id,
+  created_time: c.created_at,
+  impact_scope: c.priority === 'P0' ? 'organisation' : c.priority === 'P1' ? 'business_unit' : 'service',
+  urgency: c.priority === 'P0' ? 'critical' : c.priority === 'P1' ? 'high' : c.priority === 'P2' ? 'medium' : 'low',
+  priority_level: parseInt(c.priority.replace('P', '')) + 1,
+  itil_stage: mapStatusToItilStage(c.status),
+  owner_team: c.team,
+  target_resolution_date: (c.sla as any)?.target_date ?? c.updated_at,
+  ctem_phase: 'mobilization' as const,
+  ooda_state: mapStatusToOoda(c.status),
+  standard_marker: 'ITIL 4 + OODA + CTEM',
+}));
 
 function mapStatusToItilStage(status: string): 'identified' | 'logged' | 'categorized' | 'prioritized' | 'assigned' | 'resolved' | 'closed' {
   const map: Record<string, any> = {
