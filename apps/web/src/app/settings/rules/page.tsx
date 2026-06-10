@@ -16,7 +16,7 @@ import { thesisStrategies } from '../../../../../../packages/contracts/src/fixtu
 export default function SettingsRulesPage() {
   const { tokens } = useMode();
   const active = thesisStrategies.filter((s) => s.status === 'active').length;
-  const surfaces = Array.from(new Set(thesisStrategies.map((s) => s.surfaceType))).length;
+  const surfaces = Array.from(new Set(thesisStrategies.map((s) => s.surface_type))).length;
 
   return (
     <PageContainer pretitle="Settings › Rules & Models" title="Rules & Models">
@@ -33,11 +33,11 @@ export default function SettingsRulesPage() {
             <thead><tr>{['Policy', 'Surface', 'Status', 'Version', 'Owner'].map((h) => <th key={h} style={{ textAlign: 'left', padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, borderBottom: `2px solid ${tokens.border.default}`, color: tokens.text.muted, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, fontSize: primitiveTypeScale.micro }}>{h}</th>)}</tr></thead>
             <tbody>{thesisStrategies.map((s) => (
               <tr key={s.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{s.surfaceType}</td>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{s.surfaceType}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{s.surface_type}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{s.surface_type}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, color: '#fff', background: s.status === 'active' ? primitiveSignal.success : primitiveSignal.neutral }}>{s.status}</span></td>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono }}>{s.policyVersion}</td>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{s.proposedBy}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono }}>{s.policy_version}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{s.proposed_by}</td>
               </tr>
             ))}</tbody>
           </table>

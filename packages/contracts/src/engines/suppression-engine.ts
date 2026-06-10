@@ -26,8 +26,8 @@ export function checkDedupeKey(candidate: Finding, existing: Finding[]): boolean
   return existing.some(
     (f) =>
       f.id !== candidate.id &&
-      f.tenantId === candidate.tenantId &&
-      f.dedupeKey === candidate.dedupeKey &&
+      f.tenant_id === candidate.tenant_id &&
+      f.dedupe_key === candidate.dedupe_key &&
       ACTIVE_STATUSES.includes(f.status),
   );
 }
@@ -53,8 +53,8 @@ export function deduplicateFinding(candidate: Finding, existing: Finding[]): Ded
   const match = existing.find(
     (f) =>
       f.id !== candidate.id &&
-      f.tenantId === candidate.tenantId &&
-      f.dedupeKey === candidate.dedupeKey &&
+      f.tenant_id === candidate.tenant_id &&
+      f.dedupe_key === candidate.dedupe_key &&
       ACTIVE_STATUSES.includes(f.status),
   );
 
@@ -68,7 +68,7 @@ export function deduplicateFinding(candidate: Finding, existing: Finding[]): Ded
     ...match,
     severity: Math.max(match.severity, candidate.severity),
     confidence: Math.max(match.confidence, candidate.confidence),
-    updatedAt: candidate.detectedAt > match.updatedAt ? candidate.detectedAt : match.updatedAt,
+    updated_at: candidate.detected_at > match.updated_at ? candidate.detected_at : match.updated_at,
   };
 
   return { isDuplicate: true, finding: merged, mergedInto: match.id };
@@ -98,9 +98,9 @@ export function suppressByRule(finding: Finding, rules: SuppressionRule[]): Find
   }
 
   const matched = rules.find((r) => {
-    const keyMatch = r.matchDedupeKey ? finding.dedupeKey.includes(r.matchDedupeKey) : false;
-    const ruleMatch = r.matchRuleRef ? finding.ruleRef === r.matchRuleRef : false;
-    const entityMatch = r.matchAffectedEntityRef ? finding.affectedEntityRef === r.matchAffectedEntityRef : false;
+    const keyMatch = r.matchDedupeKey ? finding.dedupe_key.includes(r.matchDedupeKey) : false;
+    const ruleMatch = r.matchRuleRef ? finding.rule_ref === r.matchRuleRef : false;
+    const entityMatch = r.matchAffectedEntityRef ? finding.affected_entity_ref === r.matchAffectedEntityRef : false;
     return keyMatch || ruleMatch || entityMatch;
   });
 
@@ -112,6 +112,6 @@ export function suppressByRule(finding: Finding, rules: SuppressionRule[]): Find
     ...finding,
     status: 'suppressed',
     suppressionReason: matched.reason,
-    updatedAt: finding.detectedAt,
+    updated_at: finding.detected_at,
   };
 }

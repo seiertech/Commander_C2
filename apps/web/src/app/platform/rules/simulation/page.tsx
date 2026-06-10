@@ -30,8 +30,8 @@ export default function PlatformRuleSimulationPage() {
   const [selectedId, setSelectedId] = useState<string>(thesisBlastRadius[0]?.id ?? '');
 
   const selected = thesisBlastRadius.find((b) => b.id === selectedId) ?? thesisBlastRadius[0];
-  const maxImpact = Math.max(...thesisBlastRadius.map((b) => b.totalImpactScore));
-  const totalAffected = thesisBlastRadius.reduce((acc, b) => acc + b.affectedEntities.length, 0);
+  const maxImpact = Math.max(...thesisBlastRadius.map((b) => b.total_impact_score));
+  const totalAffected = thesisBlastRadius.reduce((acc, b) => acc + b.affected_entities.length, 0);
 
   const impactColor = (score: number) =>
     score >= 80 ? primitiveSignal.critical : score >= 50 ? primitiveSignal.warning : primitiveSignal.info;
@@ -63,9 +63,9 @@ export default function PlatformRuleSimulationPage() {
             Blast Radius — {selected.originEntityRef}
           </h3>
           <div style={{ display: 'flex', gap: primitiveSpacing[4], flexWrap: 'wrap', marginBottom: primitiveSpacing[3] }}>
-            <Stat tokens={tokens} label="Total Impact" value={`${selected.totalImpactScore}/100`} accent={impactColor(selected.totalImpactScore)} />
+            <Stat tokens={tokens} label="Total Impact" value={`${selected.total_impact_score}/100`} accent={impactColor(selected.total_impact_score)} />
             <Stat tokens={tokens} label="Depth" value={String(selected.depth)} />
-            <Stat tokens={tokens} label="Affected" value={String(selected.affectedEntities.length)} />
+            <Stat tokens={tokens} label="Affected" value={String(selected.affected_entities.length)} />
             <Stat tokens={tokens} label="Computed" value={new Date(selected.computedAt).toLocaleString()} />
           </div>
 
@@ -79,13 +79,13 @@ export default function PlatformRuleSimulationPage() {
                 </tr>
               </thead>
               <tbody>
-                {selected.affectedEntities.map((a) => (
-                  <tr key={a.entityRef} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{a.entityRef}</td>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{a.entityType}</td>
+                {selected.affected_entities.map((a) => (
+                  <tr key={a.entity_ref} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{a.entity_ref}</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{a.entity_type}</td>
                     <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{a.relationship}</td>
                     <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono }}>{a.distance}</td>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: impactColor(a.impactScore), fontFamily: primitiveFonts.mono }}>{a.impactScore}/100</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: impactColor(a.impact_score), fontFamily: primitiveFonts.mono }}>{a.impact_score}/100</td>
                   </tr>
                 ))}
               </tbody>

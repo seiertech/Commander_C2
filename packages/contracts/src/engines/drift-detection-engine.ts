@@ -8,9 +8,9 @@
 
 export interface DriftComparisonInput {
   baselineState: string;
-  currentState: string;
-  entityType: string;
-  entityRef: string;
+  current_state: string;
+  entity_type: string;
+  entity_ref: string;
 }
 
 export interface DriftResult {
@@ -33,7 +33,7 @@ export interface DriftResolution {
  * Returns a DriftResult indicating whether drift exists, its type and severity.
  */
 export function compareDriftState(input: DriftComparisonInput): DriftResult {
-  if (input.baselineState === input.currentState) {
+  if (input.baselineState === input.current_state) {
     return {
       hasDrift: false,
       driftType: null,
@@ -43,13 +43,13 @@ export function compareDriftState(input: DriftComparisonInput): DriftResult {
   }
 
   const severity =
-    input.baselineState.length > 0 && input.currentState.length > 0 ? 3 : 5;
+    input.baselineState.length > 0 && input.current_state.length > 0 ? 3 : 5;
 
   return {
     hasDrift: true,
     driftType: 'configuration',
     severity,
-    description: `Drift detected: baseline "${input.baselineState}" differs from current "${input.currentState}".`,
+    description: `Drift detected: baseline "${input.baselineState}" differs from current "${input.current_state}".`,
   };
 }
 
@@ -57,7 +57,7 @@ export function compareDriftState(input: DriftComparisonInput): DriftResult {
  * Classify drift severity based on drift type and entity type.
  * Critical policies on critical entities score highest (5).
  */
-export function classifyDriftSeverity(driftType: string, entityType: string): number {
+export function classifyDriftSeverity(driftType: string, entity_type: string): number {
   const criticalTypes = new Set(['policy', 'access']);
   const criticalEntities = new Set(['firewall', 'identity', 'database']);
 

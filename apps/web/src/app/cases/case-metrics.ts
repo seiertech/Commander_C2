@@ -51,7 +51,7 @@ export const isNew = (c: Case) => NEW_STATES.has(c.status);
 export const isClosed = (c: Case) => CLOSED_STATES.has(c.status);
 
 export function ageHours(c: Case, now: number): number {
-  return (now - new Date(c.createdAt).getTime()) / MS_PER_HOUR;
+  return (now - new Date(c.created_at).getTime()) / MS_PER_HOUR;
 }
 
 export function ageLabel(c: Case, now: number): string {
@@ -67,7 +67,7 @@ export interface SlaState { label: string; tone: SlaTone; pct: number; remaining
 /** SLA posture + consumption percentage (0–100, clamped) for a progress bar. */
 export function slaState(c: Case, now: number): SlaState {
   const consumed = ageHours(c, now);
-  const target = c.sla.targetResolutionHours || 1;
+  const target = c.sla.target_resolution_hours || 1;
   const pct = Math.max(0, Math.min(100, Math.round((consumed / target) * 100)));
   const remainingHours = target - consumed;
   if (c.sla.breached) return { label: 'Breached', tone: 'critical', pct: 100, remainingHours };
@@ -89,9 +89,9 @@ export function riskScore(c: Case, now: number): number {
   const base = PRIORITY_WEIGHT[c.priority] ?? 20;
   const sla = slaState(c, now);
   const slaPressure = sla.tone === 'critical' ? 15 : sla.tone === 'warning' ? 8 : 0;
-  const blast = c.blastRadiusScore ?? c.relatedEntities.length * 3;
+  const blast = c.blastRadiusScore ?? c.related_entities.length * 3;
   const blastPressure = Math.min(15, blast / 5);
-  const surfacePressure = c.surfaceAttribution === 'external_attack_surface' ? 5 : 0;
+  const surfacePressure = c.surface_attribution === 'external_attack_surface' ? 5 : 0;
   return Math.max(0, Math.min(100, Math.round(base * 0.7 + slaPressure + blastPressure + surfacePressure)));
 }
 

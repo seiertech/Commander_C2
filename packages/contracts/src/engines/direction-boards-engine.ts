@@ -13,7 +13,7 @@ export interface DirectionBoard {
   status: 'proposed' | 'active' | 'completed' | 'deferred';
   impactAreas: string[];
   linkedRiskObjects: string[];
-  createdAt: string;
+  created_at: string;
 }
 
 export interface RiskObject {
@@ -24,14 +24,14 @@ export interface RiskObject {
 }
 
 export interface ImpactAssessment {
-  boardId: string;
-  impactScore: number; // 0-100
+  board_id: string;
+  impact_score: number; // 0-100
   factors: string[];
 }
 
 export interface LinkedReference {
-  boardId: string;
-  riskObjectId: string;
+  board_id: string;
+  risk_object_id: string;
   linkType: 'mitigates' | 'monitors' | 'escalates';
   confidence: number; // 0-100
 }
@@ -90,8 +90,8 @@ export function assessImpact(board: DirectionBoard): ImpactAssessment {
   }
 
   return {
-    boardId: board.id,
-    impactScore: Math.min(100, impactScore),
+    board_id: board.id,
+    impact_score: Math.min(100, impactScore),
     factors,
   };
 }
@@ -122,8 +122,8 @@ export function linkToRiskObjects(
     const confidence = areaMatch ? 85 : 50;
 
     refs.push({
-      boardId: board.id,
-      riskObjectId: risk.id,
+      board_id: board.id,
+      risk_object_id: risk.id,
       linkType,
       confidence,
     });

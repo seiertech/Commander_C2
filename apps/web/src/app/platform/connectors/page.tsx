@@ -95,7 +95,7 @@ export default function PlatformConnectorsPage() {
                         </span>
                       ))}
                     </td>
-                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{c.sourceType}</td>
+                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{c.source_type}</td>
                     <td><span className="badge bg-secondary">{c.tier}</span></td>
                     <td>
                       <span className={`badge ${c.state === 'active' ? 'bg-green-lt' : c.state === 'error' ? 'bg-red-lt' : 'bg-secondary'}`}>
@@ -103,11 +103,11 @@ export default function PlatformConnectorsPage() {
                       </span>
                     </td>
                     <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>
-                      {c.lastRunAt ? new Date(c.lastRunAt).toLocaleString() : 'Never'}
+                      {c.last_run_at ? new Date(c.last_run_at).toLocaleString() : 'Never'}
                     </td>
                     <td>
-                      <span className={`badge ${c.lastRunStatus === 'success' ? 'bg-green-lt' : c.lastRunStatus === 'failed' ? 'bg-red-lt' : 'bg-secondary'}`}>
-                        {c.lastRunStatus}
+                      <span className={`badge ${c.last_run_status === 'success' ? 'bg-green-lt' : c.last_run_status === 'failed' ? 'bg-red-lt' : 'bg-secondary'}`}>
+                        {c.last_run_status}
                       </span>
                     </td>
                   </tr>

@@ -19,7 +19,7 @@ import { EVALUATION_TYPES, TENANT_EXPOSURE_STATES } from './intelligence-common'
 
 export interface TenantIntelligenceEvaluation extends CommonFields {
   /** Customer tenant ID — non-empty (Req 11.4) */
-  tenantId: string;
+  tenant_id: string;
   /** Reference to Platform_Intelligence_Record or IOC — cross-plane, no FK (Req 11.1/11.4, 17.3) */
   platformRecordId: string;
   /** Evaluation type (Req 11.1) */
@@ -35,7 +35,7 @@ export interface TenantIntelligenceEvaluation extends CommonFields {
   /** Evidence/provenance references (Req 11.3/11.4) */
   evidenceReferences: string[];
   /** When evaluation was performed */
-  evaluatedAt: string;
+  evaluated_at: string;
 }
 
 // ─── Validation ──────────────────────────────────────────────────────────────
@@ -55,8 +55,8 @@ export function validateTenantIntelligenceEvaluation(
 ): TenantIntelligenceEvaluationValidation {
   const errors: string[] = [];
 
-  if (!evaluation.tenantId || evaluation.tenantId.trim() === '') {
-    errors.push('tenantId: required');
+  if (!evaluation.tenant_id || evaluation.tenant_id.trim() === '') {
+    errors.push('tenant_id: required');
   }
 
   if (!evaluation.platformRecordId || evaluation.platformRecordId.trim() === '') {
@@ -79,8 +79,8 @@ export function validateTenantIntelligenceEvaluation(
     errors.push('id: required');
   }
 
-  if (!evaluation.tenant || !evaluation.tenant.tenantId || evaluation.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!evaluation.tenant || !evaluation.tenant.tenant_id || evaluation.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
 
   return { valid: errors.length === 0, errors };

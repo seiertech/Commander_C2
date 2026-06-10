@@ -28,19 +28,19 @@ export default function PlatformDataQualityPage() {
 
   // Freshness from system pulse
   const avgFreshness = thesisSystemPulse.length > 0
-    ? (thesisSystemPulse.reduce((acc, s) => acc + s.dataFreshnessHours, 0) / thesisSystemPulse.length).toFixed(1)
+    ? (thesisSystemPulse.reduce((acc, s) => acc + s.data_freshness_hours, 0) / thesisSystemPulse.length).toFixed(1)
     : '0';
   const avgErrorRate = thesisSystemPulse.length > 0
-    ? (thesisSystemPulse.reduce((acc, s) => acc + s.errorRate, 0) / thesisSystemPulse.length).toFixed(1)
+    ? (thesisSystemPulse.reduce((acc, s) => acc + s.error_rate, 0) / thesisSystemPulse.length).toFixed(1)
     : '0';
 
   // Model accuracy
   const avgModelAccuracy = Math.round(thesisModels.reduce((acc, m) => acc + m.accuracy, 0) / thesisModels.length);
-  const avgFPR = (thesisModels.reduce((acc, m) => acc + m.falsePositiveRate, 0) / thesisModels.length).toFixed(1);
+  const avgFPR = (thesisModels.reduce((acc, m) => acc + m.false_positive_rate, 0) / thesisModels.length).toFixed(1);
 
   // Rule efficacy
   const activeRules = thesisRules.filter((r) => r.status === 'active').length;
-  const suppressionRules = thesisRules.filter((r) => r.ruleType === 'suppression').length;
+  const suppressionRules = thesisRules.filter((r) => r.rule_type === 'suppression').length;
 
   // Platform completeness
   const totalEntities = thesisRules.length + thesisModels.length + thesisAutomationRules.length + thesisFeatureRegistry.length;

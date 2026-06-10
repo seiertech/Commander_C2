@@ -20,8 +20,8 @@ export default function CisoDashboardPage() {
   const p1Cases = cases.filter((c) => c.priority === 'P1');
   const openCases = cases.filter((c) => c.status !== 'closed_by_system' && c.status !== 'closed');
   const slaBreached = cases.filter((c) => c.sla.breached);
-  const openRisks = thesisRiskObjects.filter((r) => r.treatmentState === 'open');
-  const highRiskIdentities = thesisIdentities.filter((i) => i.riskScore >= 60);
+  const openRisks = thesisRiskObjects.filter((r) => r.treatment_state === 'open');
+  const highRiskIdentities = thesisIdentities.filter((i) => i.risk_score >= 60);
   const criticalAssets = thesisAssets.filter((a) => a.criticality >= 4);
 
   return (

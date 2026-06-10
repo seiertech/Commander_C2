@@ -18,7 +18,7 @@ export type VersionChangeType = 'major' | 'minor' | 'patch' | 'breaking';
 // ─── Standards Version History Entity ────────────────────────────────────────
 
 export interface StandardsVersionHistory extends CommonFields {
-  entityType: 'standards-version-history';
+  entity_type: 'standards-version-history';
 
   /** Unique history entry identifier */
   historyId: string;
@@ -51,9 +51,9 @@ export interface StandardsVersionHistory extends CommonFields {
   /** Notes on how Commander migrated */
   migrationNotes: string;
   /** Assessment of impact on Commander entities */
-  impactAssessment: string;
+  impact_assessment: string;
   /** Who approved the version transition */
-  approvedBy: string;
+  approved_by: string;
   /** When Commander completed the upgrade (null if not yet done) */
   implementedDate: string | null;
 }
@@ -69,7 +69,7 @@ export function validateStandardsVersionHistory(h: StandardsVersionHistory): Sta
   const errors: string[] = [];
 
   if (!h.id || h.id.trim() === '') errors.push('id: required');
-  if (!h.tenant?.tenantId) errors.push('tenant.tenantId: required');
+  if (!h.tenant?.tenant_id) errors.push('tenant.tenant_id: required');
   if (!h.historyId || h.historyId.trim() === '') errors.push('historyId: required');
   if (!h.declarationId || h.declarationId.trim() === '') errors.push('declarationId: required');
   if (!h.previousVersion || h.previousVersion.trim() === '') errors.push('previousVersion: required');
@@ -84,8 +84,8 @@ export function validateStandardsVersionHistory(h: StandardsVersionHistory): Sta
   if (!Array.isArray(h.fieldsAdopted)) errors.push('fieldsAdopted: must be array');
   if (!Array.isArray(h.fieldsDeferred)) errors.push('fieldsDeferred: must be array');
   if (!h.migrationNotes || h.migrationNotes.trim() === '') errors.push('migrationNotes: required');
-  if (!h.impactAssessment || h.impactAssessment.trim() === '') errors.push('impactAssessment: required');
-  if (!h.approvedBy || h.approvedBy.trim() === '') errors.push('approvedBy: required');
+  if (!h.impact_assessment || h.impact_assessment.trim() === '') errors.push('impact_assessment: required');
+  if (!h.approved_by || h.approved_by.trim() === '') errors.push('approved_by: required');
 
   return { valid: errors.length === 0, errors };
 }

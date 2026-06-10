@@ -20,8 +20,8 @@ import type { InverseDiscoveryEvent } from '../entities/inverse-discovery-event'
 // ─── Types ───────────────────────────────────────────────────────────────────
 
 export interface PostureRecord {
-  entityRef: string;
-  snapshotAt: string;
+  entity_ref: string;
+  snapshot_at: string;
   snapshot: PostureSnapshot;
 }
 
@@ -38,7 +38,7 @@ export interface PriorityAdjustment {
 }
 
 export interface ClassificationUpdate {
-  entityRef: string;
+  entity_ref: string;
   previousClassification: AttackClassification | null;
   newClassification: AttackClassification;
   reason: string;
@@ -50,11 +50,11 @@ export interface ClassificationUpdate {
 /**
  * Look up the posture snapshot closest to (but not after) a given timestamp.
  */
-export function lookupPostureAtTime(entityRef: string, timestamp: string, records: PostureRecord[]): PostureSnapshot | null {
+export function lookupPostureAtTime(entity_ref: string, timestamp: string, records: PostureRecord[]): PostureSnapshot | null {
   const ts = new Date(timestamp).getTime();
   const matching = records
-    .filter((r) => r.entityRef === entityRef && new Date(r.snapshotAt).getTime() <= ts)
-    .sort((a, b) => new Date(b.snapshotAt).getTime() - new Date(a.snapshotAt).getTime());
+    .filter((r) => r.entity_ref === entityRef && new Date(r.snapshot_at).getTime() <= ts)
+    .sort((a, b) => new Date(b.snapshot_at).getTime() - new Date(a.snapshot_at).getTime());
 
   return matching[0]?.snapshot ?? null;
 }
@@ -64,9 +64,9 @@ export function lookupPostureAtTime(entityRef: string, timestamp: string, record
  */
 export function evaluatePreWarned(snapshot: PostureSnapshot): boolean {
   return (
-    snapshot.driftState === 'drifted' ||
+    snapshot.drift_state === 'drifted' ||
     snapshot.openRiskObjects > 0 ||
-    snapshot.controlAdherence < 70
+    snapshot.control_adherence < 70
   );
 }
 
@@ -75,9 +75,9 @@ export function evaluatePreWarned(snapshot: PostureSnapshot): boolean {
  */
 export function evaluateProtected(snapshot: PostureSnapshot): boolean {
   return (
-    snapshot.driftState === 'compliant' &&
-    snapshot.coveragePercent >= 80 &&
-    snapshot.controlAdherence >= 80 &&
+    snapshot.drift_state === 'compliant' &&
+    snapshot.coverage_percent >= 80 &&
+    snapshot.control_adherence >= 80 &&
     snapshot.openRiskObjects === 0
   );
 }
@@ -87,8 +87,8 @@ export function evaluateProtected(snapshot: PostureSnapshot): boolean {
  */
 export function evaluateNovel(snapshot: PostureSnapshot): boolean {
   return (
-    snapshot.driftState === 'unknown' &&
-    snapshot.coveragePercent === 0
+    snapshot.drift_state === 'unknown' &&
+    snapshot.coverage_percent === 0
   );
 }
 
@@ -105,13 +105,13 @@ export function classifyFromSnapshot(snapshot: PostureSnapshot): AttackClassific
  * Pause classification when an inverse discovery event indicates the entity
  * cannot be resolved.
  */
-export function pauseOnInverseFailure(entityRef: string, inverseEvent: InverseDiscoveryEvent): PauseResult {
-  const shouldPause = inverseEvent.lookupResult === 'unresolved' && !inverseEvent.resolvedAt;
+export function pauseOnInverseFailure(entity_ref: string, inverseEvent: InverseDiscoveryEvent): PauseResult {
+  const shouldPause = inverseEvent.lookupResult === 'unresolved' && !inverseEvent.resolved_at;
   return {
     paused: shouldPause,
     reason: shouldPause
-      ? `Inverse discovery event ${inverseEvent.eventId}: entity lookup unresolved (${inverseEvent.rootCause ?? 'unknown'}). Classification paused until resolution.`
+      ? `Inverse discovery event ${inverseEvent.event_id}: entity lookup unresolved (${inverseEvent.rootCause ?? 'unknown'}). Classification paused until resolution.`
       : 'Inverse event resolved — no pause required.',
-    inverseEventRef: inverseEvent.eventId,
+    inverseEventRef: inverseEvent.event_id,
   };
 }

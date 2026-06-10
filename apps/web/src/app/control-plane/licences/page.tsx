@@ -17,7 +17,7 @@ export default function ControlPlaneLicencesPage() {
   const { tokens } = useMode();
   const active = thesisLicences.filter((l) => l.status === 'active').length;
   const trial = thesisLicences.filter((l) => l.status === 'trial').length;
-  const totalUsers = thesisLicences.reduce((a, l) => a + l.currentUsage.users, 0);
+  const totalUsers = thesisLicences.reduce((a, l) => a + l.current_usage.users, 0);
 
   return (
     <PageContainer pretitle="Control Plane › Licences" title="Licences & Entitlements">
@@ -34,11 +34,11 @@ export default function ControlPlaneLicencesPage() {
             <thead><tr>{['Type', 'Status', 'Customer', 'Users', 'Assets', 'Features', 'Billing', 'Renewal'].map((h) => <th key={h} style={{ textAlign: 'left', padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, borderBottom: `2px solid ${tokens.border.default}`, color: tokens.text.muted, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, fontSize: primitiveTypeScale.micro }}>{h}</th>)}</tr></thead>
             <tbody>{thesisLicences.map((l) => (
               <tr key={l.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{l.licenceType}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{l.licence_type}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, color: '#fff', background: l.status === 'active' ? primitiveSignal.success : l.status === 'trial' ? primitiveSignal.info : primitiveSignal.neutral }}>{l.status}</span></td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{l.customerId}</td>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{l.currentUsage.users}/{l.maxUsers}</td>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{l.currentUsage.assets}/{l.maxAssets}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{l.current_usage.users}/{l.maxUsers}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{l.current_usage.assets}/{l.maxAssets}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{l.features.length}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{l.billingCycle}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{l.renewalDate ? new Date(l.renewalDate).toLocaleDateString() : '—'}</td>

@@ -17,7 +17,7 @@ export default function SettingsFeaturesPage() {
   const { tokens } = useMode();
   const enabled = thesisFeatureRegistry.filter((f) => f.state === 'enabled').length;
   const disabled = thesisFeatureRegistry.filter((f) => f.state === 'disabled').length;
-  const tenantControlled = thesisFeatureRegistry.filter((f) => f.controlScope === 'tenant-admin').length;
+  const tenantControlled = thesisFeatureRegistry.filter((f) => f.control_scope === 'tenant-admin').length;
 
   return (
     <PageContainer pretitle="Settings › Features" title="Feature Availability">
@@ -36,10 +36,10 @@ export default function SettingsFeaturesPage() {
               const sc = f.state === 'enabled' ? primitiveSignal.success : f.state === 'entitled' ? primitiveSignal.info : primitiveSignal.neutral;
               return (
                 <tr key={f.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{f.displayName}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{f.display_name}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{f.module}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, color: '#fff', background: sc }}>{f.state}</span></td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted }}>{f.controlScope}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted }}>{f.control_scope}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, maxWidth: 260, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={f.description}>{f.description}</td>
                 </tr>
               );

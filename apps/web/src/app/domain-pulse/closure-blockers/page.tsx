@@ -26,9 +26,9 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 export default function DomainPulseClosureBlockersPage() {
   const { mode, tokens } = useMode();
 
-  const totalBlockers = thesisDomainPulse.reduce((acc, d) => acc + d.closureBlockers, 0);
-  const domainsBlocked = thesisDomainPulse.filter((d) => d.closureBlockers > 0).length;
-  const mostBlocked = [...thesisDomainPulse].sort((a, b) => b.closureBlockers - a.closureBlockers)[0];
+  const totalBlockers = thesisDomainPulse.reduce((acc, d) => acc + d.closure_blockers, 0);
+  const domainsBlocked = thesisDomainPulse.filter((d) => d.closure_blockers > 0).length;
+  const mostBlocked = [...thesisDomainPulse].sort((a, b) => b.closure_blockers - a.closure_blockers)[0];
 
   const chartOpts: ApexOptions = {
     chart: { type: 'bar', toolbar: { show: false }, background: 'transparent', fontFamily: primitiveFonts.body },
@@ -42,7 +42,7 @@ export default function DomainPulseClosureBlockersPage() {
     tooltip: { theme: mode === 'mission' ? 'dark' : 'light' },
   };
 
-  const chartSeries = [{ name: 'Closure Blockers', data: thesisDomainPulse.map((d) => d.closureBlockers) }];
+  const chartSeries = [{ name: 'Closure Blockers', data: thesisDomainPulse.map((d) => d.closure_blockers) }];
 
   const healthColor = (health: string) =>
     health === 'critical' ? primitiveSignal.critical : health === 'degraded' ? primitiveSignal.warning : primitiveSignal.success;
@@ -88,10 +88,10 @@ export default function DomainPulseClosureBlockersPage() {
                 <tr key={d.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{d.domain}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', color: '#fff', background: healthColor(d.health) }}>{d.health}</span></td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: d.closureBlockers > 0 ? primitiveSignal.warning : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{d.closureBlockers}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: d.failedValidation > 0 ? primitiveSignal.critical : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{d.failedValidation}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{d.activeRiskObjects}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{d.meanResolutionHours}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: d.closure_blockers > 0 ? primitiveSignal.warning : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{d.closure_blockers}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: d.failed_validation > 0 ? primitiveSignal.critical : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{d.failed_validation}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{d.active_risk_objects}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{d.mean_resolution_hours}</td>
                 </tr>
               ))}
             </tbody>

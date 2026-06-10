@@ -53,13 +53,13 @@ const mockNotificationService: NotificationService = {
 // ---------------------------------------------------------------------------
 
 interface UserProfile {
-  displayName: string;
+  display_name: string;
   role?: string;
   avatarUrl?: string;
 }
 
 const MOCK_USER: UserProfile = {
-  displayName: 'Johann Seier',
+  display_name: 'Johann Seier',
   role: 'Platform Admin',
 };
 
@@ -284,13 +284,13 @@ function NotificationBell({ service = mockNotificationService }: { service?: Not
 // UserProfileBlock — unchanged logic, Issue 7: breathing room on right
 // ---------------------------------------------------------------------------
 
-function deriveInitials(displayName: string): string {
+function deriveInitials(display_name: string): string {
   return displayName.split(' ').filter(Boolean).map((w) => w[0]).join('').slice(0, 3).toUpperCase();
 }
 
 function UserProfileBlock({ user = MOCK_USER }: { user?: UserProfile }) {
-  const displayName = user.displayName.length > 30 ? user.displayName.slice(0, 30) + '…' : user.displayName;
-  const initials = deriveInitials(user.displayName);
+  const displayName = user.display_name.length > 30 ? user.display_name.slice(0, 30) + '…' : user.display_name;
+  const initials = deriveInitials(user.display_name);
 
   return (
     <div
@@ -306,7 +306,7 @@ function UserProfileBlock({ user = MOCK_USER }: { user?: UserProfile }) {
       {user.avatarUrl ? (
         <img
           src={user.avatarUrl}
-          alt={displayName}
+          alt={display_name}
           style={{ width: '28px', height: '28px', objectFit: 'cover', flexShrink: 0 }}
         />
       ) : (
@@ -319,7 +319,7 @@ function UserProfileBlock({ user = MOCK_USER }: { user?: UserProfile }) {
       )}
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <span style={{ fontSize: componentTokens.topNavTextSize, fontWeight: componentTokens.topNavTextWeight, lineHeight: 1.2 }}>
-          {displayName}
+          {display_name}
         </span>
         {user.role && (
           <span style={{ fontSize: primitiveTypeScale.micro, opacity: 0.55, lineHeight: 1.2 }}>

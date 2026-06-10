@@ -22,9 +22,9 @@ import {
 export default function DomainPulseFailedValidationPage() {
   const { tokens } = useMode();
 
-  const domainsWithFailures = thesisDomainPulse.filter((d) => d.failedValidation > 0);
-  const totalFailed = thesisDomainPulse.reduce((acc, d) => acc + d.failedValidation, 0);
-  const totalPending = thesisDomainPulse.reduce((acc, d) => acc + d.pendingValidation, 0);
+  const domainsWithFailures = thesisDomainPulse.filter((d) => d.failed_validation > 0);
+  const totalFailed = thesisDomainPulse.reduce((acc, d) => acc + d.failed_validation, 0);
+  const totalPending = thesisDomainPulse.reduce((acc, d) => acc + d.pending_validation, 0);
 
   const healthColor = (health: string) =>
     health === 'critical' ? primitiveSignal.critical : health === 'degraded' ? primitiveSignal.warning : primitiveSignal.success;
@@ -64,10 +64,10 @@ export default function DomainPulseFailedValidationPage() {
                 <tr key={d.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{d.domain}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', color: '#fff', background: healthColor(d.health) }}>{d.health}</span></td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: d.pendingValidation > 0 ? primitiveSignal.warning : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{d.pendingValidation}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: d.failedValidation > 0 ? primitiveSignal.critical : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{d.failedValidation}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{d.activeRiskObjects}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{d.meanResolutionHours}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: d.pending_validation > 0 ? primitiveSignal.warning : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{d.pending_validation}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: d.failed_validation > 0 ? primitiveSignal.critical : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{d.failed_validation}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{d.active_risk_objects}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{d.mean_resolution_hours}</td>
                 </tr>
               ))}
             </tbody>

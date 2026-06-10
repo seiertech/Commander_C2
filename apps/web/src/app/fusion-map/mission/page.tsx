@@ -18,8 +18,8 @@ export default function FusionMapMissionPage() {
   const { nodes } = thesisTopology;
   const activeMissions = thesisMissionSeeds.filter((m) => m.status === 'active');
   const missionCaseRefs = new Set(activeMissions.flatMap((m) => m.alignedCases));
-  const missionNodes = nodes.filter((n) => n.entityType === 'case' && missionCaseRefs.has(n.entityRef));
-  const missionDomains = new Set(activeMissions.flatMap((m) => m.impactDomains));
+  const missionNodes = nodes.filter((n) => n.entity_type === 'case' && missionCaseRefs.has(n.entity_ref));
+  const missionDomains = new Set(activeMissions.flatMap((m) => m.impact_domains));
   const domainNodes = nodes.filter((n) => missionDomains.has(n.domain));
 
   return (
@@ -37,7 +37,7 @@ export default function FusionMapMissionPage() {
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
               <thead><tr>{['Node', 'Domain', 'Criticality'].map((h) => <th key={h} style={{ textAlign: 'left', padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, borderBottom: `2px solid ${tokens.border.default}`, color: tokens.text.muted, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, fontSize: primitiveTypeScale.micro }}>{h}</th>)}</tr></thead>
               <tbody>{missionNodes.length > 0 ? missionNodes.map((n) => (
-                <tr key={n.nodeId} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
+                <tr key={n.node_id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary }}>{n.label}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{n.domain}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{n.criticality}</td>
@@ -54,8 +54,8 @@ export default function FusionMapMissionPage() {
               <tbody>{activeMissions.map((m) => (
                 <tr key={m.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{m.name}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{m.progressPercent}%</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontSize: primitiveTypeScale.micro }}>{m.impactDomains.join(', ')}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{m.progress_percent}%</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontSize: primitiveTypeScale.micro }}>{m.impact_domains.join(', ')}</td>
                 </tr>
               ))}</tbody>
             </table>

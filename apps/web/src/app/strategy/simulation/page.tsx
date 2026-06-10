@@ -26,7 +26,7 @@ export default function PolicySimulationPage() {
 
   // Simulate a policy change for the selected surface using existing active policy
   const activePolicy = thesisStrategies.find(
-    (p) => p.surfaceType === selectedSurface && p.status === 'active'
+    (p) => p.surface_type === selectedSurface && p.status === 'active'
   );
 
   // Create a "proposed" policy for simulation (bump version)
@@ -34,7 +34,7 @@ export default function PolicySimulationPage() {
     ? {
         ...activePolicy,
         id: `sim-proposed-${activePolicy.id}`,
-        policyVersion: activePolicy.policyVersion.replace(/(\d+)$/, (m) => String(Number(m) + 1)),
+        policy_version: activePolicy.policy_version.replace(/(\d+)$/, (m) => String(Number(m) + 1)),
         status: 'pending-approval' as const,
       }
     : null;
@@ -68,8 +68,8 @@ export default function PolicySimulationPage() {
       title="Policy Simulation"
       headerActions={
         simulation ? (
-          <span className={`badge ${riskColor(simulation.riskAssessment.overallRisk)}`}>
-            Risk: {simulation.riskAssessment.overallRisk.toUpperCase()}
+          <span className={`badge ${riskColor(simulation.risk_assessment.overallRisk)}`}>
+            Risk: {simulation.risk_assessment.overallRisk.toUpperCase()}
           </span>
         ) : null
       }
@@ -96,13 +96,13 @@ export default function PolicySimulationPage() {
             <div className="col-md-3">
               <label className="form-label">Current Version</label>
               <div className="form-control-plaintext">
-                {activePolicy?.policyVersion ?? '—'}
+                {activePolicy?.policy_version ?? '—'}
               </div>
             </div>
             <div className="col-md-3">
               <label className="form-label">Proposed Version</label>
               <div className="form-control-plaintext">
-                {proposedPolicy?.policyVersion ?? '—'}
+                {proposedPolicy?.policy_version ?? '—'}
               </div>
             </div>
           </div>
@@ -117,7 +117,7 @@ export default function PolicySimulationPage() {
               <div className="card">
                 <div className="card-body">
                   <div className="subheader">Scope</div>
-                  <div className="h3 mb-0">{simulation.blastRadius.scope}</div>
+                  <div className="h3 mb-0">{simulation.blast_radius.scope}</div>
                 </div>
               </div>
             </div>
@@ -125,7 +125,7 @@ export default function PolicySimulationPage() {
               <div className="card">
                 <div className="card-body">
                   <div className="subheader">Affected Entities</div>
-                  <div className="h1 mb-0">{simulation.blastRadius.affectedEntityCount}</div>
+                  <div className="h1 mb-0">{simulation.blast_radius.affected_entity_count}</div>
                 </div>
               </div>
             </div>
@@ -133,7 +133,7 @@ export default function PolicySimulationPage() {
               <div className="card">
                 <div className="card-body">
                   <div className="subheader">Affected Cases</div>
-                  <div className="h1 mb-0">{simulation.blastRadius.affectedCaseCount}</div>
+                  <div className="h1 mb-0">{simulation.blast_radius.affectedCaseCount}</div>
                 </div>
               </div>
             </div>
@@ -141,7 +141,7 @@ export default function PolicySimulationPage() {
               <div className="card">
                 <div className="card-body">
                   <div className="subheader">Binding Events</div>
-                  <div className="h3 mb-0">{simulation.blastRadius.affectedBindingEvents.length}</div>
+                  <div className="h3 mb-0">{simulation.blast_radius.affectedBindingEvents.length}</div>
                 </div>
               </div>
             </div>
@@ -202,14 +202,14 @@ export default function PolicySimulationPage() {
                 <div className="col-md-6">
                   <h4 className="subheader">Risk Assessment</h4>
                   <p>
-                    <span className={`badge ${riskColor(simulation.riskAssessment.overallRisk)} me-2`}>
-                      {simulation.riskAssessment.overallRisk.toUpperCase()}
+                    <span className={`badge ${riskColor(simulation.risk_assessment.overallRisk)} me-2`}>
+                      {simulation.risk_assessment.overallRisk.toUpperCase()}
                     </span>
-                    {simulation.riskAssessment.recommendation}
+                    {simulation.risk_assessment.recommendation}
                   </p>
-                  {simulation.riskAssessment.factors.length > 0 && (
+                  {simulation.risk_assessment.factors.length > 0 && (
                     <ul>
-                      {simulation.riskAssessment.factors.map((f, i) => (
+                      {simulation.risk_assessment.factors.map((f, i) => (
                         <li key={i}>{f}</li>
                       ))}
                     </ul>

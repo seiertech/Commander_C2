@@ -11,8 +11,8 @@ import type { StrategyPolicy, StrategySurfaceType, RuntimeBindingTrigger, Runtim
 
 export interface PolicyChangeResult {
   success: boolean;
-  policyId: string;
-  surfaceType: StrategySurfaceType;
+  policy_id: string;
+  surface_type: StrategySurfaceType;
   previousVersion: string | null;
   newVersion: string;
   triggeredBindings: RuntimeBindingEvent[];
@@ -26,7 +26,7 @@ export interface BlockingGateResult {
 }
 
 export interface DependencyEvaluation {
-  entityId: string;
+  entity_id: string;
   requiredSurfaces: StrategySurfaceType[];
   coveredSurfaces: StrategySurfaceType[];
   gaps: StrategySurfaceType[];
@@ -57,17 +57,17 @@ export function applyPolicyChange(
     'mission-objective': ['fusion-map-refresh'],
   };
 
-  const bindings = surfaceBindingMap[policy.surfaceType];
+  const bindings = surfaceBindingMap[policy.surface_type];
   if (bindings) {
     triggeredBindings.push(...bindings);
   }
 
   return {
     success: policy.status === 'approved' || policy.status === 'active',
-    policyId: policy.id,
-    surfaceType: policy.surfaceType,
-    previousVersion: previousPolicy?.policyVersion ?? null,
-    newVersion: policy.policyVersion,
+    policy_id: policy.id,
+    surface_type: policy.surface_type,
+    previousVersion: previousPolicy?.policy_version ?? null,
+    newVersion: policy.policy_version,
     triggeredBindings,
   };
 }
@@ -78,16 +78,16 @@ export function applyPolicyChange(
 export function fireRuntimeBindingTrigger(
   event: RuntimeBindingEvent,
   sourceSurface: StrategySurfaceType,
-  policyId: string,
+  policy_id: string,
   affectedScope: string[]
 ): RuntimeBindingTrigger {
   return {
     event,
     sourceSurface,
-    policyId,
+    policy_id,
     affectedScope,
     triggeredAt: new Date().toISOString(),
-    auditEventRef: `audit-${policyId}-${event}-${Date.now()}`,
+    auditEventRef: `audit-${policy_id}-${event}-${Date.now()}`,
   };
 }
 
@@ -95,21 +95,21 @@ export function fireRuntimeBindingTrigger(
  * Evaluate whether an entity has full strategy coverage for its required surfaces.
  */
 export function evaluateStrategyDependency(
-  entityId: string,
+  entity_id: string,
   requiredSurfaces: StrategySurfaceType[],
   activePolicies: StrategyPolicy[]
 ): DependencyEvaluation {
   const activeSurfaces = new Set(
     activePolicies
       .filter((p) => p.status === 'active')
-      .map((p) => p.surfaceType)
+      .map((p) => p.surface_type)
   );
 
   const coveredSurfaces = requiredSurfaces.filter((s) => activeSurfaces.has(s));
   const gaps = requiredSurfaces.filter((s) => !activeSurfaces.has(s));
 
   return {
-    entityId,
+    entity_id,
     requiredSurfaces,
     coveredSurfaces,
     gaps,

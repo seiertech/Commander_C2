@@ -33,7 +33,7 @@ export type ModuleCategory = typeof MODULE_CATEGORIES[number];
 
 export interface EntitlementModule {
   /** Unique module identifier */
-  moduleId: string;
+  module_id: string;
   /** Module display name */
   name: string;
   /** Module tier category */
@@ -47,11 +47,11 @@ export interface EntitlementModule {
 // ─── Entitlement Manifest Entity ─────────────────────────────────────────────
 
 export interface EntitlementManifest extends CommonFields {
-  entityType: 'entitlement-manifest';
+  entity_type: 'entitlement-manifest';
   /** Unique manifest identifier */
-  manifestId: string;
+  manifest_id: string;
   /** Tenant this manifest applies to */
-  tenantId: string;
+  tenant_id: string;
   /** Entitled modules with their state */
   modules: EntitlementModule[];
   /** Maximum number of connectors allowed */
@@ -65,9 +65,9 @@ export interface EntitlementManifest extends CommonFields {
   /** Reporting tier level */
   reportingTier: ReportingTier;
   /** Entitlement effective from date */
-  effectiveFrom: string;
+  effective_from: string;
   /** Entitlement effective until date */
-  effectiveUntil: string;
+  effective_until: string;
   /** Current entitlement status */
   status: EntitlementStatus;
 }
@@ -88,21 +88,21 @@ export function validateEntitlementManifest(manifest: EntitlementManifest): Enti
   if (!manifest.id || manifest.id.trim() === '') {
     errors.push('id: required');
   }
-  if (!manifest.tenant || !manifest.tenant.tenantId || manifest.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!manifest.tenant || !manifest.tenant.tenant_id || manifest.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
-  if (!manifest.manifestId || manifest.manifestId.trim() === '') {
-    errors.push('manifestId: required');
+  if (!manifest.manifest_id || manifest.manifest_id.trim() === '') {
+    errors.push('manifest_id: required');
   }
-  if (!manifest.tenantId || manifest.tenantId.trim() === '') {
-    errors.push('tenantId: required');
+  if (!manifest.tenant_id || manifest.tenant_id.trim() === '') {
+    errors.push('tenant_id: required');
   }
   if (!Array.isArray(manifest.modules)) {
     errors.push('modules: must be an array');
   } else {
     for (const mod of manifest.modules) {
-      if (!mod.moduleId || mod.moduleId.trim() === '') {
-        errors.push('modules[].moduleId: required');
+      if (!mod.module_id || mod.module_id.trim() === '') {
+        errors.push('modules[].module_id: required');
       }
       if (!mod.name || mod.name.trim() === '') {
         errors.push('modules[].name: required');
@@ -130,11 +130,11 @@ export function validateEntitlementManifest(manifest: EntitlementManifest): Enti
   if (!REPORTING_TIERS.includes(manifest.reportingTier)) {
     errors.push(`reportingTier: must be one of: ${REPORTING_TIERS.join(', ')}`);
   }
-  if (!manifest.effectiveFrom || manifest.effectiveFrom.trim() === '') {
-    errors.push('effectiveFrom: required');
+  if (!manifest.effective_from || manifest.effective_from.trim() === '') {
+    errors.push('effective_from: required');
   }
-  if (!manifest.effectiveUntil || manifest.effectiveUntil.trim() === '') {
-    errors.push('effectiveUntil: required');
+  if (!manifest.effective_until || manifest.effective_until.trim() === '') {
+    errors.push('effective_until: required');
   }
   if (!ENTITLEMENT_STATUSES.includes(manifest.status)) {
     errors.push(`status: must be one of: ${ENTITLEMENT_STATUSES.join(', ')}`);

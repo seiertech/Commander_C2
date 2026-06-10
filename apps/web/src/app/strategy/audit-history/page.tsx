@@ -22,7 +22,7 @@ interface AuditEntry {
   date: string;
   surface: string;
   action: string;
-  policyVersion: string;
+  policy_version: string;
   changedBy: string;
   approval: string;
 }
@@ -30,12 +30,12 @@ interface AuditEntry {
 export default function StrategyAuditHistoryPage() {
   // Derive audit entries from seed strategy policy data
   const auditEntries: AuditEntry[] = thesisStrategies.map((policy) => ({
-    date: policy.updatedAt,
-    surface: STRATEGY_SURFACE_LABELS[policy.surfaceType],
+    date: policy.updated_at,
+    surface: STRATEGY_SURFACE_LABELS[policy.surface_type],
     action: policy.status === 'active' ? 'Activated' : policy.status === 'pending-approval' ? 'Submitted' : 'Created',
-    policyVersion: policy.policyVersion,
-    changedBy: policy.proposedBy,
-    approval: policy.approval ? `${policy.approval.approvedBy} (${policy.approval.condition})` : '—',
+    policy_version: policy.policy_version,
+    changedBy: policy.proposed_by,
+    approval: policy.approval ? `${policy.approval.approved_by} (${policy.approval.condition})` : '—',
   })).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   const actionBadge = (action: string) => {
@@ -115,7 +115,7 @@ export default function StrategyAuditHistoryPage() {
                       {entry.surface}
                     </td>
                     <td>{actionBadge(entry.action)}</td>
-                    <td><code>{entry.policyVersion}</code></td>
+                    <td><code>{entry.policy_version}</code></td>
                     <td>{entry.changedBy}</td>
                     <td>
                       {entry.approval !== '—' ? (

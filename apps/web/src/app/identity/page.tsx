@@ -52,7 +52,7 @@ export default function IdentityIntelligencePage({ searchParams }: { searchParam
 
   // ── List view ──
   if (!selected) {
-    const sorted = [...thesisIdentities].sort((a, b) => b.riskScore - a.riskScore);
+    const sorted = [...thesisIdentities].sort((a, b) => b.risk_score - a.risk_score);
     return (
       <PageContainer
         pretitle="Identity & Asset Intelligence › Identities"
@@ -75,13 +75,13 @@ export default function IdentityIntelligencePage({ searchParams }: { searchParam
                 <tbody>
                   {sorted.map((i) => (
                     <tr key={i.id}>
-                      <td><a href={`/identity?id=${i.id}`} style={{ color: tokens.action.primary, fontSize: primitiveTypeScale.body }}>{i.displayName}</a></td>
+                      <td><a href={`/identity?id=${i.id}`} style={{ color: tokens.action.primary, fontSize: primitiveTypeScale.body }}>{i.display_name}</a></td>
                       <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{i.classification}</td>
                       <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{i.department}</td>
                       <td>
                         <span className={`badge ${i.status === 'active' ? 'bg-green-lt' : i.status === 'suspended' ? 'bg-orange-lt' : 'bg-secondary'}`}>{i.status}</span>
                       </td>
-                      <td className="text-end" style={{ color: i.riskScore >= 50 ? primitiveSignal.critical : tokens.text.muted }}>{i.riskScore}</td>
+                      <td className="text-end" style={{ color: i.risk_score >= 50 ? primitiveSignal.critical : tokens.text.muted }}>{i.risk_score}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -94,16 +94,16 @@ export default function IdentityIntelligencePage({ searchParams }: { searchParam
   }
 
   const i = selected;
-  const caseHistory = thesisCases.filter((c) => c.relatedEntities.includes(i.id));
-  const relatedAssets = thesisAssets.filter((a) => i.associatedAssets.includes(a.id));
+  const caseHistory = thesisCases.filter((c) => c.related_entities.includes(i.id));
+  const relatedAssets = thesisAssets.filter((a) => i.associated_assets.includes(a.id));
 
   return (
     <PageContainer
       pretitle="Identity & Asset Intelligence › Identity"
-      title={i.displayName}
+      title={i.display_name}
       headerActions={
-        <span className={`badge ${i.surfaceAttribution === 'external_attack_surface' ? 'bg-azure-lt' : 'bg-purple-lt'}`}>
-          {i.surfaceAttribution === 'external_attack_surface' ? 'External Attack Surface' : 'Internal Attack Surface'}
+        <span className={`badge ${i.surface_attribution === 'external_attack_surface' ? 'bg-azure-lt' : 'bg-purple-lt'}`}>
+          {i.surface_attribution === 'external_attack_surface' ? 'External Attack Surface' : 'Internal Attack Surface'}
         </span>
       }
     >
@@ -120,11 +120,11 @@ export default function IdentityIntelligencePage({ searchParams }: { searchParam
             <Field label="Role" value={i.role} />
             <Field label="Department" value={i.department} />
             <Field label="Status" value={i.status} />
-            <Field label="Privilege" value={i.privilegeLevel ?? 'unknown'} />
+            <Field label="Privilege" value={i.privilege_level ?? 'unknown'} />
             <Field label="Auth Strength" value={i.authenticationStrength ?? 'unknown'} />
             <Field label="Last Authenticated" value={i.lastAuthenticatedAt ? new Date(i.lastAuthenticatedAt).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' }) : 'unknown'} />
-            <Field label="Surface" value={i.surfaceAttribution === 'external_attack_surface' ? 'External' : 'Internal'} />
-            <Field label="Risk Score" value={String(i.riskScore)} alert={i.riskScore >= 50} />
+            <Field label="Surface" value={i.surface_attribution === 'external_attack_surface' ? 'External' : 'Internal'} />
+            <Field label="Risk Score" value={String(i.risk_score)} alert={i.risk_score >= 50} />
           </div>
         </div>
       </div>
@@ -228,7 +228,7 @@ export default function IdentityIntelligencePage({ searchParams }: { searchParam
         <div className="card-header"><h3 className="card-title">Risk Trajectory</h3></div>
         <div className="card-body">
           <div className="d-flex align-items-baseline gap-2 mb-2">
-            <span className="h1 mb-0" style={{ color: i.riskScore >= 50 ? primitiveSignal.critical : tokens.text.primary }}>{i.riskScore}</span>
+            <span className="h1 mb-0" style={{ color: i.risk_score >= 50 ? primitiveSignal.critical : tokens.text.primary }}>{i.risk_score}</span>
             <span className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>composite risk score (0–100)</span>
           </div>
           {i.riskFactors && i.riskFactors.length > 0 ? (

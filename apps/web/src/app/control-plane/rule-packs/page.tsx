@@ -18,7 +18,7 @@ export default function ControlPlaneRulePacksPage() {
   const active = thesisRules.filter((r) => r.status === 'active').length;
   const platform = thesisRules.filter((r) => r.origin === 'platform').length;
   const custom = thesisRules.filter((r) => r.origin === 'tenant-custom').length;
-  const totalTriggers = thesisRules.reduce((a, r) => a + r.triggerCount, 0);
+  const totalTriggers = thesisRules.reduce((a, r) => a + r.trigger_count, 0);
 
   return (
     <PageContainer pretitle="Control Plane › Rule Packs" title="Rule & Policy Packs">
@@ -36,11 +36,11 @@ export default function ControlPlaneRulePacksPage() {
             <tbody>{thesisRules.map((r) => (
               <tr key={r.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{r.name}</td>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{r.ruleType}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{r.rule_type}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, color: '#fff', background: r.status === 'active' ? primitiveSignal.success : r.status === 'draft' ? primitiveSignal.info : primitiveSignal.neutral }}>{r.status}</span></td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{r.domain}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted }}>{r.origin}</td>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{r.triggerCount}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{r.trigger_count}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono }}>{r.version}</td>
               </tr>
             ))}</tbody>

@@ -11,7 +11,7 @@ import { thesisAssets, thesisRiskObjects } from '../../../../../../packages/cont
  */
 export default function SomArchitecturePage() {
   const configDrift = thesisRiskObjects.filter((r) => r.type === 'configuration_drift');
-  const networkPositions = thesisAssets.reduce((acc, a) => { const pos = a.networkPosition || 'unknown'; acc[pos] = (acc[pos] || 0) + 1; return acc; }, {} as Record<string, number>);
+  const networkPositions = thesisAssets.reduce((acc, a) => { const pos = a.network_position || 'unknown'; acc[pos] = (acc[pos] || 0) + 1; return acc; }, {} as Record<string, number>);
 
   return (
     <PageContainer pretitle="SOM › Architecture Manager" title="Architecture Manager" headerActions={<span className="badge bg-blue-lt">{thesisAssets.length} assets</span>}>
@@ -29,7 +29,7 @@ export default function SomArchitecturePage() {
               <thead><tr><th>Finding</th><th>Affected</th><th>Treatment</th></tr></thead>
               <tbody>
                 {configDrift.map((r) => (
-                  <tr key={r.id}><td style={{ fontSize: primitiveTypeScale.body }}>{r.justification}</td><td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{r.affectedEntityId}</td><td><span className={`badge ${r.treatmentState === 'open' ? 'bg-red-lt' : 'bg-green-lt'}`}>{r.treatmentState}</span></td></tr>
+                  <tr key={r.id}><td style={{ fontSize: primitiveTypeScale.body }}>{r.justification}</td><td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{r.affected_entity_id}</td><td><span className={`badge ${r.treatment_state === 'open' ? 'bg-red-lt' : 'bg-green-lt'}`}>{r.treatment_state}</span></td></tr>
                 ))}
                 {configDrift.length === 0 && <tr><td colSpan={3} className="text-muted text-center">No configuration drift in seed data</td></tr>}
               </tbody>

@@ -56,24 +56,24 @@ export interface TriggerResult {
   trigger: ReopeningTriggerType;
   fired: boolean;
   reason: string;
-  evaluatedAt: string;
+  evaluated_at: string;
 }
 
 /** Case reopening trigger state (tracking) */
 export interface CaseReopeningTriggerState {
-  caseId: string;
+  case_id: string;
   configuredTriggers: ReopeningTriggerType[];
   triggerResults: TriggerResult[];
   anyTriggerFired: boolean;
   reopeningRequired: boolean;
-  evaluatedAt: string;
+  evaluated_at: string;
 }
 
 /** Reopening trigger evaluation request */
 export interface ReopeningTriggerEvaluationRequest {
-  caseId: string;
+  case_id: string;
   triggerInput: ReopeningTriggerInput;
-  currentTime: string;
+  current_time: string;
 }
 
 /** Reopening trigger evaluation result */
@@ -83,7 +83,7 @@ export interface ReopeningTriggerEvaluationResult {
   reopeningRequired: boolean;
   firedTriggers: TriggerResult[];
   rationale: string;
-  sourcePolicy: { id: string; version: string } | null;
+  source_policy: { id: string; version: string } | null;
   error: string | null;
 }
 
@@ -208,7 +208,7 @@ const TRIGGER_EVALUATORS: Record<ReopeningTriggerType, (input: ReopeningTriggerI
 export function evaluateTrigger(
   trigger: ReopeningTriggerType,
   input: ReopeningTriggerInput,
-  currentTime: string,
+  current_time: string,
 ): TriggerResult {
   const evaluator = TRIGGER_EVALUATORS[trigger];
   const { fired, reason } = evaluator(input);
@@ -217,7 +217,7 @@ export function evaluateTrigger(
     trigger,
     fired,
     reason,
-    evaluatedAt: currentTime,
+    evaluated_at: currentTime,
   };
 }
 
@@ -229,7 +229,7 @@ export function evaluateTrigger(
 export function evaluateAllTriggers(
   configuredTriggers: ReopeningTriggerType[],
   input: ReopeningTriggerInput,
-  currentTime: string,
+  current_time: string,
 ): CaseReopeningTriggerState {
   const triggerResults: TriggerResult[] = REOPENING_TRIGGER_TYPES.map((trigger) => {
     if (!configuredTriggers.includes(trigger)) {
@@ -237,7 +237,7 @@ export function evaluateAllTriggers(
         trigger,
         fired: false,
         reason: `Trigger '${trigger}' is not configured in the reopening trigger strategy`,
-        evaluatedAt: currentTime,
+        evaluated_at: currentTime,
       };
     }
     return evaluateTrigger(trigger, input, currentTime);
@@ -249,12 +249,12 @@ export function evaluateAllTriggers(
   const anyTriggerFired = configuredResults.some((r) => r.fired);
 
   return {
-    caseId: '',
+    case_id: '',
     configuredTriggers,
     triggerResults,
     anyTriggerFired,
     reopeningRequired: anyTriggerFired,
-    evaluatedAt: currentTime,
+    evaluated_at: currentTime,
   };
 }
 
@@ -267,7 +267,7 @@ export function extractReopeningTriggerConfig(
   strategies: StrategyPolicy[],
 ): { triggers: ReopeningTriggerType[]; policy: StrategyPolicy } | null {
   const policy = strategies.find(
-    (s) => s.surfaceType === 'reopening-trigger' && s.status === 'active',
+    (s) => s.surface_type === 'reopening-trigger' && s.status === 'active',
   );
 
   if (!policy) {
@@ -316,15 +316,15 @@ export function evaluateReopeningReadiness(
       reopeningRequired: false,
       firedTriggers: [],
       rationale: '',
-      sourcePolicy: null,
+      source_policy: null,
       error: '[ReopeningTriggerEngine] STRATEGY GAP: No active reopening-trigger strategy policy found or strategy has no triggers configured. Cannot evaluate reopening readiness without strategy configuration.',
     };
   }
 
   const { triggers, policy } = config;
 
-  const triggerState = evaluateAllTriggers(triggers, request.triggerInput, request.currentTime);
-  triggerState.caseId = request.caseId;
+  const triggerState = evaluateAllTriggers(triggers, request.triggerInput, request.current_time);
+  triggerState.case_id = request.case_id;
 
   const firedTriggers = triggerState.triggerResults.filter((r) => r.fired);
 
@@ -338,7 +338,7 @@ export function evaluateReopeningReadiness(
     reopeningRequired: triggerState.reopeningRequired,
     firedTriggers,
     rationale,
-    sourcePolicy: { id: policy.id, version: policy.policyVersion },
+    source_policy: { id: policy.id, version: policy.policy_version },
     error: null,
   };
 }

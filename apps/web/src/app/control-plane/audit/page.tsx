@@ -10,7 +10,7 @@ import { thesisEvents } from '../../../../../../packages/contracts/src/fixtures/
 
 export default function ControlPlaneAuditPage() {
   const { tokens } = useMode();
-  const systemEvents = thesisEvents.filter((e) => e.entityType === 'system');
+  const systemEvents = thesisEvents.filter((e) => e.entity_type === 'system');
   const criticalEvents = thesisEvents.filter((e) => e.severity === 'critical');
   const recentEvents = [...thesisEvents].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()).slice(0, 20);
 
@@ -33,7 +33,7 @@ export default function ControlPlaneAuditPage() {
                 <tr key={e.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, whiteSpace: 'nowrap' }}>{new Date(e.timestamp).toLocaleString()}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, color: '#fff', background: sevColor }}>{e.severity}</span></td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{e.entityType}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{e.entity_type}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, maxWidth: 400, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={e.message}>{e.message}</td>
                 </tr>
               );

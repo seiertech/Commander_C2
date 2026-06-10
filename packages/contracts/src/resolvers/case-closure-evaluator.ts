@@ -12,7 +12,7 @@ import type { StrategyPolicy } from '../entities/strategy';
 export interface ClosureGateResolution {
   status: 'resolved' | 'unresolved';
   gates: string[] | null;
-  sourcePolicy: { id: string; version: string } | null;
+  source_policy: { id: string; version: string } | null;
   reason: string;
 }
 
@@ -20,23 +20,23 @@ export function resolveClosureGates(
   strategies: StrategyPolicy[],
 ): ClosureGateResolution {
   const policy = strategies.find(
-    (s) => s.surfaceType === 'closure-gate' && s.status === 'active',
+    (s) => s.surface_type === 'closure-gate' && s.status === 'active',
   );
 
   if (!policy) {
-    return { status: 'unresolved', gates: null, sourcePolicy: null, reason: 'No active closure-gate strategy policy found' };
+    return { status: 'unresolved', gates: null, source_policy: null, reason: 'No active closure-gate strategy policy found' };
   }
 
   const config = policy.configuration as { gates?: string[] };
 
   if (!config.gates || config.gates.length === 0) {
-    return { status: 'unresolved', gates: null, sourcePolicy: { id: policy.id, version: policy.policyVersion }, reason: 'Closure gate strategy has no gates configured' };
+    return { status: 'unresolved', gates: null, source_policy: { id: policy.id, version: policy.policy_version }, reason: 'Closure gate strategy has no gates configured' };
   }
 
   return {
     status: 'resolved',
     gates: config.gates,
-    sourcePolicy: { id: policy.id, version: policy.policyVersion },
+    source_policy: { id: policy.id, version: policy.policy_version },
     reason: `Resolved ${config.gates.length} closure gates`,
   };
 }

@@ -14,7 +14,7 @@ import { PageContainer } from '@/components/page-container';
 import { CaseCard } from '@/components/case-card';
 import type { Case } from '../../../../../packages/contracts/src/entities/case';
 import {
-  FLOW_LANES, laneOf, isClosed, isNew, slaState, riskScore, ageLabel,
+  FLOW_LANES, laneOf, isClosed, isNew, slaState, risk_score, ageLabel,
   momentum, PRIORITIES, type FlowLane,
 } from './case-metrics';
 
@@ -84,18 +84,18 @@ export default function CaseHandlingPage() {
   const [fSurface, setFSurface] = useState('all');
   const [showClosed, setShowClosed] = useState(true);
 
-  const now = useMemo(() => Math.max(...thesisCases.map((c) => new Date(c.updatedAt).getTime())), []);
+  const now = useMemo(() => Math.max(...thesisCases.map((c) => new Date(c.updated_at).getTime())), []);
 
-  const typeOptions = useMemo(() => Array.from(new Set(thesisCases.map((c) => c.caseType))).sort(), []);
+  const typeOptions = useMemo(() => Array.from(new Set(thesisCases.map((c) => c.case_type))).sort(), []);
   const teamOptions = useMemo(() => Array.from(new Set(thesisCases.map((c) => c.team))).sort(), []);
   const ownerOptions = useMemo(() => Array.from(new Set(thesisCases.map((c) => c.owner))).sort(), []);
 
   const filtered = useMemo(() => thesisCases.filter((c) => {
     if (fPriority !== 'all' && c.priority !== fPriority) return false;
-    if (fType !== 'all' && c.caseType !== fType) return false;
+    if (fType !== 'all' && c.case_type !== fType) return false;
     if (fTeam !== 'all' && c.team !== fTeam) return false;
     if (fOwner !== 'all' && c.owner !== fOwner) return false;
-    if (fSurface !== 'all' && c.surfaceAttribution !== fSurface) return false;
+    if (fSurface !== 'all' && c.surface_attribution !== fSurface) return false;
     if (!showClosed && isClosed(c)) return false;
     return true;
   }), [fPriority, fType, fTeam, fOwner, fSurface, showClosed]);
@@ -143,7 +143,7 @@ export default function CaseHandlingPage() {
 
   // Live activity feed — case-related events, newest first
   const caseEvents = useMemo(() => thesisEvents
-    .filter((e) => e.entityType === 'case')
+    .filter((e) => e.entity_type === 'case')
     .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
     .slice(0, 12), []);
 
@@ -233,11 +233,11 @@ export default function CaseHandlingPage() {
             <span style={{ fontSize: primitiveTypeScale.micro, color: HUD.textMuted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>Live Activity</span>
             <div style={{ marginTop: primitiveSpacing[3], display: 'flex', flexDirection: 'column', gap: primitiveSpacing[2], maxHeight: 520, overflowY: 'auto' }}>
               {caseEvents.map((e) => (
-                <div key={e.id} onClick={() => router.push(`/cases/${e.entityRef}`)} style={{ display: 'flex', gap: primitiveSpacing[2], cursor: 'pointer', paddingBottom: primitiveSpacing[2], borderBottom: `1px solid ${HUD.lineSubtle}` }}>
+                <div key={e.id} onClick={() => router.push(`/cases/${e.entity_ref}`)} style={{ display: 'flex', gap: primitiveSpacing[2], cursor: 'pointer', paddingBottom: primitiveSpacing[2], borderBottom: `1px solid ${HUD.lineSubtle}` }}>
                   <span style={{ width: 7, height: 7, borderRadius: '50%', background: SEV_COLOR[e.severity], display: 'inline-block', marginTop: 5, flexShrink: 0 }} />
                   <div style={{ minWidth: 0 }}>
                     <div style={{ fontSize: primitiveTypeScale.micro, color: HUD.textSecondary, lineHeight: 1.4 }}>{e.message}</div>
-                    <div style={{ fontSize: primitiveTypeScale.micro, color: HUD.textMuted, fontFamily: primitiveFonts.mono }}>{new Date(e.timestamp).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })} · {e.entityRef}</div>
+                    <div style={{ fontSize: primitiveTypeScale.micro, color: HUD.textMuted, fontFamily: primitiveFonts.mono }}>{new Date(e.timestamp).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })} · {e.entity_ref}</div>
                   </div>
                 </div>
               ))}
@@ -296,14 +296,14 @@ function TableView({ cases, now, router }: { cases: Case[]; now: number; router:
               <tr key={c.id} onClick={() => router.push(`/cases/${c.id}`)} style={{ cursor: 'pointer', borderBottom: `1px solid ${HUD.lineSubtle}` }}>
                 <td style={tdHud}><span style={{ color: pr.color, fontWeight: primitiveFontWeight.semibold }}>{pr.shape} {pr.label}</span></td>
                 <td style={{ ...tdHud, fontFamily: primitiveFonts.mono, fontWeight: primitiveFontWeight.bold, color: risk >= 75 ? primitiveSignal.critical : risk >= 50 ? primitiveSignal.warning : HUD.textSecondary }}>{risk}</td>
-                <td style={{ ...tdHud, fontFamily: primitiveFonts.mono }}>{c.caseRef}</td>
+                <td style={{ ...tdHud, fontFamily: primitiveFonts.mono }}>{c.case_ref}</td>
                 <td style={{ ...tdHud, maxWidth: 320, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: HUD.text }} title={c.title}>{c.title}</td>
-                <td style={tdHud}>{titleCase(c.caseType)}</td>
+                <td style={tdHud}>{titleCase(c.case_type)}</td>
                 <td style={{ ...tdHud, whiteSpace: 'nowrap' }}>{STATUS_LABEL[c.status] ?? c.status}</td>
                 <td style={tdHud}>{c.owner}</td>
                 <td style={tdHud}><span style={{ padding: `2px ${primitiveSpacing[2]}`, background: toneColor, color: '#fff', fontSize: primitiveTypeScale.micro, whiteSpace: 'nowrap' }}>{sla.label}</span></td>
                 <td style={{ ...tdHud, fontFamily: primitiveFonts.mono, whiteSpace: 'nowrap' }}>{ageLabel(c, now)}</td>
-                <td style={tdHud}><span style={{ fontSize: primitiveTypeScale.micro, padding: '1px 6px', border: `1px solid ${c.surfaceAttribution === 'external_attack_surface' ? primitiveSignal.info : HUD.lineSubtle}`, color: c.surfaceAttribution === 'external_attack_surface' ? primitiveSignal.info : HUD.textMuted }}>{c.surfaceAttribution === 'external_attack_surface' ? 'EXT' : 'INT'}</span></td>
+                <td style={tdHud}><span style={{ fontSize: primitiveTypeScale.micro, padding: '1px 6px', border: `1px solid ${c.surface_attribution === 'external_attack_surface' ? primitiveSignal.info : HUD.lineSubtle}`, color: c.surface_attribution === 'external_attack_surface' ? primitiveSignal.info : HUD.textMuted }}>{c.surface_attribution === 'external_attack_surface' ? 'EXT' : 'INT'}</span></td>
               </tr>
             );
           })}

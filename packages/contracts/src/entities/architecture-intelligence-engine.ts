@@ -34,11 +34,11 @@ export type ArchitectureIntelligenceStatus = typeof ARCHITECTURE_INTELLIGENCE_ST
 // ─── Architecture Intelligence Entity ────────────────────────────────────────
 
 export interface ArchitectureIntelligence extends CommonFields {
-  entityType: 'architecture-intelligence';
+  entity_type: 'architecture-intelligence';
   /** Engine instance that produced this finding */
-  engineId: string;
+  engine_id: string;
   /** Reference to the primary component under analysis */
-  componentRef: string;
+  component_ref: string;
   /** Category of architectural analysis */
   analysisType: ArchitectureAnalysisType;
   /** Severity score (0-10) */
@@ -46,7 +46,7 @@ export interface ArchitectureIntelligence extends CommonFields {
   /** Confidence in the finding (0-1) */
   confidence: number;
   /** When the finding was detected */
-  detectedAt: string;
+  detected_at: string;
   /** Human-readable description of the finding */
   description: string;
   /** References to all components affected */
@@ -54,7 +54,7 @@ export interface ArchitectureIntelligence extends CommonFields {
   /** Recommended remediation action (null if none) */
   recommendedAction: string | null;
   /** When the finding was resolved (null if unresolved) */
-  resolvedAt: string | null;
+  resolved_at: string | null;
   /** Current lifecycle status */
   status: ArchitectureIntelligenceStatus;
 }
@@ -75,14 +75,14 @@ export function validateArchitectureIntelligence(record: ArchitectureIntelligenc
   if (!record.id || record.id.trim() === '') {
     errors.push('id: required');
   }
-  if (!record.tenant || !record.tenant.tenantId || record.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!record.tenant || !record.tenant.tenant_id || record.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
-  if (!record.engineId || record.engineId.trim() === '') {
-    errors.push('engineId: required');
+  if (!record.engine_id || record.engine_id.trim() === '') {
+    errors.push('engine_id: required');
   }
-  if (!record.componentRef || record.componentRef.trim() === '') {
-    errors.push('componentRef: required');
+  if (!record.component_ref || record.component_ref.trim() === '') {
+    errors.push('component_ref: required');
   }
   if (!record.analysisType || !ARCHITECTURE_ANALYSIS_TYPES.includes(record.analysisType)) {
     errors.push(`analysisType: must be one of: ${ARCHITECTURE_ANALYSIS_TYPES.join(', ')}`);
@@ -93,8 +93,8 @@ export function validateArchitectureIntelligence(record: ArchitectureIntelligenc
   if (typeof record.confidence !== 'number' || record.confidence < 0 || record.confidence > 1) {
     errors.push('confidence: must be 0-1');
   }
-  if (!record.detectedAt || record.detectedAt.trim() === '') {
-    errors.push('detectedAt: required');
+  if (!record.detected_at || record.detected_at.trim() === '') {
+    errors.push('detected_at: required');
   }
   if (!record.description || record.description.trim() === '') {
     errors.push('description: required');

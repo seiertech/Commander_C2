@@ -18,25 +18,25 @@ import { IOC_CATEGORIES, PUSH_ACTION_TYPES, PUSH_INTENT_STATUSES } from './intel
 
 export interface PushActionIntent extends CommonFields {
   /** Customer tenant ID */
-  tenantId: string;
+  tenant_id: string;
   /** IOC entity ID */
-  iocId: string;
+  ioc_id: string;
   /** IOC category (for push mapping) */
-  iocCategory: IocCategory;
+  ioc_category: IocCategory;
   /** Target system type */
   targetSystemType: string;
   /** Action type (Req 15.1) */
-  actionType: PushActionType;
+  action_type: PushActionType;
   /** Intent status — mock/intent only in Phase 1 (Req 15.2) */
-  intentStatus: PushIntentStatus;
+  intent_status: PushIntentStatus;
   /** Who requested the push */
-  requestedBy: string;
+  requested_by: string;
   /** When requested */
-  requestedAt: string;
+  requested_at: string;
   /** Who approved (null if not approved) */
-  approvedBy: string | null;
+  approved_by: string | null;
   /** When approved (null if not approved) */
-  approvedAt: string | null;
+  approved_at: string | null;
   /** Execution reference (mock only in Phase 1) */
   executionReference: string;
 }
@@ -56,36 +56,36 @@ export interface PushActionIntentValidation {
 export function validatePushActionIntent(intent: PushActionIntent): PushActionIntentValidation {
   const errors: string[] = [];
 
-  if (!intent.tenantId || intent.tenantId.trim() === '') {
-    errors.push('tenantId: required');
+  if (!intent.tenant_id || intent.tenant_id.trim() === '') {
+    errors.push('tenant_id: required');
   }
 
-  if (!intent.iocId || intent.iocId.trim() === '') {
-    errors.push('iocId: required');
+  if (!intent.ioc_id || intent.ioc_id.trim() === '') {
+    errors.push('ioc_id: required');
   }
 
-  if (!intent.iocCategory || !IOC_CATEGORIES.includes(intent.iocCategory)) {
-    errors.push('iocCategory: must be a known taxonomy value');
+  if (!intent.ioc_category || !IOC_CATEGORIES.includes(intent.ioc_category)) {
+    errors.push('ioc_category: must be a known taxonomy value');
   }
 
   if (!intent.targetSystemType || intent.targetSystemType.trim() === '') {
     errors.push('targetSystemType: required, must be a non-empty string');
   }
 
-  if (!intent.actionType || !PUSH_ACTION_TYPES.includes(intent.actionType)) {
-    errors.push(`actionType: must be one of: ${PUSH_ACTION_TYPES.join(', ')}`);
+  if (!intent.action_type || !PUSH_ACTION_TYPES.includes(intent.action_type)) {
+    errors.push(`action_type: must be one of: ${PUSH_ACTION_TYPES.join(', ')}`);
   }
 
-  if (!intent.intentStatus || !PUSH_INTENT_STATUSES.includes(intent.intentStatus)) {
-    errors.push(`intentStatus: must be one of: ${PUSH_INTENT_STATUSES.join(', ')}`);
+  if (!intent.intent_status || !PUSH_INTENT_STATUSES.includes(intent.intent_status)) {
+    errors.push(`intent_status: must be one of: ${PUSH_INTENT_STATUSES.join(', ')}`);
   }
 
   if (!intent.id || intent.id.trim() === '') {
     errors.push('id: required');
   }
 
-  if (!intent.tenant || !intent.tenant.tenantId || intent.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!intent.tenant || !intent.tenant.tenant_id || intent.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
 
   return { valid: errors.length === 0, errors };

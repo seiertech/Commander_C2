@@ -43,7 +43,7 @@ interface ExpandableCaseRowProps {
 export function ExpandableCaseRow({ case: caseRecord, expanded, onToggle, tokens, mode }: ExpandableCaseRowProps) {
   const p = primitivePriority[caseRecord.priority.toLowerCase() as keyof typeof primitivePriority];
   const strategy = resolveAllStrategies(caseRecord, thesisStrategies);
-  const slaHours = strategy.sla.status === 'resolved' ? strategy.sla.responseHours : caseRecord.sla.targetResolutionHours;
+  const slaHours = strategy.sla.status === 'resolved' ? strategy.sla.response_hours : caseRecord.sla.target_resolution_hours;
   const expandRegionId = `case-expand-${caseRecord.id}`;
 
   function handleKeyDown(e: React.KeyboardEvent) {
@@ -84,7 +84,7 @@ export function ExpandableCaseRow({ case: caseRecord, expanded, onToggle, tokens
 
         {/* Case ref */}
         <span style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.muted, fontFamily: primitiveFonts.mono, minWidth: '120px', whiteSpace: 'nowrap' }}>
-          {caseRecord.caseRef}
+          {caseRecord.case_ref}
         </span>
 
         {/* Title (truncated) */}
@@ -109,18 +109,18 @@ export function ExpandableCaseRow({ case: caseRecord, expanded, onToggle, tokens
 
         {/* Age (relative) */}
         <span style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.muted, fontFamily: primitiveFonts.mono, minWidth: '60px', whiteSpace: 'nowrap' }}>
-          {relativeAge(caseRecord.createdAt)}
+          {relativeAge(caseRecord.created_at)}
         </span>
 
         {/* Surface attribution chip */}
         <span style={{
           fontSize: primitiveTypeScale.micro,
           padding: '2px 6px',
-          border: caseRecord.surfaceAttribution === 'external_attack_surface' ? `1px solid ${primitiveSignal.info}` : `1px solid ${tokens.border.default}`,
-          color: caseRecord.surfaceAttribution === 'external_attack_surface' ? primitiveSignal.info : tokens.text.muted,
+          border: caseRecord.surface_attribution === 'external_attack_surface' ? `1px solid ${primitiveSignal.info}` : `1px solid ${tokens.border.default}`,
+          color: caseRecord.surface_attribution === 'external_attack_surface' ? primitiveSignal.info : tokens.text.muted,
           whiteSpace: 'nowrap',
         }}>
-          {caseRecord.surfaceAttribution === 'external_attack_surface' ? 'External' : 'Internal'}
+          {caseRecord.surface_attribution === 'external_attack_surface' ? 'External' : 'Internal'}
         </span>
 
         {/* Status badge */}
@@ -172,8 +172,8 @@ export function ExpandableCaseRow({ case: caseRecord, expanded, onToggle, tokens
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: primitiveSpacing[3], marginBottom: primitiveSpacing[3] }}>
           <MetaItem label="Owner" value={caseRecord.owner} tokens={tokens} />
           <MetaItem label="Team" value={caseRecord.team} tokens={tokens} />
-          <MetaItem label="Type" value={caseRecord.caseType} tokens={tokens} />
-          <MetaItem label="Created" value={new Date(caseRecord.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })} tokens={tokens} />
+          <MetaItem label="Type" value={caseRecord.case_type} tokens={tokens} />
+          <MetaItem label="Created" value={new Date(caseRecord.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })} tokens={tokens} />
           <MetaItem label="SLA Target" value={`${slaHours}h${caseRecord.sla.breached ? ' (BREACHED)' : ''}`} tokens={tokens} breached={caseRecord.sla.breached} />
         </div>
 

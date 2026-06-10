@@ -73,8 +73,8 @@ export default function AssetIntelligencePage({ searchParams }: { searchParams: 
                       <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{a.classification}</td>
                       <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{a.environment}</td>
                       <td>
-                        <span className={`badge ${a.surfaceAttribution === 'external_attack_surface' ? 'bg-azure-lt' : 'bg-purple-lt'}`}>
-                          {a.surfaceAttribution === 'external_attack_surface' ? 'External' : 'Internal'}
+                        <span className={`badge ${a.surface_attribution === 'external_attack_surface' ? 'bg-azure-lt' : 'bg-purple-lt'}`}>
+                          {a.surface_attribution === 'external_attack_surface' ? 'External' : 'Internal'}
                         </span>
                       </td>
                       <td className="text-end">{a.criticality}</td>
@@ -93,23 +93,23 @@ export default function AssetIntelligencePage({ searchParams }: { searchParams: 
   const a = selected;
 
   // 5. Case History — cases referencing this asset
-  const caseHistory = thesisCases.filter((c) => c.relatedEntities.includes(a.id));
+  const caseHistory = thesisCases.filter((c) => c.related_entities.includes(a.id));
   // 6. Vulnerability State — vulnerability-flavoured risk objects affecting this asset
   const vulnRiskObjects = thesisRiskObjects.filter(
-    (r) => (r.affectedEntities?.includes(a.id) || r.affectedEntityId === a.id) &&
+    (r) => (r.affected_entities?.includes(a.id) || r.affected_entity_id === a.id) &&
       (r.type === 'vulnerability_drift' || r.type === 'exposure_drift' || r.type === 'configuration_drift'),
   );
-  const vulnCases = caseHistory.filter((c) => c.caseType.includes('vulnerability') || c.caseType.includes('exposure'));
+  const vulnCases = caseHistory.filter((c) => c.case_type.includes('vulnerability') || c.case_type.includes('exposure'));
   // 7. Identity Exposure — identities with access to this asset
-  const exposedIdentities = thesisIdentities.filter((i) => i.associatedAssets.includes(a.id));
+  const exposedIdentities = thesisIdentities.filter((i) => i.associated_assets.includes(a.id));
 
   return (
     <PageContainer
       pretitle="Identity & Asset Intelligence › Asset"
       title={a.name}
       headerActions={
-        <span className={`badge ${a.surfaceAttribution === 'external_attack_surface' ? 'bg-azure-lt' : 'bg-purple-lt'}`}>
-          {a.surfaceAttribution === 'external_attack_surface' ? 'External Attack Surface' : 'Internal Attack Surface'}
+        <span className={`badge ${a.surface_attribution === 'external_attack_surface' ? 'bg-azure-lt' : 'bg-purple-lt'}`}>
+          {a.surface_attribution === 'external_attack_surface' ? 'External Attack Surface' : 'Internal Attack Surface'}
         </span>
       }
     >
@@ -126,7 +126,7 @@ export default function AssetIntelligencePage({ searchParams }: { searchParams: 
             <Field label="Owner" value={a.owner} />
             <Field label="Environment" value={a.environment} />
             <Field label="Criticality" value={String(a.criticality)} />
-            <Field label="Surface" value={a.surfaceAttribution === 'external_attack_surface' ? 'External' : 'Internal'} />
+            <Field label="Surface" value={a.surface_attribution === 'external_attack_surface' ? 'External' : 'Internal'} />
             <Field label="Tags" value={a.tags.join(', ')} />
           </div>
         </div>
@@ -137,13 +137,13 @@ export default function AssetIntelligencePage({ searchParams }: { searchParams: 
         <div className="card-header"><h3 className="card-title">Configuration State</h3></div>
         <div className="card-body">
           <div className="d-flex flex-wrap gap-2">
-            <CoverageBadge label="EDR" on={a.coverage.hasEdr} />
-            <CoverageBadge label="Vuln Scan" on={a.coverage.hasVulnScan} />
-            <CoverageBadge label="Patch Mgmt" on={a.coverage.hasPatchManagement} />
-            <CoverageBadge label="Backup" on={a.coverage.hasBackup} />
+            <CoverageBadge label="EDR" on={a.coverage.has_edr} />
+            <CoverageBadge label="Vuln Scan" on={a.coverage.has_vuln_scan} />
+            <CoverageBadge label="Patch Mgmt" on={a.coverage.has_patch_management} />
+            <CoverageBadge label="Backup" on={a.coverage.has_backup} />
           </div>
           <p className="text-muted mb-0 mt-3" style={{ fontSize: primitiveTypeScale.caption }}>
-            Network position: {a.networkPosition ?? 'unknown'} · Lifecycle: {a.lifecycleState ?? 'unknown'} · Platform: {a.platform?.os ?? 'unknown'}
+            Network position: {a.network_position ?? 'unknown'} · Lifecycle: {a.lifecycle_state ?? 'unknown'} · Platform: {a.platform?.os ?? 'unknown'}
           </p>
         </div>
       </div>
@@ -203,11 +203,11 @@ export default function AssetIntelligencePage({ searchParams }: { searchParams: 
                 <div key={r.id} className="d-flex align-items-center gap-2">
                   <span className="status-dot" style={{ display: 'inline-block', background: primitiveSignal.warning }} />
                   <span style={{ fontSize: primitiveTypeScale.body }}>{r.type}</span>
-                  <span className="text-muted ms-auto" style={{ fontSize: primitiveTypeScale.caption }}>{r.treatmentState}</span>
+                  <span className="text-muted ms-auto" style={{ fontSize: primitiveTypeScale.caption }}>{r.treatment_state}</span>
                 </div>
               ))}
               {vulnCases.map((c) => (
-                <a key={c.id} href={`/cases/${c.id}`} style={{ fontSize: primitiveTypeScale.caption, color: tokens.action.primary }}>{c.caseRef} · {c.title}</a>
+                <a key={c.id} href={`/cases/${c.id}`} style={{ fontSize: primitiveTypeScale.caption, color: tokens.action.primary }}>{c.case_ref} · {c.title}</a>
               ))}
             </div>
           )}
@@ -224,9 +224,9 @@ export default function AssetIntelligencePage({ searchParams }: { searchParams: 
               <tbody>
                 {exposedIdentities.map((i) => (
                   <tr key={i.id}>
-                    <td><a href={`/identity?id=${i.id}`} style={{ color: tokens.action.primary, fontSize: primitiveTypeScale.body }}>{i.displayName}</a></td>
+                    <td><a href={`/identity?id=${i.id}`} style={{ color: tokens.action.primary, fontSize: primitiveTypeScale.body }}>{i.display_name}</a></td>
                     <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{i.classification}</td>
-                    <td className="text-end" style={{ fontSize: primitiveTypeScale.caption, color: i.riskScore >= 50 ? primitiveSignal.critical : tokens.text.muted }}>risk {i.riskScore}</td>
+                    <td className="text-end" style={{ fontSize: primitiveTypeScale.caption, color: i.risk_score >= 50 ? primitiveSignal.critical : tokens.text.muted }}>risk {i.risk_score}</td>
                   </tr>
                 ))}
                 {exposedIdentities.length === 0 && (

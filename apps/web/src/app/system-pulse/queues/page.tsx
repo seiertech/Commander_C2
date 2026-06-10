@@ -26,9 +26,9 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 export default function SystemPulseQueuesPage() {
   const { mode, tokens } = useMode();
 
-  const totalBacklog = thesisSystemPulse.reduce((acc, s) => acc + s.queueBacklog, 0);
-  const totalThroughput = thesisSystemPulse.reduce((acc, s) => acc + s.processingRate, 0);
-  const highBacklog = thesisSystemPulse.filter((s) => s.queueBacklog > 10).length;
+  const totalBacklog = thesisSystemPulse.reduce((acc, s) => acc + s.queue_backlog, 0);
+  const totalThroughput = thesisSystemPulse.reduce((acc, s) => acc + s.processing_rate, 0);
+  const highBacklog = thesisSystemPulse.filter((s) => s.queue_backlog > 10).length;
 
   const chartOpts: ApexOptions = {
     chart: { type: 'bar', toolbar: { show: false }, background: 'transparent', fontFamily: primitiveFonts.body },
@@ -44,8 +44,8 @@ export default function SystemPulseQueuesPage() {
   };
 
   const chartSeries = [
-    { name: 'Queue Backlog', data: thesisSystemPulse.map((s) => s.queueBacklog) },
-    { name: 'Processing Rate', data: thesisSystemPulse.map((s) => s.processingRate) },
+    { name: 'Queue Backlog', data: thesisSystemPulse.map((s) => s.queue_backlog) },
+    { name: 'Processing Rate', data: thesisSystemPulse.map((s) => s.processing_rate) },
   ];
 
   return (
@@ -82,9 +82,9 @@ export default function SystemPulseQueuesPage() {
                   <tr key={s.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                     <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{s.subsystem}</td>
                     <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', color: '#fff', background: healthColor }}>{s.health}</span></td>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: s.queueBacklog > 10 ? primitiveSignal.warning : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{s.queueBacklog}</td>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{s.processingRate}/hr</td>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: s.errorRate > 3 ? primitiveSignal.warning : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{s.errorRate}%</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: s.queue_backlog > 10 ? primitiveSignal.warning : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{s.queue_backlog}</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{s.processing_rate}/hr</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: s.error_rate > 3 ? primitiveSignal.warning : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{s.error_rate}%</td>
                   </tr>
                 );
               })}

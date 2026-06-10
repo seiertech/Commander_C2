@@ -31,7 +31,7 @@ export type PushTargetScope = typeof PUSH_TARGET_SCOPES[number];
 
 export interface PushConflict {
   /** Reference to the conflicting entity */
-  entityRef: string;
+  entity_ref: string;
   /** Type of conflict */
   conflictType: string;
   /** Description of the conflict */
@@ -41,11 +41,11 @@ export interface PushConflict {
 // ─── Push Governance Run Entity ──────────────────────────────────────────────
 
 export interface PushGovernanceRun extends CommonFields {
-  entityType: 'push-governance-run';
+  entity_type: 'push-governance-run';
   /** Unique run identifier */
   runId: string;
   /** Reference to the rule being simulated */
-  ruleRef: string;
+  rule_ref: string;
   /** Scope of the simulation target */
   targetScope: PushTargetScope;
   /** When the simulation was performed */
@@ -57,7 +57,7 @@ export interface PushGovernanceRun extends CommonFields {
   /** Number of entities that would be allowed */
   wouldAllow: number;
   /** Number of entities that would be escalated */
-  wouldEscalate: number;
+  would_escalate: number;
   /** Detected conflicts during simulation */
   conflicts: PushConflict[];
   /** Current run status */
@@ -82,14 +82,14 @@ export function validatePushGovernanceRun(record: PushGovernanceRun): PushGovern
   if (!record.id || record.id.trim() === '') {
     errors.push('id: required');
   }
-  if (!record.tenant || !record.tenant.tenantId || record.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!record.tenant || !record.tenant.tenant_id || record.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
   if (!record.runId || record.runId.trim() === '') {
     errors.push('runId: required');
   }
-  if (!record.ruleRef || record.ruleRef.trim() === '') {
-    errors.push('ruleRef: required');
+  if (!record.rule_ref || record.rule_ref.trim() === '') {
+    errors.push('rule_ref: required');
   }
   if (!record.targetScope || !PUSH_TARGET_SCOPES.includes(record.targetScope)) {
     errors.push(`targetScope: must be one of: ${PUSH_TARGET_SCOPES.join(', ')}`);
@@ -106,15 +106,15 @@ export function validatePushGovernanceRun(record: PushGovernanceRun): PushGovern
   if (typeof record.wouldAllow !== 'number' || record.wouldAllow < 0) {
     errors.push('wouldAllow: must be a non-negative number');
   }
-  if (typeof record.wouldEscalate !== 'number' || record.wouldEscalate < 0) {
-    errors.push('wouldEscalate: must be a non-negative number');
+  if (typeof record.would_escalate !== 'number' || record.would_escalate < 0) {
+    errors.push('would_escalate: must be a non-negative number');
   }
   if (!Array.isArray(record.conflicts)) {
     errors.push('conflicts: must be an array');
   } else {
     for (const conflict of record.conflicts) {
-      if (!conflict.entityRef || conflict.entityRef.trim() === '') {
-        errors.push('conflicts[].entityRef: required');
+      if (!conflict.entity_ref || conflict.entity_ref.trim() === '') {
+        errors.push('conflicts[].entity_ref: required');
       }
       if (!conflict.conflictType || conflict.conflictType.trim() === '') {
         errors.push('conflicts[].conflictType: required');

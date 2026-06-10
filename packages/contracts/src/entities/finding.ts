@@ -62,9 +62,9 @@ export type ProposedActionType = typeof PROPOSED_ACTION_TYPES[number];
 
 export interface ProposedAction {
   /** Unique action identifier within the finding */
-  actionId: string;
+  action_id: string;
   /** What the action proposes (recommendation, not executed by the engine) */
-  actionType: ProposedActionType;
+  action_type: ProposedActionType;
   /** Human-readable description of the proposed action */
   description: string;
   /** Whether the action is eligible for automation (subject to approval chain) */
@@ -76,31 +76,31 @@ export interface ProposedAction {
 // ─── Finding Entity ──────────────────────────────────────────────────────────
 
 export interface Finding extends CommonFields {
-  entityType: 'finding';
+  entity_type: 'finding';
   /** Unique finding identifier */
-  findingId: string;
+  finding_id: string;
   /** Reference to the rule (RuleDefinition) that produced this finding */
-  ruleRef: string;
+  rule_ref: string;
   /** Tenant this finding belongs to (tenant-scoped, v1.3 Req 7) */
-  tenantId: string;
+  tenant_id: string;
   /** Severity when matched (1–5) */
   severity: number;
   /** Confidence in the match (0–100) */
   confidence: number;
   /** Deduplication key — identical keys collapse to a single active finding */
-  dedupeKey: string;
+  dedupe_key: string;
   /** Kind of entity affected by the finding */
-  affectedEntityType: AffectedEntityType;
+  affected_entity_type: AffectedEntityType;
   /** Canonical reference to the affected entity */
-  affectedEntityRef: string;
+  affected_entity_ref: string;
   /** Recommended actions (never executed by the engine) */
   proposedActions: ProposedAction[];
   /** System-owned lifecycle status */
   status: FindingStatus;
   /** When the finding was detected */
-  detectedAt: string;
+  detected_at: string;
   /** When the finding was resolved (if resolved) */
-  resolvedAt?: string;
+  resolved_at?: string;
   /** Reason recorded when the finding was suppressed */
   suppressionReason?: string;
 }
@@ -121,17 +121,17 @@ export function validateFinding(finding: Finding): FindingValidation {
   if (!finding.id || finding.id.trim() === '') {
     errors.push('id: required');
   }
-  if (!finding.tenant || !finding.tenant.tenantId || finding.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!finding.tenant || !finding.tenant.tenant_id || finding.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
-  if (!finding.findingId || finding.findingId.trim() === '') {
-    errors.push('findingId: required');
+  if (!finding.finding_id || finding.finding_id.trim() === '') {
+    errors.push('finding_id: required');
   }
-  if (!finding.ruleRef || finding.ruleRef.trim() === '') {
-    errors.push('ruleRef: required');
+  if (!finding.rule_ref || finding.rule_ref.trim() === '') {
+    errors.push('rule_ref: required');
   }
-  if (!finding.tenantId || finding.tenantId.trim() === '') {
-    errors.push('tenantId: required');
+  if (!finding.tenant_id || finding.tenant_id.trim() === '') {
+    errors.push('tenant_id: required');
   }
   if (typeof finding.severity !== 'number' || finding.severity < 1 || finding.severity > 5) {
     errors.push('severity: must be a number between 1 and 5');
@@ -139,24 +139,24 @@ export function validateFinding(finding: Finding): FindingValidation {
   if (typeof finding.confidence !== 'number' || finding.confidence < 0 || finding.confidence > 100) {
     errors.push('confidence: must be a number between 0 and 100');
   }
-  if (!finding.dedupeKey || finding.dedupeKey.trim() === '') {
-    errors.push('dedupeKey: required');
+  if (!finding.dedupe_key || finding.dedupe_key.trim() === '') {
+    errors.push('dedupe_key: required');
   }
-  if (!AFFECTED_ENTITY_TYPES.includes(finding.affectedEntityType)) {
-    errors.push(`affectedEntityType: must be one of: ${AFFECTED_ENTITY_TYPES.join(', ')}`);
+  if (!AFFECTED_ENTITY_TYPES.includes(finding.affected_entity_type)) {
+    errors.push(`affected_entity_type: must be one of: ${AFFECTED_ENTITY_TYPES.join(', ')}`);
   }
-  if (!finding.affectedEntityRef || finding.affectedEntityRef.trim() === '') {
-    errors.push('affectedEntityRef: required');
+  if (!finding.affected_entity_ref || finding.affected_entity_ref.trim() === '') {
+    errors.push('affected_entity_ref: required');
   }
   if (!Array.isArray(finding.proposedActions)) {
     errors.push('proposedActions: must be an array');
   } else {
     for (const action of finding.proposedActions) {
-      if (!action.actionId || action.actionId.trim() === '') {
-        errors.push('proposedActions[].actionId: required');
+      if (!action.action_id || action.action_id.trim() === '') {
+        errors.push('proposedActions[].action_id: required');
       }
-      if (!PROPOSED_ACTION_TYPES.includes(action.actionType)) {
-        errors.push(`proposedActions[].actionType: must be one of: ${PROPOSED_ACTION_TYPES.join(', ')}`);
+      if (!PROPOSED_ACTION_TYPES.includes(action.action_type)) {
+        errors.push(`proposedActions[].action_type: must be one of: ${PROPOSED_ACTION_TYPES.join(', ')}`);
       }
       if (typeof action.automated !== 'boolean') {
         errors.push('proposedActions[].automated: must be a boolean');
@@ -166,8 +166,8 @@ export function validateFinding(finding: Finding): FindingValidation {
   if (!FINDING_STATUSES.includes(finding.status)) {
     errors.push(`status: must be one of: ${FINDING_STATUSES.join(', ')}`);
   }
-  if (!finding.detectedAt || finding.detectedAt.trim() === '') {
-    errors.push('detectedAt: required');
+  if (!finding.detected_at || finding.detected_at.trim() === '') {
+    errors.push('detected_at: required');
   }
   if (finding.status === 'suppressed' && (!finding.suppressionReason || finding.suppressionReason.trim() === '')) {
     errors.push('suppressionReason: required when status is "suppressed"');

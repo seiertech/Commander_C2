@@ -37,9 +37,9 @@ export type SecurityToolTrend = typeof SECURITY_TOOL_TRENDS[number];
 // ─── Security Tool Intelligence Entity ───────────────────────────────────────
 
 export interface SecurityToolIntelligence extends CommonFields {
-  entityType: 'security-tool-intelligence';
+  entity_type: 'security-tool-intelligence';
   /** Engine instance that produced this assessment */
-  engineId: string;
+  engine_id: string;
   /** Reference to the connector being assessed */
   connectorRef: string;
   /** Category of the security tool */
@@ -53,7 +53,7 @@ export interface SecurityToolIntelligence extends CommonFields {
   /** Known blind spots in the tool's coverage */
   knownBlindSpots: string[];
   /** When this assessment was last performed */
-  lastAssessedAt: string;
+  last_assessed_at: string;
   /** Trend direction of the tool's effectiveness */
   trend: SecurityToolTrend;
   /** Recommended actions to improve effectiveness */
@@ -76,11 +76,11 @@ export function validateSecurityToolIntelligence(record: SecurityToolIntelligenc
   if (!record.id || record.id.trim() === '') {
     errors.push('id: required');
   }
-  if (!record.tenant || !record.tenant.tenantId || record.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!record.tenant || !record.tenant.tenant_id || record.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
-  if (!record.engineId || record.engineId.trim() === '') {
-    errors.push('engineId: required');
+  if (!record.engine_id || record.engine_id.trim() === '') {
+    errors.push('engine_id: required');
   }
   if (!record.connectorRef || record.connectorRef.trim() === '') {
     errors.push('connectorRef: required');
@@ -100,8 +100,8 @@ export function validateSecurityToolIntelligence(record: SecurityToolIntelligenc
   if (!Array.isArray(record.knownBlindSpots)) {
     errors.push('knownBlindSpots: must be an array');
   }
-  if (!record.lastAssessedAt || record.lastAssessedAt.trim() === '') {
-    errors.push('lastAssessedAt: required');
+  if (!record.last_assessed_at || record.last_assessed_at.trim() === '') {
+    errors.push('last_assessed_at: required');
   }
   if (!record.trend || !SECURITY_TOOL_TRENDS.includes(record.trend)) {
     errors.push(`trend: must be one of: ${SECURITY_TOOL_TRENDS.join(', ')}`);

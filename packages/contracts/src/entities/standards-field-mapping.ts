@@ -22,10 +22,10 @@ export type StandardRequirement = 'required' | 'recommended' | 'optional';
 // ─── Standards Field Mapping Entity ──────────────────────────────────────────
 
 export interface StandardsFieldMapping extends CommonFields {
-  entityType: 'standards-field-mapping';
+  entity_type: 'standards-field-mapping';
 
   /** Unique mapping identifier */
-  mappingId: string;
+  mapping_id: string;
   /** Parent StandardsDeclaration */
   declarationId: string;
 
@@ -75,8 +75,8 @@ export function validateStandardsFieldMapping(m: StandardsFieldMapping): Standar
   const errors: string[] = [];
 
   if (!m.id || m.id.trim() === '') errors.push('id: required');
-  if (!m.tenant?.tenantId) errors.push('tenant.tenantId: required');
-  if (!m.mappingId || m.mappingId.trim() === '') errors.push('mappingId: required');
+  if (!m.tenant?.tenant_id) errors.push('tenant.tenant_id: required');
+  if (!m.mapping_id || m.mapping_id.trim() === '') errors.push('mapping_id: required');
   if (!m.declarationId || m.declarationId.trim() === '') errors.push('declarationId: required');
   if (!m.entityName || m.entityName.trim() === '') errors.push('entityName: required');
   if (!m.entityFile || m.entityFile.trim() === '') errors.push('entityFile: required');

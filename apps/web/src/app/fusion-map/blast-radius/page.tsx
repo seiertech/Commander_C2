@@ -17,9 +17,9 @@ export default function FusionMapBlastRadiusPage() {
   const { tokens } = useMode();
   const results = thesisTopology.blastRadiusResults;
   const nodes = thesisTopology.nodes;
-  const maxImpact = results.length > 0 ? Math.max(...results.map((r) => r.totalImpactScore)) : 0;
+  const maxImpact = results.length > 0 ? Math.max(...results.map((r) => r.total_impact_score)) : 0;
   const maxDepth = results.length > 0 ? Math.max(...results.map((r) => r.depth)) : 0;
-  const totalAffected = new Set(results.flatMap((r) => r.affectedNodes)).size;
+  const totalAffected = new Set(results.flatMap((r) => r.affected_nodes)).size;
 
   return (
     <PageContainer pretitle="Fusion Map › Blast Radius" title="Blast Radius Analysis">
@@ -35,14 +35,14 @@ export default function FusionMapBlastRadiusPage() {
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
             <thead><tr>{['Origin', 'Origin Label', 'Affected Nodes', 'Depth', 'Impact Score'].map((h) => <th key={h} style={{ textAlign: 'left', padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, borderBottom: `2px solid ${tokens.border.default}`, color: tokens.text.muted, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, fontSize: primitiveTypeScale.micro }}>{h}</th>)}</tr></thead>
             <tbody>{results.map((r) => {
-              const originNode = nodes.find((n) => n.nodeId === r.originNodeId);
+              const originNode = nodes.find((n) => n.node_id === r.origin_node_id);
               return (
-                <tr key={r.originNodeId} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, color: tokens.text.secondary }}>{r.originNodeId}</td>
+                <tr key={r.origin_node_id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, color: tokens.text.secondary }}>{r.origin_node_id}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{originNode?.label ?? '—'}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{r.affectedNodes.length}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{r.affected_nodes.length}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{r.depth}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono, color: r.totalImpactScore >= 80 ? primitiveSignal.critical : r.totalImpactScore >= 50 ? primitiveSignal.warning : tokens.text.secondary }}>{r.totalImpactScore}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono, color: r.total_impact_score >= 80 ? primitiveSignal.critical : r.total_impact_score >= 50 ? primitiveSignal.warning : tokens.text.secondary }}>{r.total_impact_score}</td>
                 </tr>
               );
             })}</tbody>

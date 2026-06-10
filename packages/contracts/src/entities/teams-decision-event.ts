@@ -39,17 +39,17 @@ export type TeamsDecision = typeof TEAMS_DECISIONS[number];
 
 export interface TeamsDecisionEvent extends CommonFields {
   /** Event identifier */
-  eventId: string;
+  event_id: string;
   /** Tenant scope */
-  tenantId: string;
+  tenant_id: string;
   /** Case this decision relates to */
-  caseId: string;
+  case_id: string;
   /** Type of request posted to Teams */
   requestType: TeamsRequestType;
   /** Reference to the posted Adaptive Card */
   cardId: string;
   /** When the request was posted */
-  requestedAt: string;
+  requested_at: string;
   /** When the response was received (null if pending) */
   respondedAt: string | null;
   /** Who responded (null if pending) */
@@ -82,17 +82,17 @@ export function validateTeamsDecisionEvent(
   if (!event.id || event.id.trim() === '') {
     errors.push('id: required');
   }
-  if (!event.tenant || !event.tenant.tenantId || event.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!event.tenant || !event.tenant.tenant_id || event.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
-  if (!event.eventId || event.eventId.trim() === '') {
-    errors.push('eventId: required');
+  if (!event.event_id || event.event_id.trim() === '') {
+    errors.push('event_id: required');
   }
-  if (!event.tenantId || event.tenantId.trim() === '') {
-    errors.push('tenantId: required');
+  if (!event.tenant_id || event.tenant_id.trim() === '') {
+    errors.push('tenant_id: required');
   }
-  if (!event.caseId || event.caseId.trim() === '') {
-    errors.push('caseId: required');
+  if (!event.case_id || event.case_id.trim() === '') {
+    errors.push('case_id: required');
   }
   if (!event.requestType || !TEAMS_REQUEST_TYPES.includes(event.requestType)) {
     errors.push(`requestType: must be one of: ${TEAMS_REQUEST_TYPES.join(', ')}`);
@@ -100,8 +100,8 @@ export function validateTeamsDecisionEvent(
   if (!event.cardId || event.cardId.trim() === '') {
     errors.push('cardId: required');
   }
-  if (!event.requestedAt || event.requestedAt.trim() === '') {
-    errors.push('requestedAt: required');
+  if (!event.requested_at || event.requested_at.trim() === '') {
+    errors.push('requested_at: required');
   }
   if (event.decision !== null && !TEAMS_DECISIONS.includes(event.decision)) {
     errors.push(`decision: must be one of: ${TEAMS_DECISIONS.join(', ')} or null`);
