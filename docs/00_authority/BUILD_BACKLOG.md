@@ -10,14 +10,14 @@
 - [x] Pre-commit hook
 
 ## Phase 1: Standards Evidence Model
-- [ ] CommonFields entity
-- [ ] StandardsDeclaration entity + validation
-- [ ] StandardsFieldMapping entity + validation
-- [ ] StandardsVersionHistory entity + validation
-- [ ] 13 declaration fixtures
+- [x] CommonFields entity
+- [x] StandardsDeclaration entity + validation
+- [x] StandardsFieldMapping entity + validation
+- [x] StandardsVersionHistory entity + validation
+- [x] 13 declaration fixtures
 - [ ] Initial field mapping fixtures
 
 ## Phase 2-11: See REBASE_STRATEGY_v2.md for full breakdown
 
 **Last Updated:** 2026-06-10
-**Current Phase:** 0 COMPLETE
+**Current Phase:** 1 IN PROGRESS (entities done, fixtures done, field mappings next)
