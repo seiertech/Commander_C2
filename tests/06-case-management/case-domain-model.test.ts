@@ -67,7 +67,7 @@ describe('Closed-Loop Lifecycle (Doctrinal Assertion 1)', () => {
 
   it('no seed case has a manual-creation source', () => {
     for (const c of seedCases) {
-      expect(c.source.sourceSystem).not.toContain('manual');
+      expect(c.source.source_system).not.toContain('manual');
     }
   });
 
@@ -81,7 +81,7 @@ describe('Closed-Loop Lifecycle (Doctrinal Assertion 1)', () => {
 describe('Surface Attribution (Doctrinal Assertion 10)', () => {
   it('all seed cases have surface attribution', () => {
     for (const c of seedCases) {
-      expect(['internal_attack_surface', 'external_attack_surface']).toContain(c.surfaceAttribution);
+      expect(['internal_attack_surface', 'external_attack_surface']).toContain(c.surface_attribution);
     }
   });
 });
@@ -89,13 +89,13 @@ describe('Surface Attribution (Doctrinal Assertion 10)', () => {
 describe('Seed Cases Validity', () => {
   it('seed cases are tenant-scoped', () => {
     for (const c of seedCases) {
-      expect(c.tenant.tenantId).toBe(SEED_TENANT.tenantId);
+      expect(c.tenant.tenant_id).toBe(SEED_TENANT.tenant_id);
     }
   });
 
   it('seed cases have SLA information', () => {
     for (const c of seedCases) {
-      expect(c.sla.targetResolutionHours).toBeGreaterThan(0);
+      expect(c.sla.target_resolution_hours).toBeGreaterThan(0);
     }
   });
 

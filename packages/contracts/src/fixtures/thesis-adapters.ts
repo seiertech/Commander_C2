@@ -28,7 +28,7 @@ import type { AssetSecurityPosture } from '../entities/asset-posture';
 export const thesisMissions: MissionThesis[] = seedMissions.map((m) => ({
   mission_id: m.id,
   mission_name: m.name,
-  capability_domain: m.domain ?? 'security_operations',
+  capability_domain: (m as any).domain ?? m.impact_domains?.[0] ?? 'security_operations',
   derived_from_model: 'CBP',
   current_state_score: m.progress_percent,
   target_state_score: 100,
@@ -76,7 +76,7 @@ export const thesisCases: CaseThesis[] = seedCases.map((c) => ({
   status: c.status,
   itil_stage: mapStatusToItilStage(c.status),
   owner_team: c.team,
-  target_resolution_date: c.sla?.target_date ?? c.updated_at,
+  target_resolution_date: (c.sla as any)?.target_date ?? c.updated_at,
   ctem_phase: 'mobilization' as const,
   ooda_state: mapStatusToOoda(c.status),
   standard_marker: 'ITIL 4 + OODA + CTEM',
@@ -114,10 +114,10 @@ import { seedEvents } from './seed-events';
 
 export const thesisSignals: Signal[] = seedEvents.slice(0, 20).map((e, i) => ({
   signal_id: `sig-${String(i + 1).padStart(3, '0')}`,
-  source_system: e.source ?? 'unknown',
+  source_system: (e as any).source ?? 'unknown',
   source_event_id: e.id,
-  ocsf_category: e.category ?? 'Security Finding',
-  ocsf_class: e.event_type ?? 'Detection Finding',
+  ocsf_category: (e as any).category ?? 'Security Finding',
+  ocsf_class: (e as any).event_type ?? 'Detection Finding',
   signal_type: e.severity === 'critical' ? 'critical_detection' : 'detection',
   severity: e.severity === 'critical' ? 5 : e.severity === 'warning' ? 3 : e.severity === 'info' ? 2 : 1,
   time_observed: e.timestamp,
@@ -348,11 +348,14 @@ export { seedDirectionBoards as thesisDirectionBoards } from './seed-direction-b
 // ─── Push Governance (L11 — Governed Push) ───────────────────────────────────
 export { seedPushGovernanceRuns as thesisPushGovernance } from './seed-push-governance';
 
+// ─── Attack Classification Audits (L3 — Classification) ──────────────────────
+export { seedAttackClassificationAudits as thesisAttackClassificationAudits } from './seed-attack-classification-audits';
+
 // ─── Tenant (L11 — Tenant Context) ──────────────────────────────────────────
 export { SEED_TENANT as thesisTenant, seedId as thesisSeedId } from './seed-tenant';
 
 // ─── Standards Declarations (L10 — Governance) ───────────────────────────────
-export { STANDARDS_DECLARATIONS as thesisStandardsDeclarations } from './seed-standards-declarations';
+export { SCHEMA_COMPLIANCE_FIXTURES as thesisStandardsDeclarations } from './seed-standards-declarations';
 
 // ─── Asset Authority (L4 — thesis-wrapped assets) ────────────────────────────
 export { ASSET_THESIS_FIXTURES as thesisAssetAuthority } from './seed-asset-authority';

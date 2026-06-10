@@ -18,11 +18,11 @@ import type { BindingRequest } from '../../packages/contracts/src/engines/risk-o
 
 function makeBaseRequest(): BindingRequest {
   return {
-    riskObjectId: 'ro-001',
+    risk_object_id: 'ro-001',
     riskObjectType: 'vulnerability_drift',
-    tenantId: 'tenant-001',
-    affectedEntityId: 'asset-001',
-    affectedEntityType: 'server',
+    tenant_id: 'tenant-001',
+    affected_entity_id: 'asset-001',
+    affected_entity_type: 'server',
   };
 }
 
@@ -44,9 +44,9 @@ describe('Risk Object Binding — bound_new_case', () => {
 
     expect(result.success).toBe(true);
     expect(result.outcome).toBe('bound_new_case');
-    expect(result.caseId).not.toBeNull();
-    expect(result.caseId).toContain('tenant-001');
-    expect(result.riskObjectId).toBe('ro-001');
+    expect(result.case_id).not.toBeNull();
+    expect(result.case_id).toContain('tenant-001');
+    expect(result.risk_object_id).toBe('ro-001');
     expect(result.error).toBeNull();
     expect(result.timestamp).toBeTruthy();
   });
@@ -62,8 +62,8 @@ describe('Risk Object Binding — linked_existing_case', () => {
 
     expect(result.success).toBe(true);
     expect(result.outcome).toBe('linked_existing_case');
-    expect(result.caseId).toBe('case-existing-001');
-    expect(result.riskObjectId).toBe('ro-001');
+    expect(result.case_id).toBe('case-existing-001');
+    expect(result.risk_object_id).toBe('ro-001');
     expect(result.error).toBeNull();
   });
 });
@@ -78,8 +78,8 @@ describe('Risk Object Binding — suppressed_approved', () => {
 
     expect(result.success).toBe(true);
     expect(result.outcome).toBe('suppressed_approved');
-    expect(result.caseId).toBeNull();
-    expect(result.riskObjectId).toBe('ro-001');
+    expect(result.case_id).toBeNull();
+    expect(result.risk_object_id).toBe('ro-001');
     expect(result.error).toBeNull();
   });
 
@@ -105,8 +105,8 @@ describe('Risk Object Binding — residual_risk_accepted', () => {
 
     expect(result.success).toBe(true);
     expect(result.outcome).toBe('residual_risk_accepted');
-    expect(result.caseId).toBeNull();
-    expect(result.riskObjectId).toBe('ro-001');
+    expect(result.case_id).toBeNull();
+    expect(result.risk_object_id).toBe('ro-001');
     expect(result.error).toBeNull();
   });
 });
@@ -114,27 +114,27 @@ describe('Risk Object Binding — residual_risk_accepted', () => {
 describe('Risk Object Binding — allocation_error', () => {
   it('returns allocation_error when required fields are missing', () => {
     const request: BindingRequest = {
-      riskObjectId: '',
+      risk_object_id: '',
       riskObjectType: 'vulnerability_drift',
-      tenantId: 'tenant-001',
-      affectedEntityId: 'asset-001',
-      affectedEntityType: 'server',
+      tenant_id: 'tenant-001',
+      affected_entity_id: 'asset-001',
+      affected_entity_type: 'server',
     };
     const result = bindRiskObject(request);
 
     expect(result.success).toBe(false);
     expect(result.outcome).toBe('allocation_error');
-    expect(result.caseId).toBeNull();
+    expect(result.case_id).toBeNull();
     expect(result.error).toBeTruthy();
   });
 
   it('returns allocation_error when affectedEntityId is missing for new case', () => {
     const request: BindingRequest = {
-      riskObjectId: 'ro-001',
+      risk_object_id: 'ro-001',
       riskObjectType: 'vulnerability_drift',
-      tenantId: 'tenant-001',
-      affectedEntityId: '',
-      affectedEntityType: 'server',
+      tenant_id: 'tenant-001',
+      affected_entity_id: '',
+      affected_entity_type: 'server',
     };
     const result = bindRiskObject(request);
 
@@ -145,11 +145,11 @@ describe('Risk Object Binding — allocation_error', () => {
 
   it('returns allocation_error when tenantId is missing', () => {
     const request: BindingRequest = {
-      riskObjectId: 'ro-001',
+      risk_object_id: 'ro-001',
       riskObjectType: 'vulnerability_drift',
-      tenantId: '',
-      affectedEntityId: 'asset-001',
-      affectedEntityType: 'server',
+      tenant_id: '',
+      affected_entity_id: 'asset-001',
+      affected_entity_type: 'server',
     };
     const result = bindRiskObject(request);
 

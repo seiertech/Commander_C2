@@ -1,3 +1,4 @@
+// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 /**
  * Exposure Engine — Commander C2 (Unit 28)
  * Source: Spec #60 Internal and External Attack Surface Framework

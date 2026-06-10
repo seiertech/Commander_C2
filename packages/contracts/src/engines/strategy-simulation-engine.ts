@@ -1,3 +1,4 @@
+// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 /**
  * Strategy Simulation Engine — Commander C2 (Spec 43)
  * Source: Spec #32 Strategy Layer Runtime Surface

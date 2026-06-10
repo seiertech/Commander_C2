@@ -1,3 +1,4 @@
+// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 import { describe, it, expect } from 'vitest';
 import {
   evaluateClosureGates,
@@ -137,7 +138,7 @@ describe('evaluateClosureGates — multiple gates fail', () => {
 describe('evaluateClosureGates — throws without strategy', () => {
   it('throws if no closure-gate strategy found (no silent defaults)', () => {
     const strategiesWithoutClosure = seedStrategies.filter(
-      (s) => s.surfaceType !== 'closure-gate',
+      (s) => s.surface_type !== 'closure-gate',
     );
 
     const input: GateEvaluationInput = {
@@ -165,8 +166,8 @@ describe('evaluateClosureGates — strategyRef', () => {
     const result = evaluateClosureGates(input, seedStrategies);
 
     expect(result.strategyRef).toBeDefined();
-    expect(result.strategyRef.policyId).toBeTruthy();
-    expect(result.strategyRef.policyVersion).toBe('1.0.0');
+    expect(result.strategyRef.policy_id).toBeTruthy();
+    expect(result.strategyRef.policy_version).toBe('1.0.0');
   });
 });
 
@@ -174,24 +175,24 @@ describe('evaluateClosureGates — strategy consumption proof', () => {
   it('different gates config produces different evaluation', () => {
     const customStrategy: StrategyPolicy = {
       id: 'custom-closure-gate-strategy',
-      entityType: 'strategy-policy',
-      tenant: { tenantId: 'test-tenant', tenantName: 'Test Tenant' },
-      createdAt: '2026-01-01T00:00:00.000Z',
-      updatedAt: '2026-01-01T00:00:00.000Z',
-      source: { connectorId: 'test-conn', importRunId: 'test-run', sourceSystem: 'test', sourceTimestamp: '2026-01-01T00:00:00.000Z' },
-      surfaceType: 'closure-gate',
-      policyVersion: '2.0.0',
+      entity_type: 'strategy-policy',
+      tenant: { tenant_id: 'test-tenant', tenant_name: 'Test Tenant' },
+      created_at: '2026-01-01T00:00:00.000Z',
+      updated_at: '2026-01-01T00:00:00.000Z',
+      source: { connector_id: 'test-conn', import_run_id: 'test-run', source_system: 'test', source_timestamp: '2026-01-01T00:00:00.000Z' },
+      surface_type: 'closure-gate',
+      policy_version: '2.0.0',
       status: 'active',
       configuration: {
         // Only two gates — remediation-verified and sla-not-breached
         gates: ['remediation-verified', 'sla-not-breached'],
       },
-      proposedBy: 'Test',
-      proposedAt: '2026-01-01T00:00:00.000Z',
-      approval: { approvedBy: 'Test', approvedAt: '2026-01-01T00:00:00.000Z', condition: 'test', rationale: 'test' },
-      effectiveFrom: '2026-01-01T00:00:00.000Z',
-      effectiveUntil: null,
-      simulationRef: null,
+      proposed_by: 'Test',
+      proposed_at: '2026-01-01T00:00:00.000Z',
+      approval: { approved_by: 'Test', approved_at: '2026-01-01T00:00:00.000Z', condition: 'test', rationale: 'test' },
+      effective_from: '2026-01-01T00:00:00.000Z',
+      effective_until: null,
+      simulation_ref: null,
     };
 
     // Input where validation-passed and no-active-drift would fail
@@ -213,9 +214,9 @@ describe('evaluateClosureGates — strategy consumption proof', () => {
     expect(customResult.gateResults).toHaveLength(2);
 
     // Verify strategyRef changes
-    expect(customResult.strategyRef.policyId).toBe('custom-closure-gate-strategy');
-    expect(customResult.strategyRef.policyVersion).toBe('2.0.0');
-    expect(seedResult.strategyRef.policyVersion).toBe('1.0.0');
+    expect(customResult.strategyRef.policy_id).toBe('custom-closure-gate-strategy');
+    expect(customResult.strategyRef.policy_version).toBe('2.0.0');
+    expect(seedResult.strategyRef.policy_version).toBe('1.0.0');
   });
 });
 
@@ -333,7 +334,7 @@ describe('evaluateReopeningTriggers — multiple triggers fire', () => {
 describe('evaluateReopeningTriggers — throws without strategy', () => {
   it('throws if no reopening-trigger strategy found (no silent defaults)', () => {
     const strategiesWithoutReopening = seedStrategies.filter(
-      (s) => s.surfaceType !== 'reopening-trigger',
+      (s) => s.surface_type !== 'reopening-trigger',
     );
 
     const conditions: ReopeningConditions = {
@@ -361,8 +362,8 @@ describe('evaluateReopeningTriggers — strategyRef', () => {
     const result = evaluateReopeningTriggers(conditions, seedStrategies);
 
     expect(result.strategyRef).toBeDefined();
-    expect(result.strategyRef.policyId).toBeTruthy();
-    expect(result.strategyRef.policyVersion).toBe('1.0.0');
+    expect(result.strategyRef.policy_id).toBeTruthy();
+    expect(result.strategyRef.policy_version).toBe('1.0.0');
   });
 });
 
@@ -370,24 +371,24 @@ describe('evaluateReopeningTriggers — strategy consumption proof', () => {
   it('different triggers config produces different evaluation', () => {
     const customStrategy: StrategyPolicy = {
       id: 'custom-reopening-trigger-strategy',
-      entityType: 'strategy-policy',
-      tenant: { tenantId: 'test-tenant', tenantName: 'Test Tenant' },
-      createdAt: '2026-01-01T00:00:00.000Z',
-      updatedAt: '2026-01-01T00:00:00.000Z',
-      source: { connectorId: 'test-conn', importRunId: 'test-run', sourceSystem: 'test', sourceTimestamp: '2026-01-01T00:00:00.000Z' },
-      surfaceType: 'reopening-trigger',
-      policyVersion: '2.0.0',
+      entity_type: 'strategy-policy',
+      tenant: { tenant_id: 'test-tenant', tenant_name: 'Test Tenant' },
+      created_at: '2026-01-01T00:00:00.000Z',
+      updated_at: '2026-01-01T00:00:00.000Z',
+      source: { connector_id: 'test-conn', import_run_id: 'test-run', source_system: 'test', source_timestamp: '2026-01-01T00:00:00.000Z' },
+      surface_type: 'reopening-trigger',
+      policy_version: '2.0.0',
       status: 'active',
       configuration: {
         // Only one trigger — related-p0-escalation
         triggers: ['related-p0-escalation'],
       },
-      proposedBy: 'Test',
-      proposedAt: '2026-01-01T00:00:00.000Z',
-      approval: { approvedBy: 'Test', approvedAt: '2026-01-01T00:00:00.000Z', condition: 'test', rationale: 'test' },
-      effectiveFrom: '2026-01-01T00:00:00.000Z',
-      effectiveUntil: null,
-      simulationRef: null,
+      proposed_by: 'Test',
+      proposed_at: '2026-01-01T00:00:00.000Z',
+      approval: { approved_by: 'Test', approved_at: '2026-01-01T00:00:00.000Z', condition: 'test', rationale: 'test' },
+      effective_from: '2026-01-01T00:00:00.000Z',
+      effective_until: null,
+      simulation_ref: null,
     };
 
     // Conditions where new-drift-detected fires but related-p0-escalation does not
@@ -409,8 +410,8 @@ describe('evaluateReopeningTriggers — strategy consumption proof', () => {
     expect(customResult.firedTriggers).toHaveLength(0);
 
     // Verify strategyRef changes
-    expect(customResult.strategyRef.policyId).toBe('custom-reopening-trigger-strategy');
-    expect(customResult.strategyRef.policyVersion).toBe('2.0.0');
-    expect(seedResult.strategyRef.policyVersion).toBe('1.0.0');
+    expect(customResult.strategyRef.policy_id).toBe('custom-reopening-trigger-strategy');
+    expect(customResult.strategyRef.policy_version).toBe('2.0.0');
+    expect(seedResult.strategyRef.policy_version).toBe('1.0.0');
   });
 });

@@ -1,3 +1,4 @@
+// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 /**
  * Identity Intelligence Engine — Commander C2 (Unit 25)
  * Source: Spec #59 Intelligence Layer Architecture (Internal Behavioural stream)

@@ -39,8 +39,8 @@ describe('Unit 20 — Surface Attribution (external only)', () => {
   });
 
   it('seed data contains external-attributed assets and cases to surface', () => {
-    expect(seedAssets.some((a) => a.surfaceAttribution === 'external_attack_surface')).toBe(true);
-    expect(seedCases.some((c) => c.surfaceAttribution === 'external_attack_surface')).toBe(true);
+    expect(seedAssets.some((a) => a.surface_attribution === 'external_attack_surface')).toBe(true);
+    expect(seedCases.some((c) => c.surface_attribution === 'external_attack_surface')).toBe(true);
   });
 
   it('does not render internal-only attribution as the primary filter', () => {

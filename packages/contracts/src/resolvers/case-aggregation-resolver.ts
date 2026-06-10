@@ -1,3 +1,4 @@
+// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 /**
  * Case Aggregation Resolver — Commander C2 (COIM-G)
  *

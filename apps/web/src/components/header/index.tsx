@@ -285,7 +285,7 @@ function NotificationBell({ service = mockNotificationService }: { service?: Not
 // ---------------------------------------------------------------------------
 
 function deriveInitials(display_name: string): string {
-  return displayName.split(' ').filter(Boolean).map((w) => w[0]).join('').slice(0, 3).toUpperCase();
+  return display_name.split(' ').filter(Boolean).map((w) => w[0]).join('').slice(0, 3).toUpperCase();
 }
 
 function UserProfileBlock({ user = MOCK_USER }: { user?: UserProfile }) {
@@ -306,7 +306,7 @@ function UserProfileBlock({ user = MOCK_USER }: { user?: UserProfile }) {
       {user.avatarUrl ? (
         <img
           src={user.avatarUrl}
-          alt={display_name}
+          alt={displayName}
           style={{ width: '28px', height: '28px', objectFit: 'cover', flexShrink: 0 }}
         />
       ) : (
@@ -319,7 +319,7 @@ function UserProfileBlock({ user = MOCK_USER }: { user?: UserProfile }) {
       )}
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <span style={{ fontSize: componentTokens.topNavTextSize, fontWeight: componentTokens.topNavTextWeight, lineHeight: 1.2 }}>
-          {display_name}
+          {displayName}
         </span>
         {user.role && (
           <span style={{ fontSize: primitiveTypeScale.micro, opacity: 0.55, lineHeight: 1.2 }}>

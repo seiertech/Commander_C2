@@ -95,7 +95,7 @@ describe('Unit 18 — Data Accuracy / Grounding', () => {
   });
 
   it('seed identities include a high-risk identity for the risk-trajectory section', () => {
-    expect(seedIdentities.some((i) => i.riskScore >= 50)).toBe(true);
+    expect(seedIdentities.some((i) => i.risk_score >= 50)).toBe(true);
   });
 });
 

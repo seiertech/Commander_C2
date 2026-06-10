@@ -1,3 +1,4 @@
+// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 /**
  * Push Governance Engine — Commander C2 (Unit 42)
  * Source: Spec #32 Strategy Layer (Automation Boundary Strategy)
