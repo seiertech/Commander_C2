@@ -36,6 +36,35 @@ export type {
 } from './topology-edge';
 export { EDGE_DIRECTIONS, validate_topology_edge } from './topology-edge';
 
+// ─── Layer 3: Event & Intelligence (Thesis §7) ──────────────────────────────
+export type {
+  Signal,
+  AssetResolutionStatus,
+  SignalValidation,
+} from './signal';
+export { ASSET_RESOLUTION_STATUSES, validate_signal } from './signal';
+
+export type {
+  FindingEvent,
+  FindingEventValidation,
+} from './finding-event';
+export { validate_finding_event } from './finding-event';
+
+export type {
+  RemediationEvent,
+  RemediationOutcome,
+  RemediationEventValidation,
+} from './remediation-event';
+export { REMEDIATION_OUTCOMES, validate_remediation_event } from './remediation-event';
+
+export type {
+  IntelligenceAssessment,
+  SourceReliabilityGrade,
+  InformationCredibilityGrade,
+  IntelligenceAssessmentValidation,
+} from './intelligence-assessment';
+export { SOURCE_RELIABILITY_GRADES, INFORMATION_CREDIBILITY_GRADES, validate_intelligence_assessment } from './intelligence-assessment';
+
 export type {
   StandardsFieldMapping,
   ConformanceType,
