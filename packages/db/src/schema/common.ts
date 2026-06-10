@@ -1,5 +1,5 @@
 /**
- * Common Schema Fields — Commander SDR Persistence Layer
+ * Common Schema Fields — Commander C2 Persistence Layer
  *
  * Every table includes tenant scope, timestamps, and source provenance.
  *

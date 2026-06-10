@@ -1,5 +1,5 @@
 /**
- * Architecture Intelligence Engine — Commander SDR (Unit 26)
+ * Architecture Intelligence Engine — Commander C2 (Unit 26)
  * Source: Spec #59 Intelligence Layer Architecture (Posture stream)
  * Analyses topology, detects policy conflicts, assesses dependency risk.
  */

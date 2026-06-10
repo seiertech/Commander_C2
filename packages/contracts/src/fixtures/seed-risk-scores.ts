@@ -1,5 +1,5 @@
 /**
- * Seed Risk Scores — Commander SDR Test Fixtures
+ * Seed Risk Scores — Commander C2 Test Fixtures
  *
  * Synthetic risk-scoring outputs for rule-engine telemetry testing.
  * Source: Spec #34 Drift and Rule Engine

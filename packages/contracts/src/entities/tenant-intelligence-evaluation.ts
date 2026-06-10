@@ -1,5 +1,5 @@
 /**
- * Tenant Intelligence Evaluation — Commander SDR Canonical Entity
+ * Tenant Intelligence Evaluation — Commander C2 Canonical Entity
  *
  * Source: Platform Intelligence and IOC Distribution spec (Phase 1 data-layer)
  * Authority: Requirements 11.1, 11.2, 11.3, 11.4, 11.5

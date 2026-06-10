@@ -7,7 +7,7 @@ import { seedStrategies } from '../../packages/contracts/src/fixtures/seed-strat
 import type { StrategyPolicy } from '../../packages/contracts/src/entities/strategy';
 
 /**
- * Phase D2: Validation Window Enforcement Tests — Commander SDR
+ * Phase D2: Validation Window Enforcement Tests — Commander C2
  *
  * Validates:
  * - withinWindow true/false based on windowHours from strategy

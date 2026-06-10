@@ -1,5 +1,5 @@
 /**
- * Seed CISO Summary — Commander SDR Test Fixtures
+ * Seed CISO Summary — Commander C2 Test Fixtures
  *
  * Single pre-computed CISO executive summary with realistic aggregate numbers.
  * Source: Master Technical Specification §Executive Surface

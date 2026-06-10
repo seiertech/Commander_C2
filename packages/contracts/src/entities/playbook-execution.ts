@@ -1,5 +1,5 @@
 /**
- * Playbook Execution — Commander SDR Canonical Entity
+ * Playbook Execution — Commander C2 Canonical Entity
  *
  * Communications Excellence Phase 1 data-layer.
  * Tracks the runtime execution state of a communication playbook instance.

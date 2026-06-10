@@ -1,5 +1,5 @@
 /**
- * Risk Objects Table — Commander SDR
+ * Risk Objects Table — Commander C2
  *
  * Risk objects are discrete risk conditions bound to cases and entities.
  * System-created and tenant-scoped.

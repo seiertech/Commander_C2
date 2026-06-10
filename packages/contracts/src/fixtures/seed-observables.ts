@@ -1,5 +1,5 @@
 /**
- * Seed Observables — Commander SDR Test Fixtures
+ * Seed Observables — Commander C2 Test Fixtures
  *
  * Synthetic observable data conforming to canonical entity shape.
  * Source: COIM v1.0 §4.5; 03_REUSABLE_OBJECT_CATALOGUE.md §2.5

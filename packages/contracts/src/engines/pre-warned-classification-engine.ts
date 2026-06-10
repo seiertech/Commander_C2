@@ -1,5 +1,5 @@
 /**
- * Pre-Warned Classification Engine — Commander SDR
+ * Pre-Warned Classification Engine — Commander C2
  *
  * Source: Spec #17 Closed-Loop Control Architecture,
  *         Master Technical Specification §Pre-Warned State

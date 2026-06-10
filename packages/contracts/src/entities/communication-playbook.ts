@@ -1,5 +1,5 @@
 /**
- * Communication Playbook — Commander SDR Canonical Entity
+ * Communication Playbook — Commander C2 Canonical Entity
  *
  * Communications Excellence Phase 1 data-layer.
  * Defines structured communication playbooks with ordered steps,

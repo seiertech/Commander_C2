@@ -1,5 +1,5 @@
 /**
- * Platform Intelligence Source — Commander SDR Canonical Entity
+ * Platform Intelligence Source — Commander C2 Canonical Entity
  *
  * Source: Platform Intelligence and IOC Distribution spec (Phase 1 data-layer)
  * Authority: Requirements 1.1, 1.3, 1.4, 2.1, 2.2, 2.3, 2.4, 2.5, 20.1, 20.2, 20.3

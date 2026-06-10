@@ -1,5 +1,5 @@
 /**
- * Case Metrics (DERIVED — not a Spec 08 contract) — Commander SDR
+ * Case Metrics (DERIVED — not a Spec 08 contract) — Commander C2
  *
  * Transparent, deterministic helpers computed from populated Case fields.
  * These are DERIVED heuristics, NOT the Spec #08 scoring contracts (Case Risk

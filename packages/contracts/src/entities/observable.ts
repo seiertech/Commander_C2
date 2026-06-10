@@ -1,5 +1,5 @@
 /**
- * Observable Entity — Commander SDR Canonical Model
+ * Observable Entity — Commander C2 Canonical Model
  *
  * Source: COIM v1.0 §4.5; 03_REUSABLE_OBJECT_CATALOGUE.md §2.5
  * Authority: DEC-coim-ocsf-source-classification-architecture (DECISIONS.md)

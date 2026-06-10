@@ -1,5 +1,5 @@
 /**
- * Commander SDR — Semantic Tokens (Layer 2)
+ * Commander C2 — Semantic Tokens (Layer 2)
  *
  * Mapped to meaning. Mode-overridable.
  * Components reference THESE, not primitives.

@@ -15,7 +15,7 @@ import { colors } from '../../packages/ui/src/tokens/colors';
 const ROOT = resolve(import.meta.dirname, '../..');
 
 /**
- * Phase 3 Shell Tests — Commander SDR
+ * Phase 3 Shell Tests — Commander C2
  *
  * Validates:
  * - Boundary tagging on all routes

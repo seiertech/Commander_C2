@@ -1,5 +1,5 @@
 /**
- * Assets Table — Commander SDR
+ * Assets Table — Commander C2
  *
  * Canonical asset persistence with tenant scope, source lineage,
  * classification, coverage, and surface attribution.

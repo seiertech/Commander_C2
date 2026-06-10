@@ -1,5 +1,5 @@
 /**
- * Seed Connectors — Commander SDR Test Fixtures
+ * Seed Connectors — Commander C2 Test Fixtures
  *
  * Synthetic connector data conforming to canonical entity shape.
  * Source: Spec #05 §6.4.4 Connector, Spec #61 Universal Security Signal Connector Contract

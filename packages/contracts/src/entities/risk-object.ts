@@ -1,5 +1,5 @@
 /**
- * Risk Object Entity — Commander SDR Canonical Model
+ * Risk Object Entity — Commander C2 Canonical Model
  *
  * Source: Spec #29 Universal Risk Object and Case Binding
  * v1.3.1 lineage closure: coverage_blindspot (Spec #72), ooda_phase_degradation (Spec #58)

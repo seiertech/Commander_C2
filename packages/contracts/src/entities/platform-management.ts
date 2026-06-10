@@ -1,5 +1,5 @@
 /**
- * Platform Management Entities — Commander SDR Canonical Model
+ * Platform Management Entities — Commander C2 Canonical Model
  *
  * Source: Spec #10 Detection Model Library and Rule Builder,
  *         Spec #51 Rule Model and Decision Governance Surface,

@@ -1,5 +1,5 @@
 /**
- * Case Strategy Binding — Commander SDR
+ * Case Strategy Binding — Commander C2
  *
  * Source: Spec #32 Strategy Layer Runtime Surface, Spec #08 Case Management
  * Defines how cases consume strategy layer policies. NO hardcoded values.

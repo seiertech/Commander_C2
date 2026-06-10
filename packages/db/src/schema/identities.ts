@@ -1,5 +1,5 @@
 /**
- * Identities Table — Commander SDR
+ * Identities Table — Commander C2
  *
  * Canonical identity persistence with classification, lineage,
  * and surface attribution.

@@ -1,5 +1,5 @@
 /**
- * Seed Assets — Commander SDR Test Fixtures
+ * Seed Assets — Commander C2 Test Fixtures
  *
  * Synthetic asset data conforming to canonical entity shape.
  * Source: Spec #05 §6.4.2 Asset

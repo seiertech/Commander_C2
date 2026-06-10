@@ -1,5 +1,5 @@
 /**
- * Route Registry — Commander SDR
+ * Route Registry — Commander C2
  *
  * Central export for the registry-driven runtime.
  * All navigation, menus, and route visibility derive from this registry.

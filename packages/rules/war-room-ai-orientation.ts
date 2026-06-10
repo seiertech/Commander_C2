@@ -1,5 +1,5 @@
 /**
- * War Room AI Orientation Contract — Commander SDR
+ * War Room AI Orientation Contract — Commander C2
  *
  * Source: WRCEP-1.0 War Room Communication Excellence Proposal (Phase 1)
  *

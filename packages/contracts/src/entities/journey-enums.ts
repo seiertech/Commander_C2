@@ -1,5 +1,5 @@
 /**
- * Journey Intelligence Enumerations — Commander SDR
+ * Journey Intelligence Enumerations — Commander C2
  *
  * Source: docs/00_authority/JOURNEY_INTELLIGENCE.md (JI-1.0) §5.1
  * Domain: D-47 Journey Intelligence

@@ -1,5 +1,5 @@
 /**
- * SidebarGroup — Commander SDR
+ * SidebarGroup — Commander C2
  *
  * v1.3.2 Requirement 14: Two-level structure with expandable group headers,
  * sub-items indented with vertical gold-tinted divider (rgba(255,210,31,.16)).

@@ -1,5 +1,5 @@
 /**
- * Commander SDR Seed Fixtures — Central Export
+ * Commander C2 Seed Fixtures — Central Export
  *
  * All synthetic test data for local-first development.
  * No real customer data, secrets, or vendor credentials.

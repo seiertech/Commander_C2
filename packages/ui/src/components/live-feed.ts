@@ -1,5 +1,5 @@
 /**
- * Live Activity Feed — Commander SDR (DS-1.0)
+ * Live Activity Feed — Commander C2 (DS-1.0)
  *
  * Timestamped events with severity dots and entity references.
  * DS-1.0 §21: Recurring bottom-right card pattern.

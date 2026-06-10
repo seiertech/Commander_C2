@@ -1,5 +1,5 @@
 /**
- * Route Registry — Commander SDR
+ * Route Registry — Commander C2
  *
  * This is the single source of truth for all application routes.
  * Routes are registry-driven per Spec #56 and Spec #47.

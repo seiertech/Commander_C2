@@ -1,5 +1,5 @@
 /**
- * Strategy Runtime Engine — Commander SDR (Spec 43)
+ * Strategy Runtime Engine — Commander C2 (Spec 43)
  * Source: Spec #32 Strategy Layer Runtime Surface
  * Consumes: strategy.ts, case-strategy-binding.ts
  * Use Cases: UC-145, UC-147

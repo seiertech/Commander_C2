@@ -1,5 +1,5 @@
 /**
- * Strategy Policies Table — Commander SDR
+ * Strategy Policies Table — Commander C2
  *
  * Strategy policies are versioned configurations for the twenty named
  * strategy surfaces. They are tenant-scoped and follow an approval workflow.

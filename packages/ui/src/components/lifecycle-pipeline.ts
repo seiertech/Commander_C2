@@ -1,5 +1,5 @@
 /**
- * Closed-Loop Lifecycle Pipeline — Commander SDR (DS-1.0)
+ * Closed-Loop Lifecycle Pipeline — Commander C2 (DS-1.0)
  *
  * Horizontal stepper: New → Triage → Investigating → Awaiting Feedback →
  * Actioning → Validation → Closure.

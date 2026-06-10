@@ -1,5 +1,5 @@
 /**
- * STIX Bundle Parser Contract — Commander SDR
+ * STIX Bundle Parser Contract — Commander C2
  *
  * Communications Excellence Phase 1.
  * Pure functions for parsing STIX bundles, mapping to Commander entities,

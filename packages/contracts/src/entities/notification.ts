@@ -1,5 +1,5 @@
 /**
- * Notification Entity — Commander SDR Canonical Model
+ * Notification Entity — Commander C2 Canonical Model
  *
  * Source: Spec #26 Case Communication and Broadcast Channel
  *

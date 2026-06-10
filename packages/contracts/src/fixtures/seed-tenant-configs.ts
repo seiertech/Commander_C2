@@ -1,5 +1,5 @@
 /**
- * Seed Tenant Configs — Commander SDR Control Plane Fixtures
+ * Seed Tenant Configs — Commander C2 Control Plane Fixtures
  *
  * 3 synthetic tenant configuration records for Control Plane surface.
  * Source: Master Technical Specification §Commercial Control Plane

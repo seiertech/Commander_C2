@@ -1,5 +1,5 @@
 /**
- * Case Reopening Trigger Engine — Commander SDR (Unit 13)
+ * Case Reopening Trigger Engine — Commander C2 (Unit 13)
  *
  * 14-trigger reopening evaluation engine with strategy-driven trigger configuration.
  * Consumes Reopening Trigger Strategy for all trigger definitions.

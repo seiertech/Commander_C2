@@ -1,5 +1,5 @@
 /**
- * Seed RBAC Policies — Commander SDR (Spec 35)
+ * Seed RBAC Policies — Commander C2 (Spec 35)
  * 5 sample records (one per major role)
  */
 

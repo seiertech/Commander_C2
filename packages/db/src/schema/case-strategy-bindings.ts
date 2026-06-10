@@ -1,5 +1,5 @@
 /**
- * Case Strategy Bindings Table — Commander SDR
+ * Case Strategy Bindings Table — Commander C2
  *
  * Links cases to their governing strategy policies.
  * All case values are derived from strategy layer; none are hardcoded.

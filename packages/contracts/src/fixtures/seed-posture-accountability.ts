@@ -1,5 +1,5 @@
 /**
- * Seed Posture Accountability — Commander SDR Test Fixtures
+ * Seed Posture Accountability — Commander C2 Test Fixtures
  *
  * 5 records demonstrating the temporal posture accountability model:
  * - 2 PRE_WARNED (asset with known vuln not patched, identity with access drift)

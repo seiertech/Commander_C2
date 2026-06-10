@@ -1,5 +1,5 @@
 /**
- * Blast Radius (Engine Output) Entity — Commander SDR Canonical Model
+ * Blast Radius (Engine Output) Entity — Commander C2 Canonical Model
  *
  * Source: Spec #34 Drift and Rule Engine
  *

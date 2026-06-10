@@ -1,5 +1,5 @@
 /**
- * Case Transition Audit Entity — Commander SDR Canonical Model
+ * Case Transition Audit Entity — Commander C2 Canonical Model
  *
  * Source: Spec #06 Domain Requirements Req 6
  *

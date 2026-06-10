@@ -1,5 +1,5 @@
 /**
- * Seed Drift Detection — Commander SDR Test Fixtures
+ * Seed Drift Detection — Commander C2 Test Fixtures
  *
  * Synthetic drift detection records for engine intelligence surfaces.
  * 4 records covering configuration, version, policy and access drift types.

@@ -1,5 +1,5 @@
 /**
- * Reopening Trigger Enforcer — Commander SDR
+ * Reopening Trigger Enforcer — Commander C2
  *
  * Phase D3: Evaluates reopening triggers for a closed case.
  * ALL trigger definitions consumed from the reopening-trigger strategy policy (Spec 43).

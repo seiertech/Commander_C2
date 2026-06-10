@@ -1,5 +1,5 @@
 /**
- * Risk Scoring (Engine Output) Entity — Commander SDR Canonical Model
+ * Risk Scoring (Engine Output) Entity — Commander C2 Canonical Model
  *
  * Source: Spec #34 Drift and Rule Engine
  *

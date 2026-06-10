@@ -1,5 +1,5 @@
 /**
- * Security Tool Intelligence Entity — Commander SDR Canonical Model
+ * Security Tool Intelligence Entity — Commander C2 Canonical Model
  *
  * Source: Spec #61 Universal Security Signal Connector Contract,
  *         Master Technical Specification §Tool Effectiveness

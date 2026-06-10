@@ -1,5 +1,5 @@
 /**
- * Seed Risk Objects — Commander SDR Test Fixtures
+ * Seed Risk Objects — Commander C2 Test Fixtures
  *
  * Synthetic risk object data conforming to canonical entity shape.
  * Source: Spec #29 Universal Risk Object and Case Binding

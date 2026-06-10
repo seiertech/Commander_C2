@@ -1,5 +1,5 @@
 /**
- * CommanderAIButton — Commander SDR
+ * CommanderAIButton — Commander C2
  *
  * White background, gold 1px border, bold uppercase text.
  * Positioned after global search in the top bar tools area.

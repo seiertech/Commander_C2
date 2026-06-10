@@ -1,5 +1,5 @@
 /**
- * Verdict Entity — Commander SDR Canonical Model
+ * Verdict Entity — Commander C2 Canonical Model
  *
  * Source: COIM v1.0 §6 (Verdict impact); Spec #62 Verdict Semantics
  * Authority: DEC-coim-ocsf-source-classification-architecture (DECISIONS.md)

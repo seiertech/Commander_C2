@@ -1,5 +1,5 @@
 /**
- * Commander SDR — Icon_Map Module
+ * Commander C2 — Icon_Map Module
  *
  * Single source of truth for all Lucide icon assignments.
  * Shell, Sidebar and Header import icons exclusively from here.

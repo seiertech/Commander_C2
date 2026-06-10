@@ -1,5 +1,5 @@
 /**
- * Case SLA Engine — Commander SDR (Unit 10)
+ * Case SLA Engine — Commander C2 (Unit 10)
  *
  * Full SLA engine consuming SLA Strategy and Routing Strategy policies.
  * Calculates SLA state, detects breaches, generates notifications,

@@ -1,5 +1,5 @@
 /**
- * Assignment Engine — Commander SDR Phase D4
+ * Assignment Engine — Commander C2 Phase D4
  *
  * Full assignment and routing engine that considers:
  * - Team affinity (from routing strategy)

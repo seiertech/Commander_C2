@@ -1,5 +1,5 @@
 /**
- * PageHeader — Commander SDR
+ * PageHeader — Commander C2
  *
  * v1.3.2 Requirement 16: Uppercase grey breadcrumb eyebrow, 22px h1 page title,
  * right-aligned StatusTile with green dot and "Last updated X" text,

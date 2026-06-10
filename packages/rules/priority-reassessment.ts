@@ -1,5 +1,5 @@
 /**
- * Priority Reassessment Engine — Commander SDR CMEP-1.0
+ * Priority Reassessment Engine — Commander C2 CMEP-1.0
  *
  * Periodic reassessment actor logic: re-evaluates priority weights,
  * triggers reprioritisation if computed priority differs from current.

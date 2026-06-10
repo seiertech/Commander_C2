@@ -1,5 +1,5 @@
 /**
- * KPI Strip — Commander SDR (DS-1.0)
+ * KPI Strip — Commander C2 (DS-1.0)
  *
  * Horizontal row of 8-10 KPI tiles directly under every page header.
  * DS-1.0 §21 Requirement 26: mandatory on every dashboard page.

@@ -1,5 +1,5 @@
 /**
- * Architecture Intelligence Engine Entity — Commander SDR Canonical Model
+ * Architecture Intelligence Engine Entity — Commander C2 Canonical Model
  *
  * Source: Spec #59 Intelligence Layer Architecture §Posture Stream,
  *         Master Technical Specification §Architecture Intelligence

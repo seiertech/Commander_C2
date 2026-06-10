@@ -1,5 +1,5 @@
 /**
- * Topology Entity — Commander SDR Canonical Model
+ * Topology Entity — Commander C2 Canonical Model
  *
  * Source: Master Technical Specification §Fusion Map,
  *         Spec #60 Internal and External Attack Surface Framework (blast radius)

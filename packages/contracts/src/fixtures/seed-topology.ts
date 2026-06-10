@@ -1,5 +1,5 @@
 /**
- * Seed Topology — Commander SDR Test Fixtures
+ * Seed Topology — Commander C2 Test Fixtures
  *
  * Synthetic topology graph data for Fusion Map surface.
  * 8 nodes (mix of assets, identities, connectors) + 10 edges + 2 blast radius results.

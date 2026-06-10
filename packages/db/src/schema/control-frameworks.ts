@@ -1,5 +1,5 @@
 /**
- * Control Framework Mapping Tables — Commander SDR
+ * Control Framework Mapping Tables — Commander C2
  *
  * Five tables for adherence/control-framework mapping:
  * 1. control_frameworks — the standards themselves

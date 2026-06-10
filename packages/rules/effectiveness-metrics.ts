@@ -1,5 +1,5 @@
 /**
- * Effectiveness Metrics Engine — Commander SDR CMEP-1.0
+ * Effectiveness Metrics Engine — Commander C2 CMEP-1.0
  *
  * Computes operational effectiveness metrics:
  * - MTTR (Mean Time To Resolve)

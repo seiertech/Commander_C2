@@ -1,5 +1,5 @@
 /**
- * Route Registry Types — Commander SDR
+ * Route Registry Types — Commander C2
  *
  * Source authority:
  * - Spec #47 Application Route and Navigation Register

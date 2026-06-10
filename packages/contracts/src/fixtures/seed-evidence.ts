@@ -1,5 +1,5 @@
 /**
- * Seed Evidence — Commander SDR Test Fixtures
+ * Seed Evidence — Commander C2 Test Fixtures
  *
  * Synthetic evidence data conforming to canonical entity shape.
  * Source: COIM v1.0 §4.4; 04_EVIDENCE_MODEL.md

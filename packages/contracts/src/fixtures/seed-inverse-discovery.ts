@@ -1,5 +1,5 @@
 /**
- * Seed Inverse Discovery Events — Commander SDR Test Fixtures
+ * Seed Inverse Discovery Events — Commander C2 Test Fixtures
  *
  * 5 records: resolved, unresolved shadow IT, unresolved naming mismatch,
  * partial staleness, resolved via secondary.

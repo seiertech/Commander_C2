@@ -1,5 +1,5 @@
 /**
- * Status Badge — Commander SDR
+ * Status Badge — Commander C2
  *
  * Renders build status (LIVE, BUILD, SCAFFOLD, STUB, PLANNED)
  * with colour AND text label per v1.3 Requirement 24 (colour accessibility).

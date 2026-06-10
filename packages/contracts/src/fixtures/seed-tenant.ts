@@ -1,5 +1,5 @@
 /**
- * Seed Tenant — Commander SDR Test Fixtures
+ * Seed Tenant — Commander C2 Test Fixtures
  *
  * Deterministic tenant context for repeatable tests (v1.3 Req 20).
  * Synthetic values only — no real customer data (Domain Req 1, v1.3 Req 19).

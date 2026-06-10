@@ -1,5 +1,5 @@
 /**
- * Seed Direction Boards — Commander SDR Test Fixtures
+ * Seed Direction Boards — Commander C2 Test Fixtures
  *
  * Synthetic direction board records for strategic decision surfaces.
  * 4 records covering strategic decision, priority change, blocker and risk acceptance.

@@ -1,5 +1,5 @@
 /**
- * Communication Effectiveness Scorer — Commander SDR
+ * Communication Effectiveness Scorer — Commander C2
  *
  * Communications Excellence Phase 1.
  * Pure functions for computing communication thread and case effectiveness.

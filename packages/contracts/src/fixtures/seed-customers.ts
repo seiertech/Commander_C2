@@ -1,5 +1,5 @@
 /**
- * Seed Customers — Commander SDR Control Plane Fixtures
+ * Seed Customers — Commander C2 Control Plane Fixtures
  *
  * 3 synthetic customer records for Control Plane surface.
  * Source: Master Technical Specification §Commercial Control Plane

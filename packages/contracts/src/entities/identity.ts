@@ -1,5 +1,5 @@
 /**
- * Identity Entity — Commander SDR Canonical Model
+ * Identity Entity — Commander C2 Canonical Model
  *
  * Source: Spec #05 §6.4.3 Identity, Spec #18 Unified Identity Architecture
  * v1.3 Requirement 4: Identity fixture completeness

@@ -1,5 +1,5 @@
 /**
- * War Room Lifecycle Engine — Commander SDR
+ * War Room Lifecycle Engine — Commander C2
  *
  * Source: WRCEP-1.0 War Room Communication Excellence Proposal (Phase 1)
  *

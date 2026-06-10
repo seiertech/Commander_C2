@@ -1,5 +1,5 @@
 /**
- * Seed Case Strategy Bindings — Commander SDR Test Fixtures
+ * Seed Case Strategy Bindings — Commander C2 Test Fixtures
  *
  * Links seed cases to their governing strategy policies.
  * Source: Spec #32 Strategy Layer Runtime Surface, Spec #08 Case Management

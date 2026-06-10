@@ -1,5 +1,5 @@
 /**
- * Seed Exposure Engine — Commander SDR Test Fixtures
+ * Seed Exposure Engine — Commander C2 Test Fixtures
  *
  * Synthetic exposure computation records for blast zone analysis surfaces.
  * 4 records covering external/internal surfaces with varying trends and scores.

@@ -1,5 +1,5 @@
 /**
- * Commander SDR — Primitive Tokens (Layer 1)
+ * Commander C2 — Primitive Tokens (Layer 1)
  *
  * Raw values. NO component references these directly.
  * All values pinned from DESIGN_SYSTEM.md §2.

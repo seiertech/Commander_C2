@@ -1,5 +1,5 @@
 /**
- * Decision Explainability Engine — Commander SDR (Spec 36)
+ * Decision Explainability Engine — Commander C2 (Spec 36)
  *
  * Source: Spec #36 Rule/Model/Decision Governance Surface
  *

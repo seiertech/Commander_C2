@@ -1,5 +1,5 @@
 /**
- * Identity Intelligence Engine — Commander SDR (Unit 25)
+ * Identity Intelligence Engine — Commander C2 (Unit 25)
  * Source: Spec #59 Intelligence Layer Architecture (Internal Behavioural stream)
  * Processes identity signals into intelligence — anomalies, risk scoring.
  */

@@ -1,5 +1,5 @@
 /**
- * Seed Findings — Commander SDR Test Fixtures
+ * Seed Findings — Commander C2 Test Fixtures
  *
  * Synthetic drift/detection findings for rule-engine testing.
  * Source: Spec #34 Drift and Rule Engine

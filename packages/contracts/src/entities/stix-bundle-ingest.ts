@@ -1,5 +1,5 @@
 /**
- * STIX Bundle Ingest — Commander SDR Canonical Entity
+ * STIX Bundle Ingest — Commander C2 Canonical Entity
  *
  * Communications Excellence Phase 1 data-layer.
  * Represents an ingested STIX bundle record and its processing lifecycle.

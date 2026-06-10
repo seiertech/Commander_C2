@@ -1,5 +1,5 @@
 /**
- * Seed Pre-Warned Classifications — Commander SDR Test Fixtures
+ * Seed Pre-Warned Classifications — Commander C2 Test Fixtures
  *
  * 4 classification records representing combined signal analysis from Units 24-28.
  * Source: Spec #17 Closed-Loop Control Architecture

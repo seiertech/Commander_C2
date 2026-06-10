@@ -1,5 +1,5 @@
 /**
- * Mock Connectors — Commander SDR (Unit 38, Connector Layer)
+ * Mock Connectors — Commander C2 (Unit 38, Connector Layer)
  *
  * Source: Spec #61 Universal Security Signal Connector Contract.
  * Builds on Unit 4 (Connector Layer Foundation) contracts and resolvers.

@@ -1,5 +1,5 @@
 /**
- * Seed Mission Bindings — Commander SDR Test Fixtures
+ * Seed Mission Bindings — Commander C2 Test Fixtures
  *
  * Synthetic mission binding data linking entities to missions.
  * Source: Spec #37 Mission Objective Binding Model

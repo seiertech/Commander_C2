@@ -1,5 +1,5 @@
 /**
- * Teams Decision Event — Commander SDR Canonical Entity
+ * Teams Decision Event — Commander C2 Canonical Entity
  *
  * Communications Excellence Phase 1 data-layer.
  * Represents a decision request/response cycle through Microsoft Teams.

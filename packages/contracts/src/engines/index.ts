@@ -1,5 +1,5 @@
 /**
- * Commander SDR Engines — Central Export
+ * Commander C2 Engines — Central Export
  *
  * System-owned engines for case lifecycle operations.
  * Source: Unit 7 — Case Lifecycle Engine (Core State Machine)

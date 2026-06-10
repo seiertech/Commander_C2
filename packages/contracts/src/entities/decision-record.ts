@@ -1,5 +1,5 @@
 /**
- * Decision Record Entity — Commander SDR Canonical Model
+ * Decision Record Entity — Commander C2 Canonical Model
  *
  * Source: Spec #36 Rule/Model/Decision Governance Surface
  *

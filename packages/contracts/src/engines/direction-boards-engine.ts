@@ -1,5 +1,5 @@
 /**
- * Direction Boards Engine — Commander SDR (Unit 34)
+ * Direction Boards Engine — Commander C2 (Unit 34)
  * Source: Spec #58 Security OODA Loop Specification
  * Prioritises direction items, assesses impact, links to risk objects.
  */

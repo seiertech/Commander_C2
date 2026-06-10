@@ -1,5 +1,5 @@
 /**
- * Tenant IOC Match — Commander SDR Canonical Entity
+ * Tenant IOC Match — Commander C2 Canonical Entity
  *
  * Source: Platform Intelligence and IOC Distribution spec (Phase 1 data-layer)
  * Authority: Requirements 12.1, 12.2, 12.3

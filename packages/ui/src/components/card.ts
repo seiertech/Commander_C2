@@ -1,5 +1,5 @@
 /**
- * Card Component — Commander SDR
+ * Card Component — Commander C2
  *
  * Dashboard card with squared alignment, visual symmetry
  * and information hierarchy per Domain Requirement 2.

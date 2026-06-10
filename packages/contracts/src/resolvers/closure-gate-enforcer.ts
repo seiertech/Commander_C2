@@ -1,5 +1,5 @@
 /**
- * Closure Gate Enforcer — Commander SDR
+ * Closure Gate Enforcer — Commander C2
  *
  * Phase D3: Evaluates closure gates for a case in awaiting-closure state.
  * ALL gate definitions consumed from the closure-gate strategy policy (Spec 43).

@@ -1,5 +1,5 @@
 /**
- * Asset Entity — Commander SDR Canonical Model
+ * Asset Entity — Commander C2 Canonical Model
  *
  * Source: Spec #05 §6.4.2 Asset, Spec #46 Canonical Terminology
  * v1.3 Requirement 3: Asset fixture completeness

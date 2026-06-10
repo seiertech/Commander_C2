@@ -1,5 +1,5 @@
 /**
- * Entitlement Enforcement Engine — Commander SDR (Spec 38)
+ * Entitlement Enforcement Engine — Commander C2 (Spec 38)
  * Source: Spec #38 Commander Internal Control Plane UI Surface
  * Evaluates whether a tenant is entitled to use a specific feature or module.
  */

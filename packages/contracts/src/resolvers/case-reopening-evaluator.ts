@@ -1,5 +1,5 @@
 /**
- * Case Reopening Evaluator — Commander SDR
+ * Case Reopening Evaluator — Commander C2
  *
  * Consumes Reopening Trigger Strategy from Spec 43.
  * NEVER hardcodes reopening triggers. Returns 'unresolved' if strategy data is missing.

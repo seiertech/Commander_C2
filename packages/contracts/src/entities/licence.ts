@@ -1,5 +1,5 @@
 /**
- * Licence Entity — Commander SDR Canonical Model (Control Plane)
+ * Licence Entity — Commander C2 Canonical Model (Control Plane)
  *
  * Source: Master Technical Specification §Commercial Control Plane
  *

@@ -1,5 +1,5 @@
 /**
- * Seed War Rooms — Commander SDR Test Fixtures
+ * Seed War Rooms — Commander C2 Test Fixtures
  *
  * WRCEP-1.0 War Room Communication Excellence Phase 1.
  * Synthetic War Room data with membership, subscribers, and bound cases.

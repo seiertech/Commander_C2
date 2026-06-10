@@ -1,5 +1,5 @@
 /**
- * Seed Attack Classification Audits — Commander SDR Test Fixtures
+ * Seed Attack Classification Audits — Commander C2 Test Fixtures
  *
  * 4 records: PRE_WARNED with drift, PROTECTED clean, NOVEL shadow IT,
  * PRE_WARNED with inverse pause.

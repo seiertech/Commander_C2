@@ -1,5 +1,5 @@
 /**
- * Seed Reports — Commander SDR Test Fixtures
+ * Seed Reports — Commander C2 Test Fixtures
  *
  * Synthetic report schedule data.
  * Source: Master Technical Specification §Surface Layer (reporting cadences)

@@ -1,5 +1,5 @@
 /**
- * Detonation Verdict — Commander SDR Canonical Entity
+ * Detonation Verdict — Commander C2 Canonical Entity
  *
  * Communications Excellence Phase 1 data-layer.
  * Represents a verdict consumed from SOC tooling (Microsoft Defender/Graph Security API).

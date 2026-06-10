@@ -1,5 +1,5 @@
 /**
- * Drift Detection Engine — Commander SDR (Unit 24)
+ * Drift Detection Engine — Commander C2 (Unit 24)
  * Source: Spec #17 Closed-Loop Control Architecture
  * Detects configuration/state drift between baseline and current state.
  */

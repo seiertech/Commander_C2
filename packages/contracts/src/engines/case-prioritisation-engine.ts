@@ -1,5 +1,5 @@
 /**
- * Case Prioritisation Engine — Commander SDR (Unit 9)
+ * Case Prioritisation Engine — Commander C2 (Unit 9)
  *
  * Full prioritisation engine consuming Prioritisation Weight Strategy,
  * Threshold Strategy, and Automation Boundary Strategy from Spec 43.

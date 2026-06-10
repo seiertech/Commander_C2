@@ -1,5 +1,5 @@
 /**
- * Multi-Factor Routing Engine — Commander SDR CMEP-1.0
+ * Multi-Factor Routing Engine — Commander C2 CMEP-1.0
  *
  * Scored routing: specialism × w1 + workloadAvailability × w2 +
  * assetOwnership × w3 + rankWeighting × w4.

@@ -1,5 +1,5 @@
 /**
- * Phishing Report Pipeline — Commander SDR
+ * Phishing Report Pipeline — Commander C2
  *
  * Communications Excellence Phase 1.
  * Pure function for processing phishing reports through triage.

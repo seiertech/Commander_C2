@@ -1,5 +1,5 @@
 /**
- * Pulse Entities — Commander SDR Canonical Model
+ * Pulse Entities — Commander C2 Canonical Model
  *
  * Source: Spec #08 Case Management (workload), Spec #30 Validation/Closure (blockers),
  *         Spec #17 Closed-Loop Control Architecture (queue health)

@@ -1,5 +1,5 @@
 /**
- * Support Operation Entity — Commander SDR Canonical Model (Control Plane)
+ * Support Operation Entity — Commander C2 Canonical Model (Control Plane)
  *
  * Source: Master Technical Specification §Commercial Control Plane
  *

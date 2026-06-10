@@ -1,5 +1,5 @@
 /**
- * Seed Verdicts — Commander SDR Test Fixtures
+ * Seed Verdicts — Commander C2 Test Fixtures
  *
  * Synthetic verdict data conforming to canonical entity shape.
  * Source: COIM v1.0 §6; Spec #62 Verdict Semantics

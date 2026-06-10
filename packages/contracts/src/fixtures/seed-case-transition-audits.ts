@@ -1,5 +1,5 @@
 /**
- * Seed Case Transition Audits — Commander SDR Test Fixtures
+ * Seed Case Transition Audits — Commander C2 Test Fixtures
  *
  * Synthetic structured lifecycle audit trail for case transitions.
  * Source: Spec #06 Domain Requirements Req 6

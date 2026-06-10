@@ -1,5 +1,5 @@
 /**
- * RBAC Enforcement Engine — Commander SDR (Spec 35)
+ * RBAC Enforcement Engine — Commander C2 (Spec 35)
  * Source: Platform Security and Hardening
  * Use Cases: UC-152, UC-153
  */

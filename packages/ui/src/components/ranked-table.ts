@@ -1,5 +1,5 @@
 /**
- * Ranked Table — Commander SDR (DS-1.0)
+ * Ranked Table — Commander C2 (DS-1.0)
  *
  * Table with value + inline horizontal bar + trend arrow per row.
  * DS-1.0 §12: Table — row 36px, header 40px, cell padding 8px 12px.

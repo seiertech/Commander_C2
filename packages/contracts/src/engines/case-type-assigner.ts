@@ -1,5 +1,5 @@
 /**
- * Case Type Assignment Engine — Commander SDR
+ * Case Type Assignment Engine — Commander C2
  *
  * Source: Spec #08 Case Management, Spec #29 Universal Risk Object and Case Binding
  * Unit 7: Case type is assigned based on risk object type.

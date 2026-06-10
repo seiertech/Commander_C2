@@ -1,5 +1,5 @@
 /**
- * KPI Tile — Commander SDR (DS-1.0)
+ * KPI Tile — Commander C2 (DS-1.0)
  *
  * Single metric tile: small label, large value, delta/trend with arrow, optional sparkline.
  * Part of the KPI strip (8-10 tiles under every page header).

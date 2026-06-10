@@ -1,5 +1,5 @@
 /**
- * Cases Table — Commander SDR
+ * Cases Table — Commander C2
  *
  * Canonical case persistence with system-owned lifecycle.
  * CRITICAL: No manual case creation (Doctrinal Assertion 1).

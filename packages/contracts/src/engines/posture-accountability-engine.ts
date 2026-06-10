@@ -1,5 +1,5 @@
 /**
- * Posture Accountability Engine — Commander SDR (Spec 39)
+ * Posture Accountability Engine — Commander C2 (Spec 39)
  *
  * Source: Spec #71 Pre-Warned/Protected/Novel Classification
  * Decision: DEC-spec39-dual-model — temporal posture accountability model

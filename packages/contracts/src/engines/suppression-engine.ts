@@ -1,5 +1,5 @@
 /**
- * Suppression Engine — Commander SDR (Spec 34)
+ * Suppression Engine — Commander C2 (Spec 34)
  *
  * Source: Spec #34 Drift and Rule Engine
  *

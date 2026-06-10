@@ -1,5 +1,5 @@
 /**
- * Tenant Intelligence Subscription — Commander SDR Canonical Entity
+ * Tenant Intelligence Subscription — Commander C2 Canonical Entity
  *
  * Source: Platform Intelligence and IOC Distribution spec (Phase 1 data-layer)
  * Authority: Requirements 10.1, 10.3, 10.4

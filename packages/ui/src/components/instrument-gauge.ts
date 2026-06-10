@@ -1,5 +1,5 @@
 /**
- * Instrument Gauge — Commander SDR (DS-1.0)
+ * Instrument Gauge — Commander C2 (DS-1.0)
  *
  * Circular scored-metric gauge. Commander signature element.
  * - Standard mode: clean arc with value, /scale, label, threshold colour.

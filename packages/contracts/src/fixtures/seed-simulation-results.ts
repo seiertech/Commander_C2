@@ -1,5 +1,5 @@
 /**
- * Seed Simulation Results — Commander SDR Test Fixtures
+ * Seed Simulation Results — Commander C2 Test Fixtures
  *
  * 3 records: clean (no conflicts), with conflicts, failed.
  * Source: Spec #36 Rule/Model/Decision Governance Surface

@@ -10,7 +10,7 @@ import {
 import { CONNECTOR_CLASS_LABELS } from '../../packages/contracts/src/entities/common';
 
 /**
- * Seed Data and Test Fixtures Tests — Commander SDR
+ * Seed Data and Test Fixtures Tests — Commander C2
  *
  * Validates:
  * - Tenant isolation (v1.3 Req 7)

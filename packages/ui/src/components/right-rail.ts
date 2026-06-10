@@ -1,5 +1,5 @@
 /**
- * Right-Rail Insight/Action Column — Commander SDR (DS-1.0)
+ * Right-Rail Insight/Action Column — Commander C2 (DS-1.0)
  *
  * Persistent right rail for Path Explorer, Recommended Actions,
  * Case & Action Center beside main visuals on detail surfaces.

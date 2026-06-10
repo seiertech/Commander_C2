@@ -1,5 +1,5 @@
 /**
- * Analytic Entity — Commander SDR Canonical Model
+ * Analytic Entity — Commander C2 Canonical Model
  *
  * Source: COIM v1.0 §4.8; 03_REUSABLE_OBJECT_CATALOGUE.md §2.7
  * Authority: DEC-coim-ocsf-source-classification-architecture (DECISIONS.md)

@@ -1,5 +1,5 @@
 /**
- * Actions / Sub-Actions Tables — Commander SDR
+ * Actions / Sub-Actions Tables — Commander C2
  *
  * Remediation plan decomposition entities with D3FEND tactic classification.
  * System-created and tenant-scoped. Additive — does not modify case lifecycle.

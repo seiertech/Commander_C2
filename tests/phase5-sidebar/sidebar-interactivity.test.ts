@@ -8,7 +8,7 @@ const SIDEBAR_PATH = resolve(ROOT, 'apps/web/src/components/operational-sidebar.
 const sidebarSource = readFileSync(SIDEBAR_PATH, 'utf-8');
 
 /**
- * Phase 5 Sidebar Interactivity Tests — Commander SDR
+ * Phase 5 Sidebar Interactivity Tests — Commander C2
  *
  * Validates:
  * - OPERATIONAL_NAV_GROUPS has 18 groups

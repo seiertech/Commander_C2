@@ -1,5 +1,5 @@
 /**
- * Commander SDR Design Tokens — Colours (v1.3.2 Remediated)
+ * Commander C2 Design Tokens — Colours (v1.3.2 Remediated)
  *
  * Visual direction: military-intelligence, brutalist, precise, executive-grade.
  *

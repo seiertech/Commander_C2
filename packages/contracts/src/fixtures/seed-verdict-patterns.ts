@@ -1,5 +1,5 @@
 /**
- * Seed Verdict Pattern Cases — Commander SDR Test Fixtures
+ * Seed Verdict Pattern Cases — Commander C2 Test Fixtures
  *
  * 4 records: one per phase progression (surface, triage, customer_investigation,
  * outcome/closed).

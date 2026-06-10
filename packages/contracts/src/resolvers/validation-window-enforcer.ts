@@ -1,5 +1,5 @@
 /**
- * Validation Window Enforcer — Commander SDR
+ * Validation Window Enforcer — Commander C2
  *
  * Phase D2: Evaluates the validation window state for a case.
  * ALL values consumed from the validation-window strategy policy (Spec 43).

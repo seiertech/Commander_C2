@@ -11,7 +11,7 @@ import { SEED_TENANT } from '../../packages/contracts/src/fixtures/seed-tenant';
 import { allRoutes } from '../../apps/web/src/registry/index';
 
 /**
- * Strategy Layer Runtime Surface Tests — Commander SDR
+ * Strategy Layer Runtime Surface Tests — Commander C2
  *
  * Validates all 24 EARS requirements from Spec #32:
  * - 12 named strategy surfaces (Reqs 1-12)

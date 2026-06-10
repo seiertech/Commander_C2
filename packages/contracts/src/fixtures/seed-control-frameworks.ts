@@ -1,5 +1,5 @@
 /**
- * Seed Control Frameworks — Commander SDR Test Fixtures
+ * Seed Control Frameworks — Commander C2 Test Fixtures
  *
  * Synthetic control-framework mapping data conforming to canonical entity shape.
  * Source: Spec #55 Baseline Configuration Framework; Feature Registry FR-FRAME-001

@@ -1,5 +1,5 @@
 /**
- * Commander SDR UI Components — Central Export (v1.3.2 Remediated)
+ * Commander C2 UI Components — Central Export (v1.3.2 Remediated)
  */
 
 // Existing components (updated)

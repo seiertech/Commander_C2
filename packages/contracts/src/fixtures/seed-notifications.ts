@@ -1,5 +1,5 @@
 /**
- * Seed Notifications — Commander SDR Test Fixtures
+ * Seed Notifications — Commander C2 Test Fixtures
  *
  * Synthetic in-app notifications for the analyst workspace.
  * Source: Spec #26 Case Communication and Broadcast Channel

@@ -1,5 +1,5 @@
 /**
- * Seed Deployments — Commander SDR Control Plane Fixtures
+ * Seed Deployments — Commander C2 Control Plane Fixtures
  * 3 deployment records. Source: Master Technical Specification §Commercial Control Plane
  */
 

@@ -1,5 +1,5 @@
 /**
- * Analytics Table — Commander SDR
+ * Analytics Table — Commander C2
  *
  * Reference entity for detection rules, ML models, UEBA models, Sigma rules,
  * YARA rules, vendor models, and security control analytics.

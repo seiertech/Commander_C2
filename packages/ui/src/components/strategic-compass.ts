@@ -1,5 +1,5 @@
 /**
- * Strategic Heading Compass — Commander SDR (DS-1.0)
+ * Strategic Heading Compass — Commander C2 (DS-1.0)
  *
  * Bespoke compass-rose instrument (N/S/E/W) with needle pointing to heading
  * (degrees + cardinal). Mission mode signature element.

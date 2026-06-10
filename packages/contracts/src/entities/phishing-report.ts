@@ -1,5 +1,5 @@
 /**
- * Phishing Report — Commander SDR Canonical Entity
+ * Phishing Report — Commander C2 Canonical Entity
  *
  * Communications Excellence Phase 1 data-layer.
  * Represents an employee-submitted phishing report and its lifecycle

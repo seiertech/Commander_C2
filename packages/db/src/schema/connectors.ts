@@ -1,5 +1,5 @@
 /**
- * Connectors Table — Commander SDR
+ * Connectors Table — Commander C2
  *
  * Canonical connector persistence with class A/B/C/D enforcement,
  * conformance tier tracking, and state machine.

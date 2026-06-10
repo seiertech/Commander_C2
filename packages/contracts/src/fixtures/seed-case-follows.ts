@@ -1,5 +1,5 @@
 /**
- * Seed Case Follows — Commander SDR Test Fixtures
+ * Seed Case Follows — Commander C2 Test Fixtures
  *
  * Synthetic case follow/subscription records for the analyst workspace.
  * No real customer data, secrets, or vendor credentials.

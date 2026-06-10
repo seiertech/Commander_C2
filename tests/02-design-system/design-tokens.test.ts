@@ -13,7 +13,7 @@ import { getUserAvatarStyles } from '../../packages/ui/src/components/user-avata
 import { getCommanderAIButtonStyles } from '../../packages/ui/src/components/commander-ai-button';
 
 /**
- * Design System Token & Component Tests — Commander SDR (v1.3.2 Remediated)
+ * Design System Token & Component Tests — Commander C2 (v1.3.2 Remediated)
  *
  * Validates all 18 v1.3.2 EARS requirements plus existing component adherence.
  */

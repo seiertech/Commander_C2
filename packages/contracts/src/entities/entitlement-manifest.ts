@@ -1,5 +1,5 @@
 /**
- * Entitlement Manifest Entity — Commander SDR Canonical Model
+ * Entitlement Manifest Entity — Commander C2 Canonical Model
  *
  * Source: Spec #38 Commander Internal Control Plane UI Surface,
  *         Spec #36 Commercial Model Architecture

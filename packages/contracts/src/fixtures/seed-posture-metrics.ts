@@ -1,5 +1,5 @@
 /**
- * Seed Posture Metrics — Commander SDR Test Fixtures
+ * Seed Posture Metrics — Commander C2 Test Fixtures
  *
  * 12 posture metrics with 4 time periods each (24h, 7d, 30d, YTD) and
  * 7-point history arrays. Strategy-sourced thresholds per Performance Doctrine.

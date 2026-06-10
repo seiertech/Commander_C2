@@ -1,5 +1,5 @@
 /**
- * Evidence Entity — Commander SDR Canonical Model
+ * Evidence Entity — Commander C2 Canonical Model
  *
  * Source: COIM v1.0 §4.4; 04_EVIDENCE_MODEL.md (full)
  * Authority: DEC-coim-ocsf-source-classification-architecture (DECISIONS.md)

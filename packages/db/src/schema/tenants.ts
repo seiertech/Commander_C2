@@ -1,5 +1,5 @@
 /**
- * Tenants Table — Commander SDR
+ * Tenants Table — Commander C2
  *
  * Every record in the system is tenant-scoped.
  * Tenant residency boundary is enforced per Master Technical Specification §11.2.

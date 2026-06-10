@@ -1,5 +1,5 @@
 /**
- * Tenant Admin Routes — Commander SDR
+ * Tenant Admin Routes — Commander C2
  *
  * Separate application boundary per three-application doctrine.
  * Source: Spec #47 v2.5.1 Tenant Admin Route Re-Confirmation

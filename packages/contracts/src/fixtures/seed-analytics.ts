@@ -1,5 +1,5 @@
 /**
- * Seed Analytics — Commander SDR Test Fixtures
+ * Seed Analytics — Commander C2 Test Fixtures
  *
  * Synthetic analytic data conforming to canonical entity shape.
  * Source: COIM v1.0 §4.8; 03_REUSABLE_OBJECT_CATALOGUE.md §2.7

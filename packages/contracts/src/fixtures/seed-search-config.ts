@@ -1,5 +1,5 @@
 /**
- * Seed Search Config — Commander SDR (Spec 42)
+ * Seed Search Config — Commander C2 (Spec 42)
  * 1 config record covering all searchable entity types
  */
 

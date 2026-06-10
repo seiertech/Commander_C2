@@ -1,5 +1,5 @@
 /**
- * Seed Licences — Commander SDR Control Plane Fixtures
+ * Seed Licences — Commander C2 Control Plane Fixtures
  * 3 licence records. Source: Master Technical Specification §Commercial Control Plane
  */
 

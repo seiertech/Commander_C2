@@ -1,5 +1,5 @@
 /**
- * Seed Exposures — Commander SDR Test Fixtures
+ * Seed Exposures — Commander C2 Test Fixtures
  *
  * Synthetic exposure records for attack surface management.
  * 5 exposures: 2 external network, 1 external cloud, 1 internal identity, 1 internal endpoint.

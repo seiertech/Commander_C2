@@ -1,5 +1,5 @@
 /**
- * Connector Entity — Commander SDR Canonical Model
+ * Connector Entity — Commander C2 Canonical Model
  *
  * Source: Spec #05 §6.4.4 Connector, Spec #61 Universal Security Signal Connector Contract
  * v1.3 Requirement 5: Connector fixture completeness

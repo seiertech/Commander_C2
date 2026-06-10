@@ -1,5 +1,5 @@
 /**
- * Commander SDR Design Tokens — Three-Layer Architecture (DS-1.0)
+ * Commander C2 Design Tokens — Three-Layer Architecture (DS-1.0)
  *
  * Layer 1: Primitives (raw values — never referenced by components directly)
  * Layer 2: Semantic (mode-overridable — components reference these)

@@ -1,5 +1,5 @@
 /**
- * KEV/EPSS Priority Signal Engine — Commander SDR
+ * KEV/EPSS Priority Signal Engine — Commander C2
  *
  * Feature: platform-intelligence-ioc-distribution
  * Authority: Requirements 4.2, 18.4

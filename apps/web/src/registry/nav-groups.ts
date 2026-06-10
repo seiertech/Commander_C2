@@ -1,5 +1,5 @@
 /**
- * Navigation Groups — Commander SDR Operational App
+ * Navigation Groups — Commander C2 Operational App
  *
  * Two-level sidebar structure matching the v11 shell reference.
  * Source: docs/06_ui_build_reference/commander-sdr-shell-v11-admin-navigation.html

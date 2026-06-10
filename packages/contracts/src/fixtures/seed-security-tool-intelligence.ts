@@ -1,5 +1,5 @@
 /**
- * Seed Security Tool Intelligence — Commander SDR Test Fixtures
+ * Seed Security Tool Intelligence — Commander C2 Test Fixtures
  *
  * Synthetic security tool intelligence records for tool effectiveness surfaces.
  * 4 records covering EDR, SIEM, vulnerability scanner and identity provider categories.

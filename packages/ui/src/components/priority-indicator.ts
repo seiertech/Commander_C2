@@ -1,5 +1,5 @@
 /**
- * Priority Indicator — Commander SDR
+ * Priority Indicator — Commander C2
  *
  * Renders priority level (P0–P4) with colour, text AND shape
  * per v1.3 Requirement 24 (colour accessibility).

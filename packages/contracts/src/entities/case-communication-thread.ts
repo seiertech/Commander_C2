@@ -1,5 +1,5 @@
 /**
- * Case Communication Thread — Commander SDR Canonical Entity
+ * Case Communication Thread — Commander C2 Canonical Entity
  *
  * Communications Excellence Phase 1 data-layer.
  * Represents a communication thread bound to a case (email, Teams, or war room).

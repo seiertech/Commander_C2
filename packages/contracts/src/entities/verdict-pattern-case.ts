@@ -1,5 +1,5 @@
 /**
- * Verdict Pattern Case Entity — Commander SDR Canonical Model
+ * Verdict Pattern Case Entity — Commander C2 Canonical Model
  *
  * Source: Spec #41 Internal Risk Investigation Sub-Lifecycle
  *

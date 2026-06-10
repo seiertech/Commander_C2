@@ -1,5 +1,5 @@
 /**
- * Commander SDR Rules Package — Platform Intelligence & IOC Distribution
+ * Commander C2 Rules Package — Platform Intelligence & IOC Distribution
  *
  * Pure functions: normalisation, deduplication, confidence aggregation,
  * freshness evaluation, allow/block, relationship state, ingestion pipeline,

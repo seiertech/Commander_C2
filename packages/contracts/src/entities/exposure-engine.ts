@@ -1,5 +1,5 @@
 /**
- * Exposure Engine Entity — Commander SDR Canonical Model
+ * Exposure Engine Entity — Commander C2 Canonical Model
  *
  * Source: Spec #60 Internal and External Attack Surface Framework,
  *         Master Technical Specification §Exposure Management

@@ -1,5 +1,5 @@
 /**
- * Connector Pull Orchestrator — Commander SDR
+ * Connector Pull Orchestrator — Commander C2
  *
  * Source: Spec #61 Universal Security Signal Connector Contract
  * Baseline: docs/99_source_archive/baseline_v2_6_2/docs/02_child_specs/61_Universal_Security_Signal_Connector_Contract_Spec.md

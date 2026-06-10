@@ -1,5 +1,5 @@
 /**
- * Case Closure Evaluator — Commander SDR
+ * Case Closure Evaluator — Commander C2
  *
  * Consumes Closure Gate Strategy from Spec 43.
  * NEVER hardcodes closure conditions. Returns 'unresolved' if strategy data is missing.

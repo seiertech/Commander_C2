@@ -1,5 +1,5 @@
 /**
- * Posture Metrics Config — Commander SDR Canonical Model
+ * Posture Metrics Config — Commander C2 Canonical Model
  *
  * Source: Spec #65 External Operating Picture, Spec #66 Internal Operating Picture,
  *         MP §24 (Workspace Model — posture rollups), Unit 16b deliverables.

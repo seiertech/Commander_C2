@@ -1,5 +1,5 @@
 /**
- * Universal Primitive Components — Commander SDR
+ * Universal Primitive Components — Commander C2
  * 
  * Pure presentation components that encode the design system contract.
  * These are the foundation for all future pages.

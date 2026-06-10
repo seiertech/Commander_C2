@@ -1,5 +1,5 @@
 /**
- * Seed Architecture Intelligence — Commander SDR Test Fixtures
+ * Seed Architecture Intelligence — Commander C2 Test Fixtures
  *
  * Synthetic architecture intelligence records for topology analysis surfaces.
  * 4 records covering policy conflict, coverage gap, dependency risk and topology anomaly.

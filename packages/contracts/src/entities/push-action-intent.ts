@@ -1,5 +1,5 @@
 /**
- * Push Action Intent — Commander SDR Canonical Entity
+ * Push Action Intent — Commander C2 Canonical Entity
  *
  * Source: Platform Intelligence and IOC Distribution spec (Phase 1 data-layer)
  * Authority: Requirements 15.1, 15.2, 15.4, 15.5

@@ -1,5 +1,5 @@
 /**
- * Commander SDR — Component Tokens (Layer 3)
+ * Commander C2 — Component Tokens (Layer 3)
  *
  * Per-component pinned dimensions.
  * Source: docs/06_ui_build_reference/DESIGN_SYSTEM.md §4

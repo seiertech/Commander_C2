@@ -1,5 +1,5 @@
 /**
- * Tenant Isolation Guard — Commander SDR (Spec 35)
+ * Tenant Isolation Guard — Commander C2 (Spec 35)
  * Source: Platform Security and Hardening
  * Use Cases: UC-150
  */

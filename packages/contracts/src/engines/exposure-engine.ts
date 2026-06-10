@@ -1,5 +1,5 @@
 /**
- * Exposure Engine — Commander SDR (Unit 28)
+ * Exposure Engine — Commander C2 (Unit 28)
  * Source: Spec #60 Internal and External Attack Surface Framework
  * Computes attack surface metrics, identifies blast zones, assesses coverage gaps.
  */

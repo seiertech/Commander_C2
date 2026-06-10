@@ -1,5 +1,5 @@
 /**
- * Adaptive SLA Engine — Commander SDR CMEP-1.0
+ * Adaptive SLA Engine — Commander C2 CMEP-1.0
  *
  * Multi-factor SLA: baseSLA × surfaceModifier × domainModifiers.
  * Cap from sla-modifier strategy. Pure function.

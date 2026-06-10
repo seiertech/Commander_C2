@@ -1,5 +1,5 @@
 /**
- * Indicator of Compromise — Commander SDR Canonical Entity (First-Class)
+ * Indicator of Compromise — Commander C2 Canonical Entity (First-Class)
  *
  * Source: Platform Intelligence and IOC Distribution spec (Phase 1 data-layer)
  * Authority: Requirements 6.1, 6.3, 6.4, 6.5, 22.1, 22.2, 22.3, 22.4, 22.5

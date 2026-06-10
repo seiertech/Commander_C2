@@ -1,5 +1,5 @@
 /**
- * Seed Push Governance — Commander SDR Test Fixtures
+ * Seed Push Governance — Commander C2 Test Fixtures
  *
  * Synthetic push governance run records for governance simulation surfaces.
  * 3 records covering pending, completed and failed simulation states.

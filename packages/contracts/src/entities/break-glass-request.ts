@@ -1,5 +1,5 @@
 /**
- * Break-Glass Request Entity — Commander SDR (Spec 35)
+ * Break-Glass Request Entity — Commander C2 (Spec 35)
  * Source: Platform Security and Hardening
  * Use Cases: UC-151
  */

@@ -1,5 +1,5 @@
 /**
- * Seed Identities — Commander SDR Test Fixtures
+ * Seed Identities — Commander C2 Test Fixtures
  *
  * Synthetic identity data conforming to canonical entity shape.
  * Source: Spec #05 §6.4.3 Identity, Spec #18 Unified Identity Architecture

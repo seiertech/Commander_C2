@@ -1,5 +1,5 @@
 /**
- * Verdicts Table — Commander SDR
+ * Verdicts Table — Commander C2
  *
  * First-class canonical verdict entity — time-bound, confidence-weighted
  * claims made by security tools. Promoted from engine-internal VerdictRecord.

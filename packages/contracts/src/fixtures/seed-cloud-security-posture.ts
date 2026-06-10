@@ -1,5 +1,5 @@
 /**
- * Seed Cloud Security Posture — Commander SDR Test Fixtures
+ * Seed Cloud Security Posture — Commander C2 Test Fixtures
  *
  * Synthetic multi-cloud security posture with drift detection.
  * Source: Spec #22 Architecture Intelligence

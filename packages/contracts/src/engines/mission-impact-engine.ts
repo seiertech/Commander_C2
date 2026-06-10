@@ -1,5 +1,5 @@
 /**
- * Mission Impact Engine — Commander SDR (Spec 37)
+ * Mission Impact Engine — Commander C2 (Spec 37)
  * Source: Spec #37 Mission Objective Binding Model
  * Calculates how risk objects affect strategic missions through binding chains.
  */

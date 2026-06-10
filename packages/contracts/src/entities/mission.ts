@@ -1,5 +1,5 @@
 /**
- * Mission Entity — Commander SDR Canonical Model
+ * Mission Entity — Commander C2 Canonical Model
  *
  * Source: Master Technical Specification §Mission Control,
  *         Spec #57 Security Command and Control Doctrine (strategic alignment)

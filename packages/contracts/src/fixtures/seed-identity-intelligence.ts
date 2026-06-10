@@ -1,5 +1,5 @@
 /**
- * Seed Identity Intelligence — Commander SDR Test Fixtures
+ * Seed Identity Intelligence — Commander C2 Test Fixtures
  *
  * Synthetic identity intelligence records for engine surfaces.
  * 4 records covering access anomaly, privilege escalation, dormant account and impossible travel.

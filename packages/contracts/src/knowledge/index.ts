@@ -1,5 +1,5 @@
 /**
- * Knowledge Export — Commander SDR
+ * Knowledge Export — Commander C2
  *
  * Central registry for knowledge export eligibility and derivation rules.
  * Infrastructure-neutral. No AWS/RAG/vector/embedding concepts.

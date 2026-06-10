@@ -1,5 +1,5 @@
 /**
- * Strategy Layer Runtime Surface — Commander SDR Canonical Model
+ * Strategy Layer Runtime Surface — Commander C2 Canonical Model
  *
  * Source: Spec #32 Strategy Layer Runtime Surface Specification
  * v1.3.1 lineage closure: 24 EARS requirements

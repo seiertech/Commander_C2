@@ -1,5 +1,5 @@
 /**
- * Subscription Evaluation Engine — Commander SDR
+ * Subscription Evaluation Engine — Commander C2
  *
  * Feature: platform-intelligence-ioc-distribution
  * Authority: Requirements 10.1, 10.2, 11.1

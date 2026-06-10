@@ -1,5 +1,5 @@
 /**
- * Vendor Advisory — Commander SDR Canonical Entity
+ * Vendor Advisory — Commander C2 Canonical Entity
  *
  * Source: Platform Intelligence and IOC Distribution spec (Phase 1 data-layer)
  * Authority: Requirements 5.1, 5.2, 5.3, 5.4, 18.1

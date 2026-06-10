@@ -1,5 +1,5 @@
 /**
- * Normalisation Layer — Commander SDR Canonical Entity Model
+ * Normalisation Layer — Commander C2 Canonical Entity Model
  *
  * Source: Spec #60 Internal and External Attack Surface Framework
  * Source: Spec #61 Universal Security Signal Connector Contract

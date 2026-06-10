@@ -1,5 +1,5 @@
 /**
- * GlobalSearch — Commander SDR
+ * GlobalSearch — Commander C2
  *
  * v1.3.2 Requirement 12: 440px wide, translucent white background
  * (rgba(255,255,255,.075)), 1px translucent border.

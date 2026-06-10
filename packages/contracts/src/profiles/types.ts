@@ -1,5 +1,5 @@
 /**
- * Domain Profile Interface Contract — Commander SDR CMEP-1.0
+ * Domain Profile Interface Contract — Commander C2 CMEP-1.0
  *
  * Defines the DomainProfile interface that each case domain (vulnerability,
  * identity, exposure, etc.) implements to provide domain-specific behaviour

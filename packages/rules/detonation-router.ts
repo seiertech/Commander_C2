@@ -1,5 +1,5 @@
 /**
- * Detonation Verdict Router — Commander SDR
+ * Detonation Verdict Router — Commander C2
  *
  * Communications Excellence Phase 1.
  * Pure function for routing detonation verdicts to outcomes.

@@ -1,5 +1,5 @@
 /**
- * Email Case Communication Engine — Commander SDR (Unit 44)
+ * Email Case Communication Engine — Commander C2 (Unit 44)
  * Source: Spec #17 Closed-Loop Control Architecture
  * Binds inbound emails to cases, assesses binding confidence, rejects duplicates.
  *

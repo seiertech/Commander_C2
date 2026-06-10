@@ -1,5 +1,5 @@
 /**
- * IOC Case Link — Commander SDR Canonical Entity
+ * IOC Case Link — Commander C2 Canonical Entity
  *
  * Source: Platform Intelligence and IOC Distribution spec (Phase 1 data-layer)
  * Authority: Requirements 13.5

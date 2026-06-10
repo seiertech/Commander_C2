@@ -1,5 +1,5 @@
 /**
- * Control Framework Mapping Entities — Commander SDR Canonical Model
+ * Control Framework Mapping Entities — Commander C2 Canonical Model
  *
  * Source: Spec #55 Baseline Configuration Framework Model and Defaults;
  *         Spec #10 Platform Security (§8 Baseline Profiles);

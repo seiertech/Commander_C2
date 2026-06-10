@@ -1,5 +1,5 @@
 /**
- * Knowledge Export Registry — Commander SDR
+ * Knowledge Export Registry — Commander C2
  *
  * Source: Spec #13 Commander AI Architecture & Grounding Rules §5 (Grounding Rules)
  * Baseline: docs/99_source_archive/baseline_v2_6_2/docs/02_child_specs/13_Commander_AI_Architecture_and_Grounding_Rules.md

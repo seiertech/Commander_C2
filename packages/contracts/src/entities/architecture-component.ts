@@ -1,5 +1,5 @@
 /**
- * Architecture Component Entity — Commander SDR Canonical Model
+ * Architecture Component Entity — Commander C2 Canonical Model
  *
  * Source: Master Technical Specification §Architecture Management,
  *         Spec #57 Security Command and Control Doctrine (drift detection)

@@ -1,5 +1,5 @@
 /**
- * Governed Compose Entity — Commander SDR Canonical Model
+ * Governed Compose Entity — Commander C2 Canonical Model
  *
  * Source: Spec #25 Case Communication, Spec #26 Broadcast Channel
  *

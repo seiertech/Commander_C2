@@ -1,5 +1,5 @@
 /**
- * Mock Tenant Admin Configuration — Commander SDR (Unit 22 v1)
+ * Mock Tenant Admin Configuration — Commander C2 (Unit 22 v1)
  *
  * App-level MOCK configuration for the Tenant Admin Surface v1. There is no
  * canonical tenant-admin-config entity in packages/contracts, so this is an

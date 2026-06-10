@@ -1,5 +1,5 @@
 /**
- * Strategy Simulation Engine — Commander SDR (Spec 43)
+ * Strategy Simulation Engine — Commander C2 (Spec 43)
  * Source: Spec #32 Strategy Layer Runtime Surface
  * Consumes: strategy.ts, seed-strategies
  * Use Cases: UC-141, UC-144

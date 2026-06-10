@@ -1,5 +1,5 @@
 /**
- * Threat Hunt Record — Commander SDR Canonical Entity
+ * Threat Hunt Record — Commander C2 Canonical Entity
  *
  * Source: Platform Intelligence and IOC Distribution spec (Phase 1 data-layer)
  * Authority: Requirements 14.1, 14.2, 14.3, 14.4

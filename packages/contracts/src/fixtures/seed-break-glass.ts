@@ -1,5 +1,5 @@
 /**
- * Seed Break-Glass Requests — Commander SDR (Spec 35)
+ * Seed Break-Glass Requests — Commander C2 (Spec 35)
  * 3 sample records for development/testing
  */
 

@@ -1,5 +1,5 @@
 /**
- * Direction Board Entity — Commander SDR Canonical Model
+ * Direction Board Entity — Commander C2 Canonical Model
  *
  * Source: Spec #58 Security OODA Loop §Decide Phase,
  *         Master Technical Specification §Direction Boards

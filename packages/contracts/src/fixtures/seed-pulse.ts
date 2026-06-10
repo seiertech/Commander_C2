@@ -1,5 +1,5 @@
 /**
- * Seed Pulse Data — Commander SDR Test Fixtures
+ * Seed Pulse Data — Commander C2 Test Fixtures
  *
  * Synthetic operational pulse snapshots for team, domain, and system health.
  * Source: Spec #08 Case Management, Spec #30 Validation/Closure, Spec #17 Closed-Loop

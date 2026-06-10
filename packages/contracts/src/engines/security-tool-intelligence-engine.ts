@@ -1,5 +1,5 @@
 /**
- * Security Tool Intelligence Engine — Commander SDR (Unit 45)
+ * Security Tool Intelligence Engine — Commander C2 (Unit 45)
  * Source: Spec #59 Intelligence Layer Architecture (Posture stream)
  * Assesses security tool effectiveness, identifies blind spots, recommends actions.
  */

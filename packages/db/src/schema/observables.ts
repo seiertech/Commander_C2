@@ -1,5 +1,5 @@
 /**
- * Observables Table — Commander SDR
+ * Observables Table — Commander C2
  *
  * First-class typed indicator entity for threat-intelligence correlation,
  * cross-case matching, and indicator-based search.

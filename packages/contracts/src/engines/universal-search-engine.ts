@@ -1,5 +1,5 @@
 /**
- * Universal Search Engine — Commander SDR (Spec 42)
+ * Universal Search Engine — Commander C2 (Spec 42)
  * Source: Universal Search
  * Use Cases: UC-154, UC-155, UC-156
  */

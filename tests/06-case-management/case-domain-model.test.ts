@@ -6,7 +6,7 @@ import { seedRiskObjects } from '../../packages/contracts/src/fixtures/seed-risk
 import { SEED_TENANT } from '../../packages/contracts/src/fixtures/seed-tenant';
 
 /**
- * Case Management Domain Model Tests — Commander SDR (Phase A)
+ * Case Management Domain Model Tests — Commander C2 (Phase A)
  *
  * Validates:
  * - 12 case types per Master Technical Specification §6.2

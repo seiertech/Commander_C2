@@ -1,5 +1,5 @@
 /**
- * Posture Accountability Entity — Commander SDR Canonical Model
+ * Posture Accountability Entity — Commander C2 Canonical Model
  *
  * Source: Spec #71 Pre-Warned/Protected/Novel Classification (Spec 39)
  * Decision: DEC-spec39-dual-model — this entity implements the temporal posture

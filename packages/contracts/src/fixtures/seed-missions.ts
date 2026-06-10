@@ -1,5 +1,5 @@
 /**
- * Seed Missions — Commander SDR Test Fixtures
+ * Seed Missions — Commander C2 Test Fixtures
  *
  * Synthetic mission data for strategic security initiatives.
  * Source: Master Technical Specification §Mission Control

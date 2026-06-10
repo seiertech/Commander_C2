@@ -1,5 +1,5 @@
 /**
- * Commander SDR Design Tokens — Typography System
+ * Commander C2 Design Tokens — Typography System
  *
  * Single-font Inter system. All application text uses Inter.
  * Font weight carries semantic meaning — no separate font families
@@ -9,7 +9,7 @@
  *   1. Application UI — navigation, cards, tables, forms, KPIs, badges
  *   2. Prose / rich-text — case notes, AI summaries, reports, playbooks
  *
- * Source: Commander SDR typography baseline (2026-05-29)
+ * Source: Commander C2 typography baseline (2026-05-29)
  */
 
 const inter = "'Inter', system-ui, sans-serif";

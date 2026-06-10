@@ -1,5 +1,5 @@
 /**
- * Case Validation Evaluator — Commander SDR
+ * Case Validation Evaluator — Commander C2
  *
  * Consumes Validation Window Strategy from Spec 43.
  * NEVER hardcodes validation windows. Returns 'unresolved' if strategy data is missing.

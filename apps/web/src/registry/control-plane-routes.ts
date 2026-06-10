@@ -1,5 +1,5 @@
 /**
- * Commercial Control Plane Routes — Commander SDR
+ * Commercial Control Plane Routes — Commander C2
  *
  * Internal Seiertech application boundary.
  * Source: Spec #47 Commercial Control Plane Route Re-Confirmation

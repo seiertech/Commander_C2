@@ -1,5 +1,5 @@
 /**
- * War Room Close-Out Model — Commander SDR
+ * War Room Close-Out Model — Commander C2
  *
  * Source: WRCEP-1.0 War Room Communication Excellence Proposal (Phase 1)
  *

@@ -13,7 +13,7 @@ import { seedStrategies } from '../../packages/contracts/src/fixtures/seed-strat
 import type { StrategyPolicy } from '../../packages/contracts/src/entities/strategy';
 
 /**
- * Phase D3: Closure Gate & Reopening Trigger Enforcement Tests — Commander SDR
+ * Phase D3: Closure Gate & Reopening Trigger Enforcement Tests — Commander C2
  *
  * Validates:
  * - Closure gates: all pass, individual failures, multiple failures, throws without strategy

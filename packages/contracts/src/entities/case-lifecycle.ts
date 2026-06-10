@@ -1,5 +1,5 @@
 /**
- * Case Lifecycle State Machine — Commander SDR (12-State Closed-Loop)
+ * Case Lifecycle State Machine — Commander C2 (12-State Closed-Loop)
  *
  * Source: Spec #08 Case Management, Spec #30 Case Validation and Closure
  * Unit 7: Rebaselined 12-state lifecycle engine.

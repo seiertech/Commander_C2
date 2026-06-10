@@ -1,5 +1,5 @@
 /**
- * Case Validation Engine — Commander SDR (Unit 11)
+ * Case Validation Engine — Commander C2 (Unit 11)
  *
  * 11-state validation lifecycle engine with strategy-driven window enforcement.
  * Consumes Validation Window Strategy for all timing values.

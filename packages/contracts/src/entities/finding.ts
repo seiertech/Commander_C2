@@ -1,5 +1,5 @@
 /**
- * Finding Entity — Commander SDR Canonical Model
+ * Finding Entity — Commander C2 Canonical Model
  *
  * Source: Spec #34 Drift and Rule Engine
  *

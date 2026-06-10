@@ -1,5 +1,5 @@
 /**
- * Audit Event Entity — Commander SDR Canonical Model
+ * Audit Event Entity — Commander C2 Canonical Model
  *
  * Source: Spec #05 §6.4.5 AuditEntry
  * v1.3 Requirement 6: Audit fixture completeness

@@ -1,5 +1,5 @@
 /**
- * Case Strategy Resolvers — Commander SDR
+ * Case Strategy Resolvers — Commander C2
  *
  * Phase B: Strategy consumption logic.
  * Phase D4: Assignment & Routing Engine.

@@ -1,5 +1,5 @@
 /**
- * Case Entity — Commander SDR Canonical Model
+ * Case Entity — Commander C2 Canonical Model
  *
  * Source: Spec #08 Case Management, Spec #17 Closed-Loop Control Architecture
  * Domain Requirement 3: Cases include lifecycle, owner, SLA, surface attribution, audit

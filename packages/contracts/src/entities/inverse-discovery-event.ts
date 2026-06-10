@@ -1,5 +1,5 @@
 /**
- * Inverse Discovery Event Entity — Commander SDR Canonical Model
+ * Inverse Discovery Event Entity — Commander C2 Canonical Model
  *
  * Source: Spec #40 Inverse Discovery Loop
  *

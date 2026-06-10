@@ -1,5 +1,5 @@
 /**
- * Action / Sub-Action Entity — Commander SDR Canonical Model
+ * Action / Sub-Action Entity — Commander C2 Canonical Model
  *
  * Source: COIM v1.0 §4.3, §6 (Action/Sub-Action impact);
  *         03_REUSABLE_OBJECT_CATALOGUE §2.3;

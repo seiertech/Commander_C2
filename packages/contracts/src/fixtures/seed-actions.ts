@@ -1,5 +1,5 @@
 /**
- * Seed Actions / Sub-Actions — Commander SDR Test Fixtures
+ * Seed Actions / Sub-Actions — Commander C2 Test Fixtures
  *
  * Synthetic action/sub-action data conforming to canonical entity shape.
  * Source: COIM v1.0 §4.3, §6; 03_REUSABLE_OBJECT_CATALOGUE §2.3; Spec #08

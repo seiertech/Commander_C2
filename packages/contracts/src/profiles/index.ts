@@ -1,5 +1,5 @@
 /**
- * Domain Profiles — Commander SDR CMEP-1.0
+ * Domain Profiles — Commander C2 CMEP-1.0
  *
  * Barrel export for domain profile contracts and implementations.
  */

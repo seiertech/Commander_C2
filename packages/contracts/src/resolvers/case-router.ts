@@ -1,5 +1,5 @@
 /**
- * Case Router — Commander SDR
+ * Case Router — Commander C2
  *
  * Consumes Routing Strategy from Spec 43 to determine case assignment.
  * NEVER hardcodes routing rules. Returns 'unresolved' if strategy data is missing.

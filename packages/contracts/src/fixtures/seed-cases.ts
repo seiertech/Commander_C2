@@ -1,5 +1,5 @@
 /**
- * Seed Cases — Commander SDR Test Fixtures
+ * Seed Cases — Commander C2 Test Fixtures
  *
  * Synthetic case data conforming to canonical entity shape.
  * Source: Spec #08 Case Management, Spec #17 Closed-Loop Control

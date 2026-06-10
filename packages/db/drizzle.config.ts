@@ -1,5 +1,5 @@
 /**
- * Drizzle Kit Configuration — Commander SDR
+ * Drizzle Kit Configuration — Commander C2
  *
  * Local-first development. No live database provisioned.
  * Connection string uses local Postgres for development only.

@@ -1,5 +1,5 @@
 /**
- * Search Index Config Entity — Commander SDR (Spec 42)
+ * Search Index Config Entity — Commander C2 (Spec 42)
  * Source: Universal Search
  * Use Cases: UC-154, UC-156
  */

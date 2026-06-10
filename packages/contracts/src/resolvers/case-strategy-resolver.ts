@@ -1,5 +1,5 @@
 /**
- * Case Strategy Resolver — Commander SDR
+ * Case Strategy Resolver — Commander C2
  *
  * Orchestrates all 6 strategy resolutions for a case.
  * Reads from Spec 43 strategy surfaces. NO hardcoded values.

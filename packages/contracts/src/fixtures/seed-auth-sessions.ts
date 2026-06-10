@@ -1,5 +1,5 @@
 /**
- * Seed Auth Sessions — Commander SDR (Spec 35)
+ * Seed Auth Sessions — Commander C2 (Spec 35)
  * 4 sample session records for development/testing
  */
 

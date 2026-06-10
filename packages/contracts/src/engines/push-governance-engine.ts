@@ -1,5 +1,5 @@
 /**
- * Push Governance Engine — Commander SDR (Unit 42)
+ * Push Governance Engine — Commander C2 (Unit 42)
  * Source: Spec #32 Strategy Layer (Automation Boundary Strategy)
  * Simulates push actions, detects conflicts, assesses push impact.
  * Push governance remains dry-run until separately approved.

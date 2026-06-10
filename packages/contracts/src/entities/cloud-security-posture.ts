@@ -1,5 +1,5 @@
 /**
- * Cloud Security Posture Entity — Commander SDR Canonical Model
+ * Cloud Security Posture Entity — Commander C2 Canonical Model
  *
  * Source: Spec #22 Architecture Intelligence
  *

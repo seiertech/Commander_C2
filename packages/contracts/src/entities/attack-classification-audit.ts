@@ -1,5 +1,5 @@
 /**
- * Attack Classification Audit Entity — Commander SDR Canonical Model
+ * Attack Classification Audit Entity — Commander C2 Canonical Model
  *
  * Source: Spec #39 Pre-Warned/Protected/Novel Classification
  *         DEC-spec39-dual-model (posture-accountability.ts already exists)

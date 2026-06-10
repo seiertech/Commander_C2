@@ -1,5 +1,5 @@
 /**
- * Seed Coverage — Commander SDR Test Fixtures
+ * Seed Coverage — Commander C2 Test Fixtures
  *
  * Synthetic coverage assessment data for security tool deployment tracking.
  * 6 coverage records: one per type, mix of coverage levels and trends.

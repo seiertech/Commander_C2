@@ -1,5 +1,5 @@
 /**
- * Mission Binding Entity — Commander SDR Canonical Model
+ * Mission Binding Entity — Commander C2 Canonical Model
  *
  * Source: Spec #37 Mission Objective Binding Model,
  *         Master Technical Specification §Mission Control

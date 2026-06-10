@@ -1,5 +1,5 @@
 /**
- * Push Governance Entity — Commander SDR Canonical Model
+ * Push Governance Entity — Commander C2 Canonical Model
  *
  * Source: Master Technical Specification §Push Governance,
  *         Build Pack Discipline §Push governance dry-run

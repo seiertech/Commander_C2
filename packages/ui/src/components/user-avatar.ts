@@ -1,5 +1,5 @@
 /**
- * UserAvatar — Commander SDR
+ * UserAvatar — Commander C2
  *
  * v1.3.2 Requirement 18: 34px avatar tile with initials in
  * Inter, alongside user's name (12px bold) and role (10px muted).

@@ -1,5 +1,5 @@
 /**
- * War Room Entity — Commander SDR Canonical Model
+ * War Room Entity — Commander C2 Canonical Model
  *
  * Source: WRCEP-1.0 War Room Communication Excellence Proposal (Phase 1)
  *

@@ -1,5 +1,5 @@
 /**
- * Email Case Communication Entity — Commander SDR Canonical Model
+ * Email Case Communication Entity — Commander C2 Canonical Model
  *
  * Source: Master Technical Specification §Case Communication,
  *         Spec #57 Security Command and Control Doctrine

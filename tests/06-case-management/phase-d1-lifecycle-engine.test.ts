@@ -17,7 +17,7 @@ import type {
 import type { CaseStatus } from '../../packages/contracts/src/entities/case';
 
 /**
- * Phase D1: Lifecycle Transition Engine Tests — Commander SDR
+ * Phase D1: Lifecycle Transition Engine Tests — Commander C2
  * Updated for 12-state closed-loop lifecycle (Unit 7).
  *
  * Validates:

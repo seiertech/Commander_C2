@@ -1,5 +1,5 @@
 /**
- * Case Aggregation Resolver — Commander SDR (COIM-G)
+ * Case Aggregation Resolver — Commander C2 (COIM-G)
  *
  * Computes the COIM aggregate fields cached on a Case from its bound Risk
  * Objects. These are computed/cached values for query performance and

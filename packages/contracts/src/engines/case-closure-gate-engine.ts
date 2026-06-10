@@ -1,5 +1,5 @@
 /**
- * Case Closure Gate Engine — Commander SDR (Unit 12)
+ * Case Closure Gate Engine — Commander C2 (Unit 12)
  *
  * 12-gate closure evaluation engine with strategy-driven gate configuration.
  * Consumes Closure Gate Strategy for all gate definitions.

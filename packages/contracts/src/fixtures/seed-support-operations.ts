@@ -1,5 +1,5 @@
 /**
- * Seed Support Operations — Commander SDR Control Plane Fixtures
+ * Seed Support Operations — Commander C2 Control Plane Fixtures
  * 3 support operation records. Source: Master Technical Specification §Commercial Control Plane
  */
 

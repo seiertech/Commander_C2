@@ -1,5 +1,5 @@
 /**
- * Case Prioritiser — Commander SDR
+ * Case Prioritiser — Commander C2
  *
  * Consumes Prioritisation Weight Strategy from Spec 43 to assign priority.
  * NEVER hardcodes priority values. Returns 'unresolved' if strategy data is missing.

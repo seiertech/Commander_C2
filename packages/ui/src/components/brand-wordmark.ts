@@ -1,5 +1,5 @@
 /**
- * BrandWordmark — Commander SDR
+ * BrandWordmark — Commander C2
  *
  * v1.3.2 Requirement 10: SEIERTECH (cream #f4f1eb) | gold pipe (#ffd21f) |
  * COMMANDER (gold) | SDR (white), all in Inter.

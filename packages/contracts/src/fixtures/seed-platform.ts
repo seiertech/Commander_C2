@@ -1,5 +1,5 @@
 /**
- * Seed Platform Management Data — Commander SDR Test Fixtures
+ * Seed Platform Management Data — Commander C2 Test Fixtures
  *
  * Synthetic data for rule engine, model management, automation, and feature registry.
  * Source: Spec #10 Detection Model Library, Spec #51 Rule Model

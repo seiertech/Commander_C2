@@ -1,5 +1,5 @@
 /**
- * IOC Relationship — Commander SDR Canonical Entity (Stateful, Typed)
+ * IOC Relationship — Commander C2 Canonical Entity (Stateful, Typed)
  *
  * Source: Platform Intelligence and IOC Distribution spec (Phase 1 data-layer)
  * Authority: Requirements 7.1, 7.2, 7.3, 7.4, 7.5, 18.3

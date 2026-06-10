@@ -1,5 +1,5 @@
 /**
- * Seed Events — Commander SDR Test Fixtures
+ * Seed Events — Commander C2 Test Fixtures
  *
  * Synthetic activity event data for operational timeline.
  * Source: Spec #08 Case Management, Spec #17 Closed-Loop Control

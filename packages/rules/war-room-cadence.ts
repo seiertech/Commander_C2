@@ -1,5 +1,5 @@
 /**
- * War Room Communication Cadence Engine — Commander SDR
+ * War Room Communication Cadence Engine — Commander C2
  *
  * Source: WRCEP-1.0 War Room Communication Excellence Proposal (Phase 1)
  * Strategy Surface #19: war-room-cadence

@@ -1,5 +1,5 @@
 /**
- * Mock Connector State Machine — Commander SDR (Unit 38, Connector Layer)
+ * Mock Connector State Machine — Commander C2 (Unit 38, Connector Layer)
  *
  * Source: Spec #61 Universal Security Signal Connector Contract.
  *

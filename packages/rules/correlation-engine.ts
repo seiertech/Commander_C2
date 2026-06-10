@@ -1,5 +1,5 @@
 /**
- * Correlation Engine — Commander SDR CMEP-1.0
+ * Correlation Engine — Commander C2 CMEP-1.0
  *
  * Pre-binding correlation: CVE dedup, temporal clustering,
  * blast-radius aggregation, attack-chain detection.

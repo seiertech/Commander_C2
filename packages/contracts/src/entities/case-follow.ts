@@ -1,5 +1,5 @@
 /**
- * Case Follow Entity — Commander SDR Canonical Model
+ * Case Follow Entity — Commander C2 Canonical Model
  *
  * Analyst convenience feature — subscribe to case updates.
  * Users follow cases they're interested in and receive notifications

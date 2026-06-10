@@ -1,5 +1,5 @@
 /**
- * Risk Object Binding Engine — Commander SDR
+ * Risk Object Binding Engine — Commander C2
  *
  * Source: Spec #29 Universal Risk Object and Case Binding
  * Unit 7: Every actionable risk object is case-bound.

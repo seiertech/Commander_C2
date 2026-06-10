@@ -1,5 +1,5 @@
 /**
- * Report Entity — Commander SDR Canonical Model
+ * Report Entity — Commander C2 Canonical Model
  *
  * Source: Spec #29 Universal Risk Object (reporting cadences),
  *         Master Technical Specification §Surface Layer (reporting)

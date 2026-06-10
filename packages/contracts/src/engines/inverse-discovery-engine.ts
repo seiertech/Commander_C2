@@ -1,5 +1,5 @@
 /**
- * Inverse Discovery Engine — Commander SDR (Spec 40)
+ * Inverse Discovery Engine — Commander C2 (Spec 40)
  *
  * Source: Spec #40 Inverse Discovery Loop
  *

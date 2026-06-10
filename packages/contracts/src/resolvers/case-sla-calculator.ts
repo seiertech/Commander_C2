@@ -1,5 +1,5 @@
 /**
- * Case SLA Calculator — Commander SDR
+ * Case SLA Calculator — Commander C2
  *
  * Consumes SLA Strategy from Spec 43 to determine per-case SLA windows.
  * NEVER hardcodes SLA hours. Returns 'unresolved' if strategy data is missing.

@@ -1,5 +1,5 @@
 /**
- * Drift Detection Engine Entity — Commander SDR Canonical Model
+ * Drift Detection Engine Entity — Commander C2 Canonical Model
  *
  * Source: Spec #58 Security OODA Loop, Master Technical Specification §Drift Detection
  *

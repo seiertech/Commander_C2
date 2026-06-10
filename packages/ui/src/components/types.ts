@@ -1,5 +1,5 @@
 /**
- * Shared component types — Commander SDR Design System
+ * Shared component types — Commander C2 Design System
  */
 
 export type BuildStatus = 'LIVE' | 'BUILD' | 'SCAFFOLD' | 'STUB' | 'PLANNED';

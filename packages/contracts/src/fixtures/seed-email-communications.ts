@@ -1,5 +1,5 @@
 /**
- * Seed Email Communications — Commander SDR Test Fixtures
+ * Seed Email Communications — Commander C2 Test Fixtures
  *
  * Synthetic email case communication records for case communication surfaces.
  * 4 records covering inbound/outbound, varying binding confidence and statuses.

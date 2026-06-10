@@ -1,5 +1,5 @@
 /**
- * Commander SDR Design Tokens — Spacing & Chrome (v1.3.2 Remediated)
+ * Commander C2 Design Tokens — Spacing & Chrome (v1.3.2 Remediated)
  *
  * v1.3.2 Requirement 8: Top bar 68px
  * v1.3.2 Requirement 9: Sidebar 306px (286px below 1450px)

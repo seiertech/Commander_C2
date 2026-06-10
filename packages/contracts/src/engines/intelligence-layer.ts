@@ -1,5 +1,5 @@
 /**
- * Intelligence Layer — Commander SDR Four-Stream Integration (Unit 14)
+ * Intelligence Layer — Commander C2 Four-Stream Integration (Unit 14)
  *
  * Source: Spec #59 Intelligence Layer Architecture (binding)
  * Also: Spec #60 (surface attribution), Spec #61 (connector classes), Spec #62 (verdicts)

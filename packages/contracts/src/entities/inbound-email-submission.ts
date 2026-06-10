@@ -1,5 +1,5 @@
 /**
- * Inbound Email IOC Submission — Commander SDR Value Object
+ * Inbound Email IOC Submission — Commander C2 Value Object
  *
  * Source: Platform Intelligence and IOC Distribution spec (Phase 1 data-layer)
  * Authority: Requirements 9.3, 24.1, 24.3

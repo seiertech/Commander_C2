@@ -10,7 +10,7 @@ import {
 } from '../../apps/web/src/registry/index';
 
 /**
- * Route Registry Tests — Commander SDR
+ * Route Registry Tests — Commander C2
  *
  * Validates:
  * - Three-application boundary separation

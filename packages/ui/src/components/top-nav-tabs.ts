@@ -1,5 +1,5 @@
 /**
- * TopNavTabs — Commander SDR
+ * TopNavTabs — Commander C2
  *
  * v1.3.2 Requirement 11: Horizontal tabs with 3px gold border-bottom on active,
  * rgba(255,210,31,.055) tint background on active.

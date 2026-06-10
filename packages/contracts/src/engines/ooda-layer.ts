@@ -1,5 +1,5 @@
 /**
- * OODA Layer — Commander SDR Programme-Level OODA Tempo (Unit 15)
+ * OODA Layer — Commander C2 Programme-Level OODA Tempo (Unit 15)
  *
  * Source: Spec #58 Security OODA Loop (binding)
  * Also: Spec #67 OODA Phase Dashboards

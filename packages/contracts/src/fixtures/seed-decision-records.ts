@@ -1,5 +1,5 @@
 /**
- * Seed Decision Records — Commander SDR Test Fixtures
+ * Seed Decision Records — Commander C2 Test Fixtures
  *
  * 5 records: rule hit, engine output, AI recommendation, suppression, escalation.
  * Source: Spec #36 Rule/Model/Decision Governance Surface

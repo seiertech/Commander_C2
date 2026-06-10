@@ -1,5 +1,5 @@
 /**
- * Temporal Posture Lookup Engine — Commander SDR (Spec 39)
+ * Temporal Posture Lookup Engine — Commander C2 (Spec 39)
  *
  * Source: Spec #39 Pre-Warned/Protected/Novel Classification
  *         DEC-spec39-dual-model

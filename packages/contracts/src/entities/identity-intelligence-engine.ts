@@ -1,5 +1,5 @@
 /**
- * Identity Intelligence Engine Entity — Commander SDR Canonical Model
+ * Identity Intelligence Engine Entity — Commander C2 Canonical Model
  *
  * Source: Spec #59 Intelligence Layer Architecture §Internal Behavioural Stream,
  *         Master Technical Specification §Identity Intelligence

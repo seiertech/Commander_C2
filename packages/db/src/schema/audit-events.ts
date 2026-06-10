@@ -1,5 +1,5 @@
 /**
- * Audit Events Table — Commander SDR
+ * Audit Events Table — Commander C2
  *
  * Immutable audit trail. Every material action emits an audit event.
  *

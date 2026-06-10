@@ -1,5 +1,5 @@
 /**
- * Secondary Resolution Engine — Commander SDR (Spec 40)
+ * Secondary Resolution Engine — Commander C2 (Spec 40)
  *
  * Source: Spec #40 Inverse Discovery Loop
  *

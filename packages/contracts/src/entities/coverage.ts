@@ -1,5 +1,5 @@
 /**
- * Coverage Entity — Commander SDR Canonical Model
+ * Coverage Entity — Commander C2 Canonical Model
  *
  * Source: Master Technical Specification §Coverage Management,
  *         Spec #57 Security Command and Control Doctrine (posture visibility)

@@ -1,5 +1,5 @@
 /**
- * Evidence Table — Commander SDR
+ * Evidence Table — Commander C2
  *
  * First-class evidence entity for evidence-driven validation,
  * evidence-gated closure, and evidence-triggered reopening.

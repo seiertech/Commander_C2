@@ -1,5 +1,5 @@
 /**
- * Commander SDR Database Schema — Central Export
+ * Commander C2 Database Schema — Central Export
  *
  * Drizzle ORM schema definitions for Postgres 16+.
  * All tables enforce tenant scope.

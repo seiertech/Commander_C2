@@ -1,5 +1,5 @@
 /**
- * Case Reference Number Generator — Commander SDR
+ * Case Reference Number Generator — Commander C2
  *
  * Source: Spec #08 Case Management, Unit 7 rebaseline
  * Format: CMD-{type_abbrev}-{seq}-{tenant_code}

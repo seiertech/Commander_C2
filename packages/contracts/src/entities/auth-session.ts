@@ -1,5 +1,5 @@
 /**
- * Auth Session Entity — Commander SDR (Spec 35)
+ * Auth Session Entity — Commander C2 (Spec 35)
  * Source: Platform Security and Hardening
  * Use Cases: UC-148, UC-149
  */

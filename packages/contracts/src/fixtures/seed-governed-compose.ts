@@ -1,5 +1,5 @@
 /**
- * Seed Governed Compose — Commander SDR Test Fixtures
+ * Seed Governed Compose — Commander C2 Test Fixtures
  *
  * Synthetic outbound draft communications with approval chain.
  * Source: Spec #25 Case Communication Req 3/5

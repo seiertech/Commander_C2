@@ -1,5 +1,5 @@
 /**
- * Seed Strategy Policies — Commander SDR Test Fixtures
+ * Seed Strategy Policies — Commander C2 Test Fixtures
  *
  * Synthetic strategy policy data for all nineteen surfaces.
  * Source: Spec #32 Strategy Layer Runtime Surface

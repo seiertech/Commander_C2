@@ -1,5 +1,5 @@
 /**
- * Strategy Policy Lifecycle — Commander SDR
+ * Strategy Policy Lifecycle — Commander C2
  *
  * Source: Spec #32 Strategy Layer Runtime Surface Specification
  * Baseline: docs/99_source_archive/baseline_v2_6_2/docs/02_child_specs/32_Strategy_Layer_Runtime_Surface_Spec.md

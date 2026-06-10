@@ -1,5 +1,5 @@
 /**
- * Pre-Warned Classification Entity — Commander SDR Canonical Model
+ * Pre-Warned Classification Entity — Commander C2 Canonical Model
  *
  * Source: Spec #17 Closed-Loop Control Architecture,
  *         Master Technical Specification §Pre-Warned State Classification

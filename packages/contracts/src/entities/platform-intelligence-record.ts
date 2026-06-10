@@ -1,5 +1,5 @@
 /**
- * Platform Intelligence Record — Commander SDR Canonical Entity (Abstract Parent)
+ * Platform Intelligence Record — Commander C2 Canonical Entity (Abstract Parent)
  *
  * Source: Platform Intelligence and IOC Distribution spec (Phase 1 data-layer)
  * Authority: Requirements 3.1, 3.3, 3.4, 20.1, 20.2, 20.3

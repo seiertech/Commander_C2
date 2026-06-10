@@ -1,5 +1,5 @@
 /**
- * CISO Summary Entity — Commander SDR Canonical Model
+ * CISO Summary Entity — Commander C2 Canonical Model
  *
  * Source: Master Technical Specification §Executive Surface,
  *         Spec #57 Security Command and Control Doctrine (executive posture)

@@ -1,5 +1,5 @@
 /**
- * Seed Blast Radius — Commander SDR Test Fixtures
+ * Seed Blast Radius — Commander C2 Test Fixtures
  *
  * Synthetic blast-radius computations for rule-change simulation testing.
  * Source: Spec #34 Drift and Rule Engine

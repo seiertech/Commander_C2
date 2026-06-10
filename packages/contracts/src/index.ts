@@ -1,7 +1,7 @@
 /**
  * @commander-sdr/contracts — Canonical Data Model
  *
- * Source: Commander SDR baseline v2.6.2
+ * Source: Commander C2 baseline v2.6.2
  * Specs: #05, #12, #46, #61, #62
  */
 

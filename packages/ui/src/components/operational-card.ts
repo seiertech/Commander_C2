@@ -1,5 +1,5 @@
 /**
- * OperationalCard — Commander SDR
+ * OperationalCard — Commander C2
  *
  * v1.3.2 Requirement 17: White background, 1px border #dbe3ef, 18px padding,
  * uppercase 13px h3 titles with 0.06em letter-spacing, body text #68758b.

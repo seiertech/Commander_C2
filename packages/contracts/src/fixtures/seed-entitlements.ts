@@ -1,5 +1,5 @@
 /**
- * Seed Entitlement Manifests — Commander SDR Test Fixtures
+ * Seed Entitlement Manifests — Commander C2 Test Fixtures
  *
  * Synthetic entitlement data for commercial control testing.
  * Source: Spec #38 Commander Internal Control Plane

@@ -1,5 +1,5 @@
 /**
- * Simulation Result Entity — Commander SDR Canonical Model
+ * Simulation Result Entity — Commander C2 Canonical Model
  *
  * Source: Spec #36 Rule/Model/Decision Governance Surface
  *

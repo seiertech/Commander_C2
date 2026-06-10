@@ -1,5 +1,5 @@
 /**
- * Playbook Engine — Commander SDR
+ * Playbook Engine — Commander C2
  *
  * Communications Excellence Phase 1.
  * Pure functions for playbook trigger evaluation, step condition evaluation,

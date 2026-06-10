@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import * as schema from '../../packages/db/src/schema/index';
 
 /**
- * Canonical Data Model Schema Tests — Commander SDR
+ * Canonical Data Model Schema Tests — Commander C2
  *
  * Validates:
  * - All tables have tenant scope (Domain Req 18)
