@@ -5,9 +5,13 @@ import { seedControlFrameworks, seedControlEvaluations } from '../../../../../pa
 import { primitiveTypeScale } from '../../../../../packages/ui/src/tokens/primitives';
 
 /**
- * Governance — Adherence Overview
+ * Governance — Adherence Overview (Thesis §15 — Risk, Control & Adherence Layer)
  *
- * Source: Thesis (Team 2, BLOCKED) — rendered from available framework data
+ * Use Case: UC-CTRL-001 — View Control Framework Adherence
+ * Use Case: UC-GOV-001 — View Governance Decisions
+ * Entities: Control_Reference, Control_State, Adherence_Assertion (L10)
+ * Standards: NIST CSF, ISO 27001, COBIT
+ *
  * Data: control-framework.ts + seed-control-frameworks
  * Route: /governance | Nav Group: Governance
  */

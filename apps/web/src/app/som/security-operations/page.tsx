@@ -5,11 +5,11 @@ import { seedCases } from '../../../../../../packages/contracts/src/fixtures/see
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
 
 /**
- * SOM — Security Operations Manager
+ * SOM — Security Operations Manager (Thesis §12 — Capacity/Maturity/Performance)
  *
- * Source: Thesis (Case Routing Engine), assignment-engine resolver
- * Data: case.ts (owner/team) + seed-cases
- * Route: /som/security-operations | Nav Group: SOM
+ * Use Case: UC-CAP-002 — View Process Maturity
+ * Entities: Process_Maturity, Governance_Capability, Case_Capacity_Model (L8)
+ * Standards: CMMI, COBIT, ITIL 4
  *
  * Management overview: team workload, case distribution, assignment health.
  */
