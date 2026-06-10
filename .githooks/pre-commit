@@ -1,2 +1,19 @@
 #!/bin/sh
+# Commander C2 — Pre-commit Hook v2
+# Hard gates: standard_marker presence, data dictionary completeness
+# Soft: commit message format checked by convention (not blocked here)
+#
+# Authority: .kiro/steering/security-and-testing.md
+#            .kiro/steering/traceability-chain-v2.md
+
+echo "[pre-commit] Running governance gates..."
+
+# Gate 1: Run governance-check in pre-commit mode
+node scripts/governance-check.cjs --pre-commit
+if [ $? -ne 0 ]; then
+  echo "[pre-commit] BLOCKED — governance gates failed."
+  exit 1
+fi
+
+echo "[pre-commit] All gates pass."
 exit 0
