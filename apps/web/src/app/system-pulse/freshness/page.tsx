@@ -9,7 +9,7 @@ import {
   primitiveFonts, primitiveLetterSpacing, primitiveSignal, primitiveData,
 } from '../../../../../../packages/ui/src/tokens/primitives';
 import type { ApexOptions } from 'apexcharts';
-import { thesisSystemPulse } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisSystemPulse, thesisConnectors } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -31,6 +31,8 @@ export default function SystemPulseFreshnessPage() {
     : '0';
   const staleSubsystems = thesisSystemPulse.filter((s) => s.data_freshness_hours > 2).length;
   const freshest = [...thesisSystemPulse].sort((a, b) => a.data_freshness_hours - b.data_freshness_hours)[0];
+  const activeConnectors = thesisConnectors.filter((c) => c.state === 'active').length;
+  const errorConnectors = thesisConnectors.filter((c) => c.state === 'error').length;
 
   const chartOpts: ApexOptions = {
     chart: { type: 'bar', toolbar: { show: false }, background: 'transparent', fontFamily: primitiveFonts.body },
@@ -50,10 +52,12 @@ export default function SystemPulseFreshnessPage() {
   return (
     <PageContainer pretitle="System Pulse › Freshness" title="Data Freshness">
       {/* KPI strip */}
-      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
+      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
         <KpiCard tokens={tokens} label="Avg Freshness" value={`${avgFreshness}h`} accent={Number(avgFreshness) > 2 ? primitiveSignal.warning : undefined} />
         <KpiCard tokens={tokens} label="Stale (>2h)" value={String(staleSubsystems)} accent={staleSubsystems > 0 ? primitiveSignal.warning : undefined} />
         <KpiCard tokens={tokens} label="Freshest" value={freshest?.subsystem ?? '—'} />
+        <KpiCard tokens={tokens} label="Connectors Active" value={`${activeConnectors}/${thesisConnectors.length}`} accent={primitiveSignal.success} />
+        <KpiCard tokens={tokens} label="Connectors Error" value={String(errorConnectors)} accent={errorConnectors > 0 ? primitiveSignal.critical : undefined} />
       </section>
 
       {/* Chart */}

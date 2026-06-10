@@ -9,7 +9,7 @@ import {
   primitiveFonts, primitiveLetterSpacing, primitiveSignal, primitiveData,
 } from '../../../../../../packages/ui/src/tokens/primitives';
 import type { ApexOptions } from 'apexcharts';
-import { thesisSystemPulse } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisSystemPulse, thesisTeamPulse } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -29,6 +29,8 @@ export default function SystemPulseQueuesPage() {
   const totalBacklog = thesisSystemPulse.reduce((acc, s) => acc + s.queue_backlog, 0);
   const totalThroughput = thesisSystemPulse.reduce((acc, s) => acc + s.processing_rate, 0);
   const highBacklog = thesisSystemPulse.filter((s) => s.queue_backlog > 10).length;
+  const teamWorkload = thesisTeamPulse.reduce((acc, t) => acc + t.open_cases, 0);
+  const teamOverloaded = thesisTeamPulse.filter((t) => t.workload_band === 'amber' || t.workload_band === 'red').length;
 
   const chartOpts: ApexOptions = {
     chart: { type: 'bar', toolbar: { show: false }, background: 'transparent', fontFamily: primitiveFonts.body },
@@ -51,10 +53,12 @@ export default function SystemPulseQueuesPage() {
   return (
     <PageContainer pretitle="System Pulse › Queues" title="Queue Backlog">
       {/* KPI strip */}
-      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
+      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
         <KpiCard tokens={tokens} label="Total Backlog" value={String(totalBacklog)} accent={totalBacklog > 20 ? primitiveSignal.warning : undefined} />
         <KpiCard tokens={tokens} label="Total Throughput" value={`${totalThroughput}/hr`} />
         <KpiCard tokens={tokens} label="High Backlog" value={String(highBacklog)} accent={highBacklog > 0 ? primitiveSignal.warning : undefined} />
+        <KpiCard tokens={tokens} label="Team Active Cases" value={String(teamWorkload)} />
+        <KpiCard tokens={tokens} label="Teams Overloaded" value={String(teamOverloaded)} accent={teamOverloaded > 0 ? primitiveSignal.critical : undefined} />
       </section>
 
       {/* Chart */}

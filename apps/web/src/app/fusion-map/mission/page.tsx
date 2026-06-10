@@ -4,7 +4,7 @@ import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
-import { thesisTopology, thesisMissions } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisTopology, thesisMissions, thesisAssets } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Fusion Map — Mission Overlay
@@ -21,14 +21,18 @@ export default function FusionMapMissionPage() {
   const missionNodes = nodes.filter((n) => n.entity_type === 'case' && missionCaseRefs.has(n.entity_ref));
   const missionDomains = new Set(activeMissions.flatMap((m) => m.impact_domains));
   const domainNodes = nodes.filter((n) => missionDomains.has(n.domain));
+  const missionAssetCount = thesisAssets.length;
+  const criticalAssets = thesisAssets.filter((a) => a.criticality >= 4).length;
 
   return (
     <PageContainer pretitle="Fusion Map › Mission Overlay" title="Mission Overlay">
-      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
+      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
         <Kpi tokens={tokens} label="Active Missions" value={String(activeMissions.length)} accent={primitiveSignal.success} />
         <Kpi tokens={tokens} label="Mission-Linked Nodes" value={String(missionNodes.length)} />
         <Kpi tokens={tokens} label="Impact Domains" value={String(missionDomains.size)} />
         <Kpi tokens={tokens} label="Domain Nodes" value={String(domainNodes.length)} />
+        <Kpi tokens={tokens} label="Total Assets" value={String(missionAssetCount)} />
+        <Kpi tokens={tokens} label="Critical Assets" value={String(criticalAssets)} accent={criticalAssets > 0 ? primitiveSignal.warning : undefined} />
       </section>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap }}>
         <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>

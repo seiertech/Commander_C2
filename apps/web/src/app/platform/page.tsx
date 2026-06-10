@@ -4,7 +4,7 @@ import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { componentTokens } from '../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
-import { thesisConnectors, thesisControlFrameworks, thesisVulnerabilityIntelligence, thesisRules, thesisModels, thesisAutomationRules, thesisFeatureRegistry } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisConnectors, thesisControlFrameworks, thesisVulnerabilityIntelligence, thesisRules, thesisModels, thesisAutomationRules, thesisFeatureRegistry, thesisSystemPulse } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Platform — Overview
@@ -28,6 +28,20 @@ export default function PlatformOverviewPage() {
         <Kpi tokens={tokens} label="KEV Advisories" value={String(kevCount)} accent={kevCount > 0 ? primitiveSignal.critical : undefined} />
         <Kpi tokens={tokens} label="Detection Rules" value={String(activeRules)} />
       </section>
+      {/* System Health — thesisSystemPulse (AICAP-PLAT-006 grounding) */}
+      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
+        {thesisSystemPulse.map((sp) => {
+          const healthColor = sp.health === 'healthy' || sp.health === 'operational' ? primitiveSignal.success : sp.health === 'degraded' ? primitiveSignal.warning : primitiveSignal.critical;
+          return (
+            <div key={sp.id} style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+              <span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>{sp.subsystem}</span>
+              <span style={{ display: 'inline-block', padding: '2px 6px', fontSize: primitiveTypeScale.micro, color: '#fff', background: healthColor, marginTop: primitiveSpacing[1] }}>{sp.health}</span>
+              <span style={{ display: 'block', fontSize: primitiveTypeScale.caption, color: tokens.text.secondary, marginTop: primitiveSpacing[1] }}>Freshness: {sp.data_freshness_hours}h · Queue: {sp.queue_backlog}</span>
+            </div>
+          );
+        })}
+      </section>
+
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap }}>
         <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
           <h3 style={{ fontSize: primitiveTypeScale.h4, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: `0 0 ${componentTokens.cardHeaderMargin}` }}>Engine Summary</h3>

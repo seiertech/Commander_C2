@@ -1,6 +1,6 @@
 'use client';
 
-import { thesisIocs, thesisVulnerabilityIntelligence } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisIocs, thesisVulnerabilityIntelligence, thesisAssets } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
@@ -30,15 +30,19 @@ export default function VulnerabilitiesSupplyChainPage() {
   );
   const activeIocs = supplyChainIocs.filter((ioc) => ioc.active);
   const highConfidence = supplyChainIocs.filter((ioc) => ioc.confidence >= 80);
+  const affectedAssets = thesisAssets.filter((a) => a.classification === 'server' || a.classification === 'container').length;
+  const externalAssets = thesisAssets.filter((a) => a.surface_attribution === 'external_attack_surface').length;
 
   return (
     <PageContainer pretitle="Vulnerabilities › Supply Chain" title="Code & Supply Chain">
       {/* KPI strip */}
-      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
+      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
         <KpiCard tokens={tokens} label="Supply Chain IOCs" value={String(supplyChainIocs.length)} />
         <KpiCard tokens={tokens} label="Active" value={String(activeIocs.length)} accent={activeIocs.length > 0 ? primitiveSignal.warning : undefined} />
         <KpiCard tokens={tokens} label="High Confidence" value={String(highConfidence.length)} />
         <KpiCard tokens={tokens} label="Related CVEs" value={String(supplyChainVulns.length)} accent={supplyChainVulns.length > 0 ? primitiveSignal.warning : undefined} />
+        <KpiCard tokens={tokens} label="Affected Assets" value={String(affectedAssets)} />
+        <KpiCard tokens={tokens} label="External Surface" value={String(externalAssets)} accent={externalAssets > 0 ? primitiveSignal.warning : undefined} />
       </section>
 
       {/* Supply chain IOCs */}

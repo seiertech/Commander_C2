@@ -9,7 +9,7 @@ import {
   primitiveFonts, primitiveLetterSpacing, primitiveSignal, primitiveData,
 } from '../../../../../../packages/ui/src/tokens/primitives';
 import type { ApexOptions } from 'apexcharts';
-import { thesisModels } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisModels, thesisBlastRadius } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -29,6 +29,8 @@ export default function PlatformModelsPage() {
   const activeModels = thesisModels.filter((m) => m.status === 'active').length;
   const avgAccuracy = Math.round(thesisModels.reduce((acc, m) => acc + m.accuracy, 0) / thesisModels.length);
   const avgFPR = (thesisModels.reduce((acc, m) => acc + m.false_positive_rate, 0) / thesisModels.length).toFixed(1);
+  const blastRadiusTotal = thesisBlastRadius.length;
+  const blastRadiusCritical = thesisBlastRadius.filter((b) => b.total_impact_score > 50).length;
 
   const statusColor = (status: string) => {
     switch (status) {
@@ -61,11 +63,13 @@ export default function PlatformModelsPage() {
   return (
     <PageContainer pretitle="Platform › Models" title="Model Management">
       {/* KPI strip */}
-      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
+      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
         <KpiCard tokens={tokens} label="Total Models" value={String(thesisModels.length)} />
         <KpiCard tokens={tokens} label="Active" value={String(activeModels)} accent={primitiveSignal.success} />
         <KpiCard tokens={tokens} label="Avg Accuracy" value={`${avgAccuracy}%`} accent={avgAccuracy >= 90 ? primitiveSignal.success : primitiveSignal.warning} />
         <KpiCard tokens={tokens} label="Avg FP Rate" value={`${avgFPR}%`} accent={Number(avgFPR) > 5 ? primitiveSignal.warning : undefined} />
+        <KpiCard tokens={tokens} label="Blast Radius Items" value={String(blastRadiusTotal)} />
+        <KpiCard tokens={tokens} label="Critical Blast" value={String(blastRadiusCritical)} accent={blastRadiusCritical > 0 ? primitiveSignal.critical : undefined} />
       </section>
 
       {/* Chart */}

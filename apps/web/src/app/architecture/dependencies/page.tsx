@@ -4,7 +4,7 @@ import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
-import { thesisArchitectureComponents } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisArchitectureComponents, thesisBlastRadius } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Architecture — Dependencies
@@ -18,14 +18,18 @@ export default function ArchitectureDependenciesPage() {
   const withDeps = thesisArchitectureComponents.filter((c) => c.dependencies.length > 0);
   const totalDeps = thesisArchitectureComponents.reduce((a, c) => a + c.dependencies.length, 0);
   const criticalWithDeps = withDeps.filter((c) => c.criticality <= 2).length;
+  const blastRadiusCritical = thesisBlastRadius.filter((b) => b.total_impact_score > 50).length;
+  const avgImpactedAssets = thesisBlastRadius.length > 0 ? Math.round(thesisBlastRadius.reduce((a, b_item) => a + b_item.affected_entities.length, 0) / thesisBlastRadius.length) : 0;
 
   return (
     <PageContainer pretitle="Architecture › Dependencies" title="Dependency Map">
-      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
+      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
         <Kpi tokens={tokens} label="Components" value={String(thesisArchitectureComponents.length)} />
         <Kpi tokens={tokens} label="With Dependencies" value={String(withDeps.length)} />
         <Kpi tokens={tokens} label="Total Links" value={String(totalDeps)} />
         <Kpi tokens={tokens} label="Critical w/ Deps" value={String(criticalWithDeps)} accent={criticalWithDeps > 0 ? primitiveSignal.warning : undefined} />
+        <Kpi tokens={tokens} label="Blast Radius Critical" value={String(blastRadiusCritical)} accent={blastRadiusCritical > 0 ? primitiveSignal.critical : undefined} />
+        <Kpi tokens={tokens} label="Avg Impacted Assets" value={String(avgImpactedAssets)} />
       </section>
       <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
         <h3 style={{ fontSize: primitiveTypeScale.h4, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: `0 0 ${componentTokens.cardHeaderMargin}` }}>Dependency Links</h3>
