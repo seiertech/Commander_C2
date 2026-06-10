@@ -11,15 +11,15 @@ export type BreakGlassStatus = 'pending' | 'approved' | 'denied' | 'expired';
 
 /** Break-glass request — emergency access elevation */
 export interface BreakGlassRequest extends CommonFields {
-  entityType: 'break-glass-request';
-  requestId: string;
+  entity_type: 'break-glass-request';
+  request_id: string;
   requestorId: string;
-  tenantId: string;
+  tenant_id: string;
   reason: string;
   scope: string;
   status: BreakGlassStatus;
-  approvedBy: string | null;
-  approvedAt: string | null;
-  expiresAt: string;
-  auditRef: string;
+  approved_by: string | null;
+  approved_at: string | null;
+  expires_at: string;
+  audit_ref: string;
 }

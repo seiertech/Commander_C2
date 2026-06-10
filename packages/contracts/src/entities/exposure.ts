@@ -37,9 +37,9 @@ export type CoverageGapType = typeof COVERAGE_GAP_TYPES[number];
 
 export interface CoverageGap {
   /** Type of coverage gap */
-  gapType: CoverageGapType;
+  gap_type: CoverageGapType;
   /** Reference to the affected entity */
-  affectedEntityRef: string;
+  affected_entity_ref: string;
   /** Number of days data has been stale (for stale_data type) */
   staleDays?: number;
 }
@@ -47,29 +47,29 @@ export interface CoverageGap {
 // ─── Exposure Entity ─────────────────────────────────────────────────────────
 
 export interface Exposure extends CommonFields {
-  entityType: 'exposure';
+  entity_type: 'exposure';
   /** Surface attribution per Spec #60 */
-  surfaceType: SurfaceAttribution;
+  surface_type: SurfaceAttribution;
   /** Exposure category */
   category: ExposureCategory;
   /** Reference to the affected asset */
-  assetRef: string;
+  asset_ref: string;
   /** Reference to the affected identity (if applicable) */
   identityRef?: string;
   /** Description of the exposure vector */
-  exposureVector: string;
+  exposure_vector: string;
   /** Severity 1 (critical) to 5 (low) */
   severity: number;
   /** When this exposure was first discovered */
-  discoveredAt: string;
+  discovered_at: string;
   /** When this exposure was last validated */
   lastValidatedAt: string;
   /** Current status */
   status: ExposureStatus;
   /** Blast zone grouping identifier */
-  blastZone: string;
+  blast_zone: string;
   /** Associated coverage gaps */
-  coverageGaps: CoverageGap[];
+  coverage_gaps: CoverageGap[];
 }
 
 // ─── Validation ──────────────────────────────────────────────────────────────
@@ -88,26 +88,26 @@ export function validateExposure(exposure: Exposure): ExposureValidation {
   if (!exposure.id || exposure.id.trim() === '') {
     errors.push('id: required');
   }
-  if (!exposure.tenant || !exposure.tenant.tenantId || exposure.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!exposure.tenant || !exposure.tenant.tenant_id || exposure.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
-  if (!exposure.surfaceType || !['internal_attack_surface', 'external_attack_surface'].includes(exposure.surfaceType)) {
-    errors.push('surfaceType: must be internal_attack_surface or external_attack_surface');
+  if (!exposure.surface_type || !['internal_attack_surface', 'external_attack_surface'].includes(exposure.surface_type)) {
+    errors.push('surface_type: must be internal_attack_surface or external_attack_surface');
   }
   if (!exposure.category || !EXPOSURE_CATEGORIES.includes(exposure.category)) {
     errors.push(`category: must be one of: ${EXPOSURE_CATEGORIES.join(', ')}`);
   }
-  if (!exposure.assetRef || exposure.assetRef.trim() === '') {
-    errors.push('assetRef: required');
+  if (!exposure.asset_ref || exposure.asset_ref.trim() === '') {
+    errors.push('asset_ref: required');
   }
-  if (!exposure.exposureVector || exposure.exposureVector.trim() === '') {
-    errors.push('exposureVector: required');
+  if (!exposure.exposure_vector || exposure.exposure_vector.trim() === '') {
+    errors.push('exposure_vector: required');
   }
   if (typeof exposure.severity !== 'number' || exposure.severity < 1 || exposure.severity > 5) {
     errors.push('severity: must be 1-5');
   }
-  if (!exposure.discoveredAt || exposure.discoveredAt.trim() === '') {
-    errors.push('discoveredAt: required');
+  if (!exposure.discovered_at || exposure.discovered_at.trim() === '') {
+    errors.push('discovered_at: required');
   }
   if (!exposure.lastValidatedAt || exposure.lastValidatedAt.trim() === '') {
     errors.push('lastValidatedAt: required');
@@ -115,18 +115,18 @@ export function validateExposure(exposure: Exposure): ExposureValidation {
   if (!exposure.status || !EXPOSURE_STATUSES.includes(exposure.status)) {
     errors.push(`status: must be one of: ${EXPOSURE_STATUSES.join(', ')}`);
   }
-  if (!exposure.blastZone || exposure.blastZone.trim() === '') {
-    errors.push('blastZone: required');
+  if (!exposure.blast_zone || exposure.blast_zone.trim() === '') {
+    errors.push('blast_zone: required');
   }
-  if (!Array.isArray(exposure.coverageGaps)) {
-    errors.push('coverageGaps: must be an array');
+  if (!Array.isArray(exposure.coverage_gaps)) {
+    errors.push('coverage_gaps: must be an array');
   } else {
-    for (const gap of exposure.coverageGaps) {
-      if (!COVERAGE_GAP_TYPES.includes(gap.gapType)) {
-        errors.push(`coverageGaps[].gapType: must be one of: ${COVERAGE_GAP_TYPES.join(', ')}`);
+    for (const gap of exposure.coverage_gaps) {
+      if (!COVERAGE_GAP_TYPES.includes(gap.gap_type)) {
+        errors.push(`coverageGaps[].gap_type: must be one of: ${COVERAGE_GAP_TYPES.join(', ')}`);
       }
-      if (!gap.affectedEntityRef || gap.affectedEntityRef.trim() === '') {
-        errors.push('coverageGaps[].affectedEntityRef: required');
+      if (!gap.affected_entity_ref || gap.affected_entity_ref.trim() === '') {
+        errors.push('coverageGaps[].affected_entity_ref: required');
       }
     }
   }

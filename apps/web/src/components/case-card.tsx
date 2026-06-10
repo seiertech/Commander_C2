@@ -77,7 +77,7 @@ export function CaseCard({ caseRecord, now, hud }: { caseRecord: Case; now: numb
         <div style={{ display: 'flex', alignItems: 'center', gap: primitiveSpacing[1], minWidth: 0 }}>
           <span style={{ color: pr.color, fontWeight: primitiveFontWeight.bold, fontSize: primitiveTypeScale.caption }} aria-hidden>{pr.shape}</span>
           <span style={{ color: pr.color, fontWeight: primitiveFontWeight.semibold, fontSize: primitiveTypeScale.micro }}>{pr.label}</span>
-          <span style={{ fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, color: tokens.text.muted, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{c.caseRef}</span>
+          <span style={{ fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, color: tokens.text.muted, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{c.case_ref}</span>
         </div>
         <span title={`Derived Risk Score ${risk}/100 — not a Spec 08 contract`} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.bold, color: tone(band) }}>
           <span style={{ width: 7, height: 7, borderRadius: '50%', background: tone(band), display: 'inline-block' }} />{risk}<span style={{ fontFamily: primitiveFonts.body, fontWeight: primitiveFontWeight.normal, color: tokens.text.muted }}>ⓓ</span>
@@ -100,14 +100,14 @@ export function CaseCard({ caseRecord, now, hud }: { caseRecord: Case; now: numb
 
       {/* Row 4: meta — type + owner (REAL) */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: primitiveSpacing[2] }}>
-        <span style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.muted, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{titleCase(c.caseType)}</span>
+        <span style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.muted, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{titleCase(c.case_type)}</span>
         <span style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.secondary, whiteSpace: 'nowrap' }}>{c.owner}</span>
       </div>
 
       {/* Row 5: derived momentum + real surface + real age */}
       <div style={{ display: 'flex', alignItems: 'center', gap: primitiveSpacing[2], flexWrap: 'wrap', paddingTop: primitiveSpacing[1], borderTop: `1px solid ${tokens.border.subtle}` }}>
         <span title={`Momentum (derived): ${MOMENTUM_GLYPH[mom].label}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 2, fontSize: primitiveTypeScale.micro, color: momColor }}>{MOMENTUM_GLYPH[mom].glyph} {MOMENTUM_GLYPH[mom].label} <span style={{ color: tokens.text.muted }}>ⓓ</span></span>
-        <span title="Attack surface" style={{ fontSize: primitiveTypeScale.micro, color: c.surfaceAttribution === 'external_attack_surface' ? tokens.status.info : tokens.text.muted, marginLeft: 'auto' }}>{c.surfaceAttribution === 'external_attack_surface' ? 'EXT' : 'INT'}</span>
+        <span title="Attack surface" style={{ fontSize: primitiveTypeScale.micro, color: c.surface_attribution === 'external_attack_surface' ? tokens.status.info : tokens.text.muted, marginLeft: 'auto' }}>{c.surface_attribution === 'external_attack_surface' ? 'EXT' : 'INT'}</span>
         <span style={{ fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>{ageLabel(c, now)}</span>
       </div>
 

@@ -23,7 +23,7 @@ export interface ValidationWindowState {
   /** Hours since last evidence refresh */
   hoursSinceLastRefresh: number;
   /** Strategy values consumed (for audit/traceability) */
-  strategyRef: { policyId: string; policyVersion: string };
+  strategyRef: { policy_id: string; policy_version: string };
 }
 
 /**
@@ -43,7 +43,7 @@ export function evaluateValidationWindow(
   now?: Date,
 ): ValidationWindowState {
   const policy = strategies.find(
-    (s) => s.surfaceType === 'validation-window' && s.status === 'active',
+    (s) => s.surface_type === 'validation-window' && s.status === 'active',
   );
 
   if (!policy) {
@@ -53,7 +53,7 @@ export function evaluateValidationWindow(
   }
 
   const config = policy.configuration as {
-    windowHours: number;
+    window_hours: number;
     freshnessHours: number;
     refreshCadenceHours: number;
   };
@@ -67,9 +67,9 @@ export function evaluateValidationWindow(
   const hoursSinceLastRefresh =
     (currentTime.getTime() - lastRefreshAt.getTime()) / (1000 * 60 * 60);
 
-  const withinWindow = hoursSinceEntry < config.windowHours;
+  const withinWindow = hoursSinceEntry < config.window_hours;
   const windowHoursRemaining = withinWindow
-    ? config.windowHours - hoursSinceEntry
+    ? config.window_hours - hoursSinceEntry
     : 0;
 
   const evidenceFresh = hoursSinceLastRefresh < config.freshnessHours;
@@ -82,8 +82,8 @@ export function evaluateValidationWindow(
     windowHoursRemaining,
     hoursSinceLastRefresh,
     strategyRef: {
-      policyId: policy.id,
-      policyVersion: policy.policyVersion,
+      policy_id: policy.id,
+      policy_version: policy.policy_version,
     },
   };
 }

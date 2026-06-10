@@ -34,7 +34,7 @@ const CANDIDATE_RULES: Array<{ label: string; spec: RuleSpec }> = [
     label: 'MFA drift on privileged identity',
     spec: {
       name: 'MFA disabled on privileged identity',
-      ruleType: 'drift',
+      rule_type: 'drift',
       tenantScope: 'tenant-001-acme-corp',
       severity: 5,
       conditions: [
@@ -48,7 +48,7 @@ const CANDIDATE_RULES: Array<{ label: string; spec: RuleSpec }> = [
     label: 'Non-whitelisted operator',
     spec: {
       name: 'Bad operator rule',
-      ruleType: 'detection',
+      rule_type: 'detection',
       tenantScope: 'tenant-001-acme-corp',
       severity: 3,
       conditions: [{ field: 'asset.region', operator: 'regex_eval', value: '.*' }],
@@ -58,7 +58,7 @@ const CANDIDATE_RULES: Array<{ label: string; spec: RuleSpec }> = [
     label: 'Embedded code execution (rejected)',
     spec: {
       name: 'Malicious rule',
-      ruleType: 'custom',
+      rule_type: 'custom',
       tenantScope: 'tenant-001-acme-corp',
       severity: 4,
       conditions: [{ field: 'asset.tag', operator: 'matches', value: 'eval(process.exit(1))' }],
@@ -68,7 +68,7 @@ const CANDIDATE_RULES: Array<{ label: string; spec: RuleSpec }> = [
     label: 'Missing tenant scope',
     spec: {
       name: 'Unscoped rule',
-      ruleType: 'drift',
+      rule_type: 'drift',
       tenantScope: '',
       severity: 2,
       conditions: [{ field: 'control.status', operator: 'neq', value: 'compliant' }],
@@ -103,7 +103,7 @@ export default function PlatformRuleValidationPage() {
             </div>
 
             <div style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.muted, fontFamily: primitiveFonts.mono, marginBottom: primitiveSpacing[2] }}>
-              {spec.ruleType} • severity {spec.severity} • scope {Array.isArray(spec.tenantScope) ? spec.tenantScope.join(', ') : (spec.tenantScope || '—')}
+              {spec.rule_type} • severity {spec.severity} • scope {Array.isArray(spec.tenantScope) ? spec.tenantScope.join(', ') : (spec.tenantScope || '—')}
             </div>
 
             {result.errors.length > 0 && (

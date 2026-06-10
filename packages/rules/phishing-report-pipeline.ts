@@ -37,7 +37,7 @@ export interface RiskObjectRecommendation {
 
 /** Case creation recommendation */
 export interface CaseRecommendation {
-  caseType: 'threat-intelligence-estate-match';
+  case_type: 'threat-intelligence-estate-match';
   title: string;
   priority: 'P1' | 'P2';
 }
@@ -86,8 +86,8 @@ export function processPhishingReport(
           confidence: getHighestConfidence(detonationVerdict),
         },
         caseRecommendation: {
-          caseType: 'threat-intelligence-estate-match',
-          title: `Confirmed phishing: reported by ${report.reportedBy}`,
+          case_type: 'threat-intelligence-estate-match',
+          title: `Confirmed phishing: reported by ${report.reported_by}`,
           priority: 'P1',
         },
         employeeNotification: buildMaliciousNotification(report),

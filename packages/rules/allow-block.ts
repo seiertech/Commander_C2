@@ -50,18 +50,18 @@ export type AllowBlockDecision =
  * Block always wins over allow — this is non-negotiable.
  */
 export function evaluateAllowBlock(
-  iocCategory: IocCategory,
+  ioc_category: IocCategory,
   normalisedValue: string,
   entries: TenantIocAllowBlockEntry[],
   now: string,
 ): AllowBlockDecision {
   // Filter to matching entries (same category + value, not expired)
   const matching = entries.filter(entry => {
-    if (entry.iocCategory !== iocCategory) return false;
+    if (entry.ioc_category !== ioc_category) return false;
     if (entry.value !== normalisedValue) return false;
     // Check expiry
-    if (entry.expiresAt !== null) {
-      const expiryTime = new Date(entry.expiresAt).getTime();
+    if (entry.expires_at !== null) {
+      const expiryTime = new Date(entry.expires_at).getTime();
       const currentTime = new Date(now).getTime();
       if (expiryTime <= currentTime) return false;
     }

@@ -66,9 +66,9 @@ export const SEVERITY_ID: Record<SourceSeverityLevel, number> = {
 
 /** Source-assessed severity — preserved independently of Commander priority. */
 export interface SourceSeverity {
-  severityLevel: SourceSeverityLevel;
+  severity_level: SourceSeverityLevel;
   /** Numeric ID 1-5 (extracted to column). */
-  severityId: number;
+  severity_id: number;
 }
 
 // ─── Confidence (source-assessed) ────────────────────────────────────────────
@@ -78,9 +78,9 @@ export type SourceConfidenceLevel = 'unknown' | 'low' | 'medium' | 'high';
 
 /** Source-assessed confidence — distinct from Commander AI confidence. */
 export interface SourceConfidence {
-  confidenceLevel: SourceConfidenceLevel;
+  confidence_level: SourceConfidenceLevel;
   /** Numeric score 0-100 (extracted to column). */
-  confidenceScore: number;
+  confidence_score: number;
 }
 
 // ─── Source Product ──────────────────────────────────────────────────────────
@@ -92,7 +92,7 @@ export interface SourceProduct {
   version?: string;
   uid?: string;
   /** Commander connector class (A/B/C/D). */
-  connectorClass?: ConnectorClass;
+  connector_class?: ConnectorClass;
 }
 
 // ─── ATT&CK binding ──────────────────────────────────────────────────────────
@@ -101,7 +101,7 @@ export interface SourceProduct {
 export interface AttackMapping {
   tactic: string;
   technique: string;
-  techniqueName: string;
+  technique_name: string;
   subTechnique?: string;
   subTechniqueName?: string;
   /** ATT&CK framework version, e.g. "v13.1". */
@@ -130,7 +130,7 @@ export type ObservableType =
   | 'file';
 
 export interface ObservableRef {
-  observableType: ObservableType;
+  observable_type: ObservableType;
   value: string;
   firstSeen?: string;
   lastSeen?: string;
@@ -150,17 +150,17 @@ export const MAX_OBSERVABLES = 50;
  */
 export interface SourceClassification {
   /** Required: what type of finding. */
-  findingClass: FindingClass;
+  finding_class: FindingClass;
   /** Required: source-assessed severity. */
-  sourceSeverity: SourceSeverity;
+  source_severity: SourceSeverity;
   /** Required: source-assessed confidence. */
-  sourceConfidence: SourceConfidence;
+  source_confidence: SourceConfidence;
   /** Required: which tool produced the finding. */
-  sourceProduct: SourceProduct;
+  source_product: SourceProduct;
   /** Required: source-provided unique identifier for the finding. */
-  sourceFindingUid: string;
+  source_finding_uid: string;
   /** Recommended: source-provided activity classification. */
-  sourceActivity?: string;
+  source_activity?: string;
   /** Recommended: ATT&CK bindings (bounded, max MAX_ATTACK_BINDINGS). */
   attacks?: AttackMapping[];
   /** Recommended: typed observables (bounded, max MAX_OBSERVABLES). */
@@ -187,28 +187,28 @@ export function validateSourceClassification(
 ): SourceClassificationValidation {
   const errors: string[] = [];
 
-  if (!FINDING_CLASSES.includes(sc.findingClass)) {
-    errors.push(`Invalid findingClass: ${String(sc.findingClass)}.`);
+  if (!FINDING_CLASSES.includes(sc.finding_class)) {
+    errors.push(`Invalid finding_class: ${String(sc.finding_class)}.`);
   }
 
-  if (sc.sourceSeverity.severityId < 1 || sc.sourceSeverity.severityId > 5) {
-    errors.push(`severityId out of range (1-5): ${sc.sourceSeverity.severityId}.`);
+  if (sc.source_severity.severity_id < 1 || sc.source_severity.severity_id > 5) {
+    errors.push(`severityId out of range (1-5): ${sc.source_severity.severity_id}.`);
   }
 
   if (
-    sc.sourceConfidence.confidenceScore < 0 ||
-    sc.sourceConfidence.confidenceScore > 100
+    sc.source_confidence.confidence_score < 0 ||
+    sc.source_confidence.confidence_score > 100
   ) {
     errors.push(
-      `confidenceScore out of range (0-100): ${sc.sourceConfidence.confidenceScore}.`,
+      `confidenceScore out of range (0-100): ${sc.source_confidence.confidence_score}.`,
     );
   }
 
-  if (!sc.sourceFindingUid || sc.sourceFindingUid.trim() === '') {
+  if (!sc.source_finding_uid || sc.source_finding_uid.trim() === '') {
     errors.push('sourceFindingUid is required.');
   }
 
-  if (!sc.sourceProduct.vendor || !sc.sourceProduct.name) {
+  if (!sc.source_product.vendor || !sc.source_product.name) {
     errors.push('sourceProduct.vendor and sourceProduct.name are required.');
   }
 

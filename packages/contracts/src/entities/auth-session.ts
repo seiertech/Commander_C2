@@ -11,14 +11,14 @@ export type AuthSessionStatus = 'active' | 'expired' | 'revoked';
 
 /** Auth session — server-side session record */
 export interface AuthSession extends CommonFields {
-  entityType: 'auth-session';
-  sessionId: string;
-  userId: string;
-  tenantId: string;
-  createdAt: string;
-  expiresAt: string;
+  entity_type: 'auth-session';
+  session_id: string;
+  user_id: string;
+  tenant_id: string;
+  created_at: string;
+  expires_at: string;
   mfaVerified: boolean;
-  ipAddress: string;
-  userAgent: string;
+  ip_address: string;
+  user_agent: string;
   status: AuthSessionStatus;
 }

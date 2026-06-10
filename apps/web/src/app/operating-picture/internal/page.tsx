@@ -2,13 +2,9 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedAssets } from '../../../../../../packages/contracts/src/fixtures/seed-assets';
-import { seedIdentities } from '../../../../../../packages/contracts/src/fixtures/seed-identities';
-import { seedCases } from '../../../../../../packages/contracts/src/fixtures/seed-cases';
-import { seedRiskObjects } from '../../../../../../packages/contracts/src/fixtures/seed-risk-objects';
-import { seedConnectors } from '../../../../../../packages/contracts/src/fixtures/seed-connectors';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
 import { STREAM_LABELS, CLASS_TO_STREAM } from '../../../../../../packages/contracts/src/engines/intelligence-layer';
+import { thesisAssets, thesisIdentities, thesisCases, thesisRiskObjects, thesisConnectors } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Internal Operating Picture — Thesis Layer
@@ -19,7 +15,7 @@ import { STREAM_LABELS, CLASS_TO_STREAM } from '../../../../../../packages/contr
  * SCOPE (Thesis):
  *   1. Internal attack surface inventory (internal_attack_surface assets/identities)
  *   2. Internal Behavioural Intelligence stream visualisation (Class B connectors) — AGGREGATE tier
- *   3. Internal attack surface case queue (cases with surfaceAttribution: internal_attack_surface)
+ *   3. Internal attack surface case queue (cases with surface_attribution: internal_attack_surface)
  *   4. Internal attack surface risk objects
  *   5. Verdict pattern visualisation (Class B) — per-identity detail IR-overlay gated
  *   6. Drill paths to cases, assets, identities, verdict patterns
@@ -59,17 +55,17 @@ export default function InternalOperatingPicturePage() {
   const { tokens } = useMode();
 
   // ── 1. Internal attack surface inventory ──
-  const internalAssets = seedAssets.filter((a) => a.surfaceAttribution === INTERNAL);
-  const internalIdentities = seedIdentities.filter((i) => i.surfaceAttribution === INTERNAL);
+  const internalAssets = thesisAssets.filter((a) => a.surface_attribution === INTERNAL);
+  const internalIdentities = thesisIdentities.filter((i) => i.surface_attribution === INTERNAL);
 
   // ── 2. Internal Behavioural Intelligence stream — Class B connectors feed this stream (aggregate) ──
-  const internalBehaviouralConnectors = seedConnectors.filter((c) =>
+  const internalBehaviouralConnectors = thesisConnectors.filter((c) =>
     c.classes.some((cls) => CLASS_TO_STREAM[cls] === 'internal_behavioural'),
   );
 
   // ── 3. Internal attack surface case queue ──
-  const internalCases = seedCases
-    .filter((c) => c.surfaceAttribution === INTERNAL)
+  const internalCases = thesisCases
+    .filter((c) => c.surface_attribution === INTERNAL)
     .sort((a, b) => {
       const order: Record<string, number> = { P0: 0, P1: 1, P2: 2, P3: 3, P4: 4 };
       return (order[a.priority] ?? 4) - (order[b.priority] ?? 4);
@@ -77,12 +73,12 @@ export default function InternalOperatingPicturePage() {
 
   // ── 4. Internal attack surface risk objects ──
   const internalEntityIds = new Set<string>([
-    ...internalAssets.map((a) => a.id),
+    ...internalAssets.map((a) => a.asset_id),
     ...internalIdentities.map((i) => i.id),
-    ...internalCases.map((c) => c.id),
+    ...internalCases.map((c) => c.case_id),
   ]);
-  const internalRiskObjects = seedRiskObjects.filter((r) =>
-    r.affectedEntities?.some((id) => internalEntityIds.has(id)) || internalEntityIds.has(r.affectedEntityId),
+  const internalRiskObjects = thesisRiskObjects.filter((r) =>
+    r.affected_entities?.some((id) => internalEntityIds.has(id)) || internalEntityIds.has(r.affected_entity_id),
   );
 
   const priorityBadge = (p: string) =>
@@ -137,8 +133,8 @@ export default function InternalOperatingPicturePage() {
                   </thead>
                   <tbody>
                     {internalAssets.map((a) => (
-                      <tr key={a.id}>
-                        <td><a href={`/assets?id=${a.id}`} style={{ fontSize: primitiveTypeScale.body, color: tokens.action.primary }}>{a.name}</a></td>
+                      <tr key={a.asset_id}>
+                        <td><a href={`/assets?id=${a.asset_id}`} style={{ fontSize: primitiveTypeScale.body, color: tokens.action.primary }}>{a.asset_name}</a></td>
                         <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{a.classification}</td>
                         <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{a.environment}</td>
                         <td className="text-end">{a.criticality}</td>
@@ -172,7 +168,7 @@ export default function InternalOperatingPicturePage() {
                           <span className="status-dot me-2" style={{ display: 'inline-block', background: c.state === 'active' ? primitiveSignal.success : c.state === 'error' ? primitiveSignal.critical : primitiveSignal.neutral }} />
                           <span style={{ fontSize: primitiveTypeScale.caption }}>{c.state}</span>
                         </td>
-                        <td className="text-end text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{c.lastRunStatus}</td>
+                        <td className="text-end text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{c.last_run_status}</td>
                       </tr>
                     ))}
                     {internalBehaviouralConnectors.length === 0 && (
@@ -232,9 +228,9 @@ export default function InternalOperatingPicturePage() {
                 <table className="table table-vcenter card-table">
                   <tbody>
                     {internalCases.map((c) => (
-                      <tr key={c.id}>
+                      <tr key={c.case_id}>
                         <td style={{ width: '48px' }}><span className={`badge ${priorityBadge(c.priority)}`}>{c.priority}</span></td>
-                        <td><a href={`/cases/${c.id}`} style={{ fontSize: primitiveTypeScale.body, color: tokens.action.primary }}>{c.title}</a></td>
+                        <td><a href={`/cases/${c.case_id}`} style={{ fontSize: primitiveTypeScale.body, color: tokens.action.primary }}>{c.title}</a></td>
                         <td className="text-muted text-end" style={{ fontSize: primitiveTypeScale.caption, whiteSpace: 'nowrap' }}>{c.status}</td>
                       </tr>
                     ))}
@@ -255,7 +251,7 @@ export default function InternalOperatingPicturePage() {
                     {internalRiskObjects.map((r) => (
                       <tr key={r.id}>
                         <td style={{ fontSize: primitiveTypeScale.body }}>{r.type}</td>
-                        <td className="text-muted text-end" style={{ fontSize: primitiveTypeScale.caption }}>{r.treatmentState}</td>
+                        <td className="text-muted text-end" style={{ fontSize: primitiveTypeScale.caption }}>{r.treatment_state}</td>
                       </tr>
                     ))}
                     {internalRiskObjects.length === 0 && (

@@ -121,10 +121,10 @@ describe('War Room Cadence Engine', () => {
     it('generates update with correct structure', () => {
       const warRoom = seedWarRooms[0]; // activated
       const cases = [
-        { caseId: 'case-001', caseRef: 'CASE-001', status: 'in_progress', priority: 'P0' },
+        { case_id: 'case-001', case_ref: 'CASE-001', status: 'in_progress', priority: 'P0' },
       ];
       const recentActions = [
-        { actionId: 'act-001', description: 'Patched server', completedAt: '2026-02-01T09:00:00.000Z', actor: 'analyst-001' },
+        { action_id: 'act-001', description: 'Patched server', completed_at: '2026-02-01T09:00:00.000Z', actor: 'analyst-001' },
       ];
       const result = generateStructuredUpdate(warRoom, cases, recentActions);
 
@@ -145,12 +145,12 @@ describe('War Room Cadence Engine', () => {
     it('returns HIGH confidence with sufficient data', () => {
       const warRoom = seedWarRooms[0];
       const cases = [
-        { caseId: 'case-001', caseRef: 'CASE-001', status: 'in_progress', priority: 'P0' },
+        { case_id: 'case-001', case_ref: 'CASE-001', status: 'in_progress', priority: 'P0' },
       ];
       const recentActions = [
-        { actionId: 'act-001', description: 'Action 1', completedAt: '2026-02-01T09:00:00.000Z', actor: 'analyst-001' },
-        { actionId: 'act-002', description: 'Action 2', completedAt: '2026-02-01T09:10:00.000Z', actor: 'analyst-001' },
-        { actionId: 'act-003', description: 'Action 3', completedAt: '2026-02-01T09:20:00.000Z', actor: 'analyst-001' },
+        { action_id: 'act-001', description: 'Action 1', completed_at: '2026-02-01T09:00:00.000Z', actor: 'analyst-001' },
+        { action_id: 'act-002', description: 'Action 2', completed_at: '2026-02-01T09:10:00.000Z', actor: 'analyst-001' },
+        { action_id: 'act-003', description: 'Action 3', completed_at: '2026-02-01T09:20:00.000Z', actor: 'analyst-001' },
       ];
       const result = generateStructuredUpdate(warRoom, cases, recentActions);
       expect(result.aiConfidenceLevel).toBe('HIGH');

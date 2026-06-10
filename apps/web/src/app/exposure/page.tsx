@@ -2,9 +2,9 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedExposures } from '../../../../../packages/contracts/src/fixtures/seed-exposures';
 import { componentTokens } from '../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
+import { thesisExposures } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Exposure Management — Attack Surface
@@ -15,10 +15,10 @@ import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFon
 
 export default function ExposurePage() {
   const { tokens } = useMode();
-  const external = seedExposures.filter((e) => e.surfaceType === 'external_attack_surface').length;
-  const internal = seedExposures.filter((e) => e.surfaceType === 'internal_attack_surface').length;
-  const open = seedExposures.filter((e) => e.status === 'open').length;
-  const totalGaps = seedExposures.reduce((a, e) => a + e.coverageGaps.length, 0);
+  const external = thesisExposures.filter((e) => e.surface_type === 'external_attack_surface').length;
+  const internal = thesisExposures.filter((e) => e.surface_type === 'internal_attack_surface').length;
+  const open = thesisExposures.filter((e) => e.status === 'open').length;
+  const totalGaps = thesisExposures.reduce((a, e) => a + e.coverage_gaps.length, 0);
 
   return (
     <PageContainer pretitle="Exposure Management" title="Attack Surface">
@@ -33,15 +33,15 @@ export default function ExposurePage() {
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
             <thead><tr>{['Surface', 'Category', 'Severity', 'Status', 'Blast Zone', 'Vector', 'Gaps'].map((h) => <th key={h} style={{ textAlign: 'left', padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, borderBottom: `2px solid ${tokens.border.default}`, color: tokens.text.muted, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, fontSize: primitiveTypeScale.micro }}>{h}</th>)}</tr></thead>
-            <tbody>{seedExposures.map((e) => (
+            <tbody>{thesisExposures.map((e) => (
               <tr key={e.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 6px', fontSize: primitiveTypeScale.micro, border: `1px solid ${e.surfaceType === 'external_attack_surface' ? primitiveSignal.warning : tokens.border.subtle}`, color: e.surfaceType === 'external_attack_surface' ? primitiveSignal.warning : tokens.text.muted }}>{e.surfaceType === 'external_attack_surface' ? 'EXT' : 'INT'}</span></td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 6px', fontSize: primitiveTypeScale.micro, border: `1px solid ${e.surface_type === 'external_attack_surface' ? primitiveSignal.warning : tokens.border.subtle}`, color: e.surface_type === 'external_attack_surface' ? primitiveSignal.warning : tokens.text.muted }}>{e.surface_type === 'external_attack_surface' ? 'EXT' : 'INT'}</span></td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{e.category}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono, color: e.severity <= 2 ? primitiveSignal.critical : tokens.text.secondary }}>{e.severity}/5</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, color: '#fff', background: e.status === 'open' ? primitiveSignal.critical : e.status === 'monitoring' ? primitiveSignal.warning : primitiveSignal.success }}>{e.status}</span></td>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontSize: primitiveTypeScale.micro }}>{e.blastZone}</td>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, maxWidth: 260, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={e.exposureVector}>{e.exposureVector}</td>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{e.coverageGaps.length}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontSize: primitiveTypeScale.micro }}>{e.blast_zone}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, maxWidth: 260, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={e.exposure_vector}>{e.exposure_vector}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{e.coverage_gaps.length}</td>
               </tr>
             ))}</tbody>
           </table>

@@ -2,9 +2,9 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedMissions } from '../../../../../../packages/contracts/src/fixtures/seed-missions';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisMissions } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Mission Control — Objectives
@@ -15,7 +15,7 @@ import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFon
 
 export default function MissionObjectivesPage() {
   const { tokens } = useMode();
-  const allObjectives = seedMissions.flatMap((m) => m.objectives.map((o) => ({ ...o, missionName: m.name })));
+  const allObjectives = thesisMissions.flatMap((m) => m.objectives.map((o: any) => ({ ...o, missionName: m.mission_name })));
   const completed = allObjectives.filter((o) => o.status === 'completed').length;
   const inProgress = allObjectives.filter((o) => o.status === 'in_progress').length;
   const blocked = allObjectives.filter((o) => o.status === 'blocked').length;
@@ -40,7 +40,7 @@ export default function MissionObjectivesPage() {
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{o.missionName}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, maxWidth: 320, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={o.description}>{o.description}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, color: '#fff', background: sc }}>{o.status.replace(/_/g, ' ')}</span></td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{new Date(o.targetDate).toLocaleDateString()}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{new Date(o.target_date).toLocaleDateString()}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{o.evidenceRefs.length > 0 ? o.evidenceRefs.join(', ') : '—'}</td>
                 </tr>
               );

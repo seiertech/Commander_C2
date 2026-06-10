@@ -39,8 +39,8 @@ function emptySnapshots(): WorkloadSnapshot[] {
   return [];
 }
 
-function snapshotFor(analystId: string, activeCaseCount: number, casesByType: Record<string, number> = {}): WorkloadSnapshot {
-  return { analystId, activeCaseCount, casesByType };
+function snapshotFor(analyst_id: string, activeCaseCount: number, casesByType: Record<string, number> = {}): WorkloadSnapshot {
+  return { analyst_id, activeCaseCount, casesByType };
 }
 
 // ─── Strategy Extraction ─────────────────────────────────────────────────────
@@ -48,34 +48,34 @@ function snapshotFor(analystId: string, activeCaseCount: number, casesByType: Re
 describe('Phase D4: Strategy Extraction', () => {
   it('extracts routing config from seed strategies', () => {
     const { config, policy } = extractRoutingConfig(seedStrategies);
-    expect(config.workloadMax).toBe(15);
+    expect(config.workload_max).toBe(15);
     expect(config.antiHoardingCap).toBe(5);
     expect(config.escalationTimeoutHours).toBe(48);
     expect(config.rankWeighting).toEqual({ junior: 1.0, mid: 0.8, senior: 0.6, lead: 0.4 });
     expect(config.teamAffinity).toBeDefined();
     expect(config.specialismTags).toBeDefined();
-    expect(config.escalationPath).toEqual(['Team Lead', 'SOM', 'CISO']);
-    expect(policy.surfaceType).toBe('routing');
+    expect(config.escalation_path).toEqual(['Team Lead', 'SOM', 'CISO']);
+    expect(policy.surface_type).toBe('routing');
   });
 
   it('throws if no active routing strategy exists', () => {
-    const noRouting = seedStrategies.filter((s) => s.surfaceType !== 'routing');
+    const noRouting = seedStrategies.filter((s) => s.surface_type !== 'routing');
     expect(() => extractRoutingConfig(noRouting)).toThrow('STRATEGY GAP');
     expect(() => extractRoutingConfig(noRouting)).toThrow('No active routing strategy policy found');
   });
 
   it('throws if routing strategy is missing required D4 fields', () => {
     const incomplete: StrategyPolicy[] = [{
-      ...seedStrategies.find((s) => s.surfaceType === 'routing')!,
-      configuration: { teamAffinity: {}, escalationPath: [] },
+      ...seedStrategies.find((s) => s.surface_type === 'routing')!,
+      configuration: { teamAffinity: {}, escalation_path: [] },
     }];
     expect(() => extractRoutingConfig(incomplete)).toThrow('STRATEGY GAP');
-    expect(() => extractRoutingConfig(incomplete)).toThrow('workloadMax');
+    expect(() => extractRoutingConfig(incomplete)).toThrow('workload_max');
   });
 
   it('throws for each missing field individually', () => {
-    const base = seedStrategies.find((s) => s.surfaceType === 'routing')!;
-    const fields = ['workloadMax', 'antiHoardingCap', 'escalationTimeoutHours', 'rankWeighting', 'specialismTags'];
+    const base = seedStrategies.find((s) => s.surface_type === 'routing')!;
+    const fields = ['workload_max', 'antiHoardingCap', 'escalationTimeoutHours', 'rankWeighting', 'specialismTags'];
     for (const field of fields) {
       const config = { ...(base.configuration as Record<string, unknown>) };
       delete config[field];
@@ -240,13 +240,13 @@ describe('Phase D4: AssignmentEngine — Affinity Routing', () => {
 
   it('returns escalation path from strategy on every result', () => {
     const result = assignCase('case-005', 'vulnerability', emptySnapshots(), seedStrategies);
-    expect(result.escalationPath).toEqual(['Team Lead', 'SOM', 'CISO']);
+    expect(result.escalation_path).toEqual(['Team Lead', 'SOM', 'CISO']);
   });
 
   it('returns source policy reference on every result', () => {
     const result = assignCase('case-006', 'drift', emptySnapshots(), seedStrategies);
-    expect(result.sourcePolicy.id).toBeDefined();
-    expect(result.sourcePolicy.version).toBe('2.0.0');
+    expect(result.source_policy.id).toBeDefined();
+    expect(result.source_policy.version).toBe('2.0.0');
   });
 
   it('fails gracefully for unknown case type with no team affinity', () => {
@@ -279,7 +279,7 @@ describe('Phase D4: AssignmentEngine — Workload Overflow', () => {
     const result = assignCase('case-all-full', 'vulnerability', snapshots, seedStrategies);
     expect(result.success).toBe(false);
     expect(result.routingRationale).toContain('workload max');
-    expect(result.escalationPath).toEqual(['Team Lead', 'SOM', 'CISO']);
+    expect(result.escalation_path).toEqual(['Team Lead', 'SOM', 'CISO']);
   });
 });
 
@@ -338,8 +338,8 @@ describe('Phase D4: Reassignment — Workload Rebalance', () => {
     ];
     const result = reassignCase(
       {
-        caseId: 'case-rebalance',
-        caseType: 'vulnerability',
+        case_id: 'case-rebalance',
+        case_type: 'vulnerability',
         currentOwnerId: 'analyst-001',
         currentOwner: 'Alice Security-Analyst',
         reason: 'workload-rebalance',
@@ -359,8 +359,8 @@ describe('Phase D4: Reassignment — Workload Rebalance', () => {
     // Only analyst-003 has identity specialism, and they are the current owner
     const result = reassignCase(
       {
-        caseId: 'case-no-alt',
-        caseType: 'identity',
+        case_id: 'case-no-alt',
+        case_type: 'identity',
         currentOwnerId: 'analyst-003',
         currentOwner: 'Carol Identity-Specialist',
         reason: 'workload-rebalance',
@@ -384,8 +384,8 @@ describe('Phase D4: Reassignment — Escalation Timeout', () => {
     ];
     const result = reassignCase(
       {
-        caseId: 'case-timeout',
-        caseType: 'drift',
+        case_id: 'case-timeout',
+        case_type: 'drift',
         currentOwnerId: 'analyst-001',
         currentOwner: 'Alice Security-Analyst',
         reason: 'escalation-timeout',
@@ -434,11 +434,11 @@ describe('Phase D4: Audit Events', () => {
     const result = assignCase('case-audit-1', 'vulnerability', emptySnapshots(), seedStrategies);
     expect(result.auditEvent).toBeDefined();
     expect(result.auditEvent.type).toBe('assignment');
-    expect(result.auditEvent.caseId).toBe('case-audit-1');
-    expect(result.auditEvent.caseType).toBe('vulnerability');
+    expect(result.auditEvent.case_id).toBe('case-audit-1');
+    expect(result.auditEvent.case_type).toBe('vulnerability');
     expect(result.auditEvent.assignedOwner).toBeDefined();
     expect(result.auditEvent.timestamp).toBeDefined();
-    expect(result.auditEvent.policyRef.id).toBeDefined();
+    expect(result.auditEvent.policy_ref.id).toBeDefined();
   });
 
   it('emits assignment audit event on failed assignment (escalation)', () => {
@@ -456,8 +456,8 @@ describe('Phase D4: Audit Events', () => {
   it('emits reassignment audit event with previous owner', () => {
     const result = reassignCase(
       {
-        caseId: 'case-audit-3',
-        caseType: 'drift',
+        case_id: 'case-audit-3',
+        case_type: 'drift',
         currentOwnerId: 'analyst-001',
         currentOwner: 'Alice Security-Analyst',
         reason: 'workload-rebalance',
@@ -479,19 +479,19 @@ describe('Phase D4: Strategy Consumption Proof (Zero Hardcoded Values)', () => {
     const { config } = extractRoutingConfig(seedStrategies);
     // Modify strategy to have different workloadMax
     const modified = seedStrategies.map((s) => {
-      if (s.surfaceType === 'routing') {
-        return { ...s, configuration: { ...(s.configuration as object), workloadMax: 3 } };
+      if (s.surface_type === 'routing') {
+        return { ...s, configuration: { ...(s.configuration as object), workload_max: 3 } };
       }
       return s;
     });
     const { config: modConfig } = extractRoutingConfig(modified);
-    expect(modConfig.workloadMax).toBe(3);
-    expect(config.workloadMax).toBe(15);
+    expect(modConfig.workload_max).toBe(3);
+    expect(config.workload_max).toBe(15);
   });
 
   it('antiHoardingCap comes from strategy, not hardcoded', () => {
     const modified = seedStrategies.map((s) => {
-      if (s.surfaceType === 'routing') {
+      if (s.surface_type === 'routing') {
         return { ...s, configuration: { ...(s.configuration as object), antiHoardingCap: 2 } };
       }
       return s;
@@ -502,7 +502,7 @@ describe('Phase D4: Strategy Consumption Proof (Zero Hardcoded Values)', () => {
 
   it('escalationTimeoutHours comes from strategy, not hardcoded', () => {
     const modified = seedStrategies.map((s) => {
-      if (s.surfaceType === 'routing') {
+      if (s.surface_type === 'routing') {
         return { ...s, configuration: { ...(s.configuration as object), escalationTimeoutHours: 24 } };
       }
       return s;
@@ -517,7 +517,7 @@ describe('Phase D4: Strategy Consumption Proof (Zero Hardcoded Values)', () => {
   it('rankWeighting comes from strategy, not hardcoded', () => {
     // With inverted weights (lead gets priority), lead should be assigned first
     const modified = seedStrategies.map((s) => {
-      if (s.surfaceType === 'routing') {
+      if (s.surface_type === 'routing') {
         return {
           ...s,
           configuration: {
@@ -568,21 +568,21 @@ describe('Phase D4: Doctrinal Assertion Adherence', () => {
 
   it('all results include escalation path from strategy', () => {
     const result = assignCase('case-doc-2', 'drift', emptySnapshots(), seedStrategies);
-    expect(result.escalationPath.length).toBeGreaterThan(0);
-    expect(result.escalationPath).toEqual(['Team Lead', 'SOM', 'CISO']);
+    expect(result.escalation_path.length).toBeGreaterThan(0);
+    expect(result.escalation_path).toEqual(['Team Lead', 'SOM', 'CISO']);
   });
 
   it('all results include source policy reference', () => {
     const result = assignCase('case-doc-3', 'exposure', emptySnapshots(), seedStrategies);
-    expect(result.sourcePolicy.id).toBeDefined();
-    expect(result.sourcePolicy.version).toBeDefined();
+    expect(result.source_policy.id).toBeDefined();
+    expect(result.source_policy.version).toBeDefined();
   });
 
   it('reassignment preserves previous owner in audit trail', () => {
     const result = reassignCase(
       {
-        caseId: 'case-doc-4',
-        caseType: 'drift',
+        case_id: 'case-doc-4',
+        case_type: 'drift',
         currentOwnerId: 'analyst-001',
         currentOwner: 'Alice Security-Analyst',
         reason: 'escalation-timeout',

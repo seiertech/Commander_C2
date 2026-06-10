@@ -2,22 +2,22 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedEvents } from '../../../../../../packages/contracts/src/fixtures/seed-events';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisEvents } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 {/* AI-PLACEMENT: AICAP-CP-011 — Commander AI operator audit anomaly detection */}
 
 export default function ControlPlaneAuditPage() {
   const { tokens } = useMode();
-  const systemEvents = seedEvents.filter((e) => e.entityType === 'system');
-  const criticalEvents = seedEvents.filter((e) => e.severity === 'critical');
-  const recentEvents = [...seedEvents].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()).slice(0, 20);
+  const systemEvents = thesisEvents.filter((e) => e.entity_type === 'system');
+  const criticalEvents = thesisEvents.filter((e) => e.severity === 'critical');
+  const recentEvents = [...thesisEvents].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()).slice(0, 20);
 
   return (
     <PageContainer pretitle="Control Plane › Audit" title="Operator Audit">
       <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
-        <Kpi tokens={tokens} label="Total Events" value={String(seedEvents.length)} />
+        <Kpi tokens={tokens} label="Total Events" value={String(thesisEvents.length)} />
         <Kpi tokens={tokens} label="Critical" value={String(criticalEvents.length)} accent={criticalEvents.length > 0 ? primitiveSignal.critical : undefined} />
         <Kpi tokens={tokens} label="System Events" value={String(systemEvents.length)} />
         <Kpi tokens={tokens} label="Showing" value={`${recentEvents.length} most recent`} />
@@ -33,7 +33,7 @@ export default function ControlPlaneAuditPage() {
                 <tr key={e.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, whiteSpace: 'nowrap' }}>{new Date(e.timestamp).toLocaleString()}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, color: '#fff', background: sevColor }}>{e.severity}</span></td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{e.entityType}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{e.entity_type}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, maxWidth: 400, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={e.message}>{e.message}</td>
                 </tr>
               );

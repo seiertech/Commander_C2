@@ -57,10 +57,10 @@ export function createSignalPurposeResolution(
   pullRunId: string,
 ): SignalPurposeResolution {
   return {
-    connectorId: connector.id,
+    connector_id: connector.id,
     pullRunId,
     resolvedPurposes: resolveSignalPurposes(connector),
-    resolvedAt: new Date().toISOString(),
+    resolved_at: new Date().toISOString(),
   };
 }
 
@@ -120,13 +120,13 @@ export function canPull(connector: Connector): boolean {
 export function executePull(connector: Connector, runId: string): PullResult {
   if (!canPull(connector)) {
     return {
-      connectorId: connector.id,
+      connector_id: connector.id,
       runId,
       status: 'failed',
       recordsIngested: 0,
       signalPurposes: [],
-      startedAt: new Date().toISOString(),
-      completedAt: new Date().toISOString(),
+      started_at: new Date().toISOString(),
+      completed_at: new Date().toISOString(),
       errorDetail: `Connector not in 'active' state (current: '${connector.state}'). Pull rejected.`,
     };
   }
@@ -134,13 +134,13 @@ export function executePull(connector: Connector, runId: string): PullResult {
   const purposes = resolveSignalPurposes(connector);
 
   return {
-    connectorId: connector.id,
+    connector_id: connector.id,
     runId,
     status: 'success',
     recordsIngested: 0, // Phase 1: no real data; mock connectors (Unit 38) will produce records
     signalPurposes: purposes,
-    startedAt: new Date().toISOString(),
-    completedAt: new Date().toISOString(),
+    started_at: new Date().toISOString(),
+    completed_at: new Date().toISOString(),
     errorDetail: null,
   };
 }
@@ -159,7 +159,7 @@ export function assessConformanceTiers(connector: Connector): ClassConformance[]
     class: cls,
     tier: 'planned' as ConformanceTier,
     certifiedAt: null,
-    lastAssessedAt: new Date().toISOString(),
+    last_assessed_at: new Date().toISOString(),
   }));
 }
 

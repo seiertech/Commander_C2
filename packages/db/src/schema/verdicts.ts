@@ -34,7 +34,7 @@ export const verdictDispositionEnum = pgEnum('verdict_disposition', [
 
 export const verdicts = pgTable('verdicts', {
   id: text('id').primaryKey(),
-  tenantId: text('tenant_id').notNull().references(() => tenants.id),
+  tenant_id: text('tenant_id').notNull().references(() => tenants.id),
   dataClassification: dataClassificationEnum('data_classification').notNull().default('verdict'),
 
   // ─── Source-owned fields (all immutable) ─────────────────────────────────
@@ -43,13 +43,13 @@ export const verdicts = pgTable('verdicts', {
   disposition: verdictDispositionEnum('disposition').notNull(),
 
   /** Source tool that issued this verdict (JSONB: vendor, name, version, uid, connectorClass) */
-  sourceProduct: jsonb('source_product').notNull(),
+  source_product: jsonb('source_product').notNull(),
 
   /** Source confidence in this verdict (0-100) */
   confidence: integer('confidence').notNull(),
 
   /** When the verdict was observed/issued (source timestamp) */
-  observedAt: timestamp('observed_at', { withTimezone: true }).notNull(),
+  observed_at: timestamp('observed_at', { withTimezone: true }).notNull(),
 
   /** Target entity ID */
   targetEntityId: text('target_entity_id').notNull(),
@@ -57,24 +57,24 @@ export const verdicts = pgTable('verdicts', {
   /** Target entity type (asset, identity, etc.) */
   targetEntityType: text('target_entity_type').notNull(),
 
-  /** Structured policy reference (JSONB: policyId, policyName, policyVersion, policySource) */
-  policyRef: jsonb('policy_ref').notNull(),
+  /** Structured policy reference (JSONB: policyId, policyName, policy_version, policySource) */
+  policy_ref: jsonb('policy_ref').notNull(),
 
   /** Whether this verdict is time-bound */
   timeBound: boolean('time_bound').notNull().default(true),
 
   /** When this verdict expires (null if not time-bound) */
-  expiresAt: timestamp('expires_at', { withTimezone: true }),
+  expires_at: timestamp('expires_at', { withTimezone: true }),
 
   // ─── Source provenance ───────────────────────────────────────────────────
 
-  sourceConnectorId: text('source_connector_id').notNull(),
+  source_connector_id: text('source_connector_id').notNull(),
   sourceImportRunId: text('source_import_run_id').notNull(),
-  sourceSystem: text('source_system').notNull(),
-  sourceTimestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
+  source_system: text('source_system').notNull(),
+  source_timestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
 
   // ─── Timestamps ──────────────────────────────────────────────────────────
 
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updated_at: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 });

@@ -2,13 +2,13 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedTopology } from '../../../../../packages/contracts/src/fixtures/seed-topology';
 import { componentTokens } from '../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
 import { ReactFlow, Background, Controls, Node, Edge, Position } from '@xyflow/react';
 import { useMemo, useState } from 'react';
 
 import '@xyflow/react/dist/style.css';
+import { thesisTopology } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Fusion Map — Relationship Graph
@@ -19,29 +19,29 @@ import '@xyflow/react/dist/style.css';
 
 export default function FusionMapPage() {
   const { tokens } = useMode();
-  const { nodes, edges, blastRadiusResults } = seedTopology;
+  const { nodes, edges, blastRadiusResults } = thesisTopology;
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
   
   // KPI calculations
   const criticalNodes = nodes.filter((n) => n.criticality <= 2).length;
-  const uniqueTypes = new Set(nodes.map((n) => n.entityType)).size;
-  const maxBlastRadius = blastRadiusResults.reduce((max, br) => Math.max(max, br.totalImpactScore), 0);
+  const uniqueTypes = new Set(nodes.map((n) => n.entity_type)).size;
+  const maxBlastRadius = blastRadiusResults.reduce((max, br) => Math.max(max, br.total_impact_score), 0);
   const avgWeight = edges.reduce((sum, e) => sum + e.weight, 0) / edges.length;
 
   // Create lookup map for node resolution
   const nodeMap = useMemo(() => {
     const map = new Map();
-    nodes.forEach(node => map.set(node.nodeId, node));
+    nodes.forEach(node => map.set(node.node_id, node));
     return map;
   }, [nodes]);
 
   // Transform data for React Flow network graph
   const flowNodes: Node[] = useMemo(() => {
     return nodes.map((node, index) => ({
-      id: node.nodeId,
+      id: node.node_id,
       data: { 
         label: node.label,
-        entityType: node.entityType,
+        entity_type: node.entity_type,
         domain: node.domain,
         criticality: node.criticality
       },
@@ -63,10 +63,10 @@ export default function FusionMapPage() {
 
   const flowEdges: Edge[] = useMemo(() => {
     return edges.map((edge) => ({
-      id: edge.edgeId,
-      source: edge.sourceNodeId,
-      target: edge.targetNodeId,
-      label: edge.relationshipType.replace(/_/g, ' '),
+      id: edge.edge_id,
+      source: edge.source_node_id,
+      target: edge.target_node_id,
+      label: edge.relationship_type.replace(/_/g, ' '),
       style: {
         strokeWidth: Math.max(1, edge.weight * 4),
         stroke: tokens.border.default
@@ -80,14 +80,14 @@ export default function FusionMapPage() {
 
   // Fixed Sankey data - correct Recharts format
   const sankeyData = useMemo(() => {
-    const nodes = [];
-    const links = [];
+    const nodes: any[] = [];
+    const links: any[] = [];
     
     // Add all unique node labels from actual data
     const nodeSet = new Set();
     edges.forEach(edge => {
-      const sourceNode = nodeMap.get(edge.sourceNodeId);
-      const targetNode = nodeMap.get(edge.targetNodeId);
+      const sourceNode = nodeMap.get(edge.source_node_id);
+      const targetNode = nodeMap.get(edge.target_node_id);
       if (sourceNode) nodeSet.add(sourceNode.label);
       if (targetNode) nodeSet.add(targetNode.label);
     });
@@ -98,8 +98,8 @@ export default function FusionMapPage() {
     
     // Add links with correct indices
     edges.forEach(edge => {
-      const sourceNode = nodeMap.get(edge.sourceNodeId);
-      const targetNode = nodeMap.get(edge.targetNodeId);
+      const sourceNode = nodeMap.get(edge.source_node_id);
+      const targetNode = nodeMap.get(edge.target_node_id);
       if (sourceNode && targetNode) {
         const sourceIndex = nodeArray.indexOf(sourceNode.label);
         const targetIndex = nodeArray.indexOf(targetNode.label);
@@ -118,7 +118,7 @@ export default function FusionMapPage() {
 
   // Selected node blast radius
   const selectedBlastRadius = selectedNodeId 
-    ? blastRadiusResults.find(br => br.originNodeId === selectedNodeId)
+    ? blastRadiusResults.find(br => br.origin_node_id === selectedNodeId)
     : blastRadiusResults[0]; // Default to first result
 
   return (
@@ -154,26 +154,26 @@ export default function FusionMapPage() {
         {/* Blast Radius Card */}
         <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
           <h3 style={{ fontSize: primitiveTypeScale.h4, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: `0 0 ${componentTokens.cardHeaderMargin}` }}>
-            Blast Radius {selectedBlastRadius && `(${nodeMap.get(selectedBlastRadius.originNodeId)?.label || selectedBlastRadius.originNodeId})`}
+            Blast Radius {selectedBlastRadius && `(${nodeMap.get(selectedBlastRadius.origin_node_id)?.label || selectedBlastRadius.origin_node_id})`}
           </h3>
           {selectedBlastRadius && (
             <div style={{ display: 'grid', gap: primitiveSpacing[3] }}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: primitiveSpacing[2] }}>
-                <Kpi tokens={tokens} label="Affected" value={String(selectedBlastRadius.affectedNodes.length)} accent={primitiveSignal.warning} />
+                <Kpi tokens={tokens} label="Affected" value={String(selectedBlastRadius.affected_nodes.length)} accent={primitiveSignal.warning} />
                 <Kpi tokens={tokens} label="Depth" value={String(selectedBlastRadius.depth)} />
               </div>
-              <Kpi tokens={tokens} label="Impact Score" value={String(selectedBlastRadius.totalImpactScore)} accent={primitiveSignal.critical} />
+              <Kpi tokens={tokens} label="Impact Score" value={String(selectedBlastRadius.total_impact_score)} accent={primitiveSignal.critical} />
               <div>
                 <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.muted, margin: `0 0 ${primitiveSpacing[2]}`, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>Affected Nodes</h4>
                 <div style={{ display: 'grid', gap: primitiveSpacing[1] }}>
-                  {selectedBlastRadius.affectedNodes.map(nodeId => {
+                  {selectedBlastRadius.affected_nodes.map(nodeId => {
                     const node = nodeMap.get(nodeId);
                     return (
                       <div key={nodeId} style={{ 
                         fontSize: primitiveTypeScale.micro, 
                         color: tokens.text.secondary,
                         padding: primitiveSpacing[1],
-                        background: tokens.surface.base,
+                        background: tokens.surface.primary,
                         border: `1px solid ${tokens.border.subtle}`
                       }}>
                         {node?.label || nodeId}
@@ -197,7 +197,7 @@ export default function FusionMapPage() {
         <div style={{ height: '200px', overflow: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
             <thead>
-              <tr style={{ background: tokens.surface.base }}>
+              <tr style={{ background: tokens.surface.primary }}>
                 {['Source', 'Target', 'Relationship', 'Weight'].map((h) => (
                   <th key={h} style={{ 
                     textAlign: 'left', 
@@ -216,10 +216,10 @@ export default function FusionMapPage() {
             </thead>
             <tbody>
               {edges.map((edge) => {
-                const sourceNode = nodeMap.get(edge.sourceNodeId);
-                const targetNode = nodeMap.get(edge.targetNodeId);
+                const sourceNode = nodeMap.get(edge.source_node_id);
+                const targetNode = nodeMap.get(edge.target_node_id);
                 return (
-                  <tr key={edge.edgeId} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
+                  <tr key={edge.edge_id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                     <td style={{ 
                       padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, 
                       color: tokens.text.primary,
@@ -241,7 +241,7 @@ export default function FusionMapPage() {
                       color: tokens.text.secondary,
                       fontSize: primitiveTypeScale.caption
                     }}>
-                      {edge.relationshipType.replace(/_/g, ' ')}
+                      {edge.relationship_type.replace(/_/g, ' ')}
                     </td>
                     <td style={{ 
                       padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, 
@@ -272,7 +272,7 @@ export default function FusionMapPage() {
         <div style={{ maxHeight: '200px', overflow: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.micro }}>
             <thead>
-              <tr style={{ background: tokens.surface.base }}>
+              <tr style={{ background: tokens.surface.primary }}>
                 {['Source', 'Relationship', 'Target', 'Weight'].map((h) => (
                   <th key={h} style={{ 
                     textAlign: 'left', 
@@ -289,10 +289,10 @@ export default function FusionMapPage() {
             </thead>
             <tbody>
               {edges.slice(0, 6).map((edge) => {
-                const sourceNode = nodeMap.get(edge.sourceNodeId);
-                const targetNode = nodeMap.get(edge.targetNodeId);
+                const sourceNode = nodeMap.get(edge.source_node_id);
+                const targetNode = nodeMap.get(edge.target_node_id);
                 return (
-                  <tr key={edge.edgeId} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
+                  <tr key={edge.edge_id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                     <td style={{ 
                       padding: `${primitiveSpacing[1]} ${primitiveSpacing[2]}`, 
                       color: tokens.text.secondary,
@@ -305,7 +305,7 @@ export default function FusionMapPage() {
                       color: tokens.text.muted,
                       fontSize: primitiveTypeScale.micro
                     }}>
-                      {edge.relationshipType.replace(/_/g, ' ')}
+                      {edge.relationship_type.replace(/_/g, ' ')}
                     </td>
                     <td style={{ 
                       padding: `${primitiveSpacing[1]} ${primitiveSpacing[2]}`, 
@@ -348,9 +348,9 @@ export default function FusionMapPage() {
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
               <thead><tr>{['Label', 'Type', 'Domain', 'Criticality'].map((h) => <th key={h} style={{ textAlign: 'left', padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, borderBottom: `2px solid ${tokens.border.default}`, color: tokens.text.muted, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, fontSize: primitiveTypeScale.micro }}>{h}</th>)}</tr></thead>
               <tbody>{nodes.map((n) => (
-                <tr key={n.nodeId} style={{ borderBottom: `1px solid ${tokens.border.subtle}`, backgroundColor: selectedNodeId === n.nodeId ? tokens.surface.base : 'transparent' }}>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold, cursor: 'pointer' }} onClick={() => setSelectedNodeId(n.nodeId)}>{n.label}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{n.entityType}</td>
+                <tr key={n.node_id} style={{ borderBottom: `1px solid ${tokens.border.subtle}`, backgroundColor: selectedNodeId === n.node_id ? tokens.surface.primary : 'transparent' }}>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold, cursor: 'pointer' }} onClick={() => setSelectedNodeId(n.node_id)}>{n.label}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{n.entity_type}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted }}>{n.domain}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono, color: n.criticality <= 2 ? primitiveSignal.critical : tokens.text.secondary }}>{n.criticality}</td>
                 </tr>
@@ -364,10 +364,10 @@ export default function FusionMapPage() {
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
               <thead><tr>{['Source', 'Target', 'Type', 'Weight'].map((h) => <th key={h} style={{ textAlign: 'left', padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, borderBottom: `2px solid ${tokens.border.default}`, color: tokens.text.muted, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, fontSize: primitiveTypeScale.micro }}>{h}</th>)}</tr></thead>
               <tbody>{edges.map((e) => (
-                <tr key={e.edgeId} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{nodeMap.get(e.sourceNodeId)?.label || e.sourceNodeId}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{nodeMap.get(e.targetNodeId)?.label || e.targetNodeId}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary }}>{e.relationshipType.replace(/_/g, ' ')}</td>
+                <tr key={e.edge_id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{nodeMap.get(e.source_node_id)?.label || e.source_node_id}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{nodeMap.get(e.target_node_id)?.label || e.target_node_id}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary }}>{e.relationship_type.replace(/_/g, ' ')}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{e.weight}</td>
                 </tr>
               ))}</tbody>

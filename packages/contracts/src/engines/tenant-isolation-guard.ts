@@ -7,17 +7,17 @@
 // ─── Types ───────────────────────────────────────────────────────────────────
 
 export interface TenantScopedQuery {
-  entityType: string;
+  entity_type: string;
   filters: Record<string, unknown>;
-  tenantId: string;
+  tenant_id: string;
 }
 
 export interface IsolationViolation {
   timestamp: string;
   attemptedTenantId: string;
   actualTenantId: string;
-  entityType: string;
-  userId: string;
+  entity_type: string;
+  user_id: string;
   action: string;
 }
 
@@ -35,12 +35,12 @@ export interface CrossTenantAccessResult {
  */
 export function enforceTenantScope(
   query: Record<string, unknown>,
-  tenantId: string
+  tenant_id: string
 ): TenantScopedQuery {
   return {
-    entityType: (query.entityType as string) ?? 'unknown',
-    filters: { ...query, tenantId },
-    tenantId,
+    entity_type: (query.entity_type as string) ?? 'unknown',
+    filters: { ...query, tenant_id },
+    tenant_id,
   };
 }
 
@@ -51,7 +51,7 @@ export function enforceTenantScope(
 export function validateCrossTenantAccess(
   requestingTenantId: string,
   targetTenantId: string,
-  userId: string,
+  user_id: string,
   action: string
 ): CrossTenantAccessResult {
   return {
@@ -61,8 +61,8 @@ export function validateCrossTenantAccess(
       timestamp: new Date().toISOString(),
       attemptedTenantId: targetTenantId,
       actualTenantId: requestingTenantId,
-      entityType: 'cross-tenant-attempt',
-      userId,
+      entity_type: 'cross-tenant-attempt',
+      user_id,
       action,
     },
   };
@@ -72,7 +72,7 @@ export function validateCrossTenantAccess(
  * Log an isolation violation attempt for audit purposes.
  */
 export function logIsolationViolationAttempt(
-  userId: string,
+  user_id: string,
   requestingTenantId: string,
   targetTenantId: string,
   action: string
@@ -81,8 +81,8 @@ export function logIsolationViolationAttempt(
     timestamp: new Date().toISOString(),
     attemptedTenantId: targetTenantId,
     actualTenantId: requestingTenantId,
-    entityType: 'isolation-violation',
-    userId,
+    entity_type: 'isolation-violation',
+    user_id,
     action,
   };
 }

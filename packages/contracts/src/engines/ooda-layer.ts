@@ -243,20 +243,20 @@ export interface DegradationCaseRequest {
   phase: OodaPhase;
   healthScore: number;
   degradationThreshold: number;
-  affectedEntityId: string;
+  affected_entity_id: string;
   owner: string;
-  tenantId: string;
+  tenant_id: string;
 }
 
 /** The risk-object-shaped output for case creation (matches RiskObjectType 'ooda_phase_degradation'). */
 export interface DegradationRiskObjectTemplate {
   type: 'ooda_phase_degradation';
-  affectedEntityId: string;
-  affectedEntityType: 'case' | 'programme';
+  affected_entity_id: string;
+  affected_entity_type: 'case' | 'programme';
   justification: string;
   owner: string;
-  treatmentState: 'open';
-  expiryOrReviewTrigger: string;
+  treatment_state: 'open';
+  expiry_or_review_trigger: string;
 }
 
 /**
@@ -269,12 +269,12 @@ export function createDegradationRiskObject(
 ): DegradationRiskObjectTemplate {
   return {
     type: 'ooda_phase_degradation',
-    affectedEntityId: request.affectedEntityId,
-    affectedEntityType: 'programme',
+    affected_entity_id: request.affected_entity_id,
+    affected_entity_type: 'programme',
     justification: `OODA ${OODA_PHASE_LABELS[request.phase]} phase health degraded to ${request.healthScore} (threshold: ${request.degradationThreshold}). Phase requires remediation.`,
     owner: request.owner,
-    treatmentState: 'open',
-    expiryOrReviewTrigger: `Review when ${OODA_PHASE_LABELS[request.phase]} phase health returns above ${request.degradationThreshold} threshold.`,
+    treatment_state: 'open',
+    expiry_or_review_trigger: `Review when ${OODA_PHASE_LABELS[request.phase]} phase health returns above ${request.degradationThreshold} threshold.`,
   };
 }
 
@@ -291,7 +291,7 @@ export interface CommandTempo {
   /** Phases currently degraded. */
   degradedPhases: OodaPhase[];
   /** Snapshot timestamp. */
-  snapshotAt: string;
+  snapshot_at: string;
 }
 
 /**
@@ -303,7 +303,7 @@ export function composeCommandTempo(
   phases: PhaseHealthScore[],
   thresholds: HealthThresholds,
   degradationThreshold: number,
-  snapshotAt: string,
+  snapshot_at: string,
 ): CommandTempo {
   // Ensure all 4 phases present (defensive — caller should provide all 4)
   const ordered = OODA_PHASES.map(
@@ -319,6 +319,6 @@ export function composeCommandTempo(
     overallScore,
     overallBand,
     degradedPhases,
-    snapshotAt,
+    snapshot_at,
   };
 }

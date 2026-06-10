@@ -2,8 +2,8 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedAssets } from '../../../../../../packages/contracts/src/fixtures/seed-assets';
 import { primitiveTypeScale } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisAssets } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Assets — Classification View
@@ -19,17 +19,17 @@ export default function AssetsClassificationPage() {
   const { tokens } = useMode();
 
   // Group by asset classification
-  const classMap = new Map<string, typeof seedAssets>();
-  seedAssets.forEach((a) => {
-    const list = classMap.get(a.classification) || [];
+  const classMap = new Map<string, typeof thesisAssets>();
+  thesisAssets.forEach((a) => {
+    const list = classMap.get(a.asset_class) || [];
     list.push(a);
-    classMap.set(a.classification, list);
+    classMap.set(a.asset_class, list);
   });
   const classifications = [...classMap.entries()].sort((a, b) => b[1].length - a[1].length);
 
   // Group by data classification
   const dataClassMap = new Map<string, number>();
-  seedAssets.forEach((a) => {
+  thesisAssets.forEach((a) => {
     const dc = a.assetDataClassification || 'unclassified';
     dataClassMap.set(dc, (dataClassMap.get(dc) || 0) + 1);
   });
@@ -65,7 +65,7 @@ export default function AssetsClassificationPage() {
               </thead>
               <tbody>
                 {classifications.map(([cls, assets]) => {
-                  const ext = assets.filter((a) => a.surfaceAttribution === 'external_attack_surface').length;
+                  const ext = assets.filter((a) => a.surface_attribution === 'external_attack_surface').length;
                   const int_ = assets.length - ext;
                   const avgCrit = (assets.reduce((s, a) => s + a.criticality, 0) / assets.length).toFixed(1);
                   return (
@@ -96,15 +96,15 @@ export default function AssetsClassificationPage() {
                 <tr><th>Name</th><th>Type</th><th>Data Class</th><th>Environment</th><th>Surface</th><th className="text-end">Criticality</th></tr>
               </thead>
               <tbody>
-                {seedAssets.map((a) => (
-                  <tr key={a.id}>
-                    <td><a href={`/assets?id=${a.id}`} style={{ color: tokens.action.primary, fontSize: primitiveTypeScale.body }}>{a.name}</a></td>
-                    <td><span className="badge bg-secondary">{a.classification}</span></td>
+                {thesisAssets.map((a) => (
+                  <tr key={a.asset_id}>
+                    <td><a href={`/assets?id=${a.asset_id}`} style={{ color: tokens.action.primary, fontSize: primitiveTypeScale.body }}>{a.asset_name}</a></td>
+                    <td><span className="badge bg-secondary">{a.asset_class}</span></td>
                     <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{a.assetDataClassification ?? 'unclassified'}</td>
                     <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{a.environment}</td>
                     <td>
-                      <span className={`badge ${a.surfaceAttribution === 'external_attack_surface' ? 'bg-azure-lt' : 'bg-purple-lt'}`}>
-                        {a.surfaceAttribution === 'external_attack_surface' ? 'External' : 'Internal'}
+                      <span className={`badge ${a.surface_attribution === 'external_attack_surface' ? 'bg-azure-lt' : 'bg-purple-lt'}`}>
+                        {a.surface_attribution === 'external_attack_surface' ? 'External' : 'Internal'}
                       </span>
                     </td>
                     <td className="text-end">{a.criticality}</td>

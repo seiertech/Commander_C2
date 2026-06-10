@@ -14,32 +14,32 @@ import { tenants } from './tenants';
 
 export const identities = pgTable('identities', {
   id: text('id').primaryKey(),
-  tenantId: text('tenant_id').notNull().references(() => tenants.id),
+  tenant_id: text('tenant_id').notNull().references(() => tenants.id),
   dataClassification: dataClassificationEnum('data_classification').notNull().default('state'),
-  displayName: text('display_name').notNull(),
+  display_name: text('display_name').notNull(),
   /** Identity classification per Spec #18 */
   classification: text('classification').notNull(),
   /** Source system lineage (JSON array) */
-  sourceSystemLineage: jsonb('source_system_lineage').$type<string[]>().notNull().default([]),
+  source_system_lineage: jsonb('source_system_lineage').$type<string[]>().notNull().default([]),
   email: text('email'),
   department: text('department'),
   role: text('role'),
   /** Risk score (0-100) */
-  riskScore: integer('risk_score').notNull().default(0),
-  surfaceAttribution: surfaceAttributionEnum('surface_attribution').notNull(),
+  risk_score: integer('risk_score').notNull().default(0),
+  surface_attribution: surfaceAttributionEnum('surface_attribution').notNull(),
   /** Associated asset IDs */
-  associatedAssets: jsonb('associated_assets').$type<string[]>().notNull().default([]),
+  associated_assets: jsonb('associated_assets').$type<string[]>().notNull().default([]),
   status: text('status').notNull().default('active'),
   /** Source provenance */
-  sourceConnectorId: text('source_connector_id').notNull(),
+  source_connector_id: text('source_connector_id').notNull(),
   sourceImportRunId: text('source_import_run_id').notNull(),
-  sourceSystem: text('source_system').notNull(),
-  sourceTimestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
+  source_system: text('source_system').notNull(),
+  source_timestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
   // ─── COIM-F augmentation (additive, nullable) ────────────────────────────
   // Source: COIM v1.0 §6.2; 05_ATTRIBUTE_AND_DATA_EFFICIENCY_MODEL §13.
   // Recommended operational-intelligence fields. No drops; no changes to existing columns.
   /** Privilege level (standard/elevated/privileged/super-privileged). */
-  privilegeLevel: text('privilege_level'),
+  privilege_level: text('privilege_level'),
   /** Authentication strength classification. */
   authenticationStrength: text('authentication_strength'),
   /** When this identity last authenticated (source-provided). */
@@ -49,7 +49,7 @@ export const identities = pgTable('identities', {
   /** Risk factors contributing to riskScore (JSONB array). */
   riskFactors: jsonb('risk_factors').default('[]'),
   /** Optional source classification for IAM signals (JSONB). */
-  sourceClassification: jsonb('source_classification'),
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  source_classification: jsonb('source_classification'),
+  created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updated_at: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 });

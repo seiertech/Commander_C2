@@ -77,9 +77,9 @@ function makeEvaluationRequest(
   overrides: Partial<ClosureGateEvaluationRequest> = {},
 ): ClosureGateEvaluationRequest {
   return {
-    caseId: 'case-test-001',
+    case_id: 'case-test-001',
     gateInput: makeAllPassingInput(),
-    currentTime: BASE_TIME,
+    current_time: BASE_TIME,
     ...overrides,
   };
 }
@@ -89,7 +89,7 @@ function makeEvaluationRequest(
  */
 function makeClosureGateStrategy(gates: string[]): StrategyPolicy[] {
   return seedStrategies.map((s) => {
-    if (s.surfaceType === 'closure-gate') {
+    if (s.surface_type === 'closure-gate') {
       return { ...s, configuration: { gates } };
     }
     return s;
@@ -150,7 +150,7 @@ describe('evaluateGate — each gate evaluates correctly', () => {
         const result = evaluateGate(gate, input, BASE_TIME);
         expect(result.status).toBe('passed');
         expect(result.gate).toBe(gate);
-        expect(result.evaluatedAt).toBe(BASE_TIME);
+        expect(result.evaluated_at).toBe(BASE_TIME);
         expect(result.reason).toBeTruthy();
       });
 
@@ -161,7 +161,7 @@ describe('evaluateGate — each gate evaluates correctly', () => {
         const result = evaluateGate(gate, input, BASE_TIME);
         expect(result.status).toBe('failed');
         expect(result.gate).toBe(gate);
-        expect(result.evaluatedAt).toBe(BASE_TIME);
+        expect(result.evaluated_at).toBe(BASE_TIME);
         expect(result.reason).toBeTruthy();
       });
     });
@@ -176,7 +176,7 @@ describe('evaluateAllGates — only configured gates are evaluated', () => {
     const input = makeAllPassingInput();
     const state = evaluateAllGates(configuredGates, input, BASE_TIME);
 
-    const configuredResults = state.gateResults.filter((r) => r.status !== 'not_configured');
+    const configuredResults = state.gate_results.filter((r) => r.status !== 'not_configured');
     expect(configuredResults).toHaveLength(2);
     expect(configuredResults.every((r) => configuredGates.includes(r.gate))).toBe(true);
   });
@@ -186,7 +186,7 @@ describe('evaluateAllGates — only configured gates are evaluated', () => {
     const input = makeAllPassingInput();
     const state = evaluateAllGates(configuredGates, input, BASE_TIME);
 
-    const notConfigured = state.gateResults.filter((r) => r.status === 'not_configured');
+    const notConfigured = state.gate_results.filter((r) => r.status === 'not_configured');
     expect(notConfigured).toHaveLength(11); // 12 total - 1 configured = 11
     notConfigured.forEach((r) => {
       expect(r.reason).toContain('not configured');
@@ -198,14 +198,14 @@ describe('evaluateAllGates — only configured gates are evaluated', () => {
     const input = makeAllPassingInput();
     const state = evaluateAllGates(configuredGates, input, BASE_TIME);
 
-    expect(state.gateResults).toHaveLength(12);
+    expect(state.gate_results).toHaveLength(12);
   });
 
   it('evaluates all 12 gates when all are configured', () => {
     const input = makeAllPassingInput();
     const state = evaluateAllGates(CLOSURE_GATE_TYPES, input, BASE_TIME);
 
-    const notConfigured = state.gateResults.filter((r) => r.status === 'not_configured');
+    const notConfigured = state.gate_results.filter((r) => r.status === 'not_configured');
     expect(notConfigured).toHaveLength(0);
   });
 });
@@ -271,7 +271,7 @@ describe('evaluateAllGates — single gate failure blocks closure', () => {
     expect(state.allGatesPass).toBe(false);
     expect(state.closurePermitted).toBe(false);
 
-    const failedGates = state.gateResults.filter((r) => r.status === 'failed');
+    const failedGates = state.gate_results.filter((r) => r.status === 'failed');
     expect(failedGates).toHaveLength(1);
     expect(failedGates[0].gate).toBe('communication');
   });
@@ -284,7 +284,7 @@ describe('evaluateAllGates — single gate failure blocks closure', () => {
     expect(state.allGatesPass).toBe(false);
     expect(state.closurePermitted).toBe(false);
 
-    const failedGates = state.gateResults.filter((r) => r.status === 'failed');
+    const failedGates = state.gate_results.filter((r) => r.status === 'failed');
     expect(failedGates).toHaveLength(12);
   });
 });
@@ -307,10 +307,10 @@ describe('evaluateClosureReadiness — full flow with seed strategies', () => {
     expect(result.success).toBe(true);
     expect(result.closurePermitted).toBe(true);
     expect(result.closureGateState).not.toBeNull();
-    expect(result.closureGateState!.caseId).toBe('case-test-001');
+    expect(result.closureGateState!.case_id).toBe('case-test-001');
     expect(result.failedGates).toHaveLength(0);
     expect(result.rationale).toContain('passed');
-    expect(result.sourcePolicy).not.toBeNull();
+    expect(result.source_policy).not.toBeNull();
     expect(result.error).toBeNull();
   });
 
@@ -337,9 +337,9 @@ describe('evaluateClosureReadiness — full flow with seed strategies', () => {
     const request = makeEvaluationRequest();
     const result = evaluateClosureReadiness(request, strategies);
 
-    expect(result.sourcePolicy).not.toBeNull();
-    expect(result.sourcePolicy!.id).toBeTruthy();
-    expect(result.sourcePolicy!.version).toBe('1.0.0');
+    expect(result.source_policy).not.toBeNull();
+    expect(result.source_policy!.id).toBeTruthy();
+    expect(result.source_policy!.version).toBe('1.0.0');
   });
 
   it('tracks gate state per case', () => {
@@ -348,16 +348,16 @@ describe('evaluateClosureReadiness — full flow with seed strategies', () => {
       'evidence_freshness',
       'mission_impact',
     ]);
-    const request = makeEvaluationRequest({ caseId: 'case-xyz-123' });
+    const request = makeEvaluationRequest({ case_id: 'case-xyz-123' });
     const result = evaluateClosureReadiness(request, strategies);
 
-    expect(result.closureGateState!.caseId).toBe('case-xyz-123');
+    expect(result.closureGateState!.case_id).toBe('case-xyz-123');
     expect(result.closureGateState!.configuredGates).toEqual([
       'technical_validation',
       'evidence_freshness',
       'mission_impact',
     ]);
-    expect(result.closureGateState!.evaluatedAt).toBe(BASE_TIME);
+    expect(result.closureGateState!.evaluated_at).toBe(BASE_TIME);
   });
 });
 
@@ -372,12 +372,12 @@ describe('evaluateClosureReadiness — error handling when strategy is missing',
     expect(result.closureGateState).toBeNull();
     expect(result.closurePermitted).toBe(false);
     expect(result.error).toContain('STRATEGY GAP');
-    expect(result.sourcePolicy).toBeNull();
+    expect(result.source_policy).toBeNull();
   });
 
   it('returns error when closure-gate strategy is missing', () => {
     const noClosureGate = seedStrategies.filter(
-      (s) => s.surfaceType !== 'closure-gate',
+      (s) => s.surface_type !== 'closure-gate',
     );
     const request = makeEvaluationRequest();
     const result = evaluateClosureReadiness(request, noClosureGate);
@@ -388,7 +388,7 @@ describe('evaluateClosureReadiness — error handling when strategy is missing',
 
   it('returns error when closure-gate strategy is inactive', () => {
     const inactiveStrategies: StrategyPolicy[] = seedStrategies.map((s) => {
-      if (s.surfaceType === 'closure-gate') {
+      if (s.surface_type === 'closure-gate') {
         return { ...s, status: 'superseded' as const };
       }
       return s;
@@ -402,7 +402,7 @@ describe('evaluateClosureReadiness — error handling when strategy is missing',
 
   it('returns error when closure-gate strategy has empty gates array', () => {
     const emptyGates: StrategyPolicy[] = seedStrategies.map((s) => {
-      if (s.surfaceType === 'closure-gate') {
+      if (s.surface_type === 'closure-gate') {
         return { ...s, configuration: { gates: [] } };
       }
       return s;
@@ -436,12 +436,12 @@ describe('extractClosureGateConfig — gate configuration from strategy', () => 
     expect(config).not.toBeNull();
     expect(config!.gates).toBeDefined();
     expect(config!.policy).toBeDefined();
-    expect(config!.policy.surfaceType).toBe('closure-gate');
+    expect(config!.policy.surface_type).toBe('closure-gate');
   });
 
   it('returns null when no closure-gate strategy exists', () => {
     const noClosureGate = seedStrategies.filter(
-      (s) => s.surfaceType !== 'closure-gate',
+      (s) => s.surface_type !== 'closure-gate',
     );
     const config = extractClosureGateConfig(noClosureGate);
     expect(config).toBeNull();
@@ -449,7 +449,7 @@ describe('extractClosureGateConfig — gate configuration from strategy', () => 
 
   it('returns null when strategy has no gates configured', () => {
     const emptyGates: StrategyPolicy[] = seedStrategies.map((s) => {
-      if (s.surfaceType === 'closure-gate') {
+      if (s.surface_type === 'closure-gate') {
         return { ...s, configuration: { gates: [] } };
       }
       return s;
@@ -501,25 +501,25 @@ describe('evaluateClosureReadiness — gate status tracking per case', () => {
   it('tracks different case IDs independently', () => {
     const strategies = makeClosureGateStrategy(['technical_validation', 'approval']);
 
-    const request1 = makeEvaluationRequest({ caseId: 'case-001' });
+    const request1 = makeEvaluationRequest({ case_id: 'case-001' });
     const result1 = evaluateClosureReadiness(request1, strategies);
 
-    const request2 = makeEvaluationRequest({ caseId: 'case-002' });
+    const request2 = makeEvaluationRequest({ case_id: 'case-002' });
     const result2 = evaluateClosureReadiness(request2, strategies);
 
-    expect(result1.closureGateState!.caseId).toBe('case-001');
-    expect(result2.closureGateState!.caseId).toBe('case-002');
+    expect(result1.closureGateState!.case_id).toBe('case-001');
+    expect(result2.closureGateState!.case_id).toBe('case-002');
   });
 
   it('records evaluatedAt timestamp in gate state', () => {
     const strategies = makeClosureGateStrategy(['technical_validation']);
     const customTime = '2026-03-15T14:30:00.000Z';
-    const request = makeEvaluationRequest({ currentTime: customTime });
+    const request = makeEvaluationRequest({ current_time: customTime });
     const result = evaluateClosureReadiness(request, strategies);
 
-    expect(result.closureGateState!.evaluatedAt).toBe(customTime);
-    result.closureGateState!.gateResults.forEach((r) => {
-      expect(r.evaluatedAt).toBe(customTime);
+    expect(result.closureGateState!.evaluated_at).toBe(customTime);
+    result.closureGateState!.gate_results.forEach((r) => {
+      expect(r.evaluated_at).toBe(customTime);
     });
   });
 
@@ -528,9 +528,9 @@ describe('evaluateClosureReadiness — gate status tracking per case', () => {
     const request = makeEvaluationRequest();
     const result = evaluateClosureReadiness(request, strategies);
 
-    expect(result.closureGateState!.gateResults).toHaveLength(12);
+    expect(result.closureGateState!.gate_results).toHaveLength(12);
 
-    const configured = result.closureGateState!.gateResults.filter(
+    const configured = result.closureGateState!.gate_results.filter(
       (r) => r.status !== 'not_configured',
     );
     expect(configured).toHaveLength(1);
@@ -548,14 +548,14 @@ describe('evaluateClosureReadiness — gate status tracking per case', () => {
     const request = makeEvaluationRequest({ gateInput: input });
     const result = evaluateClosureReadiness(request, strategies);
 
-    const approvalResult = result.closureGateState!.gateResults.find(
+    const approvalResult = result.closureGateState!.gate_results.find(
       (r) => r.gate === 'approval',
     );
     expect(approvalResult).toBeDefined();
     expect(approvalResult!.status).toBe('failed');
     expect(approvalResult!.reason).toContain('not been granted');
 
-    const techResult = result.closureGateState!.gateResults.find(
+    const techResult = result.closureGateState!.gate_results.find(
       (r) => r.gate === 'technical_validation',
     );
     expect(techResult).toBeDefined();

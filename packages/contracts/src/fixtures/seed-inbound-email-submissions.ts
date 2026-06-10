@@ -12,13 +12,13 @@ import type { InboundEmailSubmission } from '../entities/inbound-email-submissio
 import { seedId, SEED_TENANT, SEED_SOURCE } from './seed-tenant';
 
 export const seedInboundEmailSubmissions: InboundEmailSubmission[] = [
-  {
+  { entity_type: "entity",
     id: seedId('ies', 1),
     tenant: SEED_TENANT,
-    createdAt: '2026-01-15T09:00:00.000Z',
-    updatedAt: '2026-01-15T09:00:00.000Z',
+    created_at: '2026-01-15T09:00:00.000Z',
+    updated_at: '2026-01-15T09:00:00.000Z',
     source: SEED_SOURCE,
-    senderAddress: 'threat-intel@partner-org.example.com',
+    sender_address: 'threat-intel@partner-org.example.com',
     sourceOrganisation: 'Partner SOC Team (Mock)',
     receivedTimestamp: '2026-01-15T08:30:00.000Z',
     attachmentReferences: ['attachment-ref-mock-001.csv'],
@@ -30,13 +30,13 @@ export const seedInboundEmailSubmissions: InboundEmailSubmission[] = [
     rawBodyReference: 'raw-email-body-ref-mock-001',
     submissionMetadata: { forwardedBy: 'analyst-mock-001', urgency: 'high' },
   },
-  {
+  { entity_type: "entity",
     id: seedId('ies', 2),
     tenant: SEED_TENANT,
-    createdAt: '2026-01-15T09:00:00.000Z',
-    updatedAt: '2026-01-15T09:00:00.000Z',
+    created_at: '2026-01-15T09:00:00.000Z',
+    updated_at: '2026-01-15T09:00:00.000Z',
     source: SEED_SOURCE,
-    senderAddress: 'vendor-alerts@vendor-d.example.com',
+    sender_address: 'vendor-alerts@vendor-d.example.com',
     sourceOrganisation: 'Vendor D Security Response (Mock)',
     receivedTimestamp: '2026-01-15T07:45:00.000Z',
     attachmentReferences: [],

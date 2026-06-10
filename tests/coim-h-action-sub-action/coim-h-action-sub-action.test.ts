@@ -33,21 +33,21 @@ import { seedActions, seedSubActions } from '../../packages/contracts/src/fixtur
 
 const baseAction = (overrides: Partial<Action> = {}): Action => ({
   id: 'action-test-001',
-  entityType: 'action',
-  tenant: { tenantId: 'tenant-001-acme-corp', tenantName: 'Acme Corp' },
-  createdAt: '2026-01-18T07:00:00.000Z',
-  updatedAt: '2026-01-18T07:00:00.000Z',
+  entity_type: 'action',
+  tenant: { tenant_id: 'tenant-001-acme-corp', tenant_name: 'Acme Corp' },
+  created_at: '2026-01-18T07:00:00.000Z',
+  updated_at: '2026-01-18T07:00:00.000Z',
   source: {
-    connectorId: 'conn-test',
-    importRunId: 'run-test',
-    sourceSystem: 'commander-test',
-    sourceTimestamp: '2026-01-18T07:00:00.000Z',
+    connector_id: 'conn-test',
+    import_run_id: 'run-test',
+    source_system: 'commander-test',
+    source_timestamp: '2026-01-18T07:00:00.000Z',
   },
-  caseId: 'case-0001',
+  case_id: 'case-0001',
   title: 'Test Action',
   description: 'Test action description',
-  estimatedEffortHours: 4,
-  actualEffortHours: 2,
+  estimated_effort_hours: 4,
+  actual_effort_hours: 2,
   status: 'planned',
   approvalRef: 'approval-test-001',
   owner: 'test-team',
@@ -56,30 +56,30 @@ const baseAction = (overrides: Partial<Action> = {}): Action => ({
 
 const baseSubAction = (overrides: Partial<SubAction> = {}): SubAction => ({
   id: 'sub-action-test-001',
-  entityType: 'sub_action',
-  tenant: { tenantId: 'tenant-001-acme-corp', tenantName: 'Acme Corp' },
-  createdAt: '2026-01-18T07:05:00.000Z',
-  updatedAt: '2026-01-18T07:05:00.000Z',
+  entity_type: 'sub_action',
+  tenant: { tenant_id: 'tenant-001-acme-corp', tenant_name: 'Acme Corp' },
+  created_at: '2026-01-18T07:05:00.000Z',
+  updated_at: '2026-01-18T07:05:00.000Z',
   source: {
-    connectorId: 'conn-test',
-    importRunId: 'run-test',
-    sourceSystem: 'commander-test',
-    sourceTimestamp: '2026-01-18T07:05:00.000Z',
+    connector_id: 'conn-test',
+    import_run_id: 'run-test',
+    source_system: 'commander-test',
+    source_timestamp: '2026-01-18T07:05:00.000Z',
   },
-  actionId: 'action-test-001',
-  caseId: 'case-0001',
+  action_id: 'action-test-001',
+  case_id: 'case-0001',
   targetEntity: 'asset-0001',
   targetEntityType: 'asset',
   executionMethod: 'network-isolation',
   outcomeClassification: 'pending',
-  estimatedEffortHours: 2,
-  actualEffortHours: 0,
+  estimated_effort_hours: 2,
+  actual_effort_hours: 0,
   approvalRef: 'approval-test-001-sub1',
   owner: 'test-team',
-  sequenceOrder: 1,
-  tacticType: 'isolate',
+  sequence_order: 1,
+  tactic_type: 'isolate',
   countermeasures: [
-    { techniqueId: 'D3-NI', techniqueName: 'Network Isolation' },
+    { technique_id: 'D3-NI', technique_name: 'Network Isolation' },
   ],
   ...overrides,
 });
@@ -90,12 +90,12 @@ describe('COIM-H: Action/Sub-Action Entity Contract', () => {
   describe('Action type shape', () => {
     it('has all required COIM-H fields', () => {
       const action = baseAction();
-      expect(action.entityType).toBe('action');
-      expect(action.caseId).toBeDefined();
+      expect(action.entity_type).toBe('action');
+      expect(action.case_id).toBeDefined();
       expect(action.title).toBeDefined();
       expect(action.description).toBeDefined();
-      expect(action.estimatedEffortHours).toBeTypeOf('number');
-      expect(action.actualEffortHours).toBeTypeOf('number');
+      expect(action.estimated_effort_hours).toBeTypeOf('number');
+      expect(action.actual_effort_hours).toBeTypeOf('number');
       expect(action.status).toBeDefined();
       expect(action.approvalRef).toBeDefined();
       expect(action.owner).toBeDefined();
@@ -104,14 +104,14 @@ describe('COIM-H: Action/Sub-Action Entity Contract', () => {
     it('extends CommonFields (tenant, timestamps, source)', () => {
       const action = baseAction();
       expect(action.id).toBeDefined();
-      expect(action.tenant.tenantId).toBeDefined();
-      expect(action.tenant.tenantName).toBeDefined();
-      expect(action.createdAt).toBeDefined();
-      expect(action.updatedAt).toBeDefined();
-      expect(action.source.connectorId).toBeDefined();
-      expect(action.source.importRunId).toBeDefined();
-      expect(action.source.sourceSystem).toBeDefined();
-      expect(action.source.sourceTimestamp).toBeDefined();
+      expect(action.tenant.tenant_id).toBeDefined();
+      expect(action.tenant.tenant_name).toBeDefined();
+      expect(action.created_at).toBeDefined();
+      expect(action.updated_at).toBeDefined();
+      expect(action.source.connector_id).toBeDefined();
+      expect(action.source.import_run_id).toBeDefined();
+      expect(action.source.source_system).toBeDefined();
+      expect(action.source.source_timestamp).toBeDefined();
     });
 
     it('defines four action statuses', () => {
@@ -123,20 +123,20 @@ describe('COIM-H: Action/Sub-Action Entity Contract', () => {
   describe('Sub-Action type shape', () => {
     it('has all required COIM-H fields including D3FEND', () => {
       const sub = baseSubAction();
-      expect(sub.entityType).toBe('sub_action');
-      expect(sub.actionId).toBeDefined();
-      expect(sub.caseId).toBeDefined();
+      expect(sub.entity_type).toBe('sub_action');
+      expect(sub.action_id).toBeDefined();
+      expect(sub.case_id).toBeDefined();
       expect(sub.targetEntity).toBeDefined();
       expect(sub.targetEntityType).toBeDefined();
       expect(sub.executionMethod).toBeDefined();
       expect(sub.outcomeClassification).toBeDefined();
-      expect(sub.estimatedEffortHours).toBeTypeOf('number');
-      expect(sub.actualEffortHours).toBeTypeOf('number');
+      expect(sub.estimated_effort_hours).toBeTypeOf('number');
+      expect(sub.actual_effort_hours).toBeTypeOf('number');
       expect(sub.approvalRef).toBeDefined();
       expect(sub.owner).toBeDefined();
-      expect(sub.sequenceOrder).toBeTypeOf('number');
+      expect(sub.sequence_order).toBeTypeOf('number');
       // D3FEND fields (ARCH-DEBT-046)
-      expect(sub.tacticType).toBeDefined();
+      expect(sub.tactic_type).toBeDefined();
       expect(sub.countermeasures).toBeDefined();
       expect(Array.isArray(sub.countermeasures)).toBe(true);
     });
@@ -167,7 +167,7 @@ describe('COIM-H: Action Validation', () => {
   });
 
   it('rejects missing caseId', () => {
-    const result = validateAction(baseAction({ caseId: '' }));
+    const result = validateAction(baseAction({ case_id: '' }));
     expect(result.valid).toBe(false);
     expect(result.errors).toContain('caseId is required.');
   });
@@ -179,13 +179,13 @@ describe('COIM-H: Action Validation', () => {
   });
 
   it('rejects negative estimatedEffortHours', () => {
-    const result = validateAction(baseAction({ estimatedEffortHours: -1 }));
+    const result = validateAction(baseAction({ estimated_effort_hours: -1 }));
     expect(result.valid).toBe(false);
     expect(result.errors[0]).toContain('estimatedEffortHours must be >= 0');
   });
 
   it('rejects negative actualEffortHours', () => {
-    const result = validateAction(baseAction({ actualEffortHours: -5 }));
+    const result = validateAction(baseAction({ actual_effort_hours: -5 }));
     expect(result.valid).toBe(false);
     expect(result.errors[0]).toContain('actualEffortHours must be >= 0');
   });
@@ -205,13 +205,13 @@ describe('COIM-H: Sub-Action Validation', () => {
   });
 
   it('rejects missing actionId', () => {
-    const result = validateSubAction(baseSubAction({ actionId: '' }));
+    const result = validateSubAction(baseSubAction({ action_id: '' }));
     expect(result.valid).toBe(false);
     expect(result.errors).toContain('actionId is required.');
   });
 
   it('rejects missing caseId', () => {
-    const result = validateSubAction(baseSubAction({ caseId: '' }));
+    const result = validateSubAction(baseSubAction({ case_id: '' }));
     expect(result.valid).toBe(false);
     expect(result.errors).toContain('caseId is required.');
   });
@@ -235,27 +235,27 @@ describe('COIM-H: Sub-Action Validation', () => {
   });
 
   it('rejects negative estimatedEffortHours', () => {
-    const result = validateSubAction(baseSubAction({ estimatedEffortHours: -1 }));
+    const result = validateSubAction(baseSubAction({ estimated_effort_hours: -1 }));
     expect(result.valid).toBe(false);
     expect(result.errors[0]).toContain('estimatedEffortHours must be >= 0');
   });
 
   it('rejects negative actualEffortHours', () => {
-    const result = validateSubAction(baseSubAction({ actualEffortHours: -2 }));
+    const result = validateSubAction(baseSubAction({ actual_effort_hours: -2 }));
     expect(result.valid).toBe(false);
     expect(result.errors[0]).toContain('actualEffortHours must be >= 0');
   });
 
   it('rejects invalid D3FEND tacticType', () => {
-    const result = validateSubAction(baseSubAction({ tacticType: 'invalid' as any }));
+    const result = validateSubAction(baseSubAction({ tactic_type: 'invalid' as any }));
     expect(result.valid).toBe(false);
     expect(result.errors[0]).toContain('Invalid D3FEND tacticType');
   });
 
   it('rejects countermeasures exceeding MAX_COUNTERMEASURES', () => {
     const overflowed = Array.from({ length: 11 }, (_, i) => ({
-      techniqueId: `D3-${i}`,
-      techniqueName: `Technique ${i}`,
+      technique_id: `D3-${i}`,
+      technique_name: `Technique ${i}`,
     }));
     const result = validateSubAction(baseSubAction({ countermeasures: overflowed }));
     expect(result.valid).toBe(false);
@@ -264,18 +264,18 @@ describe('COIM-H: Sub-Action Validation', () => {
 
   it('rejects countermeasure with empty techniqueId', () => {
     const result = validateSubAction(baseSubAction({
-      countermeasures: [{ techniqueId: '', techniqueName: 'Valid Name' }],
+      countermeasures: [{ technique_id: '', technique_name: 'Valid Name' }],
     }));
     expect(result.valid).toBe(false);
-    expect(result.errors).toContain('countermeasure.techniqueId is required.');
+    expect(result.errors).toContain('countermeasure.technique_id is required.');
   });
 
   it('rejects countermeasure with empty techniqueName', () => {
     const result = validateSubAction(baseSubAction({
-      countermeasures: [{ techniqueId: 'D3-NI', techniqueName: '' }],
+      countermeasures: [{ technique_id: 'D3-NI', technique_name: '' }],
     }));
     expect(result.valid).toBe(false);
-    expect(result.errors).toContain('countermeasure.techniqueName is required.');
+    expect(result.errors).toContain('countermeasure.technique_name is required.');
   });
 });
 
@@ -302,19 +302,19 @@ describe('COIM-H: Seed Fixture Conformance', () => {
 
   it('all seed actions are bound to case-0001', () => {
     for (const action of seedActions) {
-      expect(action.caseId).toBe('case-0001');
+      expect(action.case_id).toBe('case-0001');
     }
   });
 
   it('all seed sub-actions reference valid parent action IDs', () => {
     const actionIds = new Set(seedActions.map(a => a.id));
     for (const sub of seedSubActions) {
-      expect(actionIds.has(sub.actionId)).toBe(true);
+      expect(actionIds.has(sub.action_id)).toBe(true);
     }
   });
 
   it('seed sub-actions cover all five D3FEND tactic types', () => {
-    const tactics = new Set(seedSubActions.map(s => s.tacticType));
+    const tactics = new Set(seedSubActions.map(s => s.tactic_type));
     expect(tactics.size).toBe(5);
     for (const t of D3FEND_TACTIC_TYPES) {
       expect(tactics.has(t)).toBe(true);
@@ -330,8 +330,8 @@ describe('COIM-H: Seed Fixture Conformance', () => {
   it('all seed sub-actions have well-formed countermeasures', () => {
     for (const sub of seedSubActions) {
       for (const cm of sub.countermeasures) {
-        expect(cm.techniqueId).toBeTruthy();
-        expect(cm.techniqueName).toBeTruthy();
+        expect(cm.technique_id).toBeTruthy();
+        expect(cm.technique_name).toBeTruthy();
       }
     }
   });

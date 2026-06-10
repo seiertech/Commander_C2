@@ -21,11 +21,11 @@ export const REPORT_STATUSES: ReportStatus[] = ['scheduled', 'generating', 'comp
 export const REPORT_CADENCES: ReportCadence[] = ['daily', 'weekly', 'monthly', 'quarterly', 'on-demand'];
 
 export interface Report extends CommonFields {
-  entityType: 'report';
+  entity_type: 'report';
   /** Report title */
   title: string;
   /** Report type */
-  reportType: ReportType;
+  report_type: ReportType;
   /** Generation cadence */
   cadence: ReportCadence;
   /** Current status */
@@ -37,7 +37,7 @@ export interface Report extends CommonFields {
   /** Reporting period end */
   periodEnd: string;
   /** When this report was last generated */
-  lastGeneratedAt: string | null;
+  last_generated_at: string | null;
   /** When next generation is scheduled */
   nextScheduledAt: string | null;
   /** Export format */

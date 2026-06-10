@@ -13,7 +13,7 @@
  * - Source-owned (immutable): iocCategory, value, originalRawValue, tlpMarking,
  *   expiresAt, firstSeenAt
  * - Commander-owned (mutable): normalisedValue, confidence (aggregate),
- *   severity, sourceAttribution, lastSeenAt, active
+ *   severity, sourceAttribution, last_seen_at, active
  */
 
 import type { CommonFields } from './common';
@@ -24,7 +24,7 @@ import { IOC_CATEGORIES, TLP_MARKINGS } from './intelligence-common';
 
 export interface IndicatorOfCompromise extends CommonFields {
   /** IOC category from exhaustive taxonomy (Req 6.2/6.4) */
-  iocCategory: IocCategory;
+  ioc_category: IocCategory;
   /** Raw indicator string — non-empty (Req 6.1/6.4) */
   value: string;
   /** Normalised form from normaliseIoc (Req 6.1) */
@@ -38,13 +38,13 @@ export interface IndicatorOfCompromise extends CommonFields {
   /** TLP marking (Req 6.1, 22.3) */
   tlpMarking: TlpMarking;
   /** Optional expiry for time-bound indicators (Req 6.1, 22.4) */
-  expiresAt: string | null;
+  expires_at: string | null;
   /** Per-source attribution entries — preserved on dedup (Req 6.5, 8.4, 22.5) */
   sourceAttribution: SourceAttributionEntry[];
   /** First observation (min across attributions, Req 6.1) */
-  firstSeenAt: string;
+  first_seen_at: string;
   /** Last observation (max across attributions, Req 6.1) */
-  lastSeenAt: string;
+  last_seen_at: string;
   /** Active status (Req 6.1) */
   active: boolean;
 }
@@ -66,9 +66,9 @@ export function validateIndicatorOfCompromise(
 ): IndicatorOfCompromiseValidation {
   const errors: string[] = [];
 
-  if (!ioc.iocCategory || !IOC_CATEGORIES.includes(ioc.iocCategory)) {
+  if (!ioc.ioc_category || !IOC_CATEGORIES.includes(ioc.ioc_category)) {
     errors.push(
-      `iocCategory: must be a known taxonomy value from IOC_CATEGORIES`,
+      `ioc_category: must be a known taxonomy value from IOC_CATEGORIES`,
     );
   }
 
@@ -104,8 +104,8 @@ export function validateIndicatorOfCompromise(
     errors.push('id: required');
   }
 
-  if (!ioc.tenant || !ioc.tenant.tenantId || ioc.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!ioc.tenant || !ioc.tenant.tenant_id || ioc.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
 
   return { valid: errors.length === 0, errors };

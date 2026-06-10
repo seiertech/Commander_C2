@@ -2,8 +2,8 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedAssets } from '../../../../../../packages/contracts/src/fixtures/seed-assets';
 import { primitiveTypeScale } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisAssets } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Assets — Ownership View
@@ -18,8 +18,8 @@ import { primitiveTypeScale } from '../../../../../../packages/ui/src/tokens/pri
 export default function AssetsOwnershipPage() {
   const { tokens } = useMode();
 
-  const ownerMap = new Map<string, typeof seedAssets>();
-  seedAssets.forEach((a) => {
+  const ownerMap = new Map<string, typeof thesisAssets>();
+  thesisAssets.forEach((a) => {
     const list = ownerMap.get(a.owner) || [];
     list.push(a);
     ownerMap.set(a.owner, list);
@@ -37,7 +37,7 @@ export default function AssetsOwnershipPage() {
           <div className="card">
             <div className="card-body">
               <div className="subheader">Total Assets</div>
-              <div className="h1 mb-0">{seedAssets.length}</div>
+              <div className="h1 mb-0">{thesisAssets.length}</div>
             </div>
           </div>
         </div>
@@ -53,7 +53,7 @@ export default function AssetsOwnershipPage() {
           <div className="card">
             <div className="card-body">
               <div className="subheader">Avg Assets/Owner</div>
-              <div className="h1 mb-0">{owners.length > 0 ? (seedAssets.length / owners.length).toFixed(1) : '0'}</div>
+              <div className="h1 mb-0">{owners.length > 0 ? (thesisAssets.length / owners.length).toFixed(1) : '0'}</div>
             </div>
           </div>
         </div>

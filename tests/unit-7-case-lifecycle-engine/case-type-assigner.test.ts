@@ -75,7 +75,7 @@ describe('Case Type Assigner — assignCaseType default mappings', () => {
   ] as [RiskObjectType, string][])('%s → %s (default)', (roType, expectedCaseType) => {
     const result = assignCaseType({ riskObjectType: roType });
     expect(result.success).toBe(true);
-    expect(result.caseType).toBe(expectedCaseType);
+    expect(result.case_type).toBe(expectedCaseType);
     expect(result.error).toBeNull();
   });
 });
@@ -87,7 +87,7 @@ describe('Case Type Assigner — context-aware disambiguation', () => {
       context: 'inverse_discovery',
     });
     expect(result.success).toBe(true);
-    expect(result.caseType).toBe('inverse-discovery-coverage-blindspot');
+    expect(result.case_type).toBe('inverse-discovery-coverage-blindspot');
   });
 
   it('vulnerability_drift + drift_primary → drift', () => {
@@ -96,7 +96,7 @@ describe('Case Type Assigner — context-aware disambiguation', () => {
       context: 'drift_primary',
     });
     expect(result.success).toBe(true);
-    expect(result.caseType).toBe('drift');
+    expect(result.case_type).toBe('drift');
   });
 
   it('vulnerability_drift + vulnerability_primary → vulnerability', () => {
@@ -105,7 +105,7 @@ describe('Case Type Assigner — context-aware disambiguation', () => {
       context: 'vulnerability_primary',
     });
     expect(result.success).toBe(true);
-    expect(result.caseType).toBe('vulnerability');
+    expect(result.case_type).toBe('vulnerability');
   });
 
   it('control_gap + tool_health → tool-health', () => {
@@ -114,7 +114,7 @@ describe('Case Type Assigner — context-aware disambiguation', () => {
       context: 'tool_health',
     });
     expect(result.success).toBe(true);
-    expect(result.caseType).toBe('tool-health');
+    expect(result.case_type).toBe('tool-health');
   });
 
   it('control_gap + policy_effectiveness → policy-effectiveness', () => {
@@ -123,7 +123,7 @@ describe('Case Type Assigner — context-aware disambiguation', () => {
       context: 'policy_effectiveness',
     });
     expect(result.success).toBe(true);
-    expect(result.caseType).toBe('policy-effectiveness');
+    expect(result.case_type).toBe('policy-effectiveness');
   });
 });
 
@@ -134,7 +134,7 @@ describe('Case Type Assigner — signal-context case types', () => {
       context: 'threat_intelligence',
     });
     expect(result.success).toBe(true);
-    expect(result.caseType).toBe('threat-intelligence-estate-match');
+    expect(result.case_type).toBe('threat-intelligence-estate-match');
   });
 
   it('external_attack context → external-attack-correlation', () => {
@@ -143,7 +143,7 @@ describe('Case Type Assigner — signal-context case types', () => {
       context: 'external_attack',
     });
     expect(result.success).toBe(true);
-    expect(result.caseType).toBe('external-attack-correlation');
+    expect(result.case_type).toBe('external-attack-correlation');
   });
 
   it('verdict_pattern context → verdict-pattern', () => {
@@ -152,7 +152,7 @@ describe('Case Type Assigner — signal-context case types', () => {
       context: 'verdict_pattern',
     });
     expect(result.success).toBe(true);
-    expect(result.caseType).toBe('verdict-pattern');
+    expect(result.case_type).toBe('verdict-pattern');
   });
 });
 
@@ -162,7 +162,7 @@ describe('Case Type Assigner — error handling', () => {
       riskObjectType: 'unknown_type' as RiskObjectType,
     });
     expect(result.success).toBe(false);
-    expect(result.caseType).toBeNull();
+    expect(result.case_type).toBeNull();
     expect(result.error).toContain('Unknown risk object type');
   });
 });

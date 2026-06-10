@@ -47,7 +47,7 @@ export const DEFAULT_EFFECTIVENESS_TARGETS: EffectivenessTargets = {
 
 /** Case resolution record for metric computation */
 export interface CaseResolutionRecord {
-  caseId: string;
+  case_id: string;
   priority: string;
   /** Hours from case creation to closure */
   resolutionHours: number;

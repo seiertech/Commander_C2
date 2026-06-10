@@ -38,12 +38,12 @@ export function deriveConfidence(sourceCount: number): ConfidenceLevel {
 // ─── Input Shapes ────────────────────────────────────────────────────────────
 
 export interface OrientationCaseSummary {
-  caseId: string;
-  caseRef: string;
+  case_id: string;
+  case_ref: string;
   status: string;
   priority: string;
   title: string;
-  caseType: string;
+  case_type: string;
 }
 
 export interface OrientationRiskObject {
@@ -51,15 +51,15 @@ export interface OrientationRiskObject {
   type: string;
   title: string;
   severity: string;
-  affectedEntities: string[];
+  affected_entities: string[];
 }
 
 export interface OrientationIntelligence {
   kevListed?: boolean;
-  epssScore?: number;
-  cvssScore?: number;
+  epss_score?: number;
+  cvss_score?: number;
   attackVector?: string;
-  exploitMaturity?: string;
+  exploit_maturity?: string;
   automatable?: boolean;
   sourceCount: number;
 }
@@ -92,7 +92,7 @@ export interface BlastRadius {
 export interface RecommendedAction {
   description: string;
   priority: string;
-  requiresApproval: boolean;
+  requires_approval: boolean;
 }
 
 export interface UncertaintyGap {
@@ -105,7 +105,7 @@ export interface UncertaintyGap {
 export interface OrientationBriefing {
   whatHappened: string;
   exploitAnalysis: ExploitAnalysis;
-  blastRadius: BlastRadius;
+  blast_radius: BlastRadius;
   actionsTaken: string[];
   pendingActions: string[];
   recommendedActions: RecommendedAction[];
@@ -136,23 +136,23 @@ export function generateOrientationBriefing(
   prioritySignal?: OrientationPrioritySignal,
 ): OrientationBriefing {
   // Summarise what happened
-  const caseDescriptions = cases.map((c) => `${c.caseRef} (${c.caseType}, ${c.priority})`);
+  const caseDescriptions = cases.map((c) => `${c.case_ref} (${c.case_type}, ${c.priority})`);
   const whatHappened = `War Room '${warRoom.warRoomRef}' activated for ${cases.length} case(s): ${caseDescriptions.join(', ')}. Activation reason: ${warRoom.activationReason}`;
 
   // Exploit analysis
   const exploitAnalysis: ExploitAnalysis = {
     technique: riskObjects.length > 0 ? riskObjects[0].type : 'unknown',
-    maturity: intelligence?.exploitMaturity ?? 'unknown',
+    maturity: intelligence?.exploit_maturity ?? 'unknown',
     kev: intelligence?.kevListed ?? false,
-    epss: intelligence?.epssScore ?? 0,
+    epss: intelligence?.epss_score ?? 0,
     automatable: intelligence?.automatable ?? false,
     attackVector: intelligence?.attackVector ?? 'unknown',
   };
 
   // Blast radius
-  const allAffected = riskObjects.flatMap((r) => r.affectedEntities);
+  const allAffected = riskObjects.flatMap((r) => r.affected_entities);
   const uniqueAffected = [...new Set(allAffected)];
-  const blastRadius: BlastRadius = {
+  const blast_radius: BlastRadius = {
     directlyAffected: uniqueAffected.length,
     lateralReach: Math.min(uniqueAffected.length * 2, 100), // Estimate
     identityExposure: riskObjects.filter((r) => r.type === 'identity').length,
@@ -166,21 +166,21 @@ export function generateOrientationBriefing(
     recommendedActions.push({
       description: 'Prioritise patching for KEV-listed vulnerability',
       priority: 'P0',
-      requiresApproval: true,
+      requires_approval: true,
     });
   }
   if (intelligence?.automatable) {
     recommendedActions.push({
       description: 'Assess automated exploitation risk and implement compensating controls',
       priority: 'P0',
-      requiresApproval: true,
+      requires_approval: true,
     });
   }
-  if (blastRadius.score >= 50) {
+  if (blast_radius.score >= 50) {
     recommendedActions.push({
       description: 'Initiate containment for high blast radius incident',
       priority: 'P0',
-      requiresApproval: true,
+      requires_approval: true,
     });
   }
 
@@ -195,7 +195,7 @@ export function generateOrientationBriefing(
       sourceCount,
     });
   }
-  if (!intelligence?.exploitMaturity || intelligence.exploitMaturity === 'unknown') {
+  if (!intelligence?.exploit_maturity || intelligence.exploit_maturity === 'unknown') {
     uncertaintyGaps.push({
       area: 'Exploit maturity',
       description: 'Exploit maturity not confirmed. May be higher than assessed.',
@@ -207,9 +207,9 @@ export function generateOrientationBriefing(
   return {
     whatHappened,
     exploitAnalysis,
-    blastRadius,
+    blast_radius,
     actionsTaken: [],
-    pendingActions: cases.filter((c) => c.status === 'in_progress').map((c) => `Case ${c.caseRef}: in progress`),
+    pendingActions: cases.filter((c) => c.status === 'in_progress').map((c) => `Case ${c.case_ref}: in progress`),
     recommendedActions,
     uncertaintyGaps,
     generatedAt: new Date().toISOString(),
@@ -268,7 +268,7 @@ export function updateBriefingOnEvent(
     case 'escalation':
       updated.recommendedActions = [
         ...existingBriefing.recommendedActions,
-        { description: event.description, priority: 'P0', requiresApproval: true },
+        { description: event.description, priority: 'P0', requires_approval: true },
       ];
       break;
   }

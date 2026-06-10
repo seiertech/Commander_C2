@@ -1,11 +1,10 @@
 'use client';
 
+import { thesisCases, thesisEvents } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { useMode } from '@/context/mode-context';
-import { seedCases } from '../../../../../packages/contracts/src/fixtures/seed-cases';
-import { seedEvents } from '../../../../../packages/contracts/src/fixtures/seed-events';
 import { componentTokens } from '../../../../../packages/ui/src/tokens/components';
 import {
   primitiveFonts, primitiveTypeScale, primitiveLetterSpacing,
@@ -13,7 +12,7 @@ import {
 } from '../../../../../packages/ui/src/tokens/primitives';
 import { PageContainer } from '@/components/page-container';
 import { CaseCard } from '@/components/case-card';
-import type { Case } from '../../../../../packages/contracts/src/entities/case';
+
 import {
   FLOW_LANES, laneOf, isClosed, isNew, slaState, riskScore, ageLabel,
   momentum, PRIORITIES, type FlowLane,
@@ -85,28 +84,28 @@ export default function CaseHandlingPage() {
   const [fSurface, setFSurface] = useState('all');
   const [showClosed, setShowClosed] = useState(true);
 
-  const now = useMemo(() => Math.max(...seedCases.map((c) => new Date(c.updatedAt).getTime())), []);
+  const now = useMemo(() => Math.max(...thesisCases.map((c) => new Date(c.updated_at).getTime())), []);
 
-  const typeOptions = useMemo(() => Array.from(new Set(seedCases.map((c) => c.caseType))).sort(), []);
-  const teamOptions = useMemo(() => Array.from(new Set(seedCases.map((c) => c.team))).sort(), []);
-  const ownerOptions = useMemo(() => Array.from(new Set(seedCases.map((c) => c.owner))).sort(), []);
+  const typeOptions = useMemo(() => Array.from(new Set(thesisCases.map((c) => c.case_type))).sort(), []);
+  const teamOptions = useMemo(() => Array.from(new Set(thesisCases.map((c) => c.team))).sort(), []);
+  const ownerOptions = useMemo(() => Array.from(new Set(thesisCases.map((c) => c.owner))).sort(), []);
 
-  const filtered = useMemo(() => seedCases.filter((c) => {
+  const filtered = useMemo(() => thesisCases.filter((c) => {
     if (fPriority !== 'all' && c.priority !== fPriority) return false;
-    if (fType !== 'all' && c.caseType !== fType) return false;
+    if (fType !== 'all' && c.case_type !== fType) return false;
     if (fTeam !== 'all' && c.team !== fTeam) return false;
     if (fOwner !== 'all' && c.owner !== fOwner) return false;
-    if (fSurface !== 'all' && c.surfaceAttribution !== fSurface) return false;
+    if (fSurface !== 'all' && c.surface_attribution !== fSurface) return false;
     if (!showClosed && isClosed(c)) return false;
     return true;
   }), [fPriority, fType, fTeam, fOwner, fSurface, showClosed]);
 
   // ── Metrics ──
-  const openCases = seedCases.filter((c) => !isClosed(c));
-  const closedCases = seedCases.filter(isClosed);
-  const newCount = seedCases.filter(isNew).length;
+  const openCases = thesisCases.filter((c) => !isClosed(c));
+  const closedCases = thesisCases.filter(isClosed);
+  const newCount = thesisCases.filter(isNew).length;
   const slaAtRisk = openCases.filter((c) => slaState(c, now).tone !== 'success').length;
-  const breached = seedCases.filter((c) => c.sla.breached).length;
+  const breached = thesisCases.filter((c) => c.sla.breached).length;
   const p0 = openCases.filter((c) => c.priority === 'P0').length;
   const p1 = openCases.filter((c) => c.priority === 'P1').length;
   const stalling = openCases.filter((c) => momentum(c, now) === 'stalling').length;
@@ -115,17 +114,17 @@ export default function CaseHandlingPage() {
   // Pipeline counts (map 12-state → 7 display stages)
   const pipelineCounts = PIPELINE.map((stage) => {
     if (stage.label === 'Awaiting Feedback') {
-      return seedCases.filter((c) => (c.priority === 'P0' || c.priority === 'P1') && (c.status === 'in_progress' || c.status === 'in-progress')).length;
+      return thesisCases.filter((c) => (c.priority === 'P0' || c.priority === 'P1') && (c.status === 'in_progress' || c.status === 'in-progress')).length;
     }
     if (stage.label === 'Actioning') {
-      return seedCases.filter((c) => c.status === 'action_decomposed' || c.status === 'prioritised').length;
+      return thesisCases.filter((c) => c.status === 'action_decomposed' || c.status === 'prioritised').length;
     }
-    return seedCases.filter((c) => stage.lanes.includes(laneOf(c))).length;
+    return thesisCases.filter((c) => stage.lanes.includes(laneOf(c))).length;
   });
   const activeStageIdx = pipelineCounts.findIndex((n, i) => i > 0 && n > 0); // first non-New populated stage
 
   // Instrument gauges (signature). value/max with red→amber→green meaning.
-  const triageVelocity = Math.round((closedCases.length / Math.max(1, seedCases.length)) * 100);
+  const triageVelocity = Math.round((closedCases.length / Math.max(1, thesisCases.length)) * 100);
   const slaPressure = Math.round((slaAtRisk / Math.max(1, openCases.length)) * 100);
   const gauges = [
     { label: 'SLA Pressure', value: slaPressure, max: 100, invert: true },   // high = bad
@@ -135,7 +134,7 @@ export default function CaseHandlingPage() {
 
   // Lane grouping for board
   const lanes = useMemo(() => {
-    const g: Record<FlowLane, Case[]> = { new: [], triage: [], in_progress: [], validation: [], closure: [], closed: [] };
+    const g: Record<FlowLane, any[]> = { new: [], triage: [], in_progress: [], validation: [], closure: [], closed: [] };
     filtered.forEach((c) => g[laneOf(c)].push(c));
     (Object.keys(g) as FlowLane[]).forEach((k) => g[k].sort((a, b) => riskScore(b, now) - riskScore(a, now)));
     return g;
@@ -143,8 +142,8 @@ export default function CaseHandlingPage() {
   const visibleLanes = showClosed ? FLOW_LANES : FLOW_LANES.filter((l) => l.id !== 'closed');
 
   // Live activity feed — case-related events, newest first
-  const caseEvents = useMemo(() => seedEvents
-    .filter((e) => e.entityType === 'case')
+  const caseEvents = useMemo(() => thesisEvents
+    .filter((e) => e.entity_type === 'case')
     .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
     .slice(0, 12), []);
 
@@ -234,11 +233,11 @@ export default function CaseHandlingPage() {
             <span style={{ fontSize: primitiveTypeScale.micro, color: HUD.textMuted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>Live Activity</span>
             <div style={{ marginTop: primitiveSpacing[3], display: 'flex', flexDirection: 'column', gap: primitiveSpacing[2], maxHeight: 520, overflowY: 'auto' }}>
               {caseEvents.map((e) => (
-                <div key={e.id} onClick={() => router.push(`/cases/${e.entityRef}`)} style={{ display: 'flex', gap: primitiveSpacing[2], cursor: 'pointer', paddingBottom: primitiveSpacing[2], borderBottom: `1px solid ${HUD.lineSubtle}` }}>
+                <div key={e.id} onClick={() => router.push(`/cases/${e.entity_ref}`)} style={{ display: 'flex', gap: primitiveSpacing[2], cursor: 'pointer', paddingBottom: primitiveSpacing[2], borderBottom: `1px solid ${HUD.lineSubtle}` }}>
                   <span style={{ width: 7, height: 7, borderRadius: '50%', background: SEV_COLOR[e.severity], display: 'inline-block', marginTop: 5, flexShrink: 0 }} />
                   <div style={{ minWidth: 0 }}>
                     <div style={{ fontSize: primitiveTypeScale.micro, color: HUD.textSecondary, lineHeight: 1.4 }}>{e.message}</div>
-                    <div style={{ fontSize: primitiveTypeScale.micro, color: HUD.textMuted, fontFamily: primitiveFonts.mono }}>{new Date(e.timestamp).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })} · {e.entityRef}</div>
+                    <div style={{ fontSize: primitiveTypeScale.micro, color: HUD.textMuted, fontFamily: primitiveFonts.mono }}>{new Date(e.timestamp).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })} · {e.entity_ref}</div>
                   </div>
                 </div>
               ))}
@@ -251,7 +250,7 @@ export default function CaseHandlingPage() {
 }
 
 // ── Board ──
-function BoardView({ lanes, visibleLanes, now }: { lanes: Record<FlowLane, Case[]>; visibleLanes: typeof FLOW_LANES; now: number }) {
+function BoardView({ lanes, visibleLanes, now }: { lanes: Record<FlowLane, any[]>; visibleLanes: typeof FLOW_LANES; now: number }) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: `repeat(${visibleLanes.length}, minmax(210px, 1fr))`, gap: primitiveSpacing[2], alignItems: 'start', overflowX: 'auto' }}>
       {visibleLanes.map((lane) => {
@@ -266,7 +265,7 @@ function BoardView({ lanes, visibleLanes, now }: { lanes: Record<FlowLane, Case[
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: primitiveSpacing[2] }}>
-              {cards.map((c) => <CaseCard key={c.id} caseRecord={c} now={now} hud />)}
+              {cards.map((c) => <CaseCard key={c.case_id} caseRecord={c} now={now} hud />)}
               {cards.length === 0 && <div style={{ padding: primitiveSpacing[3], border: `1px dashed ${HUD.lineSubtle}`, textAlign: 'center', color: HUD.textMuted, fontSize: primitiveTypeScale.micro }}>—</div>}
             </div>
           </div>
@@ -277,13 +276,13 @@ function BoardView({ lanes, visibleLanes, now }: { lanes: Record<FlowLane, Case[
 }
 
 // ── Table ──
-function TableView({ cases, now, router }: { cases: Case[]; now: number; router: ReturnType<typeof useRouter> }) {
+function TableView({ cases, now, router }: { cases: any[]; now: number; router: ReturnType<typeof useRouter> }) {
   const sorted = [...cases].sort((a, b) => riskScore(b, now) - riskScore(a, now));
   return (
     <div style={{ background: HUD.elevated, border: `1px solid ${HUD.line}`, overflowX: 'auto' }}>
       <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
         <thead>
-          <tr>{['Priority', 'Risk', 'Case Ref', 'Title', 'Type', 'Status', 'Owner', 'SLA', 'Age', 'Surface'].map((h) => (
+          <tr>{['Priority', 'Risk', 'Case Ref', 'Title', 'Type', 'Status', 'ITIL', 'OODA', 'Owner', 'SLA', 'Age', 'Surface'].map((h) => (
             <th key={h} style={{ textAlign: 'left', padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, borderBottom: `2px solid ${HUD.line}`, color: HUD.textSecondary, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, fontSize: primitiveTypeScale.micro, whiteSpace: 'nowrap' }}>{h}</th>
           ))}</tr>
         </thead>
@@ -294,21 +293,23 @@ function TableView({ cases, now, router }: { cases: Case[]; now: number; router:
             const risk = riskScore(c, now);
             const toneColor = sla.tone === 'critical' ? primitiveSignal.critical : sla.tone === 'warning' ? primitiveSignal.warning : primitiveSignal.success;
             return (
-              <tr key={c.id} onClick={() => router.push(`/cases/${c.id}`)} style={{ cursor: 'pointer', borderBottom: `1px solid ${HUD.lineSubtle}` }}>
+              <tr key={c.case_id} onClick={() => router.push(`/cases/${c.case_id}`)} style={{ cursor: 'pointer', borderBottom: `1px solid ${HUD.lineSubtle}` }}>
                 <td style={tdHud}><span style={{ color: pr.color, fontWeight: primitiveFontWeight.semibold }}>{pr.shape} {pr.label}</span></td>
                 <td style={{ ...tdHud, fontFamily: primitiveFonts.mono, fontWeight: primitiveFontWeight.bold, color: risk >= 75 ? primitiveSignal.critical : risk >= 50 ? primitiveSignal.warning : HUD.textSecondary }}>{risk}</td>
-                <td style={{ ...tdHud, fontFamily: primitiveFonts.mono }}>{c.caseRef}</td>
+                <td style={{ ...tdHud, fontFamily: primitiveFonts.mono }}>{c.case_ref}</td>
                 <td style={{ ...tdHud, maxWidth: 320, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: HUD.text }} title={c.title}>{c.title}</td>
-                <td style={tdHud}>{titleCase(c.caseType)}</td>
+                <td style={tdHud}>{titleCase(c.case_type)}</td>
                 <td style={{ ...tdHud, whiteSpace: 'nowrap' }}>{STATUS_LABEL[c.status] ?? c.status}</td>
+                <td style={{ ...tdHud, fontSize: primitiveTypeScale.micro, whiteSpace: 'nowrap' }}>{c.itil_stage}</td>
+                <td style={{ ...tdHud, fontSize: primitiveTypeScale.micro, whiteSpace: 'nowrap' }}>{c.ooda_state}</td>
                 <td style={tdHud}>{c.owner}</td>
                 <td style={tdHud}><span style={{ padding: `2px ${primitiveSpacing[2]}`, background: toneColor, color: '#fff', fontSize: primitiveTypeScale.micro, whiteSpace: 'nowrap' }}>{sla.label}</span></td>
                 <td style={{ ...tdHud, fontFamily: primitiveFonts.mono, whiteSpace: 'nowrap' }}>{ageLabel(c, now)}</td>
-                <td style={tdHud}><span style={{ fontSize: primitiveTypeScale.micro, padding: '1px 6px', border: `1px solid ${c.surfaceAttribution === 'external_attack_surface' ? primitiveSignal.info : HUD.lineSubtle}`, color: c.surfaceAttribution === 'external_attack_surface' ? primitiveSignal.info : HUD.textMuted }}>{c.surfaceAttribution === 'external_attack_surface' ? 'EXT' : 'INT'}</span></td>
+                <td style={tdHud}><span style={{ fontSize: primitiveTypeScale.micro, padding: '1px 6px', border: `1px solid ${c.surface_attribution === 'external_attack_surface' ? primitiveSignal.info : HUD.lineSubtle}`, color: c.surface_attribution === 'external_attack_surface' ? primitiveSignal.info : HUD.textMuted }}>{c.surface_attribution === 'external_attack_surface' ? 'EXT' : 'INT'}</span></td>
               </tr>
             );
           })}
-          {sorted.length === 0 && <tr><td colSpan={10} style={{ ...tdHud, textAlign: 'center', color: HUD.textMuted, padding: primitiveSpacing[6] }}>No cases match the current filters.</td></tr>}
+          {sorted.length === 0 && <tr><td colSpan={12} style={{ ...tdHud, textAlign: 'center', color: HUD.textMuted, padding: primitiveSpacing[6] }}>No cases match the current filters.</td></tr>}
         </tbody>
       </table>
     </div>

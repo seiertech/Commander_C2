@@ -55,24 +55,24 @@ export interface GateResult {
   gate: ClosureGateType;
   status: GateStatus;
   reason: string;
-  evaluatedAt: string;
+  evaluated_at: string;
 }
 
 /** Case closure gate state (tracking) */
 export interface CaseClosureGateState {
-  caseId: string;
+  case_id: string;
   configuredGates: ClosureGateType[];
-  gateResults: GateResult[];
+  gate_results: GateResult[];
   allGatesPass: boolean;
   closurePermitted: boolean;
-  evaluatedAt: string;
+  evaluated_at: string;
 }
 
 /** Closure gate evaluation request */
 export interface ClosureGateEvaluationRequest {
-  caseId: string;
+  case_id: string;
   gateInput: GateInput;
-  currentTime: string;
+  current_time: string;
 }
 
 /** Closure gate evaluation result */
@@ -82,7 +82,7 @@ export interface ClosureGateEvaluationResult {
   closurePermitted: boolean;
   failedGates: GateResult[];
   rationale: string;
-  sourcePolicy: { id: string; version: string } | null;
+  source_policy: { id: string; version: string } | null;
   error: string | null;
 }
 
@@ -193,7 +193,7 @@ const GATE_EVALUATORS: Record<ClosureGateType, (input: GateInput) => { passed: b
 export function evaluateGate(
   gate: ClosureGateType,
   input: GateInput,
-  currentTime: string,
+  current_time: string,
 ): GateResult {
   const evaluator = GATE_EVALUATORS[gate];
   const { passed, reason } = evaluator(input);
@@ -202,7 +202,7 @@ export function evaluateGate(
     gate,
     status: passed ? 'passed' : 'failed',
     reason,
-    evaluatedAt: currentTime,
+    evaluated_at: current_time,
   };
 }
 
@@ -214,30 +214,30 @@ export function evaluateGate(
 export function evaluateAllGates(
   configuredGates: ClosureGateType[],
   input: GateInput,
-  currentTime: string,
+  current_time: string,
 ): CaseClosureGateState {
-  const gateResults: GateResult[] = CLOSURE_GATE_TYPES.map((gate) => {
+  const gate_results: GateResult[] = CLOSURE_GATE_TYPES.map((gate) => {
     if (!configuredGates.includes(gate)) {
       return {
         gate,
         status: 'not_configured' as GateStatus,
         reason: `Gate '${gate}' is not configured in the closure gate strategy`,
-        evaluatedAt: currentTime,
+        evaluated_at: current_time,
       };
     }
-    return evaluateGate(gate, input, currentTime);
+    return evaluateGate(gate, input, current_time);
   });
 
-  const configuredResults = gateResults.filter((r) => r.status !== 'not_configured');
+  const configuredResults = gate_results.filter((r) => r.status !== 'not_configured');
   const allGatesPass = configuredResults.every((r) => r.status === 'passed');
 
   return {
-    caseId: '',
+    case_id: '',
     configuredGates,
-    gateResults,
+    gate_results,
     allGatesPass,
     closurePermitted: allGatesPass,
-    evaluatedAt: currentTime,
+    evaluated_at: current_time,
   };
 }
 
@@ -250,7 +250,7 @@ export function extractClosureGateConfig(
   strategies: StrategyPolicy[],
 ): { gates: ClosureGateType[]; policy: StrategyPolicy } | null {
   const policy = strategies.find(
-    (s) => s.surfaceType === 'closure-gate' && s.status === 'active',
+    (s) => s.surface_type === 'closure-gate' && s.status === 'active',
   );
 
   if (!policy) {
@@ -295,17 +295,17 @@ export function evaluateClosureReadiness(
       closurePermitted: false,
       failedGates: [],
       rationale: '',
-      sourcePolicy: null,
+      source_policy: null,
       error: '[ClosureGateEngine] STRATEGY GAP: No active closure-gate strategy policy found or strategy has no gates configured. Cannot evaluate closure readiness without strategy configuration.',
     };
   }
 
   const { gates, policy } = config;
 
-  const gateState = evaluateAllGates(gates, request.gateInput, request.currentTime);
-  gateState.caseId = request.caseId;
+  const gateState = evaluateAllGates(gates, request.gateInput, request.current_time);
+  gateState.case_id = request.case_id;
 
-  const failedGates = gateState.gateResults.filter((r) => r.status === 'failed');
+  const failedGates = gateState.gate_results.filter((r) => r.status === 'failed');
 
   const rationale = gateState.closurePermitted
     ? `All ${gates.length} configured closure gates passed. Closure is permitted.`
@@ -317,7 +317,7 @@ export function evaluateClosureReadiness(
     closurePermitted: gateState.closurePermitted,
     failedGates,
     rationale,
-    sourcePolicy: { id: policy.id, version: policy.policyVersion },
+    source_policy: { id: policy.id, version: policy.policy_version },
     error: null,
   };
 }

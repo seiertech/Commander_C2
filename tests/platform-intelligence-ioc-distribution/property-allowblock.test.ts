@@ -20,18 +20,18 @@ function makeEntry(
 ): TenantIocAllowBlockEntry {
   return {
     id,
-    tenant: { tenantId: 'tenant-001', tenantName: 'Test' },
-    createdAt: '2026-01-01T00:00:00Z',
-    updatedAt: '2026-01-01T00:00:00Z',
-    source: { connectorId: 'c1', importRunId: 'r1', sourceSystem: 'test', sourceTimestamp: '2026-01-01T00:00:00Z' },
-    tenantId: 'tenant-001',
-    iocCategory: category,
+    tenant: { tenant_id: 'tenant-001', tenant_name: 'Test' },
+    created_at: '2026-01-01T00:00:00Z',
+    updated_at: '2026-01-01T00:00:00Z',
+    source: { connector_id: 'c1', import_run_id: 'r1', source_system: 'test', source_timestamp: '2026-01-01T00:00:00Z' },
+    tenant_id: 'tenant-001',
+    ioc_category: category,
     value,
     listType,
-    addedBy: 'analyst-001',
-    addedAt: '2026-01-01T00:00:00Z',
+    added_by: 'analyst-001',
+    added_at: '2026-01-01T00:00:00Z',
     reason: 'test',
-    expiresAt: null,
+    expires_at: null,
   };
 }
 
@@ -115,7 +115,7 @@ describe('Property 13: Allow/block evaluation is decisive and confidence-indepen
         (category: IocCategory, value: string) => {
           const entries: TenantIocAllowBlockEntry[] = [{
             ...makeEntry(category, value, 'block', 'expired-block'),
-            expiresAt: '2020-01-01T00:00:00Z', // expired
+            expires_at: '2020-01-01T00:00:00Z', // expired
           }];
           const result = evaluateAllowBlock(category, value, entries, '2026-06-01T00:00:00Z');
           expect(result.decision).toBe('proceed');

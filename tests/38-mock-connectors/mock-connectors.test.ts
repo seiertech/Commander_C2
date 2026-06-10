@@ -68,8 +68,8 @@ describe('Unit 38 — Mock connectors for all four classes', () => {
   it('every mock connector has deterministic id, tenant scope and mapping pack version', () => {
     for (const c of ALL_MOCK_CONNECTORS) {
       expect(c.id).toMatch(/^mock-connector-\d{4}$/);
-      expect(c.tenant.tenantId).toBeTruthy();
-      expect(c.mappingPackVersion).toBeTruthy();
+      expect(c.tenant.tenant_id).toBeTruthy();
+      expect(c.mapping_pack_version).toBeTruthy();
     }
   });
 });
@@ -133,10 +133,10 @@ describe('Unit 38 — Mock connector state machine', () => {
   it('active → error → active (recover)', () => {
     const errored = faultMockConnector(base);
     expect(errored.state).toBe('error');
-    expect(errored.lastRunStatus).toBe('failed');
+    expect(errored.last_run_status).toBe('failed');
     const recovered = recoverMockConnector(errored);
     expect(recovered.state).toBe('active');
-    expect(recovered.lastRunStatus).toBe('success');
+    expect(recovered.last_run_status).toBe('success');
   });
 
   it('rejects invalid transitions (paused connector cannot directly fault to error)', () => {

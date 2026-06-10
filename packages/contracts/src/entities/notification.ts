@@ -35,7 +35,7 @@ export type NotificationSeverity = typeof NOTIFICATION_SEVERITIES[number];
 // ─── Notification Entity ─────────────────────────────────────────────────────
 
 export interface Notification extends CommonFields {
-  entityType: 'notification';
+  entity_type: 'notification';
   /** Target user */
   recipientUserId: string;
   /** Notification category */
@@ -47,13 +47,13 @@ export interface Notification extends CommonFields {
   /** Notification body */
   message: string;
   /** Related entity reference */
-  entityRef: string;
+  entity_ref: string;
   /** Related entity type (case, war-room, etc) */
   relatedEntityType: string;
   /** Read state */
   read: boolean;
   /** When read (null if unread) */
-  readAt: string | null;
+  read_at: string | null;
   /** Deep link URL */
   actionUrl: string | null;
 }
@@ -69,13 +69,13 @@ export function validateNotification(record: Notification): NotificationValidati
   const errors: string[] = [];
 
   if (!record.id || record.id.trim() === '') errors.push('id: required');
-  if (!record.tenant || !record.tenant.tenantId) errors.push('tenant.tenantId: required');
+  if (!record.tenant || !record.tenant.tenant_id) errors.push('tenant.tenant_id: required');
   if (!record.recipientUserId || record.recipientUserId.trim() === '') errors.push('recipientUserId: required');
   if (!record.notificationType || !NOTIFICATION_TYPES.includes(record.notificationType)) errors.push(`notificationType: must be one of: ${NOTIFICATION_TYPES.join(', ')}`);
   if (!record.severity || !NOTIFICATION_SEVERITIES.includes(record.severity)) errors.push(`severity: must be one of: ${NOTIFICATION_SEVERITIES.join(', ')}`);
   if (!record.title || record.title.trim() === '') errors.push('title: required');
   if (!record.message || record.message.trim() === '') errors.push('message: required');
-  if (!record.entityRef || record.entityRef.trim() === '') errors.push('entityRef: required');
+  if (!record.entity_ref || record.entity_ref.trim() === '') errors.push('entity_ref: required');
   if (!record.relatedEntityType || record.relatedEntityType.trim() === '') errors.push('relatedEntityType: required');
 
   return { valid: errors.length === 0, errors };

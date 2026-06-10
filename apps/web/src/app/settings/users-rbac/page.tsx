@@ -2,13 +2,13 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { SEED_TENANT } from '../../../../../../packages/contracts/src/fixtures/seed-tenant';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisTenant } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Tenant Admin — Users & Access (RBAC)
- * Data: SEED_TENANT (tenant context) + static RBAC role definitions
+ * Data: thesisTenant (tenant context) + static RBAC role definitions
  * Route: /settings/users-rbac | Status: BUILD
  */
 {/* AI-PLACEMENT: AICAP-ADMIN-003 — Commander AI access anomaly detection */}
@@ -33,7 +33,7 @@ export default function SettingsUsersRbacPage() {
       <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
         <Kpi tokens={tokens} label="Total Users" value={String(totalUsers)} />
         <Kpi tokens={tokens} label="Roles Defined" value={String(totalRoles)} />
-        <Kpi tokens={tokens} label="Tenant" value={SEED_TENANT.tenantName.split(' ')[0]} />
+        <Kpi tokens={tokens} label="Tenant" value={thesisTenant.tenant_name.split(' ')[0]} />
         <Kpi tokens={tokens} label="MFA Status" value="Enforced" accent={primitiveSignal.success} />
       </section>
       <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>

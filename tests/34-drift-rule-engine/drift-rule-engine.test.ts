@@ -115,7 +115,7 @@ describe('Spec 34 — validateRiskScore', () => {
 
 describe('Spec 34 — validateBlastRadius', () => {
   it('rejects totalImpactScore outside 0–100', () => {
-    const bad: BlastRadius = { ...seedBlastRadius[0], totalImpactScore: 120 };
+    const bad: BlastRadius = { ...seedBlastRadius[0], total_impact_score: 120 };
     expect(validateBlastRadius(bad).valid).toBe(false);
   });
 });
@@ -124,7 +124,7 @@ describe('Spec 34 — validateBlastRadius', () => {
 
 const validSpec: RuleSpec = {
   name: 'MFA drift',
-  ruleType: 'drift',
+  rule_type: 'drift',
   tenantScope: 'tenant-001-acme-corp',
   severity: 5,
   conditions: [{ field: 'identity.mfaEnabled', operator: 'eq', value: false }],
@@ -177,27 +177,27 @@ describe('Spec 34 — rule validation engine', () => {
 
 const activeRule: RuleDefinition = {
   id: 'rule-drift-mfa-001',
-  entityType: 'rule-definition',
+  entity_type: 'rule-definition',
   tenant: SEED_TENANT,
-  createdAt: '2026-01-01T00:00:00.000Z',
-  updatedAt: '2026-01-01T00:00:00.000Z',
+  created_at: '2026-01-01T00:00:00.000Z',
+  updated_at: '2026-01-01T00:00:00.000Z',
   source: SEED_SOURCE,
   name: 'MFA drift',
-  ruleType: 'drift',
+  rule_type: 'drift',
   status: 'active',
   version: '1.0.0',
   domain: 'D-04',
   severity: 5,
   origin: 'platform',
-  lastTriggeredAt: null,
-  triggerCount: 0,
+  last_triggered_at: null,
+  trigger_count: 0,
   description: 'MFA disabled on privileged identity',
 };
 
 const entities: EvaluableEntity[] = [
-  { entityRef: 'identity-1', entityType: 'identity', attributes: { tenantId: SEED_TENANT.tenantId, mfaEnabled: false } },
-  { entityRef: 'identity-2', entityType: 'identity', attributes: { tenantId: SEED_TENANT.tenantId, mfaEnabled: true } },
-  { entityRef: 'identity-x', entityType: 'identity', attributes: { tenantId: 'other-tenant', mfaEnabled: false } },
+  { entity_ref: 'identity-1', entity_type: 'identity', attributes: { tenant_id: SEED_TENANT.tenant_id, mfaEnabled: false } },
+  { entity_ref: 'identity-2', entity_type: 'identity', attributes: { tenant_id: SEED_TENANT.tenant_id, mfaEnabled: true } },
+  { entity_ref: 'identity-x', entity_type: 'identity', attributes: { tenant_id: 'other-tenant', mfaEnabled: false } },
 ];
 
 describe('Spec 34 — rule execution engine', () => {
@@ -209,7 +209,7 @@ describe('Spec 34 — rule execution engine', () => {
   it('buildTenantContext filters cross-tenant entities', () => {
     const ctx = buildTenantContext(SEED_TENANT, entities, SEED_SOURCE, '2026-02-01T00:00:00.000Z');
     expect(ctx.entities).toHaveLength(2);
-    expect(ctx.entities.every((e) => e.attributes.tenantId === SEED_TENANT.tenantId)).toBe(true);
+    expect(ctx.entities.every((e) => e.attributes.tenant_id === SEED_TENANT.tenant_id)).toBe(true);
   });
 
   it('executeRule emits findings for matched entities only', () => {
@@ -217,7 +217,7 @@ describe('Spec 34 — rule execution engine', () => {
     const res = executeRule(activeRule, ctx, (e) => e.attributes.mfaEnabled === false);
     expect(res.executed).toBe(true);
     expect(res.findings).toHaveLength(1);
-    expect(res.findings[0].affectedEntityRef).toBe('identity-1');
+    expect(res.findings[0].affected_entity_ref).toBe('identity-1');
     expect(validateFinding(res.findings[0]).valid).toBe(true);
   });
 
@@ -231,15 +231,15 @@ describe('Spec 34 — rule execution engine', () => {
   it('emitFinding produces a deterministic dedupeKey', () => {
     const ctx = buildTenantContext(SEED_TENANT, entities, SEED_SOURCE, '2026-02-01T00:00:00.000Z');
     const f = emitFinding(activeRule, entities[0], ctx);
-    expect(f.dedupeKey).toBe('drift:rule-drift-mfa-001:identity-1');
+    expect(f.dedupe_key).toBe('drift:rule-drift-mfa-001:identity-1');
   });
 });
 
 // ─── Suppression Engine ──────────────────────────────────────────────────────
 
 describe('Spec 34 — suppression engine', () => {
-  const a: Finding = { ...seedFindings[0], id: 'a', status: 'new', dedupeKey: 'k1', tenantId: SEED_TENANT.tenantId };
-  const b: Finding = { ...seedFindings[0], id: 'b', status: 'new', dedupeKey: 'k1', tenantId: SEED_TENANT.tenantId };
+  const a: Finding = { ...seedFindings[0], id: 'a', status: 'new', dedupe_key: 'k1', tenant_id: SEED_TENANT.tenant_id };
+  const b: Finding = { ...seedFindings[0], id: 'b', status: 'new', dedupe_key: 'k1', tenant_id: SEED_TENANT.tenant_id };
 
   it('checkDedupeKey detects an existing active duplicate', () => {
     expect(checkDedupeKey(b, [a])).toBe(true);
@@ -254,20 +254,20 @@ describe('Spec 34 — suppression engine', () => {
   });
 
   it('deduplicateFinding keeps a unique finding', () => {
-    const res = deduplicateFinding({ ...b, dedupeKey: 'k2' }, [a]);
+    const res = deduplicateFinding({ ...b, dedupe_key: 'k2' }, [a]);
     expect(res.isDuplicate).toBe(false);
     expect(res.mergedInto).toBeNull();
   });
 
   it('suppressByRule suppresses on a matching rule ref', () => {
-    const res = suppressByRule(a, [{ matchRuleRef: a.ruleRef, reason: 'maintenance window' }]);
+    const res = suppressByRule(a, [{ matchRuleRef: a.rule_ref, reason: 'maintenance window' }]);
     expect(res.status).toBe('suppressed');
     expect(res.suppressionReason).toBe('maintenance window');
   });
 
   it('suppressByRule leaves resolved findings untouched', () => {
     const resolved: Finding = { ...a, status: 'resolved' };
-    const res = suppressByRule(resolved, [{ matchRuleRef: a.ruleRef, reason: 'x' }]);
+    const res = suppressByRule(resolved, [{ matchRuleRef: a.rule_ref, reason: 'x' }]);
     expect(res.status).toBe('resolved');
   });
 });

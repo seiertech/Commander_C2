@@ -39,7 +39,7 @@ export interface StixBundleIngest extends CommonFields {
   /** Ingest record identifier */
   ingestId: string;
   /** Tenant scope */
-  tenantId: string;
+  tenant_id: string;
   /** Reference to inbound email submission that contained this bundle */
   sourceEmailId: string;
   /** STIX bundle version (e.g. "2.1") */
@@ -57,9 +57,9 @@ export interface StixBundleIngest extends CommonFields {
   /** Whether a case was created from this ingest */
   caseCreated: boolean;
   /** Case ID if a case was created */
-  caseId: string | null;
+  case_id: string | null;
   /** When the bundle was ingested */
-  ingestedAt: string;
+  ingested_at: string;
   /** Current processing status */
   status: StixIngestStatus;
 }
@@ -82,14 +82,14 @@ export function validateStixBundleIngest(
   if (!ingest.id || ingest.id.trim() === '') {
     errors.push('id: required');
   }
-  if (!ingest.tenant || !ingest.tenant.tenantId || ingest.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!ingest.tenant || !ingest.tenant.tenant_id || ingest.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
   if (!ingest.ingestId || ingest.ingestId.trim() === '') {
     errors.push('ingestId: required');
   }
-  if (!ingest.tenantId || ingest.tenantId.trim() === '') {
-    errors.push('tenantId: required');
+  if (!ingest.tenant_id || ingest.tenant_id.trim() === '') {
+    errors.push('tenant_id: required');
   }
   if (!ingest.sourceEmailId || ingest.sourceEmailId.trim() === '') {
     errors.push('sourceEmailId: required');
@@ -112,8 +112,8 @@ export function validateStixBundleIngest(
   if (typeof ingest.relevanceScore !== 'number' || ingest.relevanceScore < 0 || ingest.relevanceScore > 100) {
     errors.push('relevanceScore: must be 0-100');
   }
-  if (!ingest.ingestedAt || ingest.ingestedAt.trim() === '') {
-    errors.push('ingestedAt: required');
+  if (!ingest.ingested_at || ingest.ingested_at.trim() === '') {
+    errors.push('ingested_at: required');
   }
   if (!ingest.status || !STIX_INGEST_STATUSES.includes(ingest.status)) {
     errors.push(`status: must be one of: ${STIX_INGEST_STATUSES.join(', ')}`);

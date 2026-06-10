@@ -15,7 +15,7 @@ import type { EvaluationType, TenantExposureState, IocMatchType } from '../contr
 
 export interface BuildEvaluationInput {
   id: string;
-  tenantId: string;
+  tenant_id: string;
   platformRecordId: string;
   evaluationType: EvaluationType;
   evaluationState: TenantExposureState;
@@ -23,21 +23,21 @@ export interface BuildEvaluationInput {
   matchedIdentities: string[];
   matchedObservables: string[];
   evidenceReferences: string[];
-  evaluatedAt: string;
-  sourceConnectorId: string;
+  evaluated_at: string;
+  source_connector_id: string;
 }
 
 export interface BuildMatchInput {
   id: string;
-  tenantId: string;
-  iocId: string;
+  tenant_id: string;
+  ioc_id: string;
   matchedObservableId: string;
   matchType: IocMatchType;
   matchConfidence: number;
-  matchedAt: string;
+  matched_at: string;
   matchSource: string;
   evidenceReferences: string[];
-  sourceConnectorId: string;
+  source_connector_id: string;
 }
 
 /**
@@ -47,16 +47,16 @@ export interface BuildMatchInput {
 export function buildTenantEvaluation(input: BuildEvaluationInput): TenantIntelligenceEvaluation {
   return {
     id: input.id,
-    tenant: { tenantId: input.tenantId, tenantName: `Tenant ${input.tenantId}` },
-    createdAt: input.evaluatedAt,
-    updatedAt: input.evaluatedAt,
+    tenant: { tenant_id: input.tenant_id, tenant_name: `Tenant ${input.tenant_id}` },
+    created_at: input.evaluated_at,
+    updated_at: input.evaluated_at,
     source: {
-      connectorId: input.sourceConnectorId,
-      importRunId: `eval-run-${input.id}`,
-      sourceSystem: 'intelligence-evaluation',
-      sourceTimestamp: input.evaluatedAt,
+      connector_id: input.source_connector_id,
+      import_run_id: `eval-run-${input.id}`,
+      source_system: 'intelligence-evaluation',
+      source_timestamp: input.evaluated_at,
     },
-    tenantId: input.tenantId,
+    tenant_id: input.tenant_id,
     platformRecordId: input.platformRecordId,
     evaluationType: input.evaluationType,
     evaluationState: input.evaluationState,
@@ -64,7 +64,7 @@ export function buildTenantEvaluation(input: BuildEvaluationInput): TenantIntell
     matchedIdentities: input.matchedIdentities,
     matchedObservables: input.matchedObservables,
     evidenceReferences: input.evidenceReferences,
-    evaluatedAt: input.evaluatedAt,
+    evaluated_at: input.evaluated_at,
   };
 }
 
@@ -75,21 +75,21 @@ export function buildTenantEvaluation(input: BuildEvaluationInput): TenantIntell
 export function buildTenantIocMatch(input: BuildMatchInput): TenantIocMatch {
   return {
     id: input.id,
-    tenant: { tenantId: input.tenantId, tenantName: `Tenant ${input.tenantId}` },
-    createdAt: input.matchedAt,
-    updatedAt: input.matchedAt,
+    tenant: { tenant_id: input.tenant_id, tenant_name: `Tenant ${input.tenant_id}` },
+    created_at: input.matched_at,
+    updated_at: input.matched_at,
     source: {
-      connectorId: input.sourceConnectorId,
-      importRunId: `match-run-${input.id}`,
-      sourceSystem: 'ioc-matching',
-      sourceTimestamp: input.matchedAt,
+      connector_id: input.source_connector_id,
+      import_run_id: `match-run-${input.id}`,
+      source_system: 'ioc-matching',
+      source_timestamp: input.matched_at,
     },
-    tenantId: input.tenantId,
-    iocId: input.iocId,
+    tenant_id: input.tenant_id,
+    ioc_id: input.ioc_id,
     matchedObservableId: input.matchedObservableId,
     matchType: input.matchType,
     matchConfidence: input.matchConfidence,
-    matchedAt: input.matchedAt,
+    matched_at: input.matched_at,
     matchSource: input.matchSource,
     evidenceReferences: input.evidenceReferences,
   };

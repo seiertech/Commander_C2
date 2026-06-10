@@ -27,11 +27,11 @@ export const WAR_ROOM_MEMBER_ROLES = ['senior_owner', 'coordinator', 'analyst', 
 export type WarRoomMemberRole = typeof WAR_ROOM_MEMBER_ROLES[number];
 
 export interface WarRoomMember {
-  userId: string;
+  user_id: string;
   role: WarRoomMemberRole;
-  joinedAt: string;
-  acknowledgedAt: string | null;
-  leftAt: string | null;
+  joined_at: string;
+  acknowledged_at: string | null;
+  left_at: string | null;
 }
 
 // ─── War Room Subscriber ─────────────────────────────────────────────────────
@@ -54,11 +54,11 @@ export const SUBSCRIPTION_CADENCES = [
 export type SubscriptionCadence = typeof SUBSCRIPTION_CADENCES[number];
 
 export interface WarRoomSubscriber {
-  userId: string;
+  user_id: string;
   channels: SubscriptionChannel[];
   cadence: SubscriptionCadence;
-  subscribedAt: string;
-  unsubscribedAt: string | null;
+  subscribed_at: string;
+  unsubscribed_at: string | null;
 }
 
 // ─── Communication Cadence Profile ───────────────────────────────────────────
@@ -81,7 +81,7 @@ export type WarRoomAiOrientationState = 'active' | 'paused' | 'complete';
 // ─── War Room Entity ─────────────────────────────────────────────────────────
 
 export interface WarRoom extends CommonFields {
-  entityType: 'war-room';
+  entity_type: 'war-room';
   /** Unique War Room reference */
   warRoomRef: string;
   /** Current lifecycle status */
@@ -97,7 +97,7 @@ export interface WarRoom extends CommonFields {
   /** Subscriber list for updates */
   subscribers: WarRoomSubscriber[];
   /** Communication cadence profile */
-  communicationCadence: CommunicationCadenceProfile;
+  communication_cadence: CommunicationCadenceProfile;
   /** Senior owner responsible for this War Room */
   seniorOwnerId: string;
   /** AI orientation state */
@@ -124,8 +124,8 @@ export function validateWarRoom(warRoom: WarRoom): WarRoomValidation {
   if (!warRoom.id || warRoom.id.trim() === '') {
     errors.push('id: required');
   }
-  if (!warRoom.tenant || !warRoom.tenant.tenantId || warRoom.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!warRoom.tenant || !warRoom.tenant.tenant_id || warRoom.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
   if (!warRoom.warRoomRef || warRoom.warRoomRef.trim() === '') {
     errors.push('warRoomRef: required');
@@ -151,21 +151,21 @@ export function validateWarRoom(warRoom: WarRoom): WarRoomValidation {
       errors.push('membership: must contain at least one senior_owner');
     }
     for (const member of warRoom.membership) {
-      if (!member.userId || member.userId.trim() === '') {
-        errors.push('membership[].userId: required');
+      if (!member.user_id || member.user_id.trim() === '') {
+        errors.push('membership[].user_id: required');
       }
       if (!WAR_ROOM_MEMBER_ROLES.includes(member.role)) {
         errors.push(`membership[].role: must be one of: ${WAR_ROOM_MEMBER_ROLES.join(', ')}`);
       }
-      if (!member.joinedAt || member.joinedAt.trim() === '') {
-        errors.push('membership[].joinedAt: required');
+      if (!member.joined_at || member.joined_at.trim() === '') {
+        errors.push('membership[].joined_at: required');
       }
     }
   }
   if (Array.isArray(warRoom.subscribers)) {
     for (const sub of warRoom.subscribers) {
-      if (!sub.userId || sub.userId.trim() === '') {
-        errors.push('subscribers[].userId: required');
+      if (!sub.user_id || sub.user_id.trim() === '') {
+        errors.push('subscribers[].user_id: required');
       }
       if (!Array.isArray(sub.channels) || sub.channels.length === 0) {
         errors.push('subscribers[].channels: must contain at least one channel');
@@ -180,24 +180,24 @@ export function validateWarRoom(warRoom: WarRoom): WarRoomValidation {
       if (!SUBSCRIPTION_CADENCES.includes(sub.cadence)) {
         errors.push(`subscribers[].cadence: must be one of: ${SUBSCRIPTION_CADENCES.join(', ')}`);
       }
-      if (!sub.subscribedAt || sub.subscribedAt.trim() === '') {
-        errors.push('subscribers[].subscribedAt: required');
+      if (!sub.subscribed_at || sub.subscribed_at.trim() === '') {
+        errors.push('subscribers[].subscribed_at: required');
       }
     }
   }
-  if (!warRoom.communicationCadence) {
-    errors.push('communicationCadence: required');
+  if (!warRoom.communication_cadence) {
+    errors.push('communication_cadence: required');
   } else {
-    if (typeof warRoom.communicationCadence.activatedCadenceMinutes !== 'number' || warRoom.communicationCadence.activatedCadenceMinutes <= 0) {
+    if (typeof warRoom.communication_cadence.activatedCadenceMinutes !== 'number' || warRoom.communication_cadence.activatedCadenceMinutes <= 0) {
       errors.push('communicationCadence.activatedCadenceMinutes: must be a positive number');
     }
-    if (typeof warRoom.communicationCadence.monitoringCadenceMinutes !== 'number' || warRoom.communicationCadence.monitoringCadenceMinutes <= 0) {
+    if (typeof warRoom.communication_cadence.monitoringCadenceMinutes !== 'number' || warRoom.communication_cadence.monitoringCadenceMinutes <= 0) {
       errors.push('communicationCadence.monitoringCadenceMinutes: must be a positive number');
     }
-    if (typeof warRoom.communicationCadence.windingDownCadenceMinutes !== 'number' || warRoom.communicationCadence.windingDownCadenceMinutes <= 0) {
+    if (typeof warRoom.communication_cadence.windingDownCadenceMinutes !== 'number' || warRoom.communication_cadence.windingDownCadenceMinutes <= 0) {
       errors.push('communicationCadence.windingDownCadenceMinutes: must be a positive number');
     }
-    if (typeof warRoom.communicationCadence.execUpdateCadenceMinutes !== 'number' || warRoom.communicationCadence.execUpdateCadenceMinutes <= 0) {
+    if (typeof warRoom.communication_cadence.execUpdateCadenceMinutes !== 'number' || warRoom.communication_cadence.execUpdateCadenceMinutes <= 0) {
       errors.push('communicationCadence.execUpdateCadenceMinutes: must be a positive number');
     }
   }
