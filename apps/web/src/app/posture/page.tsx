@@ -1,16 +1,16 @@
 'use client';
 
 /**
- * Posture — Aggregate Command Centre (Unit 16b)
+ * Posture — Aggregate Command Centre (Thesis §9 — Asset Security Posture)
  *
  * 12 posture metric KPI cards in a 4×3 grid with time-range toggle and
  * inline expansion for detail. Pattern A: PageContainer + seed fixture sourcing.
  *
- * Data: PostureMetricConfig from seed-posture-metrics
+ * Data: PostureMetricConfig from seed-posture-metrics + thesis Asset_Security_Posture
  * Route: /posture | Nav Group: Command Centre | Status: BUILD
- * Source: Unit 16b deliverables, Spec #65/#66, MP §24.
- *
- * Strategy values consumed from fixture thresholds — no hardcoded literals.
+ * Use Case: UC-POSTURE-001, UC-POSTURE-002
+ * Entities: Asset_Security_Posture, Posture_Dimension (L5)
+ * Standards: NIST CSF 2.0
  */
 
 import { useState } from 'react';
