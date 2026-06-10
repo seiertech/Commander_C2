@@ -1,4 +1,3 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 /**
  * Effectiveness Metrics Engine — Unit Tests
  * CMEP-1.0: Case Management Excellence

@@ -1,4 +1,3 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 import { describe, it, expect } from 'vitest';
 import {
   FINDING_CLASSES,
@@ -71,7 +70,7 @@ describe('COIM-A — validateSourceClassification', () => {
     sc.source_severity.severity_id = 9;
     const result = validateSourceClassification(sc);
     expect(result.valid).toBe(false);
-    expect(result.errors.join(' ')).toContain('severityId');
+    expect(result.errors.join(' ')).toContain('severity_id');
   });
 
   it('rejects confidenceScore out of range', () => {
@@ -79,7 +78,7 @@ describe('COIM-A — validateSourceClassification', () => {
     sc.source_confidence.confidence_score = 150;
     const result = validateSourceClassification(sc);
     expect(result.valid).toBe(false);
-    expect(result.errors.join(' ')).toContain('confidenceScore');
+    expect(result.errors.join(' ')).toContain('confidence_score');
   });
 
   it('requires sourceFindingUid', () => {
@@ -87,7 +86,7 @@ describe('COIM-A — validateSourceClassification', () => {
     sc.source_finding_uid = '';
     const result = validateSourceClassification(sc);
     expect(result.valid).toBe(false);
-    expect(result.errors.join(' ')).toContain('sourceFindingUid');
+    expect(result.errors.join(' ')).toContain('source_finding_uid');
   });
 
   it('requires sourceProduct vendor and name', () => {
@@ -95,7 +94,7 @@ describe('COIM-A — validateSourceClassification', () => {
     sc.source_product = { vendor: '', name: '' };
     const result = validateSourceClassification(sc);
     expect(result.valid).toBe(false);
-    expect(result.errors.join(' ')).toContain('sourceProduct');
+    expect(result.errors.join(' ')).toContain('source_product');
   });
 
   it('enforces the bounded ATT&CK array (storage efficiency)', () => {
@@ -114,7 +113,7 @@ describe('COIM-A — validateSourceClassification', () => {
 
   it('enforces the bounded observables array (storage efficiency)', () => {
     const sc = makeValidClassification();
-    const obs: ObservableRef = { observableType: 'ip', value: '203.0.113.1' };
+    const obs: ObservableRef = { observable_type: 'ip', value: '203.0.113.1' };
     sc.observables = Array.from({ length: MAX_OBSERVABLES + 1 }, () => ({ ...obs }));
     const result = validateSourceClassification(sc);
     expect(result.valid).toBe(false);

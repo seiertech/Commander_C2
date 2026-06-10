@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 /**
  * Case Router — Commander C2
  *
@@ -26,7 +26,7 @@ export interface RoutingResolution {
  * Maps case type to team affinity defined in strategy configuration.
  */
 export function resolveRouting(
-  caseRecord: Pick<Case, 'caseType'>,
+  caseRecord: Pick<Case, 'case_type'>,
   strategies: StrategyPolicy[],
 ): RoutingResolution {
   const routingPolicy = strategies.find(
@@ -50,13 +50,13 @@ export function resolveRouting(
   const escalationPath = config.escalation_path ?? null;
 
   if (!team) {
-    return { status: 'unresolved', team: null, escalation_path, source_policy: { id: routingPolicy.id, version: routingPolicy.policy_version }, reason: `No team affinity found for case type "${caseRecord.case_type}"` };
+    return { status: 'unresolved', team: null, escalation_path: escalation_path, source_policy: { id: routingPolicy.id, version: routingPolicy.policy_version }, reason: `No team affinity found for case type "${caseRecord.case_type}"` };
   }
 
   return {
     status: 'resolved',
     team,
-    escalation_path,
+    escalation_path: escalation_path,
     source_policy: { id: routingPolicy.id, version: routingPolicy.policy_version },
     reason: `Routed to "${team}" via team affinity for case type "${caseRecord.case_type}"`,
   };

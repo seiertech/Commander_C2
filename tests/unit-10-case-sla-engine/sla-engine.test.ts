@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 import { describe, it, expect } from 'vitest';
 import {
   calculateSlaState,
@@ -59,7 +59,7 @@ function makeRequest(
     priority,
     case_type: 'vulnerability',
     created_at: BASE_TIME,
-    currentTime: hoursAfter(BASE_TIME, elapsedHours),
+    current_time: hoursAfter(BASE_TIME, elapsedHours),
   };
 }
 
@@ -331,7 +331,7 @@ describe('evaluateSla — full flow with seed strategies', () => {
     expect(result.slaState!.breached).toBe(false);
     expect(result.notifications).toHaveLength(0);
     expect(result.escalation).toBeNull();
-    expect(result.sourcePolicy).not.toBeNull();
+    expect(result.source_policy).not.toBeNull();
     expect(result.error).toBeNull();
   });
 
@@ -368,8 +368,8 @@ describe('evaluateSla — full flow with seed strategies', () => {
     const slaPolicy = seedStrategies.find(
       (s) => s.surface_type === 'sla' && s.status === 'active',
     )!;
-    expect(result.sourcePolicy!.id).toBe(slaPolicy.id);
-    expect(result.sourcePolicy!.version).toBe(slaPolicy.policy_version);
+    expect(result.source_policy!.id).toBe(slaPolicy.id);
+    expect(result.source_policy!.version).toBe(slaPolicy.policy_version);
   });
 
   it('extracts escalation path from routing strategy', () => {

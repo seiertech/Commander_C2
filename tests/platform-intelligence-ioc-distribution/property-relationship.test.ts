@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 /**
  * Property-Based Tests — IOC Relationship State Machine
  *
@@ -23,14 +23,14 @@ function makeRelationship(overrides: Partial<IocRelationship> = {}): IocRelation
     created_at: '2026-01-01T00:00:00Z',
     updated_at: '2026-01-01T00:00:00Z',
     source: { connector_id: 'c1', import_run_id: 'r1', source_system: 'test', source_timestamp: '2026-01-01T00:00:00Z' },
-    iocId: 'ioc-0001',
+    ioc_id: 'ioc-0001',
     relatedEntityId: 'entity-0001',
     relatedEntityType: 'cve',
     relationshipState: 'unclassified',
     confidence: 50,
     establishedAt: '2026-01-01T00:00:00Z',
     lastUpdatedAt: '2026-01-01T00:00:00Z',
-    evidenceRef: 'evidence-ref-001',
+    evidence_ref: 'evidence-ref-001',
     stateHistory: [],
     ...overrides,
   };
@@ -46,7 +46,7 @@ describe('Property 8: Relationship cardinality and IOC independence', () => {
           // IOC can have any relationship state — including states not related to CVE
           const rel = makeRelationship({ relationshipState: state });
           // An IOC with no CVE relationship is valid (independence)
-          expect(rel.iocId).toBeDefined();
+          expect(rel.ioc_id).toBeDefined();
           expect(IOC_RELATIONSHIP_STATES).toContain(rel.relationshipState);
         },
       ),
@@ -67,7 +67,7 @@ describe('Property 8: Relationship cardinality and IOC independence', () => {
             }),
           );
           // All share the same iocId but different relatedEntityIds
-          const iocIds = new Set(relationships.map(r => r.iocId));
+          const iocIds = new Set(relationships.map(r => r.ioc_id));
           expect(iocIds.size).toBe(1); // same IOC
           expect(relationships.length).toBe(entityIds.length); // multiple relationships
         },

@@ -71,7 +71,7 @@ describe('Case Queue — Priority (DS-1.0 §14.1 — never colour alone)', () =>
 
 describe('Case Queue — Surface Attribution (Assertion 10)', () => {
   it('displays surface attribution on every row', () => {
-    expect(combinedContent).toContain('surfaceAttribution');
+    expect(combinedContent).toContain('surface_attribution');
     expect(combinedContent).toContain('External');
     expect(combinedContent).toContain('Internal');
   });

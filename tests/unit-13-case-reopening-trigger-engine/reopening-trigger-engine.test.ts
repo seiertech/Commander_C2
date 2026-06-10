@@ -1,4 +1,3 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 import { describe, it, expect } from 'vitest';
 import {
   REOPENING_TRIGGER_TYPES,
@@ -84,7 +83,7 @@ function makeEvaluationRequest(
   return {
     case_id: 'case-test-001',
     triggerInput: makeNoFiringInput(),
-    currentTime: BASE_TIME,
+    current_time: BASE_TIME,
     ...overrides,
   };
 }
@@ -323,7 +322,7 @@ describe('evaluateReopeningReadiness — full flow with strategies', () => {
     expect(result.triggerState!.case_id).toBe('case-test-001');
     expect(result.firedTriggers).toHaveLength(0);
     expect(result.rationale).toContain('not required');
-    expect(result.sourcePolicy).not.toBeNull();
+    expect(result.source_policy).not.toBeNull();
     expect(result.error).toBeNull();
   });
 
@@ -350,9 +349,9 @@ describe('evaluateReopeningReadiness — full flow with strategies', () => {
     const request = makeEvaluationRequest();
     const result = evaluateReopeningReadiness(request, strategies);
 
-    expect(result.sourcePolicy).not.toBeNull();
-    expect(result.sourcePolicy!.id).toBeTruthy();
-    expect(result.sourcePolicy!.version).toBe('1.0.0');
+    expect(result.source_policy).not.toBeNull();
+    expect(result.source_policy!.id).toBeTruthy();
+    expect(result.source_policy!.version).toBe('1.0.0');
   });
 
   it('tracks trigger state per case', () => {
@@ -385,7 +384,7 @@ describe('evaluateReopeningReadiness — error handling when strategy is missing
     expect(result.triggerState).toBeNull();
     expect(result.reopeningRequired).toBe(false);
     expect(result.error).toContain('STRATEGY GAP');
-    expect(result.sourcePolicy).toBeNull();
+    expect(result.source_policy).toBeNull();
   });
 
   it('returns error when reopening-trigger strategy is missing', () => {
@@ -543,7 +542,7 @@ describe('evaluateReopeningReadiness — trigger status tracking per case', () =
   it('records evaluatedAt timestamp in trigger state', () => {
     const strategies = makeReopeningTriggerStrategy(['risk_condition_reappears']);
     const customTime = '2026-03-15T14:30:00.000Z';
-    const request = makeEvaluationRequest({ currentTime: customTime });
+    const request = makeEvaluationRequest({ current_time: customTime });
     const result = evaluateReopeningReadiness(request, strategies);
 
     expect(result.triggerState!.evaluated_at).toBe(customTime);

@@ -1,4 +1,3 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 import { describe, it, expect } from 'vitest';
 import {
   VALIDATION_STATES,
@@ -85,7 +84,7 @@ function makeEvaluationRequest(
     current_state: 'validation_running',
     enteredStateAt: BASE_TIME,
     evidenceRecords: [],
-    currentTime: hoursAfter(BASE_TIME, 12),
+    current_time: hoursAfter(BASE_TIME, 12),
     ...overrides,
   };
 }
@@ -574,7 +573,7 @@ describe('evaluateValidation — full flow with seed strategies', () => {
     const request = makeEvaluationRequest({
       current_state: 'validation_running',
       enteredStateAt: BASE_TIME,
-      currentTime: hoursAfter(BASE_TIME, 12), // 12h into 72h window
+      current_time: hoursAfter(BASE_TIME, 12), // 12h into 72h window
     });
     const result = evaluateValidation(request, seedStrategies);
 
@@ -590,7 +589,7 @@ describe('evaluateValidation — full flow with seed strategies', () => {
     const request = makeEvaluationRequest({
       current_state: 'validation_running',
       enteredStateAt: BASE_TIME,
-      currentTime: hoursAfter(BASE_TIME, 80), // 80h > 72h window
+      current_time: hoursAfter(BASE_TIME, 80), // 80h > 72h window
     });
     const result = evaluateValidation(request, seedStrategies);
 
@@ -610,7 +609,7 @@ describe('evaluateValidation — full flow with seed strategies', () => {
       evidenceRecords: [
         makeEvidenceRecord('ev-1', 'source_refresh', BASE_TIME), // 30h old
       ],
-      currentTime: hoursAfter(BASE_TIME, 30), // evidence is 30h old > 24h freshness
+      current_time: hoursAfter(BASE_TIME, 30), // evidence is 30h old > 24h freshness
     });
     const result = evaluateValidation(request, seedStrategies);
 
@@ -628,7 +627,7 @@ describe('evaluateValidation — full flow with seed strategies', () => {
       evidenceRecords: [
         makeEvidenceRecord('ev-1', 'source_refresh', hoursAfter(BASE_TIME, 8)), // 4h old
       ],
-      currentTime: hoursAfter(BASE_TIME, 12),
+      current_time: hoursAfter(BASE_TIME, 12),
     });
     const result = evaluateValidation(request, seedStrategies);
 
@@ -646,7 +645,7 @@ describe('evaluateValidation — full flow with seed strategies', () => {
       evidenceRecords: [
         makeEvidenceRecord('ev-1', 'source_refresh', BASE_TIME), // 15h old
       ],
-      currentTime: hoursAfter(BASE_TIME, 15), // 15h since last evidence > 12h cadence
+      current_time: hoursAfter(BASE_TIME, 15), // 15h since last evidence > 12h cadence
     });
     const result = evaluateValidation(request, seedStrategies);
 
@@ -661,7 +660,7 @@ describe('evaluateValidation — full flow with seed strategies', () => {
       evidenceRecords: [
         makeEvidenceRecord('ev-1', 'source_refresh', hoursAfter(BASE_TIME, 5)), // 5h old
       ],
-      currentTime: hoursAfter(BASE_TIME, 10), // 5h since last evidence < 12h cadence
+      current_time: hoursAfter(BASE_TIME, 10), // 5h since last evidence < 12h cadence
     });
     const result = evaluateValidation(request, seedStrategies);
 
@@ -673,7 +672,7 @@ describe('evaluateValidation — full flow with seed strategies', () => {
     const request = makeEvaluationRequest({
       current_state: 'validation_running',
       enteredStateAt: BASE_TIME,
-      currentTime: hoursAfter(BASE_TIME, 12),
+      current_time: hoursAfter(BASE_TIME, 12),
     });
     const result = evaluateValidation(request, seedStrategies);
     expect(result.rationale).toBeTruthy();
@@ -741,7 +740,7 @@ describe('evaluateValidation — proof that values come from strategy', () => {
     const request = makeEvaluationRequest({
       current_state: 'validation_running',
       enteredStateAt: BASE_TIME,
-      currentTime: hoursAfter(BASE_TIME, 50), // 50h elapsed
+      current_time: hoursAfter(BASE_TIME, 50), // 50h elapsed
     });
 
     // Seed strategy: windowHours=72 → 50h is within window
@@ -770,7 +769,7 @@ describe('evaluateValidation — proof that values come from strategy', () => {
       evidenceRecords: [
         makeEvidenceRecord('ev-1', 'source_refresh', hoursAfter(BASE_TIME, 5)), // 15h old
       ],
-      currentTime: hoursAfter(BASE_TIME, 20),
+      current_time: hoursAfter(BASE_TIME, 20),
     });
 
     // Seed strategy: freshnessHours=24 → 15h old evidence is fresh
@@ -799,7 +798,7 @@ describe('evaluateValidation — proof that values come from strategy', () => {
       evidenceRecords: [
         makeEvidenceRecord('ev-1', 'source_refresh', hoursAfter(BASE_TIME, 2)), // 8h old
       ],
-      currentTime: hoursAfter(BASE_TIME, 10),
+      current_time: hoursAfter(BASE_TIME, 10),
     });
 
     // Seed strategy: refreshCadenceHours=12 → 8h since evidence, not due

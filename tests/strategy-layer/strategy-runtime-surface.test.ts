@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 /**
  * Strategy Layer Runtime Surface Tests — Unit 6
  *
@@ -218,12 +218,12 @@ describe('Case Lifecycle Consumption (no hardcoded values)', () => {
 
   it('SLA resolution comes from strategy, not hardcoded', () => {
     const result = resolveAllStrategies(seedCases[0], seedStrategies);
-    expect(result.sla.sourcePolicy).not.toBeNull();
-    expect(result.sla.sourcePolicy!.id).toContain('strategy');
+    expect(result.sla.source_policy).not.toBeNull();
+    expect(result.sla.source_policy!.id).toContain('strategy');
   });
 
   it('routing resolution comes from strategy, not hardcoded', () => {
     const result = resolveAllStrategies(seedCases[0], seedStrategies);
-    expect(result.routing.sourcePolicy).not.toBeNull();
+    expect(result.routing.source_policy).not.toBeNull();
   });
 });

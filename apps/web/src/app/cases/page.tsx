@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 'use client';
 
 import { thesisCases, thesisEvents } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';

@@ -1,4 +1,3 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 'use client';
 
 import { useMode } from '@/context/mode-context';
@@ -94,7 +93,7 @@ export default function VulnerabilitiesPage() {
               <tbody>
                 {sorted.map((v) => (
                   <tr key={v.id}>
-                    <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{v.cveId}</td>
+                    <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{v.cve_id}</td>
                     <td>
                       <span className={`badge ${v.cvss_score >= 9 ? 'bg-red' : v.cvss_score >= 7 ? 'bg-orange' : v.cvss_score >= 4 ? 'bg-yellow' : 'bg-secondary'}`}>
                         {v.cvss_score.toFixed(1)}
@@ -122,7 +121,7 @@ export default function VulnerabilitiesPage() {
                       {v.affected_products.length > 0 ? v.affected_products.join(', ') : '—'}
                     </td>
                     <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>
-                      {new Date(v.publishedAt).toLocaleDateString()}
+                      {new Date(v.published_at).toLocaleDateString()}
                     </td>
                   </tr>
                 ))}

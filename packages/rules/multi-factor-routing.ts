@@ -29,7 +29,7 @@ export const DEFAULT_ROUTING_WEIGHTS: RoutingWeights = {
 /** Analyst candidate for routing */
 export interface RoutingCandidate {
   /** Analyst identifier */
-  analystId: string;
+  analyst_id: string;
   /** Specialism match score (0–100): does the analyst specialise in this case type? */
   specialismScore: number;
   /** Workload availability score (0–100): capacity remaining */
@@ -54,7 +54,7 @@ export interface RoutingDecision {
 
 /** Candidate with computed composite score */
 export interface ScoredCandidate {
-  analystId: string;
+  analyst_id: string;
   compositeScore: number;
   breakdown: {
     specialism: number;
@@ -103,7 +103,7 @@ export function computeRoutingDecision(
       breakdown.rankWeighting;
 
     return {
-      analystId: candidate.analystId,
+      analyst_id: candidate.analyst_id,
       compositeScore,
       breakdown,
     };
@@ -120,12 +120,12 @@ export function computeRoutingDecision(
       selectedAnalystId: null,
       scoredCandidates,
       escalationTriggered: true,
-      escalationReason: `Top scorer (${topScorer.analystId}) scored ${topScorer.compositeScore.toFixed(1)} below threshold ${escalationThreshold}`,
+      escalationReason: `Top scorer (${topScorer.analyst_id}) scored ${topScorer.compositeScore.toFixed(1)} below threshold ${escalationThreshold}`,
     };
   }
 
   return {
-    selectedAnalystId: topScorer.analystId,
+    selectedAnalystId: topScorer.analyst_id,
     scoredCandidates,
     escalationTriggered: false,
     escalationReason: null,

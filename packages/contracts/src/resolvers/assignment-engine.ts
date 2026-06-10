@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 /**
  * Assignment Engine — Commander C2 Phase D4
  *
@@ -212,7 +212,7 @@ export function extractRoutingConfig(strategies: StrategyPolicy[]): {
 
   // Validate all required D4 fields exist
   const requiredFields = [
-    'teamAffinity', 'escalationPath', 'workloadMax',
+    'teamAffinity', 'escalation_path', 'workload_max',
     'antiHoardingCap', 'escalationTimeoutHours', 'rankWeighting', 'specialismTags',
   ];
 
@@ -307,9 +307,9 @@ export function assignCase(
   // 6. Rank by assignment score
   const scored = passesHoarding.map(([analystId, profile]) => {
     const snapshot = workloadSnapshots.find((s) => s.analyst_id === analystId)
-      ?? { analyst_id, activeCaseCount: 0, casesByType: {} };
+      ?? { analyst_id: analyst_id, activeCaseCount: 0, casesByType: {} };
     const score = assignmentScore(snapshot, profile, config.workload_max, config.rankWeighting);
-    return { analyst_id, profile, score };
+    return { analyst_id: analyst_id, profile, score };
   });
 
   scored.sort((a, b) => a.score - b.score);
@@ -340,7 +340,7 @@ export function assignCase(
         previousOwnerId: null,
         reason: rationale,
         timestamp,
-        policy_ref,
+        policy_ref: policy_ref,
       },
     };
   }
@@ -369,7 +369,7 @@ export function assignCase(
       previousOwnerId: null,
       reason: escalationRationale,
       timestamp,
-      policy_ref,
+      policy_ref: policy_ref,
     },
   };
 }
@@ -412,7 +412,7 @@ export function reassignCase(
         previousOwnerId: request.currentOwnerId,
         reason: `Reassignment (${request.reason}): no team affinity for "${request.case_type}"`,
         timestamp,
-        policy_ref,
+        policy_ref: policy_ref,
       },
     };
   }
@@ -436,9 +436,9 @@ export function reassignCase(
   // Rank by score
   const scored = eligible.map(([analystId, profile]) => {
     const snapshot = workloadSnapshots.find((s) => s.analyst_id === analystId)
-      ?? { analyst_id, activeCaseCount: 0, casesByType: {} };
+      ?? { analyst_id: analyst_id, activeCaseCount: 0, casesByType: {} };
     const score = assignmentScore(snapshot, profile, config.workload_max, config.rankWeighting);
-    return { analyst_id, profile, score };
+    return { analyst_id: analyst_id, profile, score };
   });
 
   scored.sort((a, b) => a.score - b.score);
@@ -467,7 +467,7 @@ export function reassignCase(
         previousOwnerId: request.currentOwnerId,
         reason: rationale,
         timestamp,
-        policy_ref,
+        policy_ref: policy_ref,
       },
     };
   }
@@ -495,7 +495,7 @@ export function reassignCase(
       previousOwnerId: request.currentOwnerId,
       reason: escalationRationale,
       timestamp,
-      policy_ref,
+      policy_ref: policy_ref,
     },
   };
 }

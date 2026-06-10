@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 /**
  * Phase D4 — Assignment & Routing Engine Tests
  *
@@ -49,7 +49,7 @@ function snapshotFor(analyst_id: string, activeCaseCount: number, casesByType: R
 describe('Phase D4: Strategy Extraction', () => {
   it('extracts routing config from seed strategies', () => {
     const { config, policy } = extractRoutingConfig(seedStrategies);
-    expect(config.workloadMax).toBe(15);
+    expect(config.workload_max).toBe(15);
     expect(config.antiHoardingCap).toBe(5);
     expect(config.escalationTimeoutHours).toBe(48);
     expect(config.rankWeighting).toEqual({ junior: 1.0, mid: 0.8, senior: 0.6, lead: 0.4 });
@@ -71,12 +71,12 @@ describe('Phase D4: Strategy Extraction', () => {
       configuration: { teamAffinity: {}, escalation_path: [] },
     }];
     expect(() => extractRoutingConfig(incomplete)).toThrow('STRATEGY GAP');
-    expect(() => extractRoutingConfig(incomplete)).toThrow('workloadMax');
+    expect(() => extractRoutingConfig(incomplete)).toThrow('workload_max');
   });
 
   it('throws for each missing field individually', () => {
     const base = seedStrategies.find((s) => s.surface_type === 'routing')!;
-    const fields = ['workloadMax', 'antiHoardingCap', 'escalationTimeoutHours', 'rankWeighting', 'specialismTags'];
+    const fields = ['workload_max', 'antiHoardingCap', 'escalationTimeoutHours', 'rankWeighting', 'specialismTags'];
     for (const field of fields) {
       const config = { ...(base.configuration as Record<string, unknown>) };
       delete config[field];
@@ -246,8 +246,8 @@ describe('Phase D4: AssignmentEngine — Affinity Routing', () => {
 
   it('returns source policy reference on every result', () => {
     const result = assignCase('case-006', 'drift', emptySnapshots(), seedStrategies);
-    expect(result.sourcePolicy.id).toBeDefined();
-    expect(result.sourcePolicy.version).toBe('2.0.0');
+    expect(result.source_policy.id).toBeDefined();
+    expect(result.source_policy.version).toBe('2.0.0');
   });
 
   it('fails gracefully for unknown case type with no team affinity', () => {
@@ -406,19 +406,19 @@ describe('Phase D4: Escalation Timeout Detection', () => {
   it('returns false when within timeout window', () => {
     const assignedAt = '2026-05-27T10:00:00.000Z';
     const currentTime = '2026-05-28T10:00:00.000Z'; // 24h later (< 48h timeout)
-    expect(isEscalationTimeoutExceeded(assignedAt, currentTime, seedStrategies)).toBe(false);
+    expect(isEscalationTimeoutExceeded(assignedAt, current_time, seedStrategies)).toBe(false);
   });
 
   it('returns true when timeout is exceeded', () => {
     const assignedAt = '2026-05-25T10:00:00.000Z';
     const currentTime = '2026-05-28T10:00:00.000Z'; // 72h later (> 48h timeout)
-    expect(isEscalationTimeoutExceeded(assignedAt, currentTime, seedStrategies)).toBe(true);
+    expect(isEscalationTimeoutExceeded(assignedAt, current_time, seedStrategies)).toBe(true);
   });
 
   it('returns true at exactly the timeout boundary', () => {
     const assignedAt = '2026-05-26T10:00:00.000Z';
     const currentTime = '2026-05-28T10:00:00.000Z'; // exactly 48h
-    expect(isEscalationTimeoutExceeded(assignedAt, currentTime, seedStrategies)).toBe(true);
+    expect(isEscalationTimeoutExceeded(assignedAt, current_time, seedStrategies)).toBe(true);
   });
 
   it('timeout value comes from strategy (not hardcoded)', () => {
@@ -439,7 +439,7 @@ describe('Phase D4: Audit Events', () => {
     expect(result.auditEvent.case_type).toBe('vulnerability');
     expect(result.auditEvent.assignedOwner).toBeDefined();
     expect(result.auditEvent.timestamp).toBeDefined();
-    expect(result.auditEvent.policyRef.id).toBeDefined();
+    expect(result.auditEvent.policy_ref.id).toBeDefined();
   });
 
   it('emits assignment audit event on failed assignment (escalation)', () => {
@@ -481,13 +481,13 @@ describe('Phase D4: Strategy Consumption Proof (Zero Hardcoded Values)', () => {
     // Modify strategy to have different workloadMax
     const modified = seedStrategies.map((s) => {
       if (s.surface_type === 'routing') {
-        return { ...s, configuration: { ...(s.configuration as object), workloadMax: 3 } };
+        return { ...s, configuration: { ...(s.configuration as object), workload_max: 3 } };
       }
       return s;
     });
     const { config: modConfig } = extractRoutingConfig(modified);
-    expect(modConfig.workloadMax).toBe(3);
-    expect(config.workloadMax).toBe(15);
+    expect(modConfig.workload_max).toBe(3);
+    expect(config.workload_max).toBe(15);
   });
 
   it('antiHoardingCap comes from strategy, not hardcoded', () => {
@@ -510,9 +510,9 @@ describe('Phase D4: Strategy Consumption Proof (Zero Hardcoded Values)', () => {
     });
     const assignedAt = '2026-05-27T10:00:00.000Z';
     const currentTime = '2026-05-28T10:00:00.000Z'; // 24h later
-    expect(isEscalationTimeoutExceeded(assignedAt, currentTime, modified)).toBe(true);
+    expect(isEscalationTimeoutExceeded(assignedAt, current_time, modified)).toBe(true);
     // With original 48h timeout, same times would NOT exceed
-    expect(isEscalationTimeoutExceeded(assignedAt, currentTime, seedStrategies)).toBe(false);
+    expect(isEscalationTimeoutExceeded(assignedAt, current_time, seedStrategies)).toBe(false);
   });
 
   it('rankWeighting comes from strategy, not hardcoded', () => {
@@ -575,8 +575,8 @@ describe('Phase D4: Doctrinal Assertion Adherence', () => {
 
   it('all results include source policy reference', () => {
     const result = assignCase('case-doc-3', 'exposure', emptySnapshots(), seedStrategies);
-    expect(result.sourcePolicy.id).toBeDefined();
-    expect(result.sourcePolicy.version).toBeDefined();
+    expect(result.source_policy.id).toBeDefined();
+    expect(result.source_policy.version).toBeDefined();
   });
 
   it('reassignment preserves previous owner in audit trail', () => {

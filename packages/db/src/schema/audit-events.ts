@@ -13,7 +13,7 @@ import { tenants } from './tenants';
 
 export const auditEvents = pgTable('audit_events', {
   id: text('id').primaryKey(),
-  tenantId: text('tenant_id').notNull().references(() => tenants.id),
+  tenant_id: text('tenant_id').notNull().references(() => tenants.id),
   dataClassification: dataClassificationEnum('data_classification').notNull().default('audit'),
   /** Actor who performed the action */
   actorType: text('actor_type').notNull(),
@@ -22,8 +22,8 @@ export const auditEvents = pgTable('audit_events', {
   /** Action performed */
   action: text('action').notNull(),
   /** Entity reference */
-  entityType: text('entity_type').notNull(),
-  entityId: text('entity_id').notNull(),
+  entity_type: text('entity_type').notNull(),
+  entity_id: text('entity_id').notNull(),
   /** Source signal that triggered this event */
   sourceSignal: text('source_signal'),
   /** Prior state (JSON) */
@@ -35,9 +35,9 @@ export const auditEvents = pgTable('audit_events', {
   /** Immutable flag — always true for audit records */
   immutable: boolean('immutable').notNull().default(true),
   /** Source provenance */
-  sourceConnectorId: text('source_connector_id').notNull(),
+  source_connector_id: text('source_connector_id').notNull(),
   sourceImportRunId: text('source_import_run_id').notNull(),
-  sourceSystem: text('source_system').notNull(),
-  sourceTimestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  source_system: text('source_system').notNull(),
+  source_timestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
+  created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 });

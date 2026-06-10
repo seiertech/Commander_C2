@@ -34,11 +34,11 @@ export interface VulnerabilitySignalInput {
   /** KEV due date (ISO 8601 string or null) */
   kevDueDate: string | null;
   /** EPSS score (0–1 probability, null if unavailable) */
-  epssScore: number | null;
+  epss_score: number | null;
   /** EPSS percentile (0–100, null if unavailable) */
   epssPercentile: number | null;
   /** CVSS numeric score (0–10) */
-  cvssScore: number;
+  cvss_score: number;
 }
 
 export interface TenantEvaluationContext {
@@ -139,13 +139,13 @@ export function computeIntelligencePrioritySignal(
   }
 
   // ─── CVSS (informational context only) ─────────────────────────────────────
-  if (vulnRecord.cvssScore >= 9.0) {
+  if (vulnRecord.cvss_score >= 9.0) {
     priorityBoost += CVSS_CRITICAL_BOOST;
-    factors.push(`CVSS ${vulnRecord.cvssScore} >= 9.0 — critical severity context (+${CVSS_CRITICAL_BOOST} informational boost)`);
-  } else if (vulnRecord.cvssScore >= 7.0) {
-    factors.push(`CVSS ${vulnRecord.cvssScore} — high severity context (informational, no boost)`);
+    factors.push(`CVSS ${vulnRecord.cvss_score} >= 9.0 — critical severity context (+${CVSS_CRITICAL_BOOST} informational boost)`);
+  } else if (vulnRecord.cvss_score >= 7.0) {
+    factors.push(`CVSS ${vulnRecord.cvss_score} — high severity context (informational, no boost)`);
   } else {
-    factors.push(`CVSS ${vulnRecord.cvssScore} — informational context only`);
+    factors.push(`CVSS ${vulnRecord.cvss_score} — informational context only`);
   }
 
   // ─── Clamp to 0–100 ───────────────────────────────────────────────────────

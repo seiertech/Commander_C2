@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 'use client';
 
 import dynamic from 'next/dynamic';
@@ -142,7 +142,7 @@ function slaPosture(c: Case, now: number): { label: string; tone: 'critical' | '
   return { label: isClosed(c) ? 'Met' : 'On Track', tone: 'success' };
 }
 
-type SortKey = 'caseRef' | 'priority' | 'caseType' | 'owner' | 'team' | 'age' | 'sla' | 'status';
+type SortKey = 'case_ref' | 'priority' | 'case_type' | 'owner' | 'team' | 'age' | 'sla' | 'status';
 type SortDir = 'asc' | 'desc';
 
 // ─── Component ──────────────────────────────────────────────────────────────
@@ -287,8 +287,8 @@ export default function CaseAnalyticsPage() {
     const actionsInProgress = thesisActions.filter((a) => a.status === 'in_progress').length;
 
     return {
-      open_cases, closedCases, openedInPeriod, closedInPeriod,
-      mttr_p1, mttrP1Prior, adherencePeriod, adherencePrior, reopenRate,
+      open_cases: open_cases, closedCases, openedInPeriod, closedInPeriod,
+      mttr_p1: mttr_p1, mttrP1Prior, adherencePeriod, adherencePrior, reopenRate,
       velocity, velocityPrior,
       weeks, openedByWeek, closedByWeek, backlogByWeek, priorityByWeek,
       priorityDist, typeSorted, ownerSorted,
@@ -481,9 +481,9 @@ export default function CaseAnalyticsPage() {
     rows.sort((a, b) => {
       let cmp = 0;
       switch (sortKey) {
-        case 'caseRef': cmp = a.case_ref.localeCompare(b.case_ref); break;
+        case 'case_ref': cmp = a.case_ref.localeCompare(b.case_ref); break;
         case 'priority': cmp = PRIORITIES.indexOf(a.priority) - PRIORITIES.indexOf(b.priority); break;
-        case 'caseType': cmp = a.case_type.localeCompare(b.case_type); break;
+        case 'case_type': cmp = a.case_type.localeCompare(b.case_type); break;
         case 'owner': cmp = a.owner.localeCompare(b.owner); break;
         case 'team': cmp = a.team.localeCompare(b.team); break;
         case 'age': cmp = created(a) - created(b); break; // older first when asc
@@ -610,7 +610,7 @@ export default function CaseAnalyticsPage() {
               <thead>
                 <tr>
                   {([
-                    ['caseRef', 'Case Ref'], ['priority', 'Priority'], ['caseType', 'Type'],
+                    ['case_ref', 'Case Ref'], ['priority', 'Priority'], ['case_type', 'Type'],
                     ['title', 'Title'], ['owner', 'Owner'], ['team', 'Team'],
                     ['age', 'Age'], ['sla', 'SLA'], ['status', 'Status'],
                   ] as [string, string][]).map(([key, label]) => {

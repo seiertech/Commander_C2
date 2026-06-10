@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 import { describe, it, expect } from 'vitest';
 import type { Case } from '../../packages/contracts/src/entities/case';
 import type { RiskObject } from '../../packages/contracts/src/entities/risk-object';
@@ -93,7 +93,7 @@ describe('COIM-G — Case aggregate fields (additive, optional)', () => {
   });
 
   it('all COIM-G fields are optional — case without them is valid shape', () => {
-    const minimal: Pick<Case, 'entityType' | 'caseRef' | 'priority'> = {
+    const minimal: Pick<Case, 'entity_type' | 'case_ref' | 'priority'> = {
       entity_type: 'case',
       case_ref: 'CASE-TEST',
       priority: 'P2',
@@ -316,11 +316,11 @@ function scWith(
   attacks: AttackMapping[],
   confidenceScore = 50,
   finding_class: 'vulnerability' | 'detection' | 'incident' = 'vulnerability',
-): RiskObject['sourceClassification'] {
+): RiskObject['source_classification'] {
   return {
     finding_class,
     source_severity: { severity_level: 'high', severity_id: 4 },
-    source_confidence: { confidence_level: 'high', confidence_score },
+    source_confidence: { confidence_level: 'high', confidence_score: confidence_score },
     source_product: { vendor: 'Test', name: 'Test Scanner' },
     source_finding_uid: 'test-uid',
     attacks,

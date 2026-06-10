@@ -19,8 +19,8 @@ export interface FeedEvent {
   timestamp: string;
   severity: FeedSeverity;
   message: string;
-  entityRef?: string;
-  entityType?: string;
+  entity_ref?: string;
+  entity_type?: string;
 }
 
 export interface LiveFeedStyles {
@@ -31,7 +31,7 @@ export interface LiveFeedStyles {
   dot: Record<string, string>;
   timestamp: Record<string, string>;
   message: Record<string, string>;
-  entityRef: Record<string, string>;
+  entity_ref: Record<string, string>;
 }
 
 export function getLiveFeedStyles(mode: WorkspaceMode): LiveFeedStyles {
@@ -89,7 +89,7 @@ export function getLiveFeedStyles(mode: WorkspaceMode): LiveFeedStyles {
       fontFamily: primitiveFonts.body,
       lineHeight: '1.43',
     },
-    entityRef: {
+    entity_ref: {
       fontSize: primitiveTypeScale.caption,
       color: tokens.action.primary,
       fontFamily: primitiveFonts.mono,

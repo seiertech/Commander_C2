@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 import { describe, it, expect } from 'vitest';
 import {
   DISPOSITION_SEVERITY,
@@ -36,17 +36,17 @@ function makeValidVerdict(): Verdict {
     disposition: 'BLOCK',
     source_product: { vendor: 'Cloudflare', name: 'WAF', version: '4.2', connector_class: 'B' },
     confidence: 95,
-    observedAt: '2026-01-18T05:59:00.000Z',
+    observed_at: '2026-01-18T05:59:00.000Z',
     targetEntityId: 'asset-0001',
     targetEntityType: 'asset',
-    policyRef: {
+    policy_ref: {
       policy_id: 'waf-rule-001',
       policyName: 'Test Rule',
       policy_version: '1.0.0',
       policySource: 'Test Source',
     },
     timeBound: true,
-    expiresAt: '2026-01-25T05:59:00.000Z',
+    expires_at: '2026-01-25T05:59:00.000Z',
   };
 }
 
@@ -121,10 +121,10 @@ describe('COIM-C — validateVerdict', () => {
 
   it('rejects empty observedAt', () => {
     const v = makeValidVerdict();
-    v.observedAt = '';
+    v.observed_at = '';
     const result = validateVerdict(v);
     expect(result.valid).toBe(false);
-    expect(result.errors.join(' ')).toContain('observedAt');
+    expect(result.errors.join(' ')).toContain('observed_at');
   });
 
   it('rejects empty targetEntityId', () => {
@@ -148,39 +148,39 @@ describe('COIM-C — validateVerdict', () => {
     v.source_product = { vendor: '', name: '' };
     const result = validateVerdict(v);
     expect(result.valid).toBe(false);
-    expect(result.errors.join(' ')).toContain('sourceProduct');
+    expect(result.errors.join(' ')).toContain('source_product');
   });
 
   it('rejects empty policyRef.policy_id', () => {
     const v = makeValidVerdict();
-    v.policyRef = { policy_id: '' };
+    v.policy_ref = { policy_id: '' };
     const result = validateVerdict(v);
     expect(result.valid).toBe(false);
-    expect(result.errors.join(' ')).toContain('policyRef');
+    expect(result.errors.join(' ')).toContain('policy_ref');
   });
 
   it('rejects timeBound=true with null expiresAt', () => {
     const v = makeValidVerdict();
     v.timeBound = true;
-    v.expiresAt = null;
+    v.expires_at = null;
     const result = validateVerdict(v);
     expect(result.valid).toBe(false);
-    expect(result.errors.join(' ')).toContain('expiresAt');
+    expect(result.errors.join(' ')).toContain('expires_at');
   });
 
   it('rejects timeBound=false with non-null expiresAt', () => {
     const v = makeValidVerdict();
     v.timeBound = false;
-    v.expiresAt = '2026-01-25T00:00:00.000Z';
+    v.expires_at = '2026-01-25T00:00:00.000Z';
     const result = validateVerdict(v);
     expect(result.valid).toBe(false);
-    expect(result.errors.join(' ')).toContain('expiresAt');
+    expect(result.errors.join(' ')).toContain('expires_at');
   });
 
   it('accepts timeBound=false with null expiresAt', () => {
     const v = makeValidVerdict();
     v.timeBound = false;
-    v.expiresAt = null;
+    v.expires_at = null;
     const result = validateVerdict(v);
     expect(result.valid).toBe(true);
   });
@@ -225,7 +225,7 @@ describe('COIM-C — seed fixture conformance', () => {
 
   it('every seed verdict has a structured policyRef with policyId', () => {
     for (const v of seedVerdicts) {
-      expect(v.policyRef.policy_id).toBeTruthy();
+      expect(v.policy_ref.policy_id).toBeTruthy();
     }
   });
 

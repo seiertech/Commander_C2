@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 'use client';
 
 import { use } from 'react';
@@ -433,11 +433,11 @@ function EvidenceTab({ caseRecord, riskObjects, evidence, tokens }: {
             <tbody>
               {evidence.map((e) => (
                 <tr key={e.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
-                  <Td tokens={tokens}>{titleCase(e.evidenceType)}</Td>
+                  <Td tokens={tokens}>{titleCase(e.evidence_type)}</Td>
                   <Td tokens={tokens}><span style={{ fontFamily: primitiveFonts.mono }}>{e.source.source_system}</span></Td>
                   <Td tokens={tokens}><span className="badge bg-secondary">{e.evidenceSource}</span></Td>
                   <Td tokens={tokens}>{e.confidence}%</Td>
-                  <Td tokens={tokens}>{new Date(e.collectedAt).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' })}</Td>
+                  <Td tokens={tokens}>{new Date(e.collected_at).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' })}</Td>
                   <Td tokens={tokens}><Badge tone={freshTone[e.freshnessStatus] ?? 'muted'} tokens={tokens} label={titleCase(e.freshnessStatus)} /></Td>
                 </tr>
               ))}
@@ -476,7 +476,7 @@ function CommsTab({ caseRecord, tokens }: { caseRecord: Case; tokens: Tokens }) 
                   <Mini tokens={tokens} label="Direction" value={titleCase(e.direction)} />
                   <Mini tokens={tokens} label="From" value={e.sender_address} />
                   <Mini tokens={tokens} label="Confidence" value={`${Math.round(e.bindingConfidence * 100)}%`} />
-                  <Mini tokens={tokens} label="Received" value={new Date(e.receivedAt).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' })} />
+                  <Mini tokens={tokens} label="Received" value={new Date(e.received_at).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' })} />
                 </div>
                 <p style={{ margin: `${primitiveSpacing[2]} 0 0`, fontSize: primitiveTypeScale.micro, color: tokens.text.muted, lineHeight: 1.4 }}>{e.bodyPreview}</p>
               </div>
@@ -520,7 +520,7 @@ function CommsTab({ caseRecord, tokens }: { caseRecord: Case; tokens: Tokens }) 
                   <Mini tokens={tokens} label="Channel" value={titleCase(d.channel)} />
                   <Mini tokens={tokens} label="Approver" value={d.approverRef} />
                   <Mini tokens={tokens} label="Recipients" value={d.recipients.join(', ')} />
-                  <Mini tokens={tokens} label="Expires" value={new Date(d.expiresAt).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' })} />
+                  <Mini tokens={tokens} label="Expires" value={new Date(d.expires_at).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' })} />
                 </div>
               </div>
             ))}
@@ -662,8 +662,8 @@ function AuditTab({ caseRecord, tokens }: { caseRecord: Case; tokens: Tokens }) 
             <div style={{ display: 'flex', flexDirection: 'column', gap: primitiveSpacing[2] }}>
               {transitions.map((t) => (
                 <div key={t.id} style={{ display: 'flex', gap: primitiveSpacing[3], padding: primitiveSpacing[2], border: `1px solid ${tokens.border.subtle}`, background: tokens.surface.primary, alignItems: 'center' }}>
-                  <span style={{ fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, color: tokens.text.muted, minWidth: 130, whiteSpace: 'nowrap' }}>{new Date(t.transitionedAt).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' })}</span>
-                  <span style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.secondary }}>{titleCase(t.fromState)} → {titleCase(t.toState)}</span>
+                  <span style={{ fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, color: tokens.text.muted, minWidth: 130, whiteSpace: 'nowrap' }}>{new Date(t.transitioned_at).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' })}</span>
+                  <span style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.secondary }}>{titleCase(t.from_state)} → {titleCase(t.to_state)}</span>
                   <span style={{ fontSize: primitiveTypeScale.micro, padding: '1px 6px', border: `1px solid ${tokens.border.default}`, color: tokens.text.muted }}>{t.triggeredBy}</span>
                   <span style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.muted, flex: 1 }}>{t.reason}</span>
                 </div>

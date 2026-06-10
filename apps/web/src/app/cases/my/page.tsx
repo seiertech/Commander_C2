@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 'use client';
 
 import { useMemo } from 'react';
@@ -203,7 +203,7 @@ export default function MyCasesPage() {
                     onClick={() => router.push(`/cases/${a.case_id}`)} />
                 ))}
                 {myEvidence.map((e) => (
-                  <Artefact key={e.id} tokens={tokens} kind="Evidence" title={titleCase(e.evidenceType)} detail={`${e.confidence}% confidence · ${titleCase(e.freshnessStatus)} · ${e.source.source_system}`}
+                  <Artefact key={e.id} tokens={tokens} kind="Evidence" title={titleCase(e.evidence_type)} detail={`${e.confidence}% confidence · ${titleCase(e.freshnessStatus)} · ${e.source.source_system}`}
                     onClick={() => router.push(`/cases/${e.case_id}`)} />
                 ))}
               </div>

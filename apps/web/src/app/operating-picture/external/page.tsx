@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 'use client';
 
 import { useMode } from '@/context/mode-context';
@@ -261,7 +261,7 @@ export default function ExternalOperatingPicturePage() {
                           <td><span className="badge" style={{ background: classColor, color: '#fff' }}>{a.classification}</span></td>
                           <td style={{ fontSize: primitiveTypeScale.caption, color: a.priority_impact > 0 ? primitiveSignal.critical : primitiveSignal.success }}>{a.priority_impact > 0 ? '+' : ''}{a.priority_impact}</td>
                           <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>drift:{a.posture_snapshot.drift_state} cov:{a.posture_snapshot.coverage_percent}%</td>
-                          <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{new Date(a.classifiedAt).toLocaleDateString()}</td>
+                          <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{new Date(a.classified_at).toLocaleDateString()}</td>
                         </tr>
                       );
                     })}

@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 import { describe, it, expect } from 'vitest';
 import {
   matchEntities,
@@ -49,7 +49,7 @@ function makeCandidate(overrides: Partial<EntityMatchCandidate> & { entity_id: s
     connector_class: 'B',
     attributes: {},
     confidence: 80,
-    lastSeenAt: BASE_TIME,
+    last_seen_at: BASE_TIME,
     ...overrides,
   };
 }
@@ -71,9 +71,9 @@ function makeVerdict(overrides: Partial<VerdictRecord> & { id: string }): Verdic
     source_connector_id: 'connector-001',
     disposition: 'MONITOR',
     confidence: 80,
-    policyRef: 'POL-001',
+    policy_ref: 'POL-001',
     issuedAt: BASE_TIME,
-    expiresAt: null,
+    expires_at: null,
     timeBound: false,
     ...overrides,
   };
@@ -85,7 +85,7 @@ function makeThreatIndicator(overrides: Partial<ThreatIndicator> & { id: string 
     value: '10.0.0.1',
     severity: 'high',
     source_connector_id: 'threat-feed-001',
-    firstSeenAt: BASE_TIME,
+    first_seen_at: BASE_TIME,
     ...overrides,
   };
 }
@@ -398,7 +398,7 @@ describe('Verdict Semantics Processing', () => {
       it(`processes ${disposition} correctly (actionRequired: ${actionRequired})`, () => {
         const verdict = makeVerdict({ id: `verdict-${disposition}`, disposition });
         const result = processVerdict(verdict, BASE_TIME);
-        expect(result.effectiveDisposition).toBe(disposition);
+        expect(result.effective_disposition).toBe(disposition);
         expect(result.isExpired).toBe(false);
         expect(result.actionRequired).toBe(actionRequired);
         expect(result.rationale).toContain(disposition);
@@ -412,10 +412,10 @@ describe('Verdict Semantics Processing', () => {
         id: 'verdict-expired',
         disposition: 'BLOCK',
         timeBound: true,
-        expiresAt: hoursBefore(BASE_TIME, 1), // expired 1 hour ago
+        expires_at: hoursBefore(BASE_TIME, 1), // expired 1 hour ago
       });
       const result = processVerdict(verdict, BASE_TIME);
-      expect(result.effectiveDisposition).toBe('ALLOW');
+      expect(result.effective_disposition).toBe('ALLOW');
       expect(result.isExpired).toBe(true);
       expect(result.confidenceWeighted).toBe(0);
       expect(result.actionRequired).toBe(false);
@@ -426,11 +426,11 @@ describe('Verdict Semantics Processing', () => {
         id: 'verdict-active',
         disposition: 'QUARANTINE',
         timeBound: true,
-        expiresAt: hoursAfter(BASE_TIME, 24), // expires in 24 hours
+        expires_at: hoursAfter(BASE_TIME, 24), // expires in 24 hours
         confidence: 90,
       });
       const result = processVerdict(verdict, BASE_TIME);
-      expect(result.effectiveDisposition).toBe('QUARANTINE');
+      expect(result.effective_disposition).toBe('QUARANTINE');
       expect(result.isExpired).toBe(false);
       expect(result.actionRequired).toBe(true);
     });
@@ -440,10 +440,10 @@ describe('Verdict Semantics Processing', () => {
         id: 'verdict-permanent',
         disposition: 'MONITOR',
         timeBound: false,
-        expiresAt: null,
+        expires_at: null,
       });
       const result = processVerdict(verdict, hoursAfter(BASE_TIME, 8760)); // 1 year later
-      expect(result.effectiveDisposition).toBe('MONITOR');
+      expect(result.effective_disposition).toBe('MONITOR');
       expect(result.isExpired).toBe(false);
     });
 
@@ -452,10 +452,10 @@ describe('Verdict Semantics Processing', () => {
         id: 'verdict-timebound-null',
         disposition: 'COACH',
         timeBound: true,
-        expiresAt: null,
+        expires_at: null,
       });
       const result = processVerdict(verdict, BASE_TIME);
-      expect(result.effectiveDisposition).toBe('COACH');
+      expect(result.effective_disposition).toBe('COACH');
       expect(result.isExpired).toBe(false);
     });
   });
@@ -482,7 +482,7 @@ describe('Verdict Semantics Processing', () => {
   describe('resolveVerdictConflict', () => {
     it('no verdicts defaults to ALLOW', () => {
       const result = resolveVerdictConflict([], BASE_TIME);
-      expect(result.effectiveDisposition).toBe('ALLOW');
+      expect(result.effective_disposition).toBe('ALLOW');
       expect(result.actionRequired).toBe(false);
     });
 
@@ -492,17 +492,17 @@ describe('Verdict Semantics Processing', () => {
           id: 'v1',
           disposition: 'BLOCK',
           timeBound: true,
-          expiresAt: hoursBefore(BASE_TIME, 2),
+          expires_at: hoursBefore(BASE_TIME, 2),
         }),
         makeVerdict({
           id: 'v2',
           disposition: 'QUARANTINE',
           timeBound: true,
-          expiresAt: hoursBefore(BASE_TIME, 1),
+          expires_at: hoursBefore(BASE_TIME, 1),
         }),
       ];
       const result = resolveVerdictConflict(verdicts, BASE_TIME);
-      expect(result.effectiveDisposition).toBe('ALLOW');
+      expect(result.effective_disposition).toBe('ALLOW');
       expect(result.isExpired).toBe(true);
     });
 
@@ -514,7 +514,7 @@ describe('Verdict Semantics Processing', () => {
         makeVerdict({ id: 'v-coach', disposition: 'COACH' }),
       ];
       const result = resolveVerdictConflict(verdicts, BASE_TIME);
-      expect(result.effectiveDisposition).toBe('BLOCK');
+      expect(result.effective_disposition).toBe('BLOCK');
       expect(result.actionRequired).toBe(true);
     });
 
@@ -524,19 +524,19 @@ describe('Verdict Semantics Processing', () => {
           id: 'v-block-expired',
           disposition: 'BLOCK',
           timeBound: true,
-          expiresAt: hoursBefore(BASE_TIME, 1),
+          expires_at: hoursBefore(BASE_TIME, 1),
         }),
         makeVerdict({ id: 'v-monitor-active', disposition: 'MONITOR' }),
       ];
       const result = resolveVerdictConflict(verdicts, BASE_TIME);
-      expect(result.effectiveDisposition).toBe('MONITOR');
+      expect(result.effective_disposition).toBe('MONITOR');
       expect(result.actionRequired).toBe(false);
     });
 
     it('single active verdict wins by default', () => {
       const verdicts = [makeVerdict({ id: 'v-only', disposition: 'REQUIRE_MFA' })];
       const result = resolveVerdictConflict(verdicts, BASE_TIME);
-      expect(result.effectiveDisposition).toBe('REQUIRE_MFA');
+      expect(result.effective_disposition).toBe('REQUIRE_MFA');
       expect(result.actionRequired).toBe(true);
     });
 

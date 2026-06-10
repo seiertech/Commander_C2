@@ -67,7 +67,7 @@ export function buildTenantContext(
   evaluated_at: string,
 ): TenantExecutionContext {
   const scoped = entities.filter((e) => {
-    const t = e.attributes?.['tenantId'];
+    const t = e.attributes?.['tenant_id'];
     return t === undefined || t === tenant.tenant_id;
   });
   return {

@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 'use client';
 
 import { useMode } from '@/context/mode-context';
@@ -152,8 +152,8 @@ export default function P0WarRoomPage() {
                   <tr key={m.user_id} style={{ borderBottom: `1px solid ${HUD.lineSubtle}` }}>
                     <td style={{ padding: primitiveSpacing[2], color: HUD.text }}>{m.user_id}</td>
                     <td style={{ padding: primitiveSpacing[2] }}><span style={{ fontSize: primitiveTypeScale.micro, padding: '1px 6px', background: m.role === 'senior_owner' ? primitiveSignal.critical : primitiveSignal.info, color: '#fff', textTransform: 'uppercase' }}>{m.role}</span></td>
-                    <td style={{ padding: primitiveSpacing[2], fontFamily: primitiveFonts.mono, color: HUD.textMuted, fontSize: primitiveTypeScale.micro }}>{new Date(m.joinedAt).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' })}</td>
-                    <td style={{ padding: primitiveSpacing[2], fontFamily: primitiveFonts.mono, color: HUD.textMuted, fontSize: primitiveTypeScale.micro }}>{m.acknowledgedAt ? new Date(m.acknowledgedAt).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' }) : '—'}</td>
+                    <td style={{ padding: primitiveSpacing[2], fontFamily: primitiveFonts.mono, color: HUD.textMuted, fontSize: primitiveTypeScale.micro }}>{new Date(m.joined_at).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' })}</td>
+                    <td style={{ padding: primitiveSpacing[2], fontFamily: primitiveFonts.mono, color: HUD.textMuted, fontSize: primitiveTypeScale.micro }}>{m.acknowledged_at ? new Date(m.acknowledged_at).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' }) : '—'}</td>
                   </tr>
                 ))}
               </tbody>

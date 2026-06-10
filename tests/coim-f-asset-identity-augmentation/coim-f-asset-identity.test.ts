@@ -1,4 +1,3 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 import { describe, it, expect } from 'vitest';
 import type { Asset, AssetLifecycleState, AssetNetworkPosition, AssetDataClassification } from '../../packages/contracts/src/entities/asset';
 import {
@@ -103,7 +102,7 @@ describe('COIM-F — Asset augmentation fields (additive, optional)', () => {
 
   it('Asset type accepts platform field (optional structured object)', () => {
     const a: Partial<Asset> = {
-      platform: { os: 'Ubuntu 22.04', version: '22.04', cloudProvider: 'aws', architecture: 'x86_64' },
+      platform: { os: 'Ubuntu 22.04', version: '22.04', cloud_provider: 'aws', architecture: 'x86_64' },
     };
     expect(a.platform?.os).toBe('Ubuntu 22.04');
   });
@@ -147,7 +146,7 @@ describe('COIM-F — Asset augmentation fields (additive, optional)', () => {
 
   it('all COIM-F fields are optional — asset without them is valid shape', () => {
     // A minimal asset omitting all COIM-F fields — should compile and work
-    const minimal: Pick<Asset, 'entityType' | 'name' | 'classification'> = {
+    const minimal: Pick<Asset, 'entity_type' | 'name' | 'classification'> = {
       entity_type: 'asset',
       name: 'TEST-SERVER',
       classification: 'server',
@@ -161,10 +160,10 @@ describe('COIM-F — Asset augmentation fields (additive, optional)', () => {
 
 describe('COIM-F — Identity augmentation fields (additive, optional)', () => {
   it('Identity type accepts privilegeLevel field (optional)', () => {
-    const i: Partial<Identity> & { privilegeLevel?: IdentityPrivilegeLevel } = {
-      privilegeLevel: 'super-privileged',
+    const i: Partial<Identity> & { privilege_level?: IdentityPrivilegeLevel } = {
+      privilege_level: 'super-privileged',
     };
-    expect(i.privilegeLevel).toBe('super-privileged');
+    expect(i.privilege_level).toBe('super-privileged');
   });
 
   it('Identity type accepts authenticationStrength field (optional)', () => {
@@ -217,7 +216,7 @@ describe('COIM-F — Identity augmentation fields (additive, optional)', () => {
   });
 
   it('all COIM-F fields are optional — identity without them is valid shape', () => {
-    const minimal: Pick<Identity, 'entityType' | 'displayName' | 'classification'> = {
+    const minimal: Pick<Identity, 'entity_type' | 'display_name' | 'classification'> = {
       entity_type: 'identity',
       display_name: 'Test User',
       classification: 'human',
@@ -275,7 +274,7 @@ describe('COIM-F — backward compatibility: existing seed fixtures unchanged', 
 
   it('existing seed identities do NOT set COIM-F fields (they remain undefined)', () => {
     for (const identity of seedIdentities) {
-      expect(identity.privilegeLevel).toBeUndefined();
+      expect(identity.privilege_level).toBeUndefined();
       expect(identity.authenticationStrength).toBeUndefined();
       expect(identity.lastAuthenticatedAt).toBeUndefined();
       expect(identity.entitlementSummary).toBeUndefined();

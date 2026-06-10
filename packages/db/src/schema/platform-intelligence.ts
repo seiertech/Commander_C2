@@ -61,16 +61,16 @@ export const sourceFreshnessEnum = pgEnum('source_freshness', [
 
 export const platformIntelligenceSources = pgTable('platform_intelligence_sources', {
   id: text('id').primaryKey(),
-  tenantId: text('tenant_id').notNull().references(() => tenants.id),
+  tenant_id: text('tenant_id').notNull().references(() => tenants.id),
   dataClassification: dataClassificationEnum('data_classification').notNull().default('threat_intelligence'),
 
   // Source-owned (immutable)
   name: text('name').notNull(),
   vendor: text('vendor').notNull(),
-  sourceType: platformSourceTypeEnum('source_type').notNull(),
-  connectorClass: text('connector_class').notNull().default('D'),
+  source_type: platformSourceTypeEnum('source_type').notNull(),
+  connector_class: text('connector_class').notNull().default('D'),
   feedReference: text('feed_reference').notNull(),
-  licenceStatus: text('licence_status').notNull(),
+  licence_status: text('licence_status').notNull(),
   sourceMetadataExtra: jsonb('source_metadata_extra'),
 
   // Commander-owned (mutable)
@@ -83,46 +83,46 @@ export const platformIntelligenceSources = pgTable('platform_intelligence_source
   healthState: text('health_state').notNull().default('unknown'),
 
   // Source provenance
-  sourceConnectorId: text('source_connector_id').notNull(),
+  source_connector_id: text('source_connector_id').notNull(),
   sourceImportRunId: text('source_import_run_id').notNull(),
-  sourceSystem: text('source_system').notNull(),
-  sourceTimestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
+  source_system: text('source_system').notNull(),
+  source_timestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
 
   // Timestamps
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updated_at: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 }, (table) => ({
-  tenantIdx: index('pis_tenant_idx').on(table.tenantId),
-  sourceTypeIdx: index('pis_source_type_idx').on(table.sourceType),
+  tenantIdx: index('pis_tenant_idx').on(table.tenant_id),
+  sourceTypeIdx: index('pis_source_type_idx').on(table.source_type),
 }));
 
 // ─── Platform Intelligence Record ────────────────────────────────────────────
 
 export const platformIntelligenceRecords = pgTable('platform_intelligence_records', {
   id: text('id').primaryKey(),
-  tenantId: text('tenant_id').notNull().references(() => tenants.id),
+  tenant_id: text('tenant_id').notNull().references(() => tenants.id),
   dataClassification: dataClassificationEnum('data_classification').notNull().default('threat_intelligence'),
 
-  sourceId: text('source_id').notNull(),
+  source_id: text('source_id').notNull(),
   recordType: platformRecordTypeEnum('record_type').notNull(),
   severity: integer('severity').notNull(),
   confidence: integer('confidence').notNull(),
-  publishedAt: timestamp('published_at', { withTimezone: true }).notNull(),
+  published_at: timestamp('published_at', { withTimezone: true }).notNull(),
   lastModifiedAt: timestamp('last_modified_at', { withTimezone: true }).notNull(),
   catalogueVersion: text('catalogue_version').notNull(),
   rawReference: text('raw_reference').notNull(),
 
   // Source provenance
-  sourceConnectorId: text('source_connector_id').notNull(),
+  source_connector_id: text('source_connector_id').notNull(),
   sourceImportRunId: text('source_import_run_id').notNull(),
-  sourceSystem: text('source_system').notNull(),
-  sourceTimestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
+  source_system: text('source_system').notNull(),
+  source_timestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
 
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updated_at: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 }, (table) => ({
-  tenantIdx: index('pir_tenant_idx').on(table.tenantId),
-  sourceIdx: index('pir_source_idx').on(table.sourceId),
+  tenantIdx: index('pir_tenant_idx').on(table.tenant_id),
+  sourceIdx: index('pir_source_idx').on(table.source_id),
   recordTypeIdx: index('pir_record_type_idx').on(table.recordType),
 }));
 
@@ -130,55 +130,55 @@ export const platformIntelligenceRecords = pgTable('platform_intelligence_record
 
 export const vulnerabilityIntelligenceRecords = pgTable('vulnerability_intelligence_records', {
   id: text('id').primaryKey(),
-  tenantId: text('tenant_id').notNull().references(() => tenants.id),
+  tenant_id: text('tenant_id').notNull().references(() => tenants.id),
   dataClassification: dataClassificationEnum('data_classification').notNull().default('threat_intelligence'),
 
-  sourceId: text('source_id').notNull(),
+  source_id: text('source_id').notNull(),
   recordType: platformRecordTypeEnum('record_type').notNull().default('cve'),
   severity: integer('severity').notNull(),
   confidence: integer('confidence').notNull(),
-  publishedAt: timestamp('published_at', { withTimezone: true }).notNull(),
+  published_at: timestamp('published_at', { withTimezone: true }).notNull(),
   lastModifiedAt: timestamp('last_modified_at', { withTimezone: true }).notNull(),
   catalogueVersion: text('catalogue_version').notNull(),
   rawReference: text('raw_reference').notNull(),
 
   // CVE-specific
-  cveId: text('cve_id').notNull(),
+  cve_id: text('cve_id').notNull(),
   cvssVector: text('cvss_vector').notNull(),
-  cvssScore: integer('cvss_score').notNull(),
+  cvss_score: integer('cvss_score').notNull(),
   cveState: cveStateEnum('cve_state').notNull(),
   cisaKevStatus: boolean('cisa_kev_status').notNull().default(false),
   kevDateAdded: timestamp('kev_date_added', { withTimezone: true }),
   kevDueDate: timestamp('kev_due_date', { withTimezone: true }),
-  epssScore: integer('epss_score'),
+  epss_score: integer('epss_score'),
   epssPercentile: integer('epss_percentile'),
   affectedProducts: jsonb('affected_products').notNull().default([]),
   references: jsonb('references_list').notNull().default([]),
 
   // Source provenance
-  sourceConnectorId: text('source_connector_id').notNull(),
+  source_connector_id: text('source_connector_id').notNull(),
   sourceImportRunId: text('source_import_run_id').notNull(),
-  sourceSystem: text('source_system').notNull(),
-  sourceTimestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
+  source_system: text('source_system').notNull(),
+  source_timestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
 
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updated_at: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 }, (table) => ({
-  tenantIdx: index('vir_tenant_idx').on(table.tenantId),
-  cveIdx: index('vir_cve_idx').on(table.cveId),
+  tenantIdx: index('vir_tenant_idx').on(table.tenant_id),
+  cveIdx: index('vir_cve_idx').on(table.cve_id),
 }));
 
 // ─── Vendor Advisory ─────────────────────────────────────────────────────────
 
 export const vendorAdvisories = pgTable('vendor_advisories', {
   id: text('id').primaryKey(),
-  tenantId: text('tenant_id').notNull().references(() => tenants.id),
+  tenant_id: text('tenant_id').notNull().references(() => tenants.id),
   dataClassification: dataClassificationEnum('data_classification').notNull().default('threat_intelligence'),
 
-  advisoryId: text('advisory_id').notNull(),
+  advisory_id: text('advisory_id').notNull(),
   vendor: text('vendor').notNull(),
   title: text('title').notNull(),
-  publishedAt: timestamp('published_at', { withTimezone: true }).notNull(),
+  published_at: timestamp('published_at', { withTimezone: true }).notNull(),
   lastModifiedAt: timestamp('last_modified_at', { withTimezone: true }).notNull(),
   severity: integer('severity').notNull(),
   affectedProducts: jsonb('affected_products').notNull().default([]),
@@ -187,51 +187,51 @@ export const vendorAdvisories = pgTable('vendor_advisories', {
   containedIocIds: jsonb('contained_ioc_ids').notNull().default([]),
 
   // Source provenance
-  sourceConnectorId: text('source_connector_id').notNull(),
+  source_connector_id: text('source_connector_id').notNull(),
   sourceImportRunId: text('source_import_run_id').notNull(),
-  sourceSystem: text('source_system').notNull(),
-  sourceTimestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
+  source_system: text('source_system').notNull(),
+  source_timestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
 
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updated_at: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 }, (table) => ({
-  tenantIdx: index('va_tenant_idx').on(table.tenantId),
-  advisoryIdx: index('va_advisory_id_idx').on(table.advisoryId),
+  tenantIdx: index('va_tenant_idx').on(table.tenant_id),
+  advisoryIdx: index('va_advisory_id_idx').on(table.advisory_id),
 }));
 
 // ─── Indicator of Compromise (high-volume, partition-ready) ──────────────────
 
 export const indicatorsOfCompromise = pgTable('indicators_of_compromise', {
   id: text('id').primaryKey(),
-  tenantId: text('tenant_id').notNull().references(() => tenants.id),
+  tenant_id: text('tenant_id').notNull().references(() => tenants.id),
   dataClassification: dataClassificationEnum('data_classification').notNull().default('threat_intelligence'),
 
-  iocCategory: iocCategoryEnum('ioc_category').notNull(),
+  ioc_category: iocCategoryEnum('ioc_category').notNull(),
   value: text('value').notNull(),
   normalisedValue: text('normalised_value').notNull(),
   originalRawValue: text('original_raw_value').notNull(),
   confidence: integer('confidence').notNull(),
   severity: integer('severity').notNull(),
   tlpMarking: tlpMarkingEnum('tlp_marking').notNull(),
-  expiresAt: timestamp('expires_at', { withTimezone: true }),
+  expires_at: timestamp('expires_at', { withTimezone: true }),
   sourceAttribution: jsonb('source_attribution').notNull().default([]),
-  firstSeenAt: timestamp('first_seen_at', { withTimezone: true }).notNull(),
-  lastSeenAt: timestamp('last_seen_at', { withTimezone: true }).notNull(),
+  first_seen_at: timestamp('first_seen_at', { withTimezone: true }).notNull(),
+  last_seen_at: timestamp('last_seen_at', { withTimezone: true }).notNull(),
   active: boolean('active').notNull().default(true),
 
   // Source provenance
-  sourceConnectorId: text('source_connector_id').notNull(),
+  source_connector_id: text('source_connector_id').notNull(),
   sourceImportRunId: text('source_import_run_id').notNull(),
-  sourceSystem: text('source_system').notNull(),
-  sourceTimestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
+  source_system: text('source_system').notNull(),
+  source_timestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
 
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updated_at: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 }, (table) => ({
   /** IOC dedup unique index: (tenant_id, ioc_category, normalised_value) */
-  dedupIdx: uniqueIndex('ioc_dedup_idx').on(table.tenantId, table.iocCategory, table.normalisedValue),
-  tenantIdx: index('ioc_tenant_idx').on(table.tenantId),
-  categoryIdx: index('ioc_category_idx').on(table.iocCategory),
+  dedupIdx: uniqueIndex('ioc_dedup_idx').on(table.tenant_id, table.ioc_category, table.normalisedValue),
+  tenantIdx: index('ioc_tenant_idx').on(table.tenant_id),
+  categoryIdx: index('ioc_category_idx').on(table.ioc_category),
   valueIdx: index('ioc_normalised_value_idx').on(table.normalisedValue),
 }));
 
@@ -239,29 +239,29 @@ export const indicatorsOfCompromise = pgTable('indicators_of_compromise', {
 
 export const iocRelationships = pgTable('ioc_relationships', {
   id: text('id').primaryKey(),
-  tenantId: text('tenant_id').notNull().references(() => tenants.id),
+  tenant_id: text('tenant_id').notNull().references(() => tenants.id),
   dataClassification: dataClassificationEnum('data_classification').notNull().default('threat_intelligence'),
 
-  iocId: text('ioc_id').notNull(),
+  ioc_id: text('ioc_id').notNull(),
   relatedEntityId: text('related_entity_id').notNull(),
   relatedEntityType: text('related_entity_type').notNull(),
   relationshipState: iocRelationshipStateEnum('relationship_state').notNull(),
   confidence: integer('confidence').notNull(),
   establishedAt: timestamp('established_at', { withTimezone: true }).notNull(),
   lastUpdatedAt: timestamp('last_updated_at', { withTimezone: true }).notNull(),
-  evidenceRef: text('evidence_ref').notNull(),
+  evidence_ref: text('evidence_ref').notNull(),
   stateHistory: jsonb('state_history').notNull().default([]),
 
   // Source provenance
-  sourceConnectorId: text('source_connector_id').notNull(),
+  source_connector_id: text('source_connector_id').notNull(),
   sourceImportRunId: text('source_import_run_id').notNull(),
-  sourceSystem: text('source_system').notNull(),
-  sourceTimestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
+  source_system: text('source_system').notNull(),
+  source_timestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
 
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updated_at: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 }, (table) => ({
-  tenantIdx: index('iocr_tenant_idx').on(table.tenantId),
-  iocIdx: index('iocr_ioc_idx').on(table.iocId),
+  tenantIdx: index('iocr_tenant_idx').on(table.tenant_id),
+  iocIdx: index('iocr_ioc_idx').on(table.ioc_id),
   relatedIdx: index('iocr_related_entity_idx').on(table.relatedEntityId),
 }));

@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 /**
  * Case Reopening Trigger Engine — Commander C2 (Unit 13)
  *

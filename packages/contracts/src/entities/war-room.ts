@@ -29,9 +29,9 @@ export type WarRoomMemberRole = typeof WAR_ROOM_MEMBER_ROLES[number];
 export interface WarRoomMember {
   user_id: string;
   role: WarRoomMemberRole;
-  joinedAt: string;
-  acknowledgedAt: string | null;
-  leftAt: string | null;
+  joined_at: string;
+  acknowledged_at: string | null;
+  left_at: string | null;
 }
 
 // ─── War Room Subscriber ─────────────────────────────────────────────────────
@@ -58,7 +58,7 @@ export interface WarRoomSubscriber {
   channels: SubscriptionChannel[];
   cadence: SubscriptionCadence;
   subscribed_at: string;
-  unsubscribedAt: string | null;
+  unsubscribed_at: string | null;
 }
 
 // ─── Communication Cadence Profile ───────────────────────────────────────────
@@ -157,8 +157,8 @@ export function validateWarRoom(warRoom: WarRoom): WarRoomValidation {
       if (!WAR_ROOM_MEMBER_ROLES.includes(member.role)) {
         errors.push(`membership[].role: must be one of: ${WAR_ROOM_MEMBER_ROLES.join(', ')}`);
       }
-      if (!member.joinedAt || member.joinedAt.trim() === '') {
-        errors.push('membership[].joinedAt: required');
+      if (!member.joined_at || member.joined_at.trim() === '') {
+        errors.push('membership[].joined_at: required');
       }
     }
   }

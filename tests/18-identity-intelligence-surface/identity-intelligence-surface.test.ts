@@ -112,7 +112,7 @@ describe('Unit 18 — Drill Paths & doctrine', () => {
 
   it('renders through the shared PageContainer; preserves surface attribution; no manual case creation', () => {
     expect(pageContent).toContain('PageContainer');
-    expect(pageContent).toContain('surfaceAttribution');
+    expect(pageContent).toContain('surface_attribution');
     expect(pageContent).not.toContain('Create Case');
     expect(pageContent).not.toContain('createCase');
   });

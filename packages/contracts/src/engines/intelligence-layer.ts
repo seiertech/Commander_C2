@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 /**
  * Intelligence Layer — Commander C2 Four-Stream Integration (Unit 14)
  *
@@ -320,7 +320,7 @@ export function detectVerdictDisagreement(verdicts: ToolVerdict[]): VerdictDisag
   const disagreement = hasNegative && hasAllow;
 
   return {
-    entity_id,
+    entity_id: entity_id,
     disagreement,
     polarities,
     contributingTools: tools,

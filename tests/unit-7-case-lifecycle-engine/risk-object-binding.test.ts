@@ -140,7 +140,7 @@ describe('Risk Object Binding — allocation_error', () => {
 
     expect(result.success).toBe(false);
     expect(result.outcome).toBe('allocation_error');
-    expect(result.error).toContain('affectedEntityId');
+    expect(result.error).toContain('affected_entity_id');
   });
 
   it('returns allocation_error when tenantId is missing', () => {

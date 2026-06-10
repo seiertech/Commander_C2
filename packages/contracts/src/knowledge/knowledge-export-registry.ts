@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 /**
  * Knowledge Export Registry — Commander C2
  *
@@ -159,25 +159,25 @@ export interface DerivationRule {
  */
 export const KNOWLEDGE_DERIVATION_RULES: DerivationRule[] = [
   {
-    field: 'tenantId',
+    field: 'tenant_id',
     sourcePath: 'entity.tenant.tenant_id',
     method: 'direct',
     description: 'Extracted directly from CommonFields.tenant.tenant_id. Every entity carries this.',
   },
   {
-    field: 'sourceType',
+    field: 'source_type',
     sourcePath: 'entity.source.source_system',
     method: 'direct',
     description: 'Extracted directly from CommonFields.source.source_system. Identifies the originating system.',
   },
   {
-    field: 'sourceId',
+    field: 'source_id',
     sourcePath: 'entity.source.connector_id',
     method: 'direct',
     description: 'Extracted directly from CommonFields.source.connector_id. Identifies the specific connector.',
   },
   {
-    field: 'entityType',
+    field: 'entity_type',
     sourcePath: 'entity.entity_type',
     method: 'direct',
     description: 'Extracted directly from the per-entity entityType discriminator field.',
@@ -220,13 +220,13 @@ export const KNOWLEDGE_DERIVATION_RULES: DerivationRule[] = [
       'Tags enable flexible retrieval filtering without schema changes.',
   },
   {
-    field: 'createdAt',
+    field: 'created_at',
     sourcePath: 'entity.created_at',
     method: 'direct',
     description: 'Extracted directly from CommonFields.created_at. ISO 8601 timestamp.',
   },
   {
-    field: 'updatedAt',
+    field: 'updated_at',
     sourcePath: 'entity.updated_at',
     method: 'direct',
     description: 'Extracted directly from CommonFields.updated_at. ISO 8601 timestamp.',

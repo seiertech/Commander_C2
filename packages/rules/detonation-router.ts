@@ -28,7 +28,7 @@ export interface DetonationRoutingResult {
   /** Risk object finding class (only for create_risk_object route) */
   riskObjectType?: string;
   /** Case type to create (only for create_risk_object route) */
-  caseType?: CaseType;
+  case_type?: CaseType;
   /** Reasoning for the routing decision */
   reason: string;
 }
@@ -54,7 +54,7 @@ export function routeDetonationVerdict(verdict: DetonationVerdict): DetonationRo
       return {
         route: 'create_risk_object',
         riskObjectType: 'detection',
-        caseType: 'threat-intelligence-estate-match',
+        case_type: 'threat-intelligence-estate-match',
         reason: `Malicious verdict from ${verdict.detonationSource}. Creating risk object (detection finding class) and threat-intelligence-estate-match case. ${summariseChecks(verdict)}`,
       };
 

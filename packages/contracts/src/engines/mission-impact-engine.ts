@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 /**
  * Mission Impact Engine — Commander C2 (Spec 37)
  * Source: Spec #37 Mission Objective Binding Model
@@ -83,7 +83,7 @@ export function calculateMissionImpact(
 
   return {
     mission_id,
-    total_impact_score,
+    total_impact_score: total_impact_score,
     affectedObjectives: [],
     riskContributors,
     recommendation,
@@ -102,7 +102,7 @@ export function traverseImpactChain(riskObject: RiskObjectInput): AffectedMissio
   return [
     {
       mission_id: 'mission-unknown',
-      impact_score,
+      impact_score: impact_score,
       bindingPath: [riskObject.entity_ref, riskObject.risk_object_id],
     },
   ];

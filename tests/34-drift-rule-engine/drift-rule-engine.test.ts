@@ -1,4 +1,3 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 import { describe, it, expect } from 'vitest';
 import {
   validateFinding,
@@ -116,7 +115,7 @@ describe('Spec 34 — validateRiskScore', () => {
 
 describe('Spec 34 — validateBlastRadius', () => {
   it('rejects totalImpactScore outside 0–100', () => {
-    const bad: BlastRadius = { ...seedBlastRadius[0], totalImpactScore: 120 };
+    const bad: BlastRadius = { ...seedBlastRadius[0], total_impact_score: 120 };
     expect(validateBlastRadius(bad).valid).toBe(false);
   });
 });

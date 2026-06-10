@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 /**
  * Unit Tests — Playbook Engine
  *
@@ -119,7 +119,7 @@ describe('Playbook Engine — Step Advancement', () => {
       updated_at: '2026-01-16T08:00:00.000Z',
       source: { connector_id: 'test', import_run_id: 'test', source_system: 'test', source_timestamp: '2026-01-16T08:00:00.000Z' },
       executionId: 'exec-001',
-      playbookId: playbook.playbookId,
+      playbook_id: playbook.playbook_id,
       case_id: 'case-001',
       tenant_id: 'tenant-001',
       currentStep: 1,
@@ -129,7 +129,7 @@ describe('Playbook Engine — Step Advancement', () => {
         { stepNumber: 3, status: 'pending', executedAt: null, reason: null },
         { stepNumber: 4, status: 'pending', executedAt: null, reason: null },
       ],
-      startedAt: '2026-01-16T08:00:00.000Z',
+      started_at: '2026-01-16T08:00:00.000Z',
       completed_at: null,
       status: 'running',
     };
@@ -153,7 +153,7 @@ describe('Playbook Engine — Step Advancement', () => {
       updated_at: '2026-01-16T08:00:00.000Z',
       source: { connector_id: 'test', import_run_id: 'test', source_system: 'test', source_timestamp: '2026-01-16T08:00:00.000Z' },
       executionId: 'exec-001',
-      playbookId: 'pb-001',
+      playbook_id: 'pb-001',
       case_id: 'case-001',
       tenant_id: 'tenant-001',
       currentStep: 0,
@@ -161,7 +161,7 @@ describe('Playbook Engine — Step Advancement', () => {
         { stepNumber: 1, status: 'pending', executedAt: null, reason: null },
         { stepNumber: 2, status: 'pending', executedAt: null, reason: null },
       ],
-      startedAt: '2026-01-16T08:00:00.000Z',
+      started_at: '2026-01-16T08:00:00.000Z',
       completed_at: null,
       status: 'running',
     };
@@ -180,14 +180,14 @@ describe('Playbook Engine — Step Advancement', () => {
       updated_at: '2026-01-16T08:00:00.000Z',
       source: { connector_id: 'test', import_run_id: 'test', source_system: 'test', source_timestamp: '2026-01-16T08:00:00.000Z' },
       executionId: 'exec-001',
-      playbookId: 'pb-001',
+      playbook_id: 'pb-001',
       case_id: 'case-001',
       tenant_id: 'tenant-001',
       currentStep: 0,
       stepStatuses: [
         { stepNumber: 1, status: 'pending', executedAt: null, reason: null },
       ],
-      startedAt: '2026-01-16T08:00:00.000Z',
+      started_at: '2026-01-16T08:00:00.000Z',
       completed_at: null,
       status: 'running',
     };

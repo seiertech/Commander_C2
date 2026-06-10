@@ -1,4 +1,3 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 'use client';
 
 /**
@@ -130,7 +129,7 @@ export default function PosturePage() {
 
                 {/* Threshold reference */}
                 <div style={{ marginTop: primitiveSpacing[2], fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>
-                  Strategy: <strong>{metric.thresholds.strategySurface}</strong> (policy: {metric.thresholds.policyId}) —
+                  Strategy: <strong>{metric.thresholds.strategySurface}</strong> (policy: {metric.thresholds.policy_id}) —
                   Green ≥ {metric.thresholds.green}, Amber ≥ {metric.thresholds.amber}
                   {!metric.higherIsBetter && ' (lower is better — thresholds inverted)'}
                 </div>

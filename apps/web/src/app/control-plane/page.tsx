@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 import { colors } from '../../../../../packages/ui/src/tokens/colors';
 import { typography } from '../../../../../packages/ui/src/tokens/typography';
 import { thesisEntitlements, thesisCustomers, thesisConnectors, thesisDeployments } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';

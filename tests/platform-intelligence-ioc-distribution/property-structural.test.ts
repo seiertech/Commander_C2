@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 /**
  * Property-Based Tests — Structural Validation and Ownership
  *
@@ -85,10 +85,10 @@ describe('Property 1: Structural validation correctness', () => {
             confidence,
             severity,
             tlpMarking: tlp,
-            expiresAt: null,
+            expires_at: null,
             sourceAttribution: [],
-            firstSeenAt: common.created_at,
-            lastSeenAt: common.updated_at,
+            first_seen_at: common.created_at,
+            last_seen_at: common.updated_at,
             active: true,
           };
           const result = validateIndicatorOfCompromise(ioc);
@@ -115,10 +115,10 @@ describe('Property 1: Structural validation correctness', () => {
             confidence: badConfidence,
             severity: 3,
             tlpMarking: 'amber' as const,
-            expiresAt: null,
+            expires_at: null,
             sourceAttribution: [],
-            firstSeenAt: common.created_at,
-            lastSeenAt: common.updated_at,
+            first_seen_at: common.created_at,
+            last_seen_at: common.updated_at,
             active: true,
           };
           const result = validateIndicatorOfCompromise(ioc);
@@ -145,10 +145,10 @@ describe('Property 1: Structural validation correctness', () => {
             confidence: 50,
             severity: badSeverity,
             tlpMarking: 'green' as const,
-            expiresAt: null,
+            expires_at: null,
             sourceAttribution: [],
-            firstSeenAt: common.created_at,
-            lastSeenAt: common.updated_at,
+            first_seen_at: common.created_at,
+            last_seen_at: common.updated_at,
             active: true,
           };
           const result = validateIndicatorOfCompromise(ioc);
@@ -228,7 +228,7 @@ describe('Property 14: Admin/tenant ownership attribution', () => {
             source_type: 'cisa_kev' as const,
             connector_class: 'D' as const,
             feedReference: 'https://feed.example.com',
-            licenceStatus: 'active',
+            licence_status: 'active',
             sourceMetadataExtra: {},
             refreshCadenceMinutes: 60,
             lastSuccessfulSync: null,

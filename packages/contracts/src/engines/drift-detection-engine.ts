@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 /**
  * Drift Detection Engine — Commander C2 (Unit 24)
  * Source: Spec #17 Closed-Loop Control Architecture

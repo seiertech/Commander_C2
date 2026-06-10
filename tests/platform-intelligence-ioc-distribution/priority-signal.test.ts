@@ -1,4 +1,3 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 /**
  * Unit Tests — KEV/EPSS Priority Signal Engine
  *

@@ -1,4 +1,3 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 /**
  * War Room Lifecycle Engine — Commander C2
  *
@@ -108,7 +107,7 @@ export function transitionWarRoom(
   const updatedWarRoom: WarRoom = {
     ...warRoom,
     status: newStatus,
-    updatedAt: timestamp,
+    updated_at: timestamp,
   };
 
   return {

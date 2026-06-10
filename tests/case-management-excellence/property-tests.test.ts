@@ -1,4 +1,3 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 /**
  * Property-Based Tests — Case Management Excellence
  * CMEP-1.0
