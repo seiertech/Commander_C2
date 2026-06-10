@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import { PageContainer } from '@/components/page-container';
-import { seedSearchConfigs } from '../../../../../packages/contracts/src/fixtures/seed-search-config';
 import { planQuery } from '../../../../../packages/contracts/src/engines/universal-search-engine';
 import type { SearchResult } from '../../../../../packages/contracts/src/engines/universal-search-engine';
 import { primitiveTypeScale } from '../../../../../packages/ui/src/tokens/primitives';
+import { thesisSearchConfigs } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Universal Search — Commander C2 (Spec 42)
@@ -49,7 +49,7 @@ export default function SearchPage() {
   const [results, setResults] = useState<SearchResult[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
 
-  const config = seedSearchConfigs[0];
+  const config = thesisSearchConfigs[0];
 
   const handleSearch = () => {
     if (query.trim().length < 2) {

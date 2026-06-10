@@ -3,14 +3,13 @@
 import dynamic from 'next/dynamic';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedRules, seedModels, seedAutomationRules, seedFeatureRegistry } from '../../../../../../packages/contracts/src/fixtures/seed-platform';
-import { seedSystemPulse } from '../../../../../../packages/contracts/src/fixtures/seed-pulse';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
   primitiveFonts, primitiveLetterSpacing, primitiveSignal, primitiveData,
 } from '../../../../../../packages/ui/src/tokens/primitives';
 import type { ApexOptions } from 'apexcharts';
+import { thesisRules, thesisModels, thesisAutomationRules, thesisFeatureRegistry, thesisSystemPulse } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -28,24 +27,24 @@ export default function PlatformDataQualityPage() {
   const { mode, tokens } = useMode();
 
   // Freshness from system pulse
-  const avgFreshness = seedSystemPulse.length > 0
-    ? (seedSystemPulse.reduce((acc, s) => acc + s.dataFreshnessHours, 0) / seedSystemPulse.length).toFixed(1)
+  const avgFreshness = thesisSystemPulse.length > 0
+    ? (thesisSystemPulse.reduce((acc, s) => acc + s.dataFreshnessHours, 0) / thesisSystemPulse.length).toFixed(1)
     : '0';
-  const avgErrorRate = seedSystemPulse.length > 0
-    ? (seedSystemPulse.reduce((acc, s) => acc + s.errorRate, 0) / seedSystemPulse.length).toFixed(1)
+  const avgErrorRate = thesisSystemPulse.length > 0
+    ? (thesisSystemPulse.reduce((acc, s) => acc + s.errorRate, 0) / thesisSystemPulse.length).toFixed(1)
     : '0';
 
   // Model accuracy
-  const avgModelAccuracy = Math.round(seedModels.reduce((acc, m) => acc + m.accuracy, 0) / seedModels.length);
-  const avgFPR = (seedModels.reduce((acc, m) => acc + m.falsePositiveRate, 0) / seedModels.length).toFixed(1);
+  const avgModelAccuracy = Math.round(thesisModels.reduce((acc, m) => acc + m.accuracy, 0) / thesisModels.length);
+  const avgFPR = (thesisModels.reduce((acc, m) => acc + m.falsePositiveRate, 0) / thesisModels.length).toFixed(1);
 
   // Rule efficacy
-  const activeRules = seedRules.filter((r) => r.status === 'active').length;
-  const suppressionRules = seedRules.filter((r) => r.ruleType === 'suppression').length;
+  const activeRules = thesisRules.filter((r) => r.status === 'active').length;
+  const suppressionRules = thesisRules.filter((r) => r.ruleType === 'suppression').length;
 
   // Platform completeness
-  const totalEntities = seedRules.length + seedModels.length + seedAutomationRules.length + seedFeatureRegistry.length;
-  const enabledFeatures = seedFeatureRegistry.filter((f) => f.state === 'enabled').length;
+  const totalEntities = thesisRules.length + thesisModels.length + thesisAutomationRules.length + thesisFeatureRegistry.length;
+  const enabledFeatures = thesisFeatureRegistry.filter((f) => f.state === 'enabled').length;
 
   const gaugeOpts: ApexOptions = {
     chart: { type: 'radialBar', background: 'transparent', sparkline: { enabled: true } },
@@ -92,8 +91,8 @@ export default function PlatformDataQualityPage() {
             <QualityDimension tokens={tokens} label="Processing Errors" value={`${avgErrorRate}% avg`} status={Number(avgErrorRate) <= 1 ? 'good' : Number(avgErrorRate) <= 3 ? 'fair' : 'poor'} />
             <QualityDimension tokens={tokens} label="Model Accuracy" value={`${avgModelAccuracy}%`} status={avgModelAccuracy >= 90 ? 'good' : avgModelAccuracy >= 80 ? 'fair' : 'poor'} />
             <QualityDimension tokens={tokens} label="False Positives" value={`${avgFPR}% avg`} status={Number(avgFPR) <= 3 ? 'good' : Number(avgFPR) <= 7 ? 'fair' : 'poor'} />
-            <QualityDimension tokens={tokens} label="Active Rules" value={`${activeRules}/${seedRules.length}`} status={activeRules >= seedRules.length * 0.7 ? 'good' : 'fair'} />
-            <QualityDimension tokens={tokens} label="Feature Coverage" value={`${enabledFeatures}/${seedFeatureRegistry.length}`} status={enabledFeatures >= seedFeatureRegistry.length * 0.5 ? 'good' : 'fair'} />
+            <QualityDimension tokens={tokens} label="Active Rules" value={`${activeRules}/${thesisRules.length}`} status={activeRules >= thesisRules.length * 0.7 ? 'good' : 'fair'} />
+            <QualityDimension tokens={tokens} label="Feature Coverage" value={`${enabledFeatures}/${thesisFeatureRegistry.length}`} status={enabledFeatures >= thesisFeatureRegistry.length * 0.5 ? 'good' : 'fair'} />
           </div>
         </div>
       </div>
@@ -102,10 +101,10 @@ export default function PlatformDataQualityPage() {
       <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
         <h3 style={{ fontSize: primitiveTypeScale.h4, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: `0 0 ${componentTokens.cardHeaderMargin}` }}>Platform Entity Summary</h3>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: componentTokens.gridGap }}>
-          <SummaryItem tokens={tokens} label="Rules" value={seedRules.length} sublabel={`${activeRules} active, ${suppressionRules} suppression`} />
-          <SummaryItem tokens={tokens} label="Models" value={seedModels.length} sublabel={`${seedModels.filter((m) => m.status === 'active').length} active`} />
-          <SummaryItem tokens={tokens} label="Automation" value={seedAutomationRules.length} sublabel={`${seedAutomationRules.filter((a) => a.status === 'active').length} active`} />
-          <SummaryItem tokens={tokens} label="Features" value={seedFeatureRegistry.length} sublabel={`${enabledFeatures} enabled`} />
+          <SummaryItem tokens={tokens} label="Rules" value={thesisRules.length} sublabel={`${activeRules} active, ${suppressionRules} suppression`} />
+          <SummaryItem tokens={tokens} label="Models" value={thesisModels.length} sublabel={`${thesisModels.filter((m) => m.status === 'active').length} active`} />
+          <SummaryItem tokens={tokens} label="Automation" value={thesisAutomationRules.length} sublabel={`${thesisAutomationRules.filter((a) => a.status === 'active').length} active`} />
+          <SummaryItem tokens={tokens} label="Features" value={thesisFeatureRegistry.length} sublabel={`${enabledFeatures} enabled`} />
         </div>
       </div>
     </PageContainer>

@@ -1,9 +1,8 @@
 'use client';
 
 import { PageContainer } from '@/components/page-container';
-import { seedMissions } from '../../../../../../packages/contracts/src/fixtures/seed-missions';
-import { seedMissionBindings } from '../../../../../../packages/contracts/src/fixtures/seed-mission-bindings';
 import { primitiveTypeScale } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisMissionSeeds, thesisMissionBindings } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Settings — Mission Configuration
@@ -20,7 +19,7 @@ export default function SettingsMissionsPage() {
       <div className="card mb-3">
         <div className="card-header d-flex justify-content-between align-items-center">
           <h3 className="card-title">Strategic Missions</h3>
-          <span className="badge bg-blue-lt">{seedMissions.length} missions</span>
+          <span className="badge bg-blue-lt">{thesisMissionSeeds.length} missions</span>
         </div>
         <div className="card-body p-0">
           <div className="table-responsive">
@@ -37,8 +36,8 @@ export default function SettingsMissionsPage() {
                 </tr>
               </thead>
               <tbody>
-                {seedMissions.map((mission) => {
-                  const bindings = seedMissionBindings.filter((b) => b.missionId === mission.id);
+                {thesisMissionSeeds.map((mission) => {
+                  const bindings = thesisMissionBindings.filter((b) => b.missionId === mission.id);
                   return (
                     <tr key={mission.id}>
                       <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{mission.name}</td>
@@ -92,7 +91,7 @@ export default function SettingsMissionsPage() {
                 </tr>
               </thead>
               <tbody>
-                {seedMissionBindings.map((binding) => (
+                {thesisMissionBindings.map((binding) => (
                   <tr key={binding.id}>
                     <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.caption }}>{binding.bindingId}</td>
                     <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{binding.missionId}</td>

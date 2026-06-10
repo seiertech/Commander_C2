@@ -1,8 +1,8 @@
 'use client';
 
+import { thesisVulnerabilityIntelligence } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedVulnerabilityIntelligence } from '../../../../../../packages/contracts/src/fixtures/seed-vulnerability-intelligence';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
@@ -22,7 +22,7 @@ import {
 export default function VulnerabilitiesPatchesPage() {
   const { tokens } = useMode();
 
-  const published = seedVulnerabilityIntelligence.filter((v) => v.cveState === 'published');
+  const published = thesisVulnerabilityIntelligence.filter((v) => v.cveState === 'published');
   const withEpss = published.filter((v) => v.epssScore !== null);
   const highEpss = withEpss.filter((v) => (v.epssScore ?? 0) >= 0.7);
   const patchUrgent = published.filter((v) => v.cisaKevStatus || (v.epssScore ?? 0) >= 0.7 || v.cvssScore >= 9);

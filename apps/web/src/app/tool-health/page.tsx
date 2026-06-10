@@ -1,8 +1,8 @@
 'use client';
 
 import { PageContainer } from '@/components/page-container';
-import { seedConnectors } from '../../../../../packages/contracts/src/fixtures/seed-connectors';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
+import { thesisConnectors } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Tool Health — Overview
@@ -13,7 +13,7 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/
  */
 
 export default function ToolHealthPage() {
-  const connectors = seedConnectors;
+  const connectors = thesisConnectors;
   const active = connectors.filter((c) => c.state === 'active').length;
   const errored = connectors.filter((c) => c.state === 'error').length;
   const healthy = connectors.filter((c) => c.lastRunStatus === 'success').length;

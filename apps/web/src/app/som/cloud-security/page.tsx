@@ -1,10 +1,8 @@
 'use client';
 
 import { PageContainer } from '@/components/page-container';
-import { seedAssets } from '../../../../../../packages/contracts/src/fixtures/seed-assets';
-import { seedConnectors } from '../../../../../../packages/contracts/src/fixtures/seed-connectors';
-import { seedCloudSecurityPosture } from '../../../../../../packages/contracts/src/fixtures/seed-cloud-security-posture';
 import { primitiveTypeScale, primitiveSignal, primitiveFonts, primitiveSpacing, primitiveFontWeight, primitiveLetterSpacing } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisAssets, thesisConnectors, thesisCloudSecurityPosture } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * SOM — Cloud Security Manager
@@ -12,12 +10,12 @@ import { primitiveTypeScale, primitiveSignal, primitiveFonts, primitiveSpacing, 
  * Route: /som/cloud-security | Nav Group: SOM
  */
 export default function SomCloudSecurityPage() {
-  const cloudAssets = seedAssets.filter((a) => a.platform?.cloudProvider);
+  const cloudAssets = thesisAssets.filter((a) => a.platform?.cloudProvider);
   const cloudProviders = cloudAssets.reduce((acc, a) => { const p = a.platform!.cloudProvider!; acc[p] = (acc[p] || 0) + 1; return acc; }, {} as Record<string, number>);
-  const cloudConnectors = seedConnectors.filter((c) => c.sourceType.includes('aws') || c.sourceType.includes('azure') || c.sourceType.includes('gcp'));
-  const avgAdherence = seedCloudSecurityPosture.length ? Math.round(seedCloudSecurityPosture.reduce((s, p) => s + p.adherenceScore, 0) / seedCloudSecurityPosture.length) : 0;
-  const totalDrift = seedCloudSecurityPosture.reduce((s, p) => s + p.driftCount, 0);
-  const totalCritical = seedCloudSecurityPosture.reduce((s, p) => s + p.criticalFindings, 0);
+  const cloudConnectors = thesisConnectors.filter((c) => c.sourceType.includes('aws') || c.sourceType.includes('azure') || c.sourceType.includes('gcp'));
+  const avgAdherence = thesisCloudSecurityPosture.length ? Math.round(thesisCloudSecurityPosture.reduce((s, p) => s + p.adherenceScore, 0) / thesisCloudSecurityPosture.length) : 0;
+  const totalDrift = thesisCloudSecurityPosture.reduce((s, p) => s + p.driftCount, 0);
+  const totalCritical = thesisCloudSecurityPosture.reduce((s, p) => s + p.criticalFindings, 0);
 
   return (
     <PageContainer pretitle="SOM › Cloud Security" title="Cloud Security Manager" headerActions={<span className="badge bg-blue-lt">{cloudAssets.length} cloud assets</span>}>
@@ -29,7 +27,7 @@ export default function SomCloudSecurityPage() {
       </div>
 
       {/* Cloud Security Posture per provider (UC-205) */}
-      {seedCloudSecurityPosture.map((posture) => (
+      {thesisCloudSecurityPosture.map((posture) => (
         <div key={posture.id} className="card mb-3">
           <div className="card-header">
             <h3 className="card-title" style={{ display: 'flex', alignItems: 'center', gap: primitiveSpacing[2] }}>

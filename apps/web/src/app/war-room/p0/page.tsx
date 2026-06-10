@@ -1,23 +1,19 @@
 'use client';
 
 import { useMode } from '@/context/mode-context';
-import { seedCases } from '../../../../../../packages/contracts/src/fixtures/seed-cases';
-import { seedActions, seedSubActions } from '../../../../../../packages/contracts/src/fixtures/seed-actions';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import {
   primitiveFonts, primitiveTypeScale, primitiveLetterSpacing,
   primitiveSignal, primitiveSpacing, primitiveGlow, primitiveHud, primitiveFontWeight, primitivePriority,
 } from '../../../../../../packages/ui/src/tokens/primitives';
 import { resolveAllStrategies } from '../../../../../../packages/contracts/src/resolvers/case-strategy-resolver';
-import { seedStrategies } from '../../../../../../packages/contracts/src/fixtures/seed-strategies';
-import { seedWarRooms } from '../../../../../../packages/contracts/src/fixtures/seed-war-rooms';
-import { seedTeamsDecisionEvents } from '../../../../../../packages/contracts/src/fixtures/seed-teams-decision-events';
+import { thesisCases, thesisActions, thesisSubActions, thesisStrategies, thesisWarRooms, thesisTeamsDecisionEvents } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * P0 Zero-Day War Room — Commander C2 (DS-1.0, Spec 06 / Spec 24)
  *
  * Emergency Command surface — legitimately forces Mission/HUD chrome (DS-1.0
- * §9.3). Renders ONLY real data: P0 cases from seedCases, their resolved
+ * §9.3). Renders ONLY real data: P0 cases from thesisCases, their resolved
  * strategies, the real Action/Sub-Action board (seed-actions), and War Room
  * membership/communication data (seed-war-rooms).
  */
@@ -37,10 +33,10 @@ function titleCase(s: string): string {
 export default function P0WarRoomPage() {
   useMode(); // consumed; this surface forces Mission chrome per DS-1.0 §9.3.
 
-  const now = Math.max(...seedCases.map((c) => new Date(c.updatedAt).getTime()));
-  const p0Cases = seedCases.filter((c) => c.priority === 'P0');
+  const now = Math.max(...thesisCases.map((c) => new Date(c.updatedAt).getTime()));
+  const p0Cases = thesisCases.filter((c) => c.priority === 'P0');
   const p0Ids = new Set(p0Cases.map((c) => c.id));
-  const boundSubActions = seedSubActions.filter((s) => p0Ids.has(s.caseId));
+  const boundSubActions = thesisSubActions.filter((s) => p0Ids.has(s.caseId));
 
   return (
     <div style={{ background: HUD.bg, minHeight: '100%', color: HUD.text }}>
@@ -65,7 +61,7 @@ export default function P0WarRoomPage() {
 
         {/* Bound P0 cases — REAL data + resolved strategies */}
         {p0Cases.map((c) => {
-          const strat = resolveAllStrategies(c, seedStrategies);
+          const strat = resolveAllStrategies(c, thesisStrategies);
           const slaHours = strat.sla.status === 'resolved' ? strat.sla.responseHours : c.sla.targetResolutionHours;
           const ageHours = (now - new Date(c.createdAt).getTime()) / MS_PER_HOUR;
           const remaining = (slaHours ?? 0) - ageHours;
@@ -144,7 +140,7 @@ export default function P0WarRoomPage() {
         </Panel>
 
         {/* War Room Membership — REAL data from seed-war-rooms.ts (UC-200) */}
-        {seedWarRooms.filter((wr) => wr.status === 'activated').map((wr) => (
+        {thesisWarRooms.filter((wr) => wr.status === 'activated').map((wr) => (
           <Panel key={wr.id} title={`War Room Membership — ${wr.warRoomRef}`} subtitle={`${wr.membership.length} members · Status: ${wr.status}`}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
               <thead><tr>{['User', 'Role', 'Joined', 'Acknowledged'].map((h) => (
@@ -166,7 +162,7 @@ export default function P0WarRoomPage() {
 
         {/* Decision Log — REAL data from seed-teams-decision-events.ts (UC-200) */}
         <Panel title="Decision Log" subtitle="Teams decision events bound to War Room cases">
-          {seedTeamsDecisionEvents.length === 0 ? (
+          {thesisTeamsDecisionEvents.length === 0 ? (
             <p style={{ margin: 0, color: HUD.textMuted, fontSize: primitiveTypeScale.caption }}>No decision events recorded.</p>
           ) : (
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
@@ -174,7 +170,7 @@ export default function P0WarRoomPage() {
                 <th key={h} style={{ textAlign: 'left', padding: `${primitiveSpacing[1]} ${primitiveSpacing[2]}`, borderBottom: `1px solid ${HUD.line}`, color: HUD.textMuted, fontSize: primitiveTypeScale.micro, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>{h}</th>
               ))}</tr></thead>
               <tbody>
-                {seedTeamsDecisionEvents.slice(0, 5).map((d) => (
+                {thesisTeamsDecisionEvents.slice(0, 5).map((d) => (
                   <tr key={d.id} style={{ borderBottom: `1px solid ${HUD.lineSubtle}` }}>
                     <td style={{ padding: primitiveSpacing[2], color: HUD.text, fontFamily: primitiveFonts.mono }}>{d.caseId}</td>
                     <td style={{ padding: primitiveSpacing[2] }}><span style={{ fontSize: primitiveTypeScale.micro, padding: '1px 6px', border: `1px solid ${HUD.line}`, color: HUD.textSecondary }}>{d.requestType}</span></td>
@@ -189,7 +185,7 @@ export default function P0WarRoomPage() {
         </Panel>
 
         {/* Communication Cadence — REAL data from seed-war-rooms.ts (UC-200) */}
-        {seedWarRooms.filter((wr) => wr.status === 'activated').map((wr) => (
+        {thesisWarRooms.filter((wr) => wr.status === 'activated').map((wr) => (
           <Panel key={`comm-${wr.id}`} title="Communication Cadence & Bridge Posts" subtitle={`Subscribers: ${wr.subscribers.length} · Cadence profile active`}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: primitiveSpacing[3], marginBottom: primitiveSpacing[3] }}>
               <div><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: HUD.textMuted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>Activated</span><span style={{ fontSize: primitiveTypeScale.caption, fontFamily: primitiveFonts.mono, color: HUD.text }}>{wr.communicationCadence.activatedCadenceMinutes}min</span></div>

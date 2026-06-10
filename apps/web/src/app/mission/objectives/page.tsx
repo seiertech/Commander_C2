@@ -2,9 +2,9 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedMissions } from '../../../../../../packages/contracts/src/fixtures/seed-missions';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisMissionSeeds } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Mission Control — Objectives
@@ -15,7 +15,7 @@ import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFon
 
 export default function MissionObjectivesPage() {
   const { tokens } = useMode();
-  const allObjectives = seedMissions.flatMap((m) => m.objectives.map((o) => ({ ...o, missionName: m.name })));
+  const allObjectives = thesisMissionSeeds.flatMap((m) => m.objectives.map((o) => ({ ...o, missionName: m.name })));
   const completed = allObjectives.filter((o) => o.status === 'completed').length;
   const inProgress = allObjectives.filter((o) => o.status === 'in_progress').length;
   const blocked = allObjectives.filter((o) => o.status === 'blocked').length;

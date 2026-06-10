@@ -1,9 +1,9 @@
 'use client';
 
+import { thesisBlastRadius } from '../../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { useState } from 'react';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedBlastRadius } from '../../../../../../../packages/contracts/src/fixtures/seed-blast-radius';
 import { componentTokens } from '../../../../../../../packages/ui/src/tokens/components';
 import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
@@ -27,11 +27,11 @@ import {
 
 export default function PlatformRuleSimulationPage() {
   const { tokens } = useMode();
-  const [selectedId, setSelectedId] = useState<string>(seedBlastRadius[0]?.id ?? '');
+  const [selectedId, setSelectedId] = useState<string>(thesisBlastRadius[0]?.id ?? '');
 
-  const selected = seedBlastRadius.find((b) => b.id === selectedId) ?? seedBlastRadius[0];
-  const maxImpact = Math.max(...seedBlastRadius.map((b) => b.totalImpactScore));
-  const totalAffected = seedBlastRadius.reduce((acc, b) => acc + b.affectedEntities.length, 0);
+  const selected = thesisBlastRadius.find((b) => b.id === selectedId) ?? thesisBlastRadius[0];
+  const maxImpact = Math.max(...thesisBlastRadius.map((b) => b.totalImpactScore));
+  const totalAffected = thesisBlastRadius.reduce((acc, b) => acc + b.affectedEntities.length, 0);
 
   const impactColor = (score: number) =>
     score >= 80 ? primitiveSignal.critical : score >= 50 ? primitiveSignal.warning : primitiveSignal.info;
@@ -40,7 +40,7 @@ export default function PlatformRuleSimulationPage() {
     <PageContainer pretitle="Platform › Rule Engine › Simulation" title="Rule Simulation">
       {/* KPI strip */}
       <section style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
-        <KpiCard tokens={tokens} label="Simulations" value={String(seedBlastRadius.length)} />
+        <KpiCard tokens={tokens} label="Simulations" value={String(thesisBlastRadius.length)} />
         <KpiCard tokens={tokens} label="Peak Impact" value={`${maxImpact}/100`} accent={impactColor(maxImpact)} />
         <KpiCard tokens={tokens} label="Affected Entities" value={String(totalAffected)} />
       </section>
@@ -50,7 +50,7 @@ export default function PlatformRuleSimulationPage() {
         <label style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>Origin</label>
         <select value={selectedId} onChange={(e) => setSelectedId(e.target.value)}
           style={{ marginLeft: primitiveSpacing[2], height: componentTokens.inputHeight, padding: `0 ${primitiveSpacing[2]}`, background: tokens.surface.secondary, color: tokens.text.primary, border: `1px solid ${tokens.border.default}`, borderRadius: 0, fontSize: primitiveTypeScale.caption }}>
-          {seedBlastRadius.map((b) => (
+          {thesisBlastRadius.map((b) => (
             <option key={b.id} value={b.id}>{b.originEntityType}: {b.originEntityRef}</option>
           ))}
         </select>

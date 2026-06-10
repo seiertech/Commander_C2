@@ -2,9 +2,8 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedIdentities } from '../../../../../../packages/contracts/src/fixtures/seed-identities';
-import { seedRiskObjects } from '../../../../../../packages/contracts/src/fixtures/seed-risk-objects';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisIdentities, thesisRiskObjects } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Identity & Access — Access Drift
@@ -19,11 +18,11 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/
 export default function IdentityDriftPage() {
   const { tokens } = useMode();
 
-  const identityRiskObjects = seedRiskObjects.filter((r) => r.type === 'identity_risk');
+  const identityRiskObjects = thesisRiskObjects.filter((r) => r.type === 'identity_risk');
   const affectedIdentityIds = new Set(
     identityRiskObjects.flatMap((r) => [r.affectedEntityId, ...(r.affectedEntities || [])])
   );
-  const driftedIdentities = seedIdentities.filter((i) => affectedIdentityIds.has(i.id));
+  const driftedIdentities = thesisIdentities.filter((i) => affectedIdentityIds.has(i.id));
   const sorted = [...driftedIdentities].sort((a, b) => b.riskScore - a.riskScore);
 
   return (

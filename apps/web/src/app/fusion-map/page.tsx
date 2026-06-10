@@ -2,13 +2,13 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedTopology } from '../../../../../packages/contracts/src/fixtures/seed-topology';
 import { componentTokens } from '../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
 import { ReactFlow, Background, Controls, Node, Edge, Position } from '@xyflow/react';
 import { useMemo, useState } from 'react';
 
 import '@xyflow/react/dist/style.css';
+import { thesisTopology } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Fusion Map — Relationship Graph
@@ -19,7 +19,7 @@ import '@xyflow/react/dist/style.css';
 
 export default function FusionMapPage() {
   const { tokens } = useMode();
-  const { nodes, edges, blastRadiusResults } = seedTopology;
+  const { nodes, edges, blastRadiusResults } = thesisTopology;
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
   
   // KPI calculations

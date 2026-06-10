@@ -2,9 +2,9 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedExposures } from '../../../../../../packages/contracts/src/fixtures/seed-exposures';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisExposures } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Exposure Management — Coverage Gaps
@@ -15,7 +15,7 @@ import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFon
 
 export default function ExposureCoverageGapsPage() {
   const { tokens } = useMode();
-  const allGaps = seedExposures.flatMap((e) => e.coverageGaps.map((g) => ({ ...g, exposureId: e.id, blastZone: e.blastZone, surfaceType: e.surfaceType })));
+  const allGaps = thesisExposures.flatMap((e) => e.coverageGaps.map((g) => ({ ...g, exposureId: e.id, blastZone: e.blastZone, surfaceType: e.surfaceType })));
   const noScanner = allGaps.filter((g) => g.gapType === 'no_scanner').length;
   const noEdr = allGaps.filter((g) => g.gapType === 'no_edr').length;
   const noMonitoring = allGaps.filter((g) => g.gapType === 'no_monitoring').length;

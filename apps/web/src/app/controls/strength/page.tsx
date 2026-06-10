@@ -2,9 +2,9 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedControlEvaluations } from '../../../../../../packages/contracts/src/fixtures/seed-control-frameworks';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisControlEvaluations } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Controls — Control Strength
@@ -15,10 +15,10 @@ import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFon
 
 export default function ControlsStrengthPage() {
   const { tokens } = useMode();
-  const total = seedControlEvaluations.length;
-  const compliant = seedControlEvaluations.filter((e) => e.verdict === 'compliant').length;
-  const nonCompliant = seedControlEvaluations.filter((e) => e.verdict === 'non_compliant').length;
-  const avgConfidence = total > 0 ? Math.round(seedControlEvaluations.reduce((a, e) => a + e.confidence, 0) / total) : 0;
+  const total = thesisControlEvaluations.length;
+  const compliant = thesisControlEvaluations.filter((e) => e.verdict === 'compliant').length;
+  const nonCompliant = thesisControlEvaluations.filter((e) => e.verdict === 'non_compliant').length;
+  const avgConfidence = total > 0 ? Math.round(thesisControlEvaluations.reduce((a, e) => a + e.confidence, 0) / total) : 0;
 
   return (
     <PageContainer pretitle="Controls › Strength" title="Control Strength">
@@ -33,7 +33,7 @@ export default function ControlsStrengthPage() {
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
             <thead><tr>{['Framework', 'Control', 'Entity', 'Verdict', 'Confidence', 'Exception', 'Evaluated'].map((h) => <th key={h} style={{ textAlign: 'left', padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, borderBottom: `2px solid ${tokens.border.default}`, color: tokens.text.muted, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, fontSize: primitiveTypeScale.micro }}>{h}</th>)}</tr></thead>
-            <tbody>{seedControlEvaluations.map((e) => (
+            <tbody>{thesisControlEvaluations.map((e) => (
               <tr key={e.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{e.frameworkId}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontFamily: primitiveFonts.mono }}>{e.controlId}</td>

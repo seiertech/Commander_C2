@@ -3,13 +3,13 @@
 import dynamic from 'next/dynamic';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedTeamPulse } from '../../../../../../packages/contracts/src/fixtures/seed-pulse';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
   primitiveFonts, primitiveLetterSpacing, primitiveSignal, primitiveData,
 } from '../../../../../../packages/ui/src/tokens/primitives';
 import type { ApexOptions } from 'apexcharts';
+import { thesisTeamPulse } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -26,7 +26,7 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 export default function TeamPulseSlaPage() {
   const { mode, tokens } = useMode();
 
-  const teams = seedTeamPulse.filter((e) => e.level === 'team');
+  const teams = thesisTeamPulse.filter((e) => e.level === 'team');
   const totalBreached = teams.reduce((acc, t) => acc + t.slaBreachedCases, 0);
   const atRiskTeams = teams.filter((t) => t.workloadBand !== 'green').length;
 

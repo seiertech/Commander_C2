@@ -1,8 +1,8 @@
 'use client';
 
+import { thesisReports } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedReports } from '../../../../../../packages/contracts/src/fixtures/seed-reports';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
@@ -22,8 +22,8 @@ import {
 export default function ReportingCisoPackPage() {
   const { tokens } = useMode();
 
-  const cisoReports = seedReports.filter((r) => r.reportType === 'ciso-pack' || r.audience.includes('CISO'));
-  const latestCisoPack = seedReports.find((r) => r.reportType === 'ciso-pack' && r.status === 'completed');
+  const cisoReports = thesisReports.filter((r) => r.reportType === 'ciso-pack' || r.audience.includes('CISO'));
+  const latestCisoPack = thesisReports.find((r) => r.reportType === 'ciso-pack' && r.status === 'completed');
 
   return (
     <PageContainer pretitle="Reporting › CISO Pack" title="CISO Briefing Pack">

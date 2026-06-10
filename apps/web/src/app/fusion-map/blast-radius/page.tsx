@@ -2,9 +2,9 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedTopology } from '../../../../../../packages/contracts/src/fixtures/seed-topology';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisTopology } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Fusion Map — Blast Radius
@@ -15,8 +15,8 @@ import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFon
 
 export default function FusionMapBlastRadiusPage() {
   const { tokens } = useMode();
-  const results = seedTopology.blastRadiusResults;
-  const nodes = seedTopology.nodes;
+  const results = thesisTopology.blastRadiusResults;
+  const nodes = thesisTopology.nodes;
   const maxImpact = results.length > 0 ? Math.max(...results.map((r) => r.totalImpactScore)) : 0;
   const maxDepth = results.length > 0 ? Math.max(...results.map((r) => r.depth)) : 0;
   const totalAffected = new Set(results.flatMap((r) => r.affectedNodes)).size;

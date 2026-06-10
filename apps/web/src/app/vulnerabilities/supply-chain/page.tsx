@@ -1,9 +1,8 @@
 'use client';
 
+import { thesisIocs, thesisVulnerabilityIntelligence } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedIocs } from '../../../../../../packages/contracts/src/fixtures/seed-iocs';
-import { seedVulnerabilityIntelligence } from '../../../../../../packages/contracts/src/fixtures/seed-vulnerability-intelligence';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
@@ -23,10 +22,10 @@ import {
 export default function VulnerabilitiesSupplyChainPage() {
   const { tokens } = useMode();
 
-  const supplyChainIocs = seedIocs.filter((ioc) =>
+  const supplyChainIocs = thesisIocs.filter((ioc) =>
     ioc.iocCategory === 'package_name' || ioc.iocCategory === 'container_image' || ioc.iocCategory === 'file_hash_sha256'
   );
-  const supplyChainVulns = seedVulnerabilityIntelligence.filter((v) =>
+  const supplyChainVulns = thesisVulnerabilityIntelligence.filter((v) =>
     v.affectedProducts.some((p) => p.includes('library') || p.includes('framework'))
   );
   const activeIocs = supplyChainIocs.filter((ioc) => ioc.active);

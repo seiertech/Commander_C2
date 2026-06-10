@@ -1,10 +1,10 @@
 'use client';
 
 import { PageContainer } from '@/components/page-container';
-import { seedStrategies } from '../../../../../packages/contracts/src/fixtures/seed-strategies';
 import { primitiveTypeScale } from '../../../../../packages/ui/src/tokens/primitives';
 import type { StrategySurfaceType } from '../../../../../packages/contracts/src/entities/strategy';
 import { STRATEGY_SURFACE_LABELS } from '../../../../../packages/contracts/src/entities/strategy';
+import { thesisStrategies } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Shared Tenant Admin Strategy Configuration View
@@ -20,7 +20,7 @@ interface StrategyConfigViewProps {
 }
 
 export function StrategyConfigView({ surfaceType, pretitle, title }: StrategyConfigViewProps) {
-  const policy = seedStrategies.find((s) => s.surfaceType === surfaceType);
+  const policy = thesisStrategies.find((s) => s.surfaceType === surfaceType);
 
   if (!policy) {
     return (

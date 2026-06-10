@@ -3,12 +3,6 @@
 import { use } from 'react';
 import { useRouter } from 'next/navigation';
 import { useMode } from '@/context/mode-context';
-import { seedCases } from '../../../../../../packages/contracts/src/fixtures/seed-cases';
-import { seedAssets } from '../../../../../../packages/contracts/src/fixtures/seed-assets';
-import { seedActions, seedSubActions } from '../../../../../../packages/contracts/src/fixtures/seed-actions';
-import { seedRiskObjects } from '../../../../../../packages/contracts/src/fixtures/seed-risk-objects';
-import { seedEvidence } from '../../../../../../packages/contracts/src/fixtures/seed-evidence';
-import { seedStrategies } from '../../../../../../packages/contracts/src/fixtures/seed-strategies';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import {
   primitiveFonts, primitiveTypeScale, primitiveLetterSpacing,
@@ -19,11 +13,7 @@ import { getNextStates } from '../../../../../../packages/contracts/src/entities
 import { LEGACY_STATUS_MAP } from '../../../../../../packages/contracts/src/entities/case';
 import type { Case, CaseStatus, CaseStatusExtended, LegacyCaseStatus } from '../../../../../../packages/contracts/src/entities/case';
 import type { SubAction, D3FENDTacticType, OutcomeClassification, Action as ActionRec } from '../../../../../../packages/contracts/src/entities/action';
-import { seedEvents } from '../../../../../../packages/contracts/src/fixtures/seed-events';
-import { seedEmailCommunications } from '../../../../../../packages/contracts/src/fixtures/seed-email-communications';
-import { seedGovernedCompose } from '../../../../../../packages/contracts/src/fixtures/seed-governed-compose';
-import { seedCaseTransitionAudits } from '../../../../../../packages/contracts/src/fixtures/seed-case-transition-audits';
-import { seedTeamsDecisionEvents } from '../../../../../../packages/contracts/src/fixtures/seed-teams-decision-events';
+import { thesisCases, thesisAssets, thesisActions, thesisSubActions, thesisRiskObjects, thesisEvidence, thesisStrategies, thesisEvents, thesisEmailCommunications, thesisGovernedCompose, thesisCaseTransitionAudits, thesisTeamsDecisionEvents } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Case Detail — Commander C2 (DS-1.0, Spec 06)
@@ -97,19 +87,19 @@ export default function CaseDetailPage({ params }: { params: Promise<{ id: strin
   const { mode, tokens } = useMode();
   const router = useRouter();
 
-  const caseRecord = seedCases.find((c) => c.id === id) ?? seedCases[0];
-  const strategy = resolveAllStrategies(caseRecord, seedStrategies);
+  const caseRecord = thesisCases.find((c) => c.id === id) ?? thesisCases[0];
+  const strategy = resolveAllStrategies(caseRecord, thesisStrategies);
   const p = primitivePriority[caseRecord.priority.toLowerCase() as keyof typeof primitivePriority];
 
   // Real joins by case id
-  const actions = seedActions.filter((a) => a.caseId === caseRecord.id);
-  const subActionsByAction = (actionId: string) => seedSubActions.filter((s) => s.actionId === actionId);
-  const riskObjects = seedRiskObjects.filter(
+  const actions = thesisActions.filter((a) => a.caseId === caseRecord.id);
+  const subActionsByAction = (actionId: string) => thesisSubActions.filter((s) => s.actionId === actionId);
+  const riskObjects = thesisRiskObjects.filter(
     (r) => r.affectedEntityId === caseRecord.id || (r.affectedEntities ?? []).includes(caseRecord.id),
   );
-  const evidence = seedEvidence.filter((e) => e.caseId === caseRecord.id);
-  const relatedAssets = seedAssets.filter((a) => caseRecord.relatedEntities.includes(a.id));
-  const relatedCases = seedCases.filter(
+  const evidence = thesisEvidence.filter((e) => e.caseId === caseRecord.id);
+  const relatedAssets = thesisAssets.filter((a) => caseRecord.relatedEntities.includes(a.id));
+  const relatedCases = thesisCases.filter(
     (c) => c.id !== caseRecord.id && c.relatedEntities.some((e) => caseRecord.relatedEntities.includes(e)),
   );
 
@@ -463,9 +453,9 @@ function EvidenceTab({ caseRecord, riskObjects, evidence, tokens }: {
 // ─── TAB 4: Communication — placeholder (no email/Teams entity exists yet) ──
 
 function CommsTab({ caseRecord, tokens }: { caseRecord: Case; tokens: Tokens }) {
-  const emails = seedEmailCommunications.filter((e) => e.caseRef === caseRecord.id);
-  const drafts = seedGovernedCompose.filter((d) => d.caseRef === caseRecord.id);
-  const teamsDecs = seedTeamsDecisionEvents.filter((t) => t.caseId === caseRecord.id);
+  const emails = thesisEmailCommunications.filter((e) => e.caseRef === caseRecord.id);
+  const drafts = thesisGovernedCompose.filter((d) => d.caseRef === caseRecord.id);
+  const teamsDecs = thesisTeamsDecisionEvents.filter((t) => t.caseId === caseRecord.id);
 
   return (
     <section style={{ display: 'flex', flexDirection: 'column', gap: componentTokens.gridGap }}>
@@ -637,7 +627,7 @@ function AuditTab({ caseRecord, tokens }: { caseRecord: Case; tokens: Tokens }) 
     critical: tokens.status.critical, warning: tokens.status.warning,
     info: tokens.status.info, success: tokens.status.success, neutral: tokens.text.muted,
   };
-  const events = seedEvents
+  const events = thesisEvents
     .filter((e) => e.entityType === 'case' && e.entityRef === caseRecord.id)
     .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
@@ -663,9 +653,9 @@ function AuditTab({ caseRecord, tokens }: { caseRecord: Case; tokens: Tokens }) 
         <p style={{ margin: `${primitiveSpacing[3]} 0 0`, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>Audit ref: {caseRecord.auditTrailRef}</p>
       </Panel>
       {/* Structured Lifecycle Audit Trail (UC-206) */}
-      <Panel tokens={tokens} title="Structured Lifecycle Audit Trail" subtitle={`${seedCaseTransitionAudits.filter((t) => t.caseRef === caseRecord.id).length} structured transition(s) for this case`}>
+      <Panel tokens={tokens} title="Structured Lifecycle Audit Trail" subtitle={`${thesisCaseTransitionAudits.filter((t) => t.caseRef === caseRecord.id).length} structured transition(s) for this case`}>
         {(() => {
-          const transitions = seedCaseTransitionAudits.filter((t) => t.caseRef === caseRecord.id);
+          const transitions = thesisCaseTransitionAudits.filter((t) => t.caseRef === caseRecord.id);
           if (transitions.length === 0) return <Empty tokens={tokens} text="No structured transition audits for this case in seed data." />;
           return (
             <div style={{ display: 'flex', flexDirection: 'column', gap: primitiveSpacing[2] }}>

@@ -1,8 +1,8 @@
 'use client';
 
+import { thesisAutomationRules } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedAutomationRules } from '../../../../../../packages/contracts/src/fixtures/seed-platform';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
@@ -22,9 +22,9 @@ import {
 export default function PlatformAutomationPage() {
   const { tokens } = useMode();
 
-  const activeRules = seedAutomationRules.filter((r) => r.status === 'active').length;
-  const totalExecutions = seedAutomationRules.reduce((acc, r) => acc + r.executionCount, 0);
-  const requiresApproval = seedAutomationRules.filter((r) => r.requiresApproval).length;
+  const activeRules = thesisAutomationRules.filter((r) => r.status === 'active').length;
+  const totalExecutions = thesisAutomationRules.reduce((acc, r) => acc + r.executionCount, 0);
+  const requiresApproval = thesisAutomationRules.filter((r) => r.requiresApproval).length;
 
   const statusColor = (status: string) => {
     switch (status) {
@@ -40,7 +40,7 @@ export default function PlatformAutomationPage() {
     <PageContainer pretitle="Platform › Automation" title="Automation Rules">
       {/* KPI strip */}
       <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
-        <KpiCard tokens={tokens} label="Total Rules" value={String(seedAutomationRules.length)} />
+        <KpiCard tokens={tokens} label="Total Rules" value={String(thesisAutomationRules.length)} />
         <KpiCard tokens={tokens} label="Active" value={String(activeRules)} accent={primitiveSignal.success} />
         <KpiCard tokens={tokens} label="Total Executions" value={String(totalExecutions)} />
         <KpiCard tokens={tokens} label="Requires Approval" value={String(requiresApproval)} accent={requiresApproval > 0 ? primitiveSignal.warning : undefined} />
@@ -59,7 +59,7 @@ export default function PlatformAutomationPage() {
               </tr>
             </thead>
             <tbody>
-              {seedAutomationRules.map((r) => (
+              {thesisAutomationRules.map((r) => (
                 <tr key={r.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{r.name}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{r.trigger.replace(/-/g, ' ')}</td>

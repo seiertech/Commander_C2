@@ -2,8 +2,8 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedControlFrameworks, seedFrameworkControls, seedControlEvaluations } from '../../../../../packages/contracts/src/fixtures/seed-control-frameworks';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
+import { thesisControlFrameworks, thesisFrameworkControls, thesisControlEvaluations } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Control Coverage — Overview
@@ -17,9 +17,9 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/
 
 export default function ControlsPage() {
   const { tokens } = useMode();
-  const frameworks = seedControlFrameworks;
-  const controls = seedFrameworkControls;
-  const evaluations = seedControlEvaluations;
+  const frameworks = thesisControlFrameworks;
+  const controls = thesisFrameworkControls;
+  const evaluations = thesisControlEvaluations;
 
   const activeCount = frameworks.filter((f) => f.active).length;
   const totalControls = frameworks.reduce((sum, f) => sum + f.totalControls, 0);

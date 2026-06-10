@@ -2,12 +2,12 @@
 
 import { useState } from 'react';
 import { PageContainer } from '@/components/page-container';
-import { seedStrategies } from '../../../../../../packages/contracts/src/fixtures/seed-strategies';
 import { STRATEGY_SURFACE_LABELS, STRATEGY_SURFACE_TYPES } from '../../../../../../packages/contracts/src/entities/strategy';
 import type { StrategySurfaceType } from '../../../../../../packages/contracts/src/entities/strategy';
 import { simulatePolicyChange } from '../../../../../../packages/contracts/src/engines/strategy-simulation-engine';
 import { primitiveTypeScale, primitiveSignal, primitiveHud } from '../../../../../../packages/ui/src/tokens/primitives';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
+import { thesisStrategies } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Policy Simulation — Strategy Simulation Surface (Spec 43)
@@ -25,7 +25,7 @@ export default function PolicySimulationPage() {
   const [selectedSurface, setSelectedSurface] = useState<StrategySurfaceType>('sla');
 
   // Simulate a policy change for the selected surface using existing active policy
-  const activePolicy = seedStrategies.find(
+  const activePolicy = thesisStrategies.find(
     (p) => p.surfaceType === selectedSurface && p.status === 'active'
   );
 
@@ -40,7 +40,7 @@ export default function PolicySimulationPage() {
     : null;
 
   const simulation = proposedPolicy
-    ? simulatePolicyChange(proposedPolicy, seedStrategies, 120)
+    ? simulatePolicyChange(proposedPolicy, thesisStrategies, 120)
     : null;
 
   const riskColor = (risk: string) => {

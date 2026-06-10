@@ -2,9 +2,9 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedControlEvaluations } from '../../../../../../packages/contracts/src/fixtures/seed-control-frameworks';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisControlEvaluations } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Governance — Exceptions
@@ -15,9 +15,9 @@ import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFon
 
 export default function GovernanceExceptionsPage() {
   const { tokens } = useMode();
-  const exceptions = seedControlEvaluations.filter((e) => e.exceptionState !== 'none');
+  const exceptions = thesisControlEvaluations.filter((e) => e.exceptionState !== 'none');
   const acceptedRisk = exceptions.filter((e) => e.exceptionState === 'accepted_risk').length;
-  const allEvals = seedControlEvaluations.length;
+  const allEvals = thesisControlEvaluations.length;
 
   return (
     <PageContainer pretitle="Governance › Exceptions" title="Exceptions">

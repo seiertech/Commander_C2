@@ -1,13 +1,13 @@
 'use client';
 import { PageContainer } from '@/components/page-container';
-import { seedStrategies } from '../../../../../../packages/contracts/src/fixtures/seed-strategies';
 import { STRATEGY_SURFACE_LABELS } from '../../../../../../packages/contracts/src/entities/strategy';
 import { primitiveTypeScale } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisStrategies } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /** Tenant Admin — Closure & Reopening. Data: strategy.ts (closure-gate + reopening-trigger) + seed-strategies */
 export default function SettingsClosureReopeningPage() {
-  const closurePolicy = seedStrategies.find((s) => s.surfaceType === 'closure-gate');
-  const reopeningPolicy = seedStrategies.find((s) => s.surfaceType === 'reopening-trigger');
+  const closurePolicy = thesisStrategies.find((s) => s.surfaceType === 'closure-gate');
+  const reopeningPolicy = thesisStrategies.find((s) => s.surfaceType === 'reopening-trigger');
 
   return (
     <PageContainer pretitle="Settings › Closure & Reopening" title="Closure & Reopening Strategy">

@@ -3,13 +3,13 @@
 import dynamic from 'next/dynamic';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedDomainPulse } from '../../../../../packages/contracts/src/fixtures/seed-pulse';
 import { componentTokens } from '../../../../../packages/ui/src/tokens/components';
 import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
   primitiveFonts, primitiveLetterSpacing, primitiveSignal, primitiveData,
 } from '../../../../../packages/ui/src/tokens/primitives';
 import type { ApexOptions } from 'apexcharts';
+import { thesisDomainPulse } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -26,12 +26,12 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 export default function DomainPulseOverviewPage() {
   const { mode, tokens } = useMode();
 
-  const totalDomains = seedDomainPulse.length;
-  const healthyCount = seedDomainPulse.filter((d) => d.health === 'healthy').length;
-  const degradedCount = seedDomainPulse.filter((d) => d.health === 'degraded').length;
-  const criticalCount = seedDomainPulse.filter((d) => d.health === 'critical').length;
-  const totalRiskObjects = seedDomainPulse.reduce((acc, d) => acc + d.activeRiskObjects, 0);
-  const avgResolution = Math.round(seedDomainPulse.reduce((acc, d) => acc + d.meanResolutionHours, 0) / totalDomains);
+  const totalDomains = thesisDomainPulse.length;
+  const healthyCount = thesisDomainPulse.filter((d) => d.health === 'healthy').length;
+  const degradedCount = thesisDomainPulse.filter((d) => d.health === 'degraded').length;
+  const criticalCount = thesisDomainPulse.filter((d) => d.health === 'critical').length;
+  const totalRiskObjects = thesisDomainPulse.reduce((acc, d) => acc + d.activeRiskObjects, 0);
+  const avgResolution = Math.round(thesisDomainPulse.reduce((acc, d) => acc + d.meanResolutionHours, 0) / totalDomains);
 
   const healthColor = (health: string) =>
     health === 'critical' ? primitiveSignal.critical : health === 'degraded' ? primitiveSignal.warning : primitiveSignal.success;
@@ -40,7 +40,7 @@ export default function DomainPulseOverviewPage() {
     chart: { type: 'radar', toolbar: { show: false }, background: 'transparent', fontFamily: primitiveFonts.body },
     theme: { mode: mode === 'mission' ? 'dark' : 'light' },
     colors: [primitiveData[1], primitiveData[3]],
-    xaxis: { categories: seedDomainPulse.map((d) => d.domain) },
+    xaxis: { categories: thesisDomainPulse.map((d) => d.domain) },
     yaxis: { show: false },
     grid: { show: false },
     legend: { labels: { colors: tokens.text.secondary }, fontSize: primitiveTypeScale.caption },
@@ -51,8 +51,8 @@ export default function DomainPulseOverviewPage() {
   };
 
   const radarSeries = [
-    { name: 'Risk Objects', data: seedDomainPulse.map((d) => d.activeRiskObjects) },
-    { name: 'Closure Blockers', data: seedDomainPulse.map((d) => d.closureBlockers) },
+    { name: 'Risk Objects', data: thesisDomainPulse.map((d) => d.activeRiskObjects) },
+    { name: 'Closure Blockers', data: thesisDomainPulse.map((d) => d.closureBlockers) },
   ];
 
   return (
@@ -81,12 +81,12 @@ export default function DomainPulseOverviewPage() {
             theme: { mode: mode === 'mission' ? 'dark' : 'light' },
             colors: [primitiveData[2]],
             plotOptions: { bar: { horizontal: true, barHeight: '60%', borderRadius: 0 } },
-            xaxis: { categories: seedDomainPulse.map((d) => d.domain), labels: { style: { colors: tokens.text.muted, fontSize: primitiveTypeScale.micro } } },
+            xaxis: { categories: thesisDomainPulse.map((d) => d.domain), labels: { style: { colors: tokens.text.muted, fontSize: primitiveTypeScale.micro } } },
             yaxis: { labels: { style: { colors: tokens.text.muted, fontSize: primitiveTypeScale.micro } } },
             grid: { borderColor: tokens.border.subtle, strokeDashArray: 3 },
             dataLabels: { enabled: true, style: { fontSize: primitiveTypeScale.micro, colors: [tokens.text.secondary] }, formatter: (v) => `${v}h` },
             tooltip: { theme: mode === 'mission' ? 'dark' : 'light' },
-          }} series={[{ name: 'Avg Resolution', data: seedDomainPulse.map((d) => d.meanResolutionHours) }]} />
+          }} series={[{ name: 'Avg Resolution', data: thesisDomainPulse.map((d) => d.meanResolutionHours) }]} />
         </div>
       </div>
 
@@ -103,7 +103,7 @@ export default function DomainPulseOverviewPage() {
               </tr>
             </thead>
             <tbody>
-              {seedDomainPulse.map((d) => (
+              {thesisDomainPulse.map((d) => (
                 <tr key={d.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{d.domain}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', color: '#fff', background: healthColor(d.health) }}>{d.health}</span></td>

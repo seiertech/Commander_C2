@@ -2,8 +2,8 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedAssets } from '../../../../../../packages/contracts/src/fixtures/seed-assets';
 import { primitiveTypeScale } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisAssets } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Assets — Classification View
@@ -19,8 +19,8 @@ export default function AssetsClassificationPage() {
   const { tokens } = useMode();
 
   // Group by asset classification
-  const classMap = new Map<string, typeof seedAssets>();
-  seedAssets.forEach((a) => {
+  const classMap = new Map<string, typeof thesisAssets>();
+  thesisAssets.forEach((a) => {
     const list = classMap.get(a.classification) || [];
     list.push(a);
     classMap.set(a.classification, list);
@@ -29,7 +29,7 @@ export default function AssetsClassificationPage() {
 
   // Group by data classification
   const dataClassMap = new Map<string, number>();
-  seedAssets.forEach((a) => {
+  thesisAssets.forEach((a) => {
     const dc = a.assetDataClassification || 'unclassified';
     dataClassMap.set(dc, (dataClassMap.get(dc) || 0) + 1);
   });
@@ -96,7 +96,7 @@ export default function AssetsClassificationPage() {
                 <tr><th>Name</th><th>Type</th><th>Data Class</th><th>Environment</th><th>Surface</th><th className="text-end">Criticality</th></tr>
               </thead>
               <tbody>
-                {seedAssets.map((a) => (
+                {thesisAssets.map((a) => (
                   <tr key={a.id}>
                     <td><a href={`/assets?id=${a.id}`} style={{ color: tokens.action.primary, fontSize: primitiveTypeScale.body }}>{a.name}</a></td>
                     <td><span className="badge bg-secondary">{a.classification}</span></td>

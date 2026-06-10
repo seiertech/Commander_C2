@@ -4,8 +4,6 @@ import dynamic from 'next/dynamic';
 import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useMode } from '@/context/mode-context';
-import { seedCases } from '../../../../../../packages/contracts/src/fixtures/seed-cases';
-import { seedActions } from '../../../../../../packages/contracts/src/fixtures/seed-actions';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import {
   primitiveFonts,
@@ -20,6 +18,7 @@ import { PageContainer } from '@/components/page-container';
 import type { WorkspaceMode } from '../../../../../../packages/ui/src/tokens/semantic';
 import type { Case } from '../../../../../../packages/contracts/src/entities/case';
 import type { ApexOptions } from 'apexcharts';
+import { thesisCases, thesisActions } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -27,7 +26,7 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
  * Case Management Adherence Dashboard — Commander C2 (DS-1.0, Spec 06)
  *
  * MBA-level operating picture for SOM / Director / CISO. Every metric is
- * computed from populated canonical fixtures (seedCases + seedActions); there
+ * computed from populated canonical fixtures (thesisCases + thesisActions); there
  * is no mock/random data and no API dependency. The page is fully functional
  * WITHOUT AI (System-First Doctrine, Tier 1 — System Delivers); AI is additive
  * and marked by placement comments only.
@@ -161,7 +160,7 @@ export default function CaseAnalyticsPage() {
 
   // Operational "now" = latest timestamp present in the dataset.
   const now = useMemo(
-    () => Math.max(...seedCases.map((c) => Math.max(created(c), new Date(c.updatedAt).getTime()))),
+    () => Math.max(...thesisCases.map((c) => Math.max(created(c), new Date(c.updatedAt).getTime()))),
     [],
   );
 
@@ -171,7 +170,7 @@ export default function CaseAnalyticsPage() {
 
   // ─── Core metric model (memoised) ─────────────────────────────────────────
   const m = useMemo(() => {
-    const all = seedCases;
+    const all = thesisCases;
     const openCases = all.filter((c) => !isClosed(c));
     const closedCases = all.filter(isClosed);
 
@@ -282,9 +281,9 @@ export default function CaseAnalyticsPage() {
       }),
     }));
 
-    // ── Action throughput (uses seedActions) ──
-    const actionsCompleted = seedActions.filter((a) => a.status === 'completed').length;
-    const actionsInProgress = seedActions.filter((a) => a.status === 'in_progress').length;
+    // ── Action throughput (uses thesisActions) ──
+    const actionsCompleted = thesisActions.filter((a) => a.status === 'completed').length;
+    const actionsInProgress = thesisActions.filter((a) => a.status === 'in_progress').length;
 
     return {
       openCases, closedCases, openedInPeriod, closedInPeriod,
@@ -465,9 +464,9 @@ export default function CaseAnalyticsPage() {
   };
 
   // ─── Table: filter + sort ─────────────────────────────────────────────────
-  const typeOptions = useMemo(() => Array.from(new Set(seedCases.map((c) => c.caseType))).sort(), []);
-  const teamOptions = useMemo(() => Array.from(new Set(seedCases.map((c) => c.team))).sort(), []);
-  const statusOptions = useMemo(() => Array.from(new Set(seedCases.map((c) => statusLabel(c.status)))).sort(), []);
+  const typeOptions = useMemo(() => Array.from(new Set(thesisCases.map((c) => c.caseType))).sort(), []);
+  const teamOptions = useMemo(() => Array.from(new Set(thesisCases.map((c) => c.team))).sort(), []);
+  const statusOptions = useMemo(() => Array.from(new Set(thesisCases.map((c) => statusLabel(c.status)))).sort(), []);
 
   const tableRows = useMemo(() => {
     const rows = m.openCases.filter((c) => {
@@ -502,7 +501,7 @@ export default function CaseAnalyticsPage() {
 
   // ─── KPI values ───────────────────────────────────────────────────────────
   const kpiOpen = m.openCases.length;
-  const kpiOpenPrior = seedCases.filter((c) => !isClosed(c) && created(c) < periodStart).length;
+  const kpiOpenPrior = thesisCases.filter((c) => !isClosed(c) && created(c) < periodStart).length;
   const mttrDelta = m.mttrP1 !== null && m.mttrP1Prior !== null ? m.mttrP1 - m.mttrP1Prior : null;
   const adherenceDelta = m.adherencePrior !== null ? m.adherencePeriod - m.adherencePrior : null;
   const velocityDelta = m.velocity - m.velocityPrior;

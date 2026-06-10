@@ -1,10 +1,8 @@
 'use client';
 
 import { PageContainer } from '@/components/page-container';
-import { seedAuthSessions } from '../../../../../../packages/contracts/src/fixtures/seed-auth-sessions';
-import { seedBreakGlassRequests } from '../../../../../../packages/contracts/src/fixtures/seed-break-glass';
-import { seedRbacPolicies } from '../../../../../../packages/contracts/src/fixtures/seed-rbac-policies';
 import { primitiveTypeScale } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisAuthSessions, thesisBreakGlass, thesisRbacPolicies } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Security Settings — Platform Security & Hardening (Spec 35)
@@ -18,9 +16,9 @@ import { primitiveTypeScale } from '../../../../../../packages/ui/src/tokens/pri
  */
 
 export default function SettingsSecurityPage() {
-  const activeSessions = seedAuthSessions.filter((s) => s.status === 'active');
-  const pendingBreakGlass = seedBreakGlassRequests.filter((r) => r.status === 'pending');
-  const activeRbacPolicies = seedRbacPolicies.filter((p) => p.active);
+  const activeSessions = thesisAuthSessions.filter((s) => s.status === 'active');
+  const pendingBreakGlass = thesisBreakGlass.filter((r) => r.status === 'pending');
+  const activeRbacPolicies = thesisRbacPolicies.filter((p) => p.active);
 
   const statusBadge = (status: string) => {
     switch (status) {
@@ -70,7 +68,7 @@ export default function SettingsSecurityPage() {
           <div className="card">
             <div className="card-body">
               <div className="subheader">MFA Verified</div>
-              <div className="h1 mb-0">{seedAuthSessions.filter((s) => s.mfaVerified).length}/{seedAuthSessions.length}</div>
+              <div className="h1 mb-0">{thesisAuthSessions.filter((s) => s.mfaVerified).length}/{thesisAuthSessions.length}</div>
             </div>
           </div>
         </div>
@@ -95,7 +93,7 @@ export default function SettingsSecurityPage() {
                 </tr>
               </thead>
               <tbody>
-                {seedBreakGlassRequests.map((r) => (
+                {thesisBreakGlass.map((r) => (
                   <tr key={r.id}>
                     <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{r.requestId}</td>
                     <td>{r.requestorId}</td>
@@ -130,7 +128,7 @@ export default function SettingsSecurityPage() {
                 </tr>
               </thead>
               <tbody>
-                {seedAuthSessions.map((s) => (
+                {thesisAuthSessions.map((s) => (
                   <tr key={s.id}>
                     <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{s.userId}</td>
                     <td className="text-muted">{s.ipAddress}</td>
@@ -164,7 +162,7 @@ export default function SettingsSecurityPage() {
                 </tr>
               </thead>
               <tbody>
-                {seedRbacPolicies.map((p) => (
+                {thesisRbacPolicies.map((p) => (
                   <tr key={p.id}>
                     <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{p.role}</td>
                     <td><span className="badge bg-azure-lt">{p.resourceScope}</span></td>

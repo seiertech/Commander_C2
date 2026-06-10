@@ -2,9 +2,9 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedCisoSummary } from '../../../../../packages/contracts/src/fixtures/seed-ciso';
 import { componentTokens } from '../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
+import { thesisCisoSummary } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * CISO Dashboard — Executive Posture Summary
@@ -15,7 +15,7 @@ import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFon
 
 export default function CisoDashboardPage() {
   const { tokens } = useMode();
-  const s = seedCisoSummary;
+  const s = thesisCisoSummary;
   const postureColor = s.posture.overall >= 80 ? primitiveSignal.success : s.posture.overall >= 60 ? primitiveSignal.warning : primitiveSignal.critical;
   const trendLabel = s.trend === 'improving' ? '↑ Improving' : s.trend === 'degrading' ? '↓ Degrading' : '→ Stable';
 

@@ -3,10 +3,8 @@
 import { use } from 'react';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedIdentities } from '../../../../../packages/contracts/src/fixtures/seed-identities';
-import { seedAssets } from '../../../../../packages/contracts/src/fixtures/seed-assets';
-import { seedCases } from '../../../../../packages/contracts/src/fixtures/seed-cases';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
+import { thesisIdentities, thesisAssets, thesisCases } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Identity Intelligence Surface — Thesis Layer
@@ -50,16 +48,16 @@ export default function IdentityIntelligencePage({ searchParams }: { searchParam
   const { id } = use(searchParams);
   const { tokens } = useMode();
 
-  const selected = id ? seedIdentities.find((i) => i.id === id) : undefined;
+  const selected = id ? thesisIdentities.find((i) => i.id === id) : undefined;
 
   // ── List view ──
   if (!selected) {
-    const sorted = [...seedIdentities].sort((a, b) => b.riskScore - a.riskScore);
+    const sorted = [...thesisIdentities].sort((a, b) => b.riskScore - a.riskScore);
     return (
       <PageContainer
         pretitle="Identity & Asset Intelligence › Identities"
         title="Identity Intelligence"
-        headerActions={<span className="badge bg-blue-lt">{seedIdentities.length} identities</span>}
+        headerActions={<span className="badge bg-blue-lt">{thesisIdentities.length} identities</span>}
       >
         <div className="card">
           <div className="card-header">
@@ -96,8 +94,8 @@ export default function IdentityIntelligencePage({ searchParams }: { searchParam
   }
 
   const i = selected;
-  const caseHistory = seedCases.filter((c) => c.relatedEntities.includes(i.id));
-  const relatedAssets = seedAssets.filter((a) => i.associatedAssets.includes(a.id));
+  const caseHistory = thesisCases.filter((c) => c.relatedEntities.includes(i.id));
+  const relatedAssets = thesisAssets.filter((a) => i.associatedAssets.includes(a.id));
 
   return (
     <PageContainer

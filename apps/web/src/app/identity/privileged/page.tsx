@@ -2,8 +2,8 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedIdentities } from '../../../../../../packages/contracts/src/fixtures/seed-identities';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisIdentities } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Identity & Access — Privileged Access
@@ -18,14 +18,14 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/
 export default function PrivilegedAccessPage() {
   const { tokens } = useMode();
 
-  const privileged = seedIdentities.filter(
+  const privileged = thesisIdentities.filter(
     (i) => i.privilegeLevel === 'privileged' || i.privilegeLevel === 'super-privileged'
   );
-  const elevated = seedIdentities.filter((i) => i.privilegeLevel === 'elevated');
+  const elevated = thesisIdentities.filter((i) => i.privilegeLevel === 'elevated');
   const allPriv = [...privileged, ...elevated].sort((a, b) => b.riskScore - a.riskScore);
 
-  const superPrivCount = seedIdentities.filter((i) => i.privilegeLevel === 'super-privileged').length;
-  const privCount = seedIdentities.filter((i) => i.privilegeLevel === 'privileged').length;
+  const superPrivCount = thesisIdentities.filter((i) => i.privilegeLevel === 'super-privileged').length;
+  const privCount = thesisIdentities.filter((i) => i.privilegeLevel === 'privileged').length;
   const elevCount = elevated.length;
   const highRiskPriv = allPriv.filter((i) => i.riskScore >= 60).length;
 

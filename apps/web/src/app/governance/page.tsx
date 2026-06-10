@@ -1,8 +1,8 @@
 'use client';
 
 import { PageContainer } from '@/components/page-container';
-import { seedControlFrameworks, seedControlEvaluations } from '../../../../../packages/contracts/src/fixtures/seed-control-frameworks';
 import { primitiveTypeScale } from '../../../../../packages/ui/src/tokens/primitives';
+import { thesisControlFrameworks, thesisControlEvaluations } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Governance — Adherence Overview (Thesis §15 — Risk, Control & Adherence Layer)
@@ -17,8 +17,8 @@ import { primitiveTypeScale } from '../../../../../packages/ui/src/tokens/primit
  */
 
 export default function GovernancePage() {
-  const frameworks = seedControlFrameworks;
-  const evaluations = seedControlEvaluations;
+  const frameworks = thesisControlFrameworks;
+  const evaluations = thesisControlEvaluations;
   const activeFrameworks = frameworks.filter((f) => f.active);
 
   return (

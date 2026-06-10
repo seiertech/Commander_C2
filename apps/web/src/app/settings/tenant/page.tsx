@@ -2,13 +2,13 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { SEED_TENANT } from '../../../../../../packages/contracts/src/fixtures/seed-tenant';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisTenant } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Tenant Admin — Overview
- * Data: SEED_TENANT from seed-tenant
+ * Data: thesisTenant from seed-tenant
  * Route: /settings/tenant | Status: BUILD
  */
 {/* AI-PLACEMENT: AICAP-ADMIN-001 — Commander AI tenant configuration recommendation */}
@@ -19,8 +19,8 @@ export default function SettingsTenantPage() {
   return (
     <PageContainer pretitle="Settings › Tenant" title="Tenant Overview">
       <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
-        <Kpi tokens={tokens} label="Tenant ID" value={SEED_TENANT.tenantId} />
-        <Kpi tokens={tokens} label="Tenant Name" value={SEED_TENANT.tenantName} />
+        <Kpi tokens={tokens} label="Tenant ID" value={thesisTenant.tenantId} />
+        <Kpi tokens={tokens} label="Tenant Name" value={thesisTenant.tenantName} />
         <Kpi tokens={tokens} label="Status" value="Active" accent={primitiveSignal.success} />
         <Kpi tokens={tokens} label="Licence" value="Enterprise" />
       </section>
@@ -31,8 +31,8 @@ export default function SettingsTenantPage() {
             <thead><tr>{['Property', 'Value', 'Status'].map((h) => <th key={h} style={{ textAlign: 'left', padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, borderBottom: `2px solid ${tokens.border.default}`, color: tokens.text.muted, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, fontSize: primitiveTypeScale.micro }}>{h}</th>)}</tr></thead>
             <tbody>
               {[
-                { prop: 'Tenant ID', val: SEED_TENANT.tenantId, status: 'configured' },
-                { prop: 'Tenant Name', val: SEED_TENANT.tenantName, status: 'configured' },
+                { prop: 'Tenant ID', val: thesisTenant.tenantId, status: 'configured' },
+                { prop: 'Tenant Name', val: thesisTenant.tenantName, status: 'configured' },
                 { prop: 'Multi-Factor Authentication', val: 'Enforced', status: 'active' },
                 { prop: 'Session Timeout', val: '30 minutes', status: 'configured' },
                 { prop: 'Data Residency', val: 'EU-West-1', status: 'configured' },

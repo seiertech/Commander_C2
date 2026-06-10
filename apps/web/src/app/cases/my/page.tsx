@@ -4,26 +4,18 @@ import { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { useMode } from '@/context/mode-context';
-import { seedCases } from '../../../../../../packages/contracts/src/fixtures/seed-cases';
-import { seedEvents } from '../../../../../../packages/contracts/src/fixtures/seed-events';
-import { seedActions, seedSubActions } from '../../../../../../packages/contracts/src/fixtures/seed-actions';
-import { seedRiskObjects } from '../../../../../../packages/contracts/src/fixtures/seed-risk-objects';
-import { seedEvidence } from '../../../../../../packages/contracts/src/fixtures/seed-evidence';
-import { seedStrategies } from '../../../../../../packages/contracts/src/fixtures/seed-strategies';
 import { resolveAllStrategies } from '../../../../../../packages/contracts/src/resolvers/case-strategy-resolver';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import {
   primitiveBrand, primitiveFonts, primitiveTypeScale, primitiveLetterSpacing,
   primitiveSignal, primitiveSpacing, primitiveFontWeight, primitivePriority, primitiveData,
 } from '../../../../../../packages/ui/src/tokens/primitives';
-import { seedNotifications } from '../../../../../../packages/contracts/src/fixtures/seed-notifications';
-import { seedCaseFollows } from '../../../../../../packages/contracts/src/fixtures/seed-case-follows';
-import { seedDecisionRecords } from '../../../../../../packages/contracts/src/fixtures/seed-decision-records';
 import { PageContainer } from '@/components/page-container';
 import { CaseCard } from '@/components/case-card';
 import type { Case } from '../../../../../../packages/contracts/src/entities/case';
 import type { ApexOptions } from 'apexcharts';
 import { slaState, riskScore, isClosed, PRIORITIES } from '../case-metrics';
+import { thesisCases, thesisEvents, thesisActions, thesisSubActions, thesisRiskObjects, thesisEvidence, thesisStrategies, thesisNotifications, thesisCaseFollows, thesisDecisionRecords } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -69,10 +61,10 @@ function slaRisk(c: Case, now: number): number {
 export default function MyCasesPage() {
   const { mode, tokens } = useMode();
   const router = useRouter();
-  const now = useMemo(() => Math.max(...seedCases.map((c) => new Date(c.updatedAt).getTime())), []);
+  const now = useMemo(() => Math.max(...thesisCases.map((c) => new Date(c.updatedAt).getTime())), []);
 
   // ── Real caseload ──
-  const myCases = useMemo(() => seedCases.filter((c) => c.owner === CURRENT_USER), []);
+  const myCases = useMemo(() => thesisCases.filter((c) => c.owner === CURRENT_USER), []);
   const open = myCases.filter((c) => !isClosed(c));
   const myIds = useMemo(() => new Set(myCases.map((c) => c.id)), [myCases]);
 
@@ -86,10 +78,10 @@ export default function MyCasesPage() {
   }), [open, now]);
 
   // ── Linked real work artefacts across her cases ──
-  const myActions = seedActions.filter((a) => myIds.has(a.caseId));
-  const mySubActions = seedSubActions.filter((s) => myIds.has(s.caseId));
-  const myRiskObjects = seedRiskObjects.filter((r) => myIds.has(r.affectedEntityId) || (r.affectedEntities ?? []).some((e) => myIds.has(e)));
-  const myEvidence = seedEvidence.filter((e) => myIds.has(e.caseId));
+  const myActions = thesisActions.filter((a) => myIds.has(a.caseId));
+  const mySubActions = thesisSubActions.filter((s) => myIds.has(s.caseId));
+  const myRiskObjects = thesisRiskObjects.filter((r) => myIds.has(r.affectedEntityId) || (r.affectedEntities ?? []).some((e) => myIds.has(e)));
+  const myEvidence = thesisEvidence.filter((e) => myIds.has(e.caseId));
 
   // ── KPIs (real) ──
   const slaAtRisk = open.filter((c) => slaState(c, now).tone !== 'success').length;
@@ -99,7 +91,7 @@ export default function MyCasesPage() {
   const avgRisk = open.length ? Math.round(open.reduce((a, c) => a + riskScore(c, now), 0) / open.length) : 0;
 
   // ── Activity stream (real seed-events for her cases) ──
-  const myEvents = useMemo(() => seedEvents
+  const myEvents = useMemo(() => thesisEvents
     .filter((e) => e.entityType === 'case' && myIds.has(e.entityRef))
     .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()), [myIds]);
 
@@ -240,7 +232,7 @@ export default function MyCasesPage() {
         {/* Approvals & Decisions */}
         <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.subtle}`, padding: componentTokens.cardPadding }}>
           <span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, marginBottom: primitiveSpacing[2] }}>Approvals & Decisions</span>
-          {seedDecisionRecords.slice(0, 3).map((d) => (
+          {thesisDecisionRecords.slice(0, 3).map((d) => (
             <div key={d.id} style={{ padding: `${primitiveSpacing[1]} 0`, borderBottom: `1px solid ${tokens.border.subtle}` }}>
               <span style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.primary }}>{d.rationale.slice(0, 60)}…</span>
               <span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted, fontFamily: primitiveFonts.mono }}>{d.decisionType} · {new Date(d.decidedAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}</span>
@@ -250,8 +242,8 @@ export default function MyCasesPage() {
 
         {/* Notifications */}
         <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.subtle}`, padding: componentTokens.cardPadding }}>
-          <span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, marginBottom: primitiveSpacing[2] }}>Notifications ({seedNotifications.filter((n) => !n.read).length} unread)</span>
-          {seedNotifications.slice(0, 4).map((n) => (
+          <span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, marginBottom: primitiveSpacing[2] }}>Notifications ({thesisNotifications.filter((n) => !n.read).length} unread)</span>
+          {thesisNotifications.slice(0, 4).map((n) => (
             <div key={n.id} style={{ padding: `${primitiveSpacing[1]} 0`, borderBottom: `1px solid ${tokens.border.subtle}`, opacity: n.read ? 0.6 : 1 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: primitiveSpacing[1] }}>
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: n.severity === 'critical' ? tokens.status.critical : n.severity === 'warning' ? tokens.status.warning : tokens.status.info, display: 'inline-block' }} />
@@ -264,8 +256,8 @@ export default function MyCasesPage() {
 
         {/* Followed Cases */}
         <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.subtle}`, padding: componentTokens.cardPadding }}>
-          <span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, marginBottom: primitiveSpacing[2] }}>Followed Cases ({seedCaseFollows.filter((f) => !f.unfollowedAt).length} active)</span>
-          {seedCaseFollows.filter((f) => !f.unfollowedAt).map((f) => (
+          <span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, marginBottom: primitiveSpacing[2] }}>Followed Cases ({thesisCaseFollows.filter((f) => !f.unfollowedAt).length} active)</span>
+          {thesisCaseFollows.filter((f) => !f.unfollowedAt).map((f) => (
             <div key={f.id} style={{ padding: `${primitiveSpacing[1]} 0`, borderBottom: `1px solid ${tokens.border.subtle}`, cursor: 'pointer' }} onClick={() => router.push(`/cases/${f.caseRef}`)}>
               <span style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.primary, fontFamily: primitiveFonts.mono }}>{f.caseRef}</span>
               <span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>Notify: {f.notifyOn.join(', ')}</span>

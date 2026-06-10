@@ -2,8 +2,8 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedVulnerabilityIntelligence } from '../../../../../packages/contracts/src/fixtures/seed-vulnerability-intelligence';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
+import { thesisVulnerabilityIntelligence } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Vulnerability Management — Overview
@@ -18,7 +18,7 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/
 
 export default function VulnerabilitiesPage() {
   const { tokens } = useMode();
-  const vulns = seedVulnerabilityIntelligence;
+  const vulns = thesisVulnerabilityIntelligence;
   const sorted = [...vulns].sort((a, b) => b.cvssScore - a.cvssScore);
 
   const kevCount = vulns.filter((v) => v.cisaKevStatus).length;
