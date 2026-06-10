@@ -105,3 +105,8 @@ export { seedCaseTransitionAudits } from './seed-case-transition-audits';
 
 // ─── Email Case Communication Fixtures (Spec 25) ─────────────────────────────
 export { seedEmailCommunications } from './seed-email-communications';
+
+
+// ─── Standards Evidence Model Fixtures (Phase 1) ─────────────────────────────
+export { STANDARDS_DECLARATIONS } from './seed-standards-declarations';
+export { STANDARDS_FIELD_MAPPINGS } from './seed-standards-field-mappings';

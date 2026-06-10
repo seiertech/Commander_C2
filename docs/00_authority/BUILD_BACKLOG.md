@@ -10,14 +10,18 @@
 - [x] Pre-commit hook
 
 ## Phase 1: Standards Evidence Model
-- [ ] CommonFields entity
-- [ ] StandardsDeclaration entity + validation
-- [ ] StandardsFieldMapping entity + validation
-- [ ] StandardsVersionHistory entity + validation
-- [ ] 13 declaration fixtures
-- [ ] Initial field mapping fixtures
+- [x] CommonFields entity
+- [x] StandardsDeclaration entity + validation
+- [x] StandardsFieldMapping entity + validation
+- [x] StandardsVersionHistory entity + validation
+- [x] 13 declaration fixtures
+- [x] Initial field mapping fixtures (16 mappings across OCSF, STIX, ATT&CK, CVSS, TLP)
 
-## Phase 2-11: See REBASE_STRATEGY_v2.md for full breakdown
+## Phase 2: Entity Index Unification
+- [x] Merge SDR entity catalogue into C2 index.ts (91 entities)
+- [x] Fixtures index updated with standards evidence exports
+
+## Phase 3-11: See REBASE_STRATEGY_v2.md for full breakdown
 
 **Last Updated:** 2026-06-10
-**Current Phase:** 0 COMPLETE
+**Current Phase:** 2 COMPLETE
