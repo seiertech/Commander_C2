@@ -31,3 +31,32 @@ export type {
   StandardsVersionHistoryValidation,
 } from './standards-version-history';
 export { validateStandardsVersionHistory } from './standards-version-history';
+
+// ─── Layer 2: Architecture Classification & Topology ─────────────────────────
+export type {
+  ArchitectureClassification,
+  TogafDomain,
+  ZachmanAspect,
+  ZachmanPerspective,
+  ClassificationStatus,
+  ArchitectureClassificationValidation,
+} from './architecture-classification';
+export { validateArchitectureClassification } from './architecture-classification';
+
+export type {
+  TopologyNode,
+  TopologyNodeType,
+  TopologyNodeStatus,
+  DiscoveryMethod,
+  TopologyNodeValidation,
+} from './topology-node';
+export { validateTopologyNode } from './topology-node';
+
+export type {
+  TopologyEdge,
+  TopologyEdgeType,
+  TopologyEdgeStatus,
+  EdgeProtocol,
+  TopologyEdgeValidation,
+} from './topology-edge';
+export { validateTopologyEdge } from './topology-edge';
