@@ -2,9 +2,9 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedArchitectureComponents } from '../../../../../../packages/contracts/src/fixtures/seed-architecture';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisArchitectureComponents } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Architecture — Dependencies
@@ -15,14 +15,14 @@ import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFon
 
 export default function ArchitectureDependenciesPage() {
   const { tokens } = useMode();
-  const withDeps = seedArchitectureComponents.filter((c) => c.dependencies.length > 0);
-  const totalDeps = seedArchitectureComponents.reduce((a, c) => a + c.dependencies.length, 0);
+  const withDeps = thesisArchitectureComponents.filter((c) => c.dependencies.length > 0);
+  const totalDeps = thesisArchitectureComponents.reduce((a, c) => a + c.dependencies.length, 0);
   const criticalWithDeps = withDeps.filter((c) => c.criticality <= 2).length;
 
   return (
     <PageContainer pretitle="Architecture › Dependencies" title="Dependency Map">
       <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
-        <Kpi tokens={tokens} label="Components" value={String(seedArchitectureComponents.length)} />
+        <Kpi tokens={tokens} label="Components" value={String(thesisArchitectureComponents.length)} />
         <Kpi tokens={tokens} label="With Dependencies" value={String(withDeps.length)} />
         <Kpi tokens={tokens} label="Total Links" value={String(totalDeps)} />
         <Kpi tokens={tokens} label="Critical w/ Deps" value={String(criticalWithDeps)} accent={criticalWithDeps > 0 ? primitiveSignal.warning : undefined} />
@@ -32,8 +32,8 @@ export default function ArchitectureDependenciesPage() {
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
             <thead><tr>{['Component', 'Type', 'Depends On', 'Criticality', 'Status'].map((h) => <th key={h} style={{ textAlign: 'left', padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, borderBottom: `2px solid ${tokens.border.default}`, color: tokens.text.muted, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, fontSize: primitiveTypeScale.micro }}>{h}</th>)}</tr></thead>
-            <tbody>{seedArchitectureComponents.map((c) => {
-              const depNames = c.dependencies.map((d) => seedArchitectureComponents.find((x) => x.id === d)?.name ?? d).join(', ');
+            <tbody>{thesisArchitectureComponents.map((c) => {
+              const depNames = c.dependencies.map((d) => thesisArchitectureComponents.find((x) => x.id === d)?.name ?? d).join(', ');
               const sc = c.status === 'healthy' ? primitiveSignal.success : c.status === 'degraded' ? primitiveSignal.warning : primitiveSignal.critical;
               return (
                 <tr key={c.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>

@@ -2,9 +2,9 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedTopology } from '../../../../../../packages/contracts/src/fixtures/seed-topology';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisTopology } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Fusion Map — P0 Overlay
@@ -15,7 +15,7 @@ import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFon
 
 export default function FusionMapP0Page() {
   const { tokens } = useMode();
-  const { nodes, edges, blastRadiusResults } = seedTopology;
+  const { nodes, edges, blastRadiusResults } = thesisTopology;
   const caseNodes = nodes.filter((n) => n.entityType === 'case');
   const criticalNodes = nodes.filter((n) => n.criticality === 1);
   const p0Edges = edges.filter((e) => caseNodes.some((c) => c.nodeId === e.sourceNodeId || c.nodeId === e.targetNodeId));

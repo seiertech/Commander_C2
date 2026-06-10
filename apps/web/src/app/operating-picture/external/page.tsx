@@ -2,13 +2,7 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedAssets } from '../../../../../../packages/contracts/src/fixtures/seed-assets';
-import { seedIdentities } from '../../../../../../packages/contracts/src/fixtures/seed-identities';
-import { seedCases } from '../../../../../../packages/contracts/src/fixtures/seed-cases';
-import { seedRiskObjects } from '../../../../../../packages/contracts/src/fixtures/seed-risk-objects';
-import { seedConnectors } from '../../../../../../packages/contracts/src/fixtures/seed-connectors';
-import { seedAttackClassificationAudits } from '../../../../../../packages/contracts/src/fixtures/seed-attack-classification-audits';
-import { thesisSignals, thesisIntelligenceAssessments } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisSignals, thesisIntelligenceAssessments, thesisAssets, thesisIdentities, thesisCases, thesisRiskObjects, thesisConnectors, thesisAttackClassificationAudits } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
 import { STREAM_LABELS, CLASS_TO_STREAM } from '../../../../../../packages/contracts/src/engines/intelligence-layer';
 
@@ -30,16 +24,16 @@ export default function ExternalOperatingPicturePage() {
   const { tokens } = useMode();
 
   // ── 1. External attack surface inventory ──
-  const externalAssets = seedAssets.filter((a) => a.surfaceAttribution === EXTERNAL);
-  const externalIdentities = seedIdentities.filter((i) => i.surfaceAttribution === EXTERNAL);
+  const externalAssets = thesisAssets.filter((a) => a.surfaceAttribution === EXTERNAL);
+  const externalIdentities = thesisIdentities.filter((i) => i.surfaceAttribution === EXTERNAL);
 
   // ── 2. External Attack Intelligence stream — Class A connectors feed this stream ──
-  const externalAttackConnectors = seedConnectors.filter((c) =>
+  const externalAttackConnectors = thesisConnectors.filter((c) =>
     c.classes.some((cls) => CLASS_TO_STREAM[cls] === 'external_attack'),
   );
 
   // ── 3. External attack surface case queue ──
-  const externalCases = seedCases
+  const externalCases = thesisCases
     .filter((c) => c.surfaceAttribution === EXTERNAL)
     .sort((a, b) => {
       const order: Record<string, number> = { P0: 0, P1: 1, P2: 2, P3: 3, P4: 4 };
@@ -52,7 +46,7 @@ export default function ExternalOperatingPicturePage() {
     ...externalIdentities.map((i) => i.id),
     ...externalCases.map((c) => c.id),
   ]);
-  const externalRiskObjects = seedRiskObjects.filter((r) =>
+  const externalRiskObjects = thesisRiskObjects.filter((r) =>
     r.affectedEntities?.some((id) => externalEntityIds.has(id)) || externalEntityIds.has(r.affectedEntityId),
   );
 
@@ -257,7 +251,7 @@ export default function ExternalOperatingPicturePage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {seedAttackClassificationAudits.map((a) => {
+                    {thesisAttackClassificationAudits.map((a) => {
                       const classColor = a.classification === 'PRE_WARNED' ? primitiveSignal.warning : a.classification === 'PROTECTED' ? primitiveSignal.info : primitiveSignal.neutral;
                       return (
                         <tr key={a.id}>
@@ -270,7 +264,7 @@ export default function ExternalOperatingPicturePage() {
                         </tr>
                       );
                     })}
-                    {seedAttackClassificationAudits.length === 0 && (
+                    {thesisAttackClassificationAudits.length === 0 && (
                       <tr><td colSpan={6} className="text-muted text-center" style={{ fontSize: primitiveTypeScale.caption }}>No classifications recorded</td></tr>
                     )}
                   </tbody>

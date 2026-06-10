@@ -1,9 +1,8 @@
 'use client';
 
 import { PageContainer } from '@/components/page-container';
-import { seedRiskObjects } from '../../../../../../packages/contracts/src/fixtures/seed-risk-objects';
-import { seedCases } from '../../../../../../packages/contracts/src/fixtures/seed-cases';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisRiskObjects, thesisCases } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * SOM — Risk Manager
@@ -11,10 +10,10 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/
  * Route: /som/risk | Nav Group: SOM
  */
 export default function SomRiskPage() {
-  const risks = seedRiskObjects;
+  const risks = thesisRiskObjects;
   const openRisks = risks.filter((r) => r.treatmentState === 'open');
   const typeBreakdown = risks.reduce((acc, r) => { acc[r.type] = (acc[r.type] || 0) + 1; return acc; }, {} as Record<string, number>);
-  const p0p1Cases = seedCases.filter((c) => c.priority === 'P0' || c.priority === 'P1');
+  const p0p1Cases = thesisCases.filter((c) => c.priority === 'P0' || c.priority === 'P1');
 
   return (
     <PageContainer pretitle="SOM › Risk Manager" title="Risk Manager" headerActions={<span className="badge bg-orange-lt">{openRisks.length} open risks</span>}>

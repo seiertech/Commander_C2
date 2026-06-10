@@ -2,9 +2,9 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedMissions } from '../../../../../../packages/contracts/src/fixtures/seed-missions';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisMissionSeeds } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Mission Control — Impact
@@ -15,10 +15,10 @@ import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFon
 
 export default function MissionImpactPage() {
   const { tokens } = useMode();
-  const allDomains = Array.from(new Set(seedMissions.flatMap((m) => m.impactDomains)));
-  const allKpis = seedMissions.flatMap((m) => m.kpiMetrics.map((k) => ({ ...k, missionName: m.name })));
+  const allDomains = Array.from(new Set(thesisMissionSeeds.flatMap((m) => m.impactDomains)));
+  const allKpis = thesisMissionSeeds.flatMap((m) => m.kpiMetrics.map((k) => ({ ...k, missionName: m.name })));
   const kpisOnTrack = allKpis.filter((k) => k.current >= k.target).length;
-  const totalAlignedCases = new Set(seedMissions.flatMap((m) => m.alignedCases)).size;
+  const totalAlignedCases = new Set(thesisMissionSeeds.flatMap((m) => m.alignedCases)).size;
 
   return (
     <PageContainer pretitle="Mission Control › Impact" title="Mission Impact">
@@ -33,7 +33,7 @@ export default function MissionImpactPage() {
         <h3 style={{ fontSize: primitiveTypeScale.h4, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: `0 0 ${componentTokens.cardHeaderMargin}` }}>Impact Domains</h3>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: primitiveSpacing[2] }}>
           {allDomains.map((d) => {
-            const missionCount = seedMissions.filter((m) => m.impactDomains.includes(d)).length;
+            const missionCount = thesisMissionSeeds.filter((m) => m.impactDomains.includes(d)).length;
             return (<span key={d} style={{ padding: `${primitiveSpacing[1]} ${primitiveSpacing[3]}`, border: `1px solid ${tokens.border.default}`, fontSize: primitiveTypeScale.caption, color: tokens.text.primary, textTransform: 'capitalize' }}>{d} <span style={{ fontFamily: primitiveFonts.mono, color: tokens.text.muted }}>({missionCount})</span></span>);
           })}
         </div>

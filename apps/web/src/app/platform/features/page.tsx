@@ -1,8 +1,8 @@
 'use client';
 
+import { thesisFeatureRegistry } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedFeatureRegistry } from '../../../../../../packages/contracts/src/fixtures/seed-platform';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
@@ -22,9 +22,9 @@ import {
 export default function PlatformFeaturesPage() {
   const { tokens } = useMode();
 
-  const enabledFeatures = seedFeatureRegistry.filter((f) => f.state === 'enabled').length;
-  const disabledFeatures = seedFeatureRegistry.filter((f) => f.state === 'disabled').length;
-  const entitledFeatures = seedFeatureRegistry.filter((f) => f.state === 'entitled').length;
+  const enabledFeatures = thesisFeatureRegistry.filter((f) => f.state === 'enabled').length;
+  const disabledFeatures = thesisFeatureRegistry.filter((f) => f.state === 'disabled').length;
+  const entitledFeatures = thesisFeatureRegistry.filter((f) => f.state === 'entitled').length;
 
   const stateColor = (state: string) => {
     switch (state) {
@@ -41,7 +41,7 @@ export default function PlatformFeaturesPage() {
     <PageContainer pretitle="Platform › Features" title="Feature Availability">
       {/* KPI strip */}
       <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
-        <KpiCard tokens={tokens} label="Total Features" value={String(seedFeatureRegistry.length)} />
+        <KpiCard tokens={tokens} label="Total Features" value={String(thesisFeatureRegistry.length)} />
         <KpiCard tokens={tokens} label="Enabled" value={String(enabledFeatures)} accent={primitiveSignal.success} />
         <KpiCard tokens={tokens} label="Disabled" value={String(disabledFeatures)} />
         <KpiCard tokens={tokens} label="Entitled" value={String(entitledFeatures)} accent={primitiveSignal.info} />
@@ -60,7 +60,7 @@ export default function PlatformFeaturesPage() {
               </tr>
             </thead>
             <tbody>
-              {seedFeatureRegistry.map((f) => (
+              {thesisFeatureRegistry.map((f) => (
                 <tr key={f.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{f.displayName}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{f.featureKey}</td>

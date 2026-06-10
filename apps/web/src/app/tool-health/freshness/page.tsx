@@ -1,8 +1,8 @@
 'use client';
 
 import { PageContainer } from '@/components/page-container';
-import { seedConnectors } from '../../../../../../packages/contracts/src/fixtures/seed-connectors';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisConnectors } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Tool Health — Source Freshness
@@ -13,14 +13,14 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/
 
 export default function ToolHealthFreshnessPage() {
   const now = new Date('2026-01-18T12:00:00.000Z').getTime();
-  const sorted = [...seedConnectors].sort((a, b) => {
+  const sorted = [...thesisConnectors].sort((a, b) => {
     const aTime = a.lastRunAt ? new Date(a.lastRunAt).getTime() : 0;
     const bTime = b.lastRunAt ? new Date(b.lastRunAt).getTime() : 0;
     return aTime - bTime; // oldest first (least fresh)
   });
 
   return (
-    <PageContainer pretitle="Tool Health › Source Freshness" title="Source Freshness" headerActions={<span className="badge bg-blue-lt">{seedConnectors.length} sources</span>}>
+    <PageContainer pretitle="Tool Health › Source Freshness" title="Source Freshness" headerActions={<span className="badge bg-blue-lt">{thesisConnectors.length} sources</span>}>
       <div className="card">
         <div className="card-header"><h3 className="card-title">Freshness by Last Run</h3></div>
         <div className="card-body p-0">

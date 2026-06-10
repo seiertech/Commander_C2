@@ -18,7 +18,6 @@ import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { PostureMetricCard } from '@/components/posture-metric-card';
 import { TimeRangeToggle } from '@/components/time-range-toggle';
-import { seedPostureMetrics } from '../../../../../packages/contracts/src/fixtures/seed-posture-metrics';
 import { componentTokens } from '../../../../../packages/ui/src/tokens/components';
 import {
   primitiveTypeScale,
@@ -29,6 +28,7 @@ import {
   primitiveLetterSpacing,
 } from '../../../../../packages/ui/src/tokens/primitives';
 import type { PostureTimePeriod, PostureMetricConfig } from '../../../../../packages/contracts/src/entities/posture-metrics-config';
+import { thesisPostureMetrics } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 export default function PosturePage() {
   const { tokens } = useMode();
@@ -60,7 +60,7 @@ export default function PosturePage() {
           marginBottom: componentTokens.gridGap,
         }}
       >
-        {seedPostureMetrics.map((metric) => (
+        {thesisPostureMetrics.map((metric) => (
           <div key={metric.metricKey}>
             <PostureMetricCard
               metric={metric}

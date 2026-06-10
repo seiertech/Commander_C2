@@ -3,13 +3,13 @@
 import dynamic from 'next/dynamic';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedTeamPulse } from '../../../../../../packages/contracts/src/fixtures/seed-pulse';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
   primitiveFonts, primitiveLetterSpacing, primitiveSignal, primitiveData,
 } from '../../../../../../packages/ui/src/tokens/primitives';
 import type { ApexOptions } from 'apexcharts';
+import { thesisTeamPulse } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -30,8 +30,8 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 export default function TeamPulseWorkloadPage() {
   const { mode, tokens } = useMode();
 
-  const teams = seedTeamPulse.filter((e) => e.level === 'team');
-  const individuals = seedTeamPulse.filter((e) => e.level === 'individual');
+  const teams = thesisTeamPulse.filter((e) => e.level === 'team');
+  const individuals = thesisTeamPulse.filter((e) => e.level === 'individual');
   const totalOpen = teams.reduce((acc, t) => acc + t.openCases, 0);
   const totalHighPriority = teams.reduce((acc, t) => acc + t.highPriorityCases, 0);
   const totalSlaBreached = teams.reduce((acc, t) => acc + t.slaBreachedCases, 0);

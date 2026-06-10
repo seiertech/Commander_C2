@@ -1,10 +1,10 @@
 'use client';
 
 import { PageContainer } from '@/components/page-container';
-import { seedStrategies } from '../../../../../../packages/contracts/src/fixtures/seed-strategies';
 import { STRATEGY_SURFACE_LABELS } from '../../../../../../packages/contracts/src/entities/strategy';
 import { primitiveTypeScale, primitiveHud } from '../../../../../../packages/ui/src/tokens/primitives';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
+import { thesisStrategies } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Strategy Audit History — Policy Change Timeline (Spec 43)
@@ -29,7 +29,7 @@ interface AuditEntry {
 
 export default function StrategyAuditHistoryPage() {
   // Derive audit entries from seed strategy policy data
-  const auditEntries: AuditEntry[] = seedStrategies.map((policy) => ({
+  const auditEntries: AuditEntry[] = thesisStrategies.map((policy) => ({
     date: policy.updatedAt,
     surface: STRATEGY_SURFACE_LABELS[policy.surfaceType],
     action: policy.status === 'active' ? 'Activated' : policy.status === 'pending-approval' ? 'Submitted' : 'Created',

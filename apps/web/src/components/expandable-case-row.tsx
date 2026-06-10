@@ -6,7 +6,7 @@ import { componentTokens } from '../../../../packages/ui/src/tokens/components';
 import { primitiveFonts, primitiveTypeScale, primitiveLetterSpacing, primitiveSignal, primitiveSpacing, primitiveRadii, primitiveMotion } from '../../../../packages/ui/src/tokens/primitives';
 import { primitivePriority } from '../../../../packages/ui/src/tokens/primitives';
 import { resolveAllStrategies } from '../../../../packages/contracts/src/resolvers/case-strategy-resolver';
-import { seedStrategies } from '../../../../packages/contracts/src/fixtures/seed-strategies';
+import { thesisStrategies } from '../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * ExpandableCaseRow — Commander C2 (Spec 06 My Cases)
@@ -42,7 +42,7 @@ interface ExpandableCaseRowProps {
 
 export function ExpandableCaseRow({ case: caseRecord, expanded, onToggle, tokens, mode }: ExpandableCaseRowProps) {
   const p = primitivePriority[caseRecord.priority.toLowerCase() as keyof typeof primitivePriority];
-  const strategy = resolveAllStrategies(caseRecord, seedStrategies);
+  const strategy = resolveAllStrategies(caseRecord, thesisStrategies);
   const slaHours = strategy.sla.status === 'resolved' ? strategy.sla.responseHours : caseRecord.sla.targetResolutionHours;
   const expandRegionId = `case-expand-${caseRecord.id}`;
 

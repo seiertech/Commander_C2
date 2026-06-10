@@ -2,7 +2,7 @@
 
 import { colors } from '../../../../../../packages/ui/src/tokens/colors';
 import { typography } from '../../../../../../packages/ui/src/tokens/typography';
-import { seedEntitlements } from '../../../../../../packages/contracts/src/fixtures/seed-entitlements';
+import { thesisEntitlements } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Commercial Control Plane — Entitlement Manifest Editor
@@ -41,7 +41,7 @@ export default function ControlPlaneEntitlementsPage() {
             </tr>
           </thead>
           <tbody>
-            {seedEntitlements.map((manifest) => (
+            {thesisEntitlements.map((manifest) => (
               <tr key={manifest.id} style={{ borderBottom: `1px solid ${colors.controlPlane.line}` }}>
                 <td style={{ padding: '10px 12px', color: colors.controlPlane.text, fontWeight: 600 }}>{manifest.tenantId}</td>
                 <td style={{ padding: '10px 12px', color: colors.controlPlane.muted, fontSize: typography.fontSize.xs, fontFamily: 'monospace' }}>{manifest.manifestId}</td>
@@ -75,7 +75,7 @@ export default function ControlPlaneEntitlementsPage() {
 
       <div style={{ marginTop: '16px' }}>
         <h3 style={{ color: colors.controlPlane.text, margin: '0 0 8px', fontSize: typography.fontSize.base, textTransform: 'uppercase', letterSpacing: typography.letterSpacing.eyebrow }}>Module Detail</h3>
-        {seedEntitlements.map((manifest) => (
+        {thesisEntitlements.map((manifest) => (
           <div key={manifest.id} style={{ border: `1px solid ${colors.controlPlane.line}`, background: colors.controlPlane.panel, padding: '14px', marginBottom: '10px' }}>
             <h4 style={{ color: colors.controlPlane.text, margin: '0 0 8px', fontSize: typography.fontSize.sm }}>{manifest.tenantId} — Modules</h4>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '8px' }}>

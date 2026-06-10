@@ -1,8 +1,8 @@
 'use client';
 
+import { thesisModels } from '../../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedModels } from '../../../../../../../packages/contracts/src/fixtures/seed-platform';
 import { componentTokens } from '../../../../../../../packages/ui/src/tokens/components';
 import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
@@ -36,7 +36,7 @@ export default function PlatformModelLifecyclePage() {
 
   const modelsByStage = LIFECYCLE_STAGES.map((stage) => ({
     stage,
-    models: seedModels.filter((m) => m.status === stage),
+    models: thesisModels.filter((m) => m.status === stage),
   }));
 
   return (
@@ -47,7 +47,7 @@ export default function PlatformModelLifecyclePage() {
           <div key={stage} style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding, textAlign: 'center' }}>
             <span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>{stage}</span>
             <span style={{ fontSize: primitiveTypeScale.kpiValue, fontFamily: primitiveFonts.mono, fontWeight: primitiveFontWeight.bold, color: stageColor(stage) }}>
-              {seedModels.filter((m) => m.status === stage).length}
+              {thesisModels.filter((m) => m.status === stage).length}
             </span>
           </div>
         ))}

@@ -2,9 +2,9 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedConnectors } from '../../../../../../packages/contracts/src/fixtures/seed-connectors';
 import { CONNECTOR_CLASS_LABELS } from '../../../../../../packages/contracts/src/entities/common';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisConnectors } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Platform — Connectors & Data Sources
@@ -18,7 +18,7 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/
 
 export default function PlatformConnectorsPage() {
   const { tokens } = useMode();
-  const connectors = seedConnectors;
+  const connectors = thesisConnectors;
 
   const activeCount = connectors.filter((c) => c.state === 'active').length;
   const errorCount = connectors.filter((c) => c.state === 'error').length;

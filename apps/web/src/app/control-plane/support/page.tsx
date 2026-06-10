@@ -2,22 +2,22 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedSupportOperations } from '../../../../../../packages/contracts/src/fixtures/seed-support-operations';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisSupportOperations } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 {/* AI-PLACEMENT: AICAP-CP-009 — Commander AI support prioritisation */}
 
 export default function ControlPlaneSupportPage() {
   const { tokens } = useMode();
-  const open = seedSupportOperations.filter((s) => s.status === 'open' || s.status === 'in_progress').length;
-  const resolved = seedSupportOperations.filter((s) => s.status === 'resolved' || s.status === 'closed').length;
-  const high = seedSupportOperations.filter((s) => s.priority === 'high' || s.priority === 'critical').length;
+  const open = thesisSupportOperations.filter((s) => s.status === 'open' || s.status === 'in_progress').length;
+  const resolved = thesisSupportOperations.filter((s) => s.status === 'resolved' || s.status === 'closed').length;
+  const high = thesisSupportOperations.filter((s) => s.priority === 'high' || s.priority === 'critical').length;
 
   return (
     <PageContainer pretitle="Control Plane › Support" title="Support Operations">
       <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
-        <Kpi tokens={tokens} label="Total" value={String(seedSupportOperations.length)} />
+        <Kpi tokens={tokens} label="Total" value={String(thesisSupportOperations.length)} />
         <Kpi tokens={tokens} label="Open" value={String(open)} accent={open > 0 ? primitiveSignal.warning : undefined} />
         <Kpi tokens={tokens} label="Resolved" value={String(resolved)} accent={primitiveSignal.success} />
         <Kpi tokens={tokens} label="High Priority" value={String(high)} accent={high > 0 ? primitiveSignal.critical : undefined} />
@@ -27,7 +27,7 @@ export default function ControlPlaneSupportPage() {
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
             <thead><tr>{['Title', 'Category', 'Priority', 'Status', 'Assigned', 'Opened'].map((h) => <th key={h} style={{ textAlign: 'left', padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, borderBottom: `2px solid ${tokens.border.default}`, color: tokens.text.muted, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, fontSize: primitiveTypeScale.micro }}>{h}</th>)}</tr></thead>
-            <tbody>{seedSupportOperations.map((s) => (
+            <tbody>{thesisSupportOperations.map((s) => (
               <tr key={s.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold, maxWidth: 280, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={s.title}>{s.title}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{s.category.replace(/_/g, ' ')}</td>

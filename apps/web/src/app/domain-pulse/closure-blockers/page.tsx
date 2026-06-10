@@ -3,13 +3,13 @@
 import dynamic from 'next/dynamic';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedDomainPulse } from '../../../../../../packages/contracts/src/fixtures/seed-pulse';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
   primitiveFonts, primitiveLetterSpacing, primitiveSignal, primitiveData,
 } from '../../../../../../packages/ui/src/tokens/primitives';
 import type { ApexOptions } from 'apexcharts';
+import { thesisDomainPulse } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -26,23 +26,23 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 export default function DomainPulseClosureBlockersPage() {
   const { mode, tokens } = useMode();
 
-  const totalBlockers = seedDomainPulse.reduce((acc, d) => acc + d.closureBlockers, 0);
-  const domainsBlocked = seedDomainPulse.filter((d) => d.closureBlockers > 0).length;
-  const mostBlocked = [...seedDomainPulse].sort((a, b) => b.closureBlockers - a.closureBlockers)[0];
+  const totalBlockers = thesisDomainPulse.reduce((acc, d) => acc + d.closureBlockers, 0);
+  const domainsBlocked = thesisDomainPulse.filter((d) => d.closureBlockers > 0).length;
+  const mostBlocked = [...thesisDomainPulse].sort((a, b) => b.closureBlockers - a.closureBlockers)[0];
 
   const chartOpts: ApexOptions = {
     chart: { type: 'bar', toolbar: { show: false }, background: 'transparent', fontFamily: primitiveFonts.body },
     theme: { mode: mode === 'mission' ? 'dark' : 'light' },
     colors: [primitiveData[4]],
     plotOptions: { bar: { horizontal: true, barHeight: '60%', borderRadius: 0 } },
-    xaxis: { categories: seedDomainPulse.map((d) => d.domain), labels: { style: { colors: tokens.text.muted, fontSize: primitiveTypeScale.micro } } },
+    xaxis: { categories: thesisDomainPulse.map((d) => d.domain), labels: { style: { colors: tokens.text.muted, fontSize: primitiveTypeScale.micro } } },
     yaxis: { labels: { style: { colors: tokens.text.muted, fontSize: primitiveTypeScale.micro } } },
     grid: { borderColor: tokens.border.subtle, strokeDashArray: 3 },
     dataLabels: { enabled: true, style: { fontSize: primitiveTypeScale.micro, colors: [tokens.text.secondary] } },
     tooltip: { theme: mode === 'mission' ? 'dark' : 'light' },
   };
 
-  const chartSeries = [{ name: 'Closure Blockers', data: seedDomainPulse.map((d) => d.closureBlockers) }];
+  const chartSeries = [{ name: 'Closure Blockers', data: thesisDomainPulse.map((d) => d.closureBlockers) }];
 
   const healthColor = (health: string) =>
     health === 'critical' ? primitiveSignal.critical : health === 'degraded' ? primitiveSignal.warning : primitiveSignal.success;
@@ -84,7 +84,7 @@ export default function DomainPulseClosureBlockersPage() {
               </tr>
             </thead>
             <tbody>
-              {seedDomainPulse.map((d) => (
+              {thesisDomainPulse.map((d) => (
                 <tr key={d.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{d.domain}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', color: '#fff', background: healthColor(d.health) }}>{d.health}</span></td>

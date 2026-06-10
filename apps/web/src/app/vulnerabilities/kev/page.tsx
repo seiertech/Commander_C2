@@ -1,8 +1,8 @@
 'use client';
 
+import { thesisVulnerabilityIntelligence } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedVulnerabilityIntelligence } from '../../../../../../packages/contracts/src/fixtures/seed-vulnerability-intelligence';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
@@ -22,8 +22,8 @@ import {
 export default function VulnerabilitiesKevPage() {
   const { tokens } = useMode();
 
-  const kevEntries = seedVulnerabilityIntelligence.filter((v) => v.cisaKevStatus);
-  const criticalEntries = seedVulnerabilityIntelligence.filter((v) => v.severity >= 4);
+  const kevEntries = thesisVulnerabilityIntelligence.filter((v) => v.cisaKevStatus);
+  const criticalEntries = thesisVulnerabilityIntelligence.filter((v) => v.severity >= 4);
   const overdue = kevEntries.filter((v) => v.kevDueDate && new Date(v.kevDueDate) < new Date('2026-01-18'));
   const avgEpss = kevEntries.length > 0 ? (kevEntries.reduce((acc, v) => acc + (v.epssScore ?? 0), 0) / kevEntries.length * 100).toFixed(0) : '0';
 
@@ -50,7 +50,7 @@ export default function VulnerabilitiesKevPage() {
               </tr>
             </thead>
             <tbody>
-              {seedVulnerabilityIntelligence.filter((v) => v.cisaKevStatus || v.severity >= 4).map((v) => (
+              {thesisVulnerabilityIntelligence.filter((v) => v.cisaKevStatus || v.severity >= 4).map((v) => (
                 <tr key={v.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold, fontFamily: primitiveFonts.mono }}>{v.cveId}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: v.cvssScore >= 9 ? primitiveSignal.critical : v.cvssScore >= 7 ? primitiveSignal.warning : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{v.cvssScore}</td>

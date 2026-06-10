@@ -1,9 +1,9 @@
 'use client';
 
+import { thesisDecisionRecords } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { useState } from 'react';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedDecisionRecords } from '../../../../../../packages/contracts/src/fixtures/seed-decision-records';
 import { renderRationale } from '../../../../../../packages/contracts/src/engines/decision-explainability-engine';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import {
@@ -23,8 +23,8 @@ export default function GovernanceDecisionsPage() {
   const { tokens } = useMode();
   const [filter, setFilter] = useState<string>('all');
 
-  const types = Array.from(new Set(seedDecisionRecords.map((d) => d.decisionType)));
-  const filtered = filter === 'all' ? seedDecisionRecords : seedDecisionRecords.filter((d) => d.decisionType === filter);
+  const types = Array.from(new Set(thesisDecisionRecords.map((d) => d.decisionType)));
+  const filtered = filter === 'all' ? thesisDecisionRecords : thesisDecisionRecords.filter((d) => d.decisionType === filter);
 
   const confidenceColor = (c: number) =>
     c >= 80 ? primitiveSignal.success : c >= 50 ? primitiveSignal.warning : primitiveSignal.critical;
@@ -33,9 +33,9 @@ export default function GovernanceDecisionsPage() {
     <PageContainer pretitle="Governance › Decision Explainability" title="Decision Records">
       {/* KPI strip */}
       <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
-        <KpiCard tokens={tokens} label="Total Decisions" value={String(seedDecisionRecords.length)} />
-        <KpiCard tokens={tokens} label="Overridden" value={String(seedDecisionRecords.filter((d) => d.overridden).length)} accent={primitiveSignal.warning} />
-        <KpiCard tokens={tokens} label="Avg Confidence" value={`${Math.round(seedDecisionRecords.reduce((a, d) => a + d.confidence, 0) / seedDecisionRecords.length)}%`} />
+        <KpiCard tokens={tokens} label="Total Decisions" value={String(thesisDecisionRecords.length)} />
+        <KpiCard tokens={tokens} label="Overridden" value={String(thesisDecisionRecords.filter((d) => d.overridden).length)} accent={primitiveSignal.warning} />
+        <KpiCard tokens={tokens} label="Avg Confidence" value={`${Math.round(thesisDecisionRecords.reduce((a, d) => a + d.confidence, 0) / thesisDecisionRecords.length)}%`} />
         <KpiCard tokens={tokens} label="Types" value={String(types.length)} />
       </section>
 

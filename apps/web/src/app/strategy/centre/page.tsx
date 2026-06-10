@@ -1,11 +1,11 @@
 'use client';
 
 import { PageContainer } from '@/components/page-container';
-import { seedStrategies } from '../../../../../../packages/contracts/src/fixtures/seed-strategies';
 import { STRATEGY_SURFACE_LABELS } from '../../../../../../packages/contracts/src/entities/strategy';
 import type { StrategySurfaceType } from '../../../../../../packages/contracts/src/entities/strategy';
 import { primitiveTypeScale, primitiveHud } from '../../../../../../packages/ui/src/tokens/primitives';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
+import { thesisStrategies } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Strategy Centre — Unified Configuration Surface (Spec 43)
@@ -19,7 +19,7 @@ import { componentTokens } from '../../../../../../packages/ui/src/tokens/compon
  */
 
 export default function StrategyCentrePage() {
-  const policies = seedStrategies;
+  const policies = thesisStrategies;
   const activePolicies = policies.filter((p) => p.status === 'active');
   const pendingApproval = policies.filter((p) => p.status === 'pending-approval');
   const surfacesCovered = new Set(activePolicies.map((p) => p.surfaceType)).size;

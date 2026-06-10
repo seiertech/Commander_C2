@@ -1,11 +1,8 @@
 'use client';
 
 import { PageContainer } from '@/components/page-container';
-import { seedCases } from '../../../../../../packages/contracts/src/fixtures/seed-cases';
-import { seedAssets } from '../../../../../../packages/contracts/src/fixtures/seed-assets';
-import { seedIdentities } from '../../../../../../packages/contracts/src/fixtures/seed-identities';
-import { seedRiskObjects } from '../../../../../../packages/contracts/src/fixtures/seed-risk-objects';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisCases, thesisAssets, thesisIdentities, thesisRiskObjects } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * SOM — CISO Dashboard
@@ -18,14 +15,14 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/
  */
 
 export default function CisoDashboardPage() {
-  const cases = seedCases;
+  const cases = thesisCases;
   const p0Cases = cases.filter((c) => c.priority === 'P0');
   const p1Cases = cases.filter((c) => c.priority === 'P1');
   const openCases = cases.filter((c) => c.status !== 'closed_by_system' && c.status !== 'closed');
   const slaBreached = cases.filter((c) => c.sla.breached);
-  const openRisks = seedRiskObjects.filter((r) => r.treatmentState === 'open');
-  const highRiskIdentities = seedIdentities.filter((i) => i.riskScore >= 60);
-  const criticalAssets = seedAssets.filter((a) => a.criticality >= 4);
+  const openRisks = thesisRiskObjects.filter((r) => r.treatmentState === 'open');
+  const highRiskIdentities = thesisIdentities.filter((i) => i.riskScore >= 60);
+  const criticalAssets = thesisAssets.filter((a) => a.criticality >= 4);
 
   return (
     <PageContainer pretitle="SOM › CISO Dashboard" title="CISO Dashboard" headerActions={<span className="badge bg-purple-lt">Executive View</span>}>
@@ -54,7 +51,7 @@ export default function CisoDashboardPage() {
         <div className="col-sm-6 col-lg-3"><div className="card"><div className="card-body"><div className="subheader">P0 Cases</div><div className="h1 mb-0" style={{ color: primitiveSignal.critical }}>{p0Cases.length}</div></div></div></div>
         <div className="col-sm-6 col-lg-3"><div className="card"><div className="card-body"><div className="subheader">P1 Cases</div><div className="h1 mb-0" style={{ color: primitiveSignal.warning }}>{p1Cases.length}</div></div></div></div>
         <div className="col-sm-6 col-lg-3"><div className="card"><div className="card-body"><div className="subheader">High-Risk Identities</div><div className="h1 mb-0">{highRiskIdentities.length}</div></div></div></div>
-        <div className="col-sm-6 col-lg-3"><div className="card"><div className="card-body"><div className="subheader">Total Assets</div><div className="h1 mb-0">{seedAssets.length}</div></div></div></div>
+        <div className="col-sm-6 col-lg-3"><div className="card"><div className="card-body"><div className="subheader">Total Assets</div><div className="h1 mb-0">{thesisAssets.length}</div></div></div></div>
       </div>
 
       {/* Priority Breakdown */}

@@ -3,12 +3,9 @@
 import { use } from 'react';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedAssets } from '../../../../../packages/contracts/src/fixtures/seed-assets';
-import { seedCases } from '../../../../../packages/contracts/src/fixtures/seed-cases';
-import { seedIdentities } from '../../../../../packages/contracts/src/fixtures/seed-identities';
-import { seedRiskObjects } from '../../../../../packages/contracts/src/fixtures/seed-risk-objects';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
 import { STREAM_LABELS } from '../../../../../packages/contracts/src/engines/intelligence-layer';
+import { thesisAssets, thesisCases, thesisIdentities, thesisRiskObjects } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Asset Intelligence Surface — Thesis §8 (Asset Authority Layer)
@@ -40,16 +37,16 @@ export default function AssetIntelligencePage({ searchParams }: { searchParams: 
   const { id } = use(searchParams);
   const { tokens } = useMode();
 
-  const selected = id ? seedAssets.find((a) => a.id === id) : undefined;
+  const selected = id ? thesisAssets.find((a) => a.id === id) : undefined;
 
   // ── Asset list view (no selection) ──
   if (!selected) {
-    const sorted = [...seedAssets].sort((a, b) => b.criticality - a.criticality);
+    const sorted = [...thesisAssets].sort((a, b) => b.criticality - a.criticality);
     return (
       <PageContainer
         pretitle="Identity & Asset Intelligence › Assets"
         title="Asset Intelligence"
-        headerActions={<span className="badge bg-blue-lt">{seedAssets.length} assets</span>}
+        headerActions={<span className="badge bg-blue-lt">{thesisAssets.length} assets</span>}
       >
         <div className="card">
           <div className="card-header">
@@ -96,15 +93,15 @@ export default function AssetIntelligencePage({ searchParams }: { searchParams: 
   const a = selected;
 
   // 5. Case History — cases referencing this asset
-  const caseHistory = seedCases.filter((c) => c.relatedEntities.includes(a.id));
+  const caseHistory = thesisCases.filter((c) => c.relatedEntities.includes(a.id));
   // 6. Vulnerability State — vulnerability-flavoured risk objects affecting this asset
-  const vulnRiskObjects = seedRiskObjects.filter(
+  const vulnRiskObjects = thesisRiskObjects.filter(
     (r) => (r.affectedEntities?.includes(a.id) || r.affectedEntityId === a.id) &&
       (r.type === 'vulnerability_drift' || r.type === 'exposure_drift' || r.type === 'configuration_drift'),
   );
   const vulnCases = caseHistory.filter((c) => c.caseType.includes('vulnerability') || c.caseType.includes('exposure'));
   // 7. Identity Exposure — identities with access to this asset
-  const exposedIdentities = seedIdentities.filter((i) => i.associatedAssets.includes(a.id));
+  const exposedIdentities = thesisIdentities.filter((i) => i.associatedAssets.includes(a.id));
 
   return (
     <PageContainer

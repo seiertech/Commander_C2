@@ -2,10 +2,9 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedTopology } from '../../../../../../packages/contracts/src/fixtures/seed-topology';
-import { seedMissions } from '../../../../../../packages/contracts/src/fixtures/seed-missions';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisTopology, thesisMissionSeeds } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Fusion Map — Mission Overlay
@@ -16,8 +15,8 @@ import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFon
 
 export default function FusionMapMissionPage() {
   const { tokens } = useMode();
-  const { nodes } = seedTopology;
-  const activeMissions = seedMissions.filter((m) => m.status === 'active');
+  const { nodes } = thesisTopology;
+  const activeMissions = thesisMissionSeeds.filter((m) => m.status === 'active');
   const missionCaseRefs = new Set(activeMissions.flatMap((m) => m.alignedCases));
   const missionNodes = nodes.filter((n) => n.entityType === 'case' && missionCaseRefs.has(n.entityRef));
   const missionDomains = new Set(activeMissions.flatMap((m) => m.impactDomains));

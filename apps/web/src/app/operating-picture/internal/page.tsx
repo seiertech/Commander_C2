@@ -2,13 +2,9 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedAssets } from '../../../../../../packages/contracts/src/fixtures/seed-assets';
-import { seedIdentities } from '../../../../../../packages/contracts/src/fixtures/seed-identities';
-import { seedCases } from '../../../../../../packages/contracts/src/fixtures/seed-cases';
-import { seedRiskObjects } from '../../../../../../packages/contracts/src/fixtures/seed-risk-objects';
-import { seedConnectors } from '../../../../../../packages/contracts/src/fixtures/seed-connectors';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
 import { STREAM_LABELS, CLASS_TO_STREAM } from '../../../../../../packages/contracts/src/engines/intelligence-layer';
+import { thesisAssets, thesisIdentities, thesisCases, thesisRiskObjects, thesisConnectors } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Internal Operating Picture — Thesis Layer
@@ -59,16 +55,16 @@ export default function InternalOperatingPicturePage() {
   const { tokens } = useMode();
 
   // ── 1. Internal attack surface inventory ──
-  const internalAssets = seedAssets.filter((a) => a.surfaceAttribution === INTERNAL);
-  const internalIdentities = seedIdentities.filter((i) => i.surfaceAttribution === INTERNAL);
+  const internalAssets = thesisAssets.filter((a) => a.surfaceAttribution === INTERNAL);
+  const internalIdentities = thesisIdentities.filter((i) => i.surfaceAttribution === INTERNAL);
 
   // ── 2. Internal Behavioural Intelligence stream — Class B connectors feed this stream (aggregate) ──
-  const internalBehaviouralConnectors = seedConnectors.filter((c) =>
+  const internalBehaviouralConnectors = thesisConnectors.filter((c) =>
     c.classes.some((cls) => CLASS_TO_STREAM[cls] === 'internal_behavioural'),
   );
 
   // ── 3. Internal attack surface case queue ──
-  const internalCases = seedCases
+  const internalCases = thesisCases
     .filter((c) => c.surfaceAttribution === INTERNAL)
     .sort((a, b) => {
       const order: Record<string, number> = { P0: 0, P1: 1, P2: 2, P3: 3, P4: 4 };
@@ -81,7 +77,7 @@ export default function InternalOperatingPicturePage() {
     ...internalIdentities.map((i) => i.id),
     ...internalCases.map((c) => c.id),
   ]);
-  const internalRiskObjects = seedRiskObjects.filter((r) =>
+  const internalRiskObjects = thesisRiskObjects.filter((r) =>
     r.affectedEntities?.some((id) => internalEntityIds.has(id)) || internalEntityIds.has(r.affectedEntityId),
   );
 
