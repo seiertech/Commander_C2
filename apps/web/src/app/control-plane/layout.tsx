@@ -4,7 +4,7 @@ import { typography } from '../../../../../packages/ui/src/tokens/typography';
 import { CONTROL_PLANE_NAV_ITEMS, CONTROL_PLANE_TOP_NAV } from '@/registry/nav-groups';
 
 /**
- * Commercial Control Plane Layout — Commander SDR (v1.3.2)
+ * Commercial Control Plane Layout — Commander C2 (v1.3.2)
  *
  * Source: docs/06_ui_build_reference/commander-commercial-control-plane-shell-v3-admin-navigation.html
  *

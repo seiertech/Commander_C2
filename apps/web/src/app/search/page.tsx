@@ -8,7 +8,7 @@ import type { SearchResult } from '../../../../../packages/contracts/src/engines
 import { primitiveTypeScale } from '../../../../../packages/ui/src/tokens/primitives';
 
 /**
- * Universal Search — Commander SDR (Spec 42)
+ * Universal Search — Commander C2 (Spec 42)
  *
  * Source: Thesis Universal Search
  * Data: search-index-config.ts, seed-search-config.ts, universal-search-engine.ts

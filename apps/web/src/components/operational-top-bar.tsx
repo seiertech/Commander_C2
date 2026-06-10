@@ -8,7 +8,7 @@ import { standardTokens } from '../../../../packages/ui/src/tokens/semantic';
 import { TOP_NAV_WORKSPACES } from '@/registry/nav-groups';
 
 /**
- * Operational App Top Bar — Commander SDR (DS-1.0)
+ * Operational App Top Bar — Commander C2 (DS-1.0)
  *
  * DS-1.0 §6: 56px, navy chrome both modes.
  * Structure: Left (Hamburger + Logo), Centre (Search), Right (AI, Mode toggle, Notifications, User).
@@ -55,7 +55,7 @@ export function OperationalTopBar() {
           overflow: 'hidden',
           whiteSpace: 'nowrap',
         }}
-        aria-label="Commander SDR — Home"
+        aria-label="Commander C2 — Home"
       >
         {!collapsed && (
           <>

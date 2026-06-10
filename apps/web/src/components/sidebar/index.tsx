@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Sidebar — Commander SDR (DS-1.0 Tabler reskin)
+ * Sidebar — Commander C2 (DS-1.0 Tabler reskin)
  *
  * Tabler navbar-vertical combo layout pattern.
  * Always dark (data-bs-theme="dark" on <aside>).

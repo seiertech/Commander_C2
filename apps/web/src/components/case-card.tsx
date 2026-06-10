@@ -13,7 +13,7 @@ import {
 } from '../app/cases/case-metrics';
 
 /**
- * CaseCard — Commander SDR (DS-1.0)
+ * CaseCard — Commander C2 (DS-1.0)
  *
  * Dense flow-board card. Surfaces only REAL Case fields (priority, SLA, owner,
  * surface, age) plus clearly-labelled DERIVED helpers (Risk Score, Momentum,

@@ -26,7 +26,7 @@ import { seedCaseTransitionAudits } from '../../../../../../packages/contracts/s
 import { seedTeamsDecisionEvents } from '../../../../../../packages/contracts/src/fixtures/seed-teams-decision-events';
 
 /**
- * Case Detail — Commander SDR (DS-1.0, Spec 06)
+ * Case Detail — Commander C2 (DS-1.0, Spec 06)
  *
  * Case-record master-detail layout (ServiceNow/Jira-style): a strong case
  * header, a main work column (lifecycle → actions/sub-actions → evidence & risk

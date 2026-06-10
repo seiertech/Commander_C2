@@ -14,7 +14,7 @@ import { seedWarRooms } from '../../../../../../packages/contracts/src/fixtures/
 import { seedTeamsDecisionEvents } from '../../../../../../packages/contracts/src/fixtures/seed-teams-decision-events';
 
 /**
- * P0 Zero-Day War Room — Commander SDR (DS-1.0, Spec 06 / Spec 24)
+ * P0 Zero-Day War Room — Commander C2 (DS-1.0, Spec 06 / Spec 24)
  *
  * Emergency Command surface — legitimately forces Mission/HUD chrome (DS-1.0
  * §9.3). Renders ONLY real data: P0 cases from seedCases, their resolved

@@ -28,7 +28,7 @@ import { slaState, riskScore, isClosed, PRIORITIES } from '../case-metrics';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 /**
- * My Cases — Analyst Workspace (Commander SDR, Spec 06)
+ * My Cases — Analyst Workspace (Commander C2, Spec 06)
  *
  * One-page representation of EVERYTHING real that constitutes an analyst's
  * caseload. Leads with real data: workload KPIs, a prioritised rich-card

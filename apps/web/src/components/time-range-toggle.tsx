@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * TimeRangeToggle — Commander SDR (Unit 16b)
+ * TimeRangeToggle — Commander C2 (Unit 16b)
  *
  * Button group for selecting posture metric time period (24h / 7d / 30d / YTD).
  * Design: DS-1.0 button group pattern, semantic tokens only.

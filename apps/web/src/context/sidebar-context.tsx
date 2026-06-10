@@ -3,7 +3,7 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 
 /**
- * Sidebar Collapse Context — Commander SDR
+ * Sidebar Collapse Context — Commander C2
  *
  * Shared state for sidebar collapsed/expanded so that:
  * - Shell can adjust marginLeft dynamically

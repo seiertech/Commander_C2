@@ -3,7 +3,7 @@
 import type { ReactNode } from 'react';
 
 /**
- * PageContainer — Commander SDR (DS-1.0 Tabler reskin)
+ * PageContainer — Commander C2 (DS-1.0 Tabler reskin)
  *
  * THE single source of truth for page-level spacing and nav alignment.
  *

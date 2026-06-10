@@ -24,7 +24,7 @@ import type { ApexOptions } from 'apexcharts';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 /**
- * Case Management Adherence Dashboard — Commander SDR (DS-1.0, Spec 06)
+ * Case Management Adherence Dashboard — Commander C2 (DS-1.0, Spec 06)
  *
  * MBA-level operating picture for SOM / Director / CISO. Every metric is
  * computed from populated canonical fixtures (seedCases + seedActions); there

@@ -5,7 +5,7 @@ import { primitiveTypeScale } from '../../../../../packages/ui/src/tokens/primit
 import { tenantAdminRoutes } from '../../registry/tenant-admin-routes';
 
 /**
- * Tenant Admin Layout — Commander SDR (v1.3.2)
+ * Tenant Admin Layout — Commander C2 (v1.3.2)
  *
  * Visual language: Inherits Operational App visual language per
  * DEC-v1.3.2-tenant-admin-shell-pending-reference.

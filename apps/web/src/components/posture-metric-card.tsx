@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * PostureMetricCard — Commander SDR (Unit 16b)
+ * PostureMetricCard — Commander C2 (Unit 16b)
  *
  * KPI card for the posture/aggregate Command Centre rollup.
  * Displays: metric label, current value + unit, sparkline, threshold band

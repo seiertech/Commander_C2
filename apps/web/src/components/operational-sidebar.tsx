@@ -8,7 +8,7 @@ import { useSidebarCollapsed } from '@/context/sidebar-context';
 import { OPERATIONAL_NAV_GROUPS } from '@/registry/nav-groups';
 
 /**
- * Operational App Sidebar — Commander SDR (DS-1.0)
+ * Operational App Sidebar — Commander C2 (DS-1.0)
  *
  * DS-1.0 §7: 248px expanded / 68px icon rail. Collapsible via hamburger.
  * - Item height 36px, padding 8px 12px, icon 20px

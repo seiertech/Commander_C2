@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Commander SDR — Header Component (DS-1.0 Tabler reskin)
+ * Commander C2 — Header Component (DS-1.0 Tabler reskin)
  *
  * Tabler navbar navbar-expand-md pattern.
  * Header background follows mode: white in standard, dark in mission.

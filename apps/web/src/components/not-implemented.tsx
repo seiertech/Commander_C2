@@ -6,7 +6,7 @@ import {
 } from '../../../../packages/ui/src/tokens/primitives';
 
 /**
- * NotImplemented — Commander SDR
+ * NotImplemented — Commander C2
  *
  * Honest placeholder for capabilities that have NO backing entity or fixture
  * yet. Renders a labelled, greyed, dashed-border card stating what the surface

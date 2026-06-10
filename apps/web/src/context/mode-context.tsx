@@ -4,7 +4,7 @@ import { createContext, useContext, useState, useEffect, type ReactNode } from '
 import { getSemanticTokens, type WorkspaceMode } from '../../../../packages/ui/src/tokens/semantic';
 
 /**
- * Workspace Mode Context — Commander SDR
+ * Workspace Mode Context — Commander C2
  *
  * Standard/Mission mode system per DS-1.0 §9.
  * - Standard (Light): management, configuration, reporting

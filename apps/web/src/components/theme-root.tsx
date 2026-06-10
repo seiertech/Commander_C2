@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useMode } from '@/context/mode-context';
 
 /**
- * ThemeRoot — Commander SDR (DS-1.0 Tabler integration)
+ * ThemeRoot — Commander C2 (DS-1.0 Tabler integration)
  *
  * Applies data-bs-theme to <html> so Tabler's CSS variables switch between
  * light and dark palettes in sync with Commander's Standard/Mission mode.

@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Sparkline — Commander SDR (Unit 16b)
+ * Sparkline — Commander C2 (Unit 16b)
  *
  * Inline SVG mini-chart for posture metric trend visualisation.
  * 7 data points, 60px wide, 24px tall. Pure SVG — no chart library dependency.

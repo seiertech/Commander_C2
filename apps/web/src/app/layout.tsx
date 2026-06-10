@@ -18,12 +18,12 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Commander SDR',
+  title: 'Commander C2',
   description: 'Security Command and Control — Security Drift Response',
 };
 
 /**
- * Root Layout — Commander SDR Operational App (DS-1.0)
+ * Root Layout — Commander C2 Operational App (DS-1.0)
  *
  * Fonts declared inline (not imported from separate module) to avoid
  * next/font internal Set objects leaking across the RSC boundary.

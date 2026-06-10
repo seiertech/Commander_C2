@@ -7,7 +7,7 @@ import { componentTokens } from '../../../../packages/ui/src/tokens/components';
 import { ExpandableCaseRow } from './expandable-case-row';
 
 /**
- * CaseList — Commander SDR (Spec 06 My Cases)
+ * CaseList — Commander C2 (Spec 06 My Cases)
  *
  * Scrollable list of expandable case rows.
  * Manages expand state internally — single or multi-expand mode.

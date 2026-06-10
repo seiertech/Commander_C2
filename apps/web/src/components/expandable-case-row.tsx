@@ -9,7 +9,7 @@ import { resolveAllStrategies } from '../../../../packages/contracts/src/resolve
 import { seedStrategies } from '../../../../packages/contracts/src/fixtures/seed-strategies';
 
 /**
- * ExpandableCaseRow — Commander SDR (Spec 06 My Cases)
+ * ExpandableCaseRow — Commander C2 (Spec 06 My Cases)
  *
  * Expandable row for case list views. Collapsed shows single-line summary;
  * expanded shows routing rationale, metadata grid, and link to full detail.

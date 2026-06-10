@@ -7,7 +7,7 @@ import { componentTokens } from '../../../../packages/ui/src/tokens/components';
 import { primitiveMotion } from '../../../../packages/ui/src/tokens/primitives';
 
 /**
- * Operational App Shell — Commander SDR (DS-1.0)
+ * Operational App Shell — Commander C2 (DS-1.0)
  *
  * DS-1.0 §5 Global Layout — three-zone CSS fixed positioning:
  * - Sidebar: fixed, full viewport height, left edge (self-positioned by <Sidebar />)
