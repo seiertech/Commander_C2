@@ -42,3 +42,13 @@ export {
   SEED_FIELD_MAPPINGS_OCSF_ALL,
   validateAllOcsfMappings,
 } from './seed-field-mappings-ocsf';
+
+// ─── Risk & Posture (NIST CSF 2.0, ISO 27005, ISO 31000) ────────────────────
+export {
+  SEED_RISK_REGISTERS,
+  SEED_POSTURE_SCORES,
+  SEED_CONTROL_ASSESSMENTS,
+  validateAllSeedRiskRegisters,
+  validateAllSeedPostureScores,
+  validateAllSeedControlAssessments,
+} from './seed-risk-posture';

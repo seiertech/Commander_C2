@@ -117,3 +117,33 @@ export type {
   IntelligenceAssessmentValidation,
 } from './intelligence-assessment';
 export { validateIntelligenceAssessment } from './intelligence-assessment';
+
+// ─── Layer 4: Risk & Posture (NIST CSF 2.0, ISO 27005, ISO 31000) ───────────
+export type {
+  RiskRegister,
+  RiskStatus,
+  ConsequenceLevel,
+  LikelihoodLevel,
+  RiskLevel,
+  TreatmentStrategy,
+  RiskRegisterValidation,
+} from './risk-register';
+export { validateRiskRegister } from './risk-register';
+
+export type {
+  PostureScore,
+  NistCsfFunction,
+  PostureTier,
+  AssessmentType,
+  PostureScoreValidation,
+} from './posture-score';
+export { validatePostureScore } from './posture-score';
+
+export type {
+  ControlAssessment,
+  ControlStatus,
+  ControlEffectiveness,
+  EvidenceType,
+  ControlAssessmentValidation,
+} from './control-assessment';
+export { validateControlAssessment } from './control-assessment';
