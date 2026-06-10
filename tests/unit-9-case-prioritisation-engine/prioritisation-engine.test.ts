@@ -1,4 +1,3 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 import { describe, it, expect } from 'vitest';
 import {
   calculateCRS,
@@ -396,7 +395,7 @@ describe('prioritiseCase — full flow with seed strategies', () => {
     expect(result.nbaList.length).toBeGreaterThan(0);
     expect(result.pushPreference).not.toBeNull();
     expect(result.rationale).toContain('case-001');
-    expect(result.sourcePolicy).not.toBeNull();
+    expect(result.source_policy).not.toBeNull();
     expect(result.error).toBeNull();
   });
 
@@ -446,8 +445,8 @@ describe('prioritiseCase — full flow with seed strategies', () => {
     const weightPolicy = seedStrategies.find(
       (s) => s.surface_type === 'prioritisation-weight' && s.status === 'active',
     )!;
-    expect(result.sourcePolicy!.id).toBe(weightPolicy.id);
-    expect(result.sourcePolicy!.version).toBe(weightPolicy.policy_version);
+    expect(result.source_policy!.id).toBe(weightPolicy.id);
+    expect(result.source_policy!.version).toBe(weightPolicy.policy_version);
   });
 });
 

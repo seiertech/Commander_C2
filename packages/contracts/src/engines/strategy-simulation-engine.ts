@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 /**
  * Strategy Simulation Engine — Commander C2 (Spec 43)
  * Source: Spec #32 Strategy Layer Runtime Surface
@@ -80,7 +80,7 @@ export function simulatePolicyChange(
     simulation_id: `sim-${proposedPolicy.id}-${Date.now()}`,
     policy_id: proposedPolicy.id,
     surface_type: proposedPolicy.surface_type,
-    blast_radius,
+    blast_radius: blast_radius,
     effectiveState,
     conflicts,
     risk_assessment: {

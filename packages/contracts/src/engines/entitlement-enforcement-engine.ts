@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 /**
  * Entitlement Enforcement Engine — Commander C2 (Spec 38)
  * Source: Spec #38 Commander Internal Control Plane UI Surface

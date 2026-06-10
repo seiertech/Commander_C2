@@ -1,4 +1,3 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 /**
  * Case Strategy Resolver — Commander C2
  *
@@ -31,7 +30,7 @@ export interface FullStrategyResolution {
  * Every value comes from strategy layer — zero hardcoded defaults.
  */
 export function resolveAllStrategies(
-  caseRecord: Pick<Case, 'priority' | 'caseType'>,
+  caseRecord: Pick<Case, 'priority' | 'case_type'>,
   strategies: StrategyPolicy[],
 ): FullStrategyResolution {
   return {

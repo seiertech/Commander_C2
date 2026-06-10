@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 /**
  * Case SLA Engine — Commander C2 (Unit 10)
  *
@@ -117,8 +117,8 @@ export function calculateSlaState(
   return {
     case_id: request.case_id,
     priority: request.priority,
-    target_resolution_hours,
-    escalation_cadence_minutes,
+    target_resolution_hours: target_resolution_hours,
+    escalation_cadence_minutes: escalation_cadence_minutes,
     created_at: request.created_at,
     breached,
     breachedAt,
@@ -230,7 +230,7 @@ export function calculateEscalation(
   return {
     case_id: slaState.case_id,
     priority: slaState.priority,
-    escalation_level,
+    escalation_level: escalation_level,
     escalation_path,
     currentEscalatee,
     reason: `SLA breached by ${hoursOverTarget.toFixed(1)}h — escalation level ${escalation_level} (cadence: ${escalation_cadence_minutes}min)`,

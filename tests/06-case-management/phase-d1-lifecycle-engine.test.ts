@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 import { describe, it, expect } from 'vitest';
 import {
   ALLOWED_TRANSITIONS,

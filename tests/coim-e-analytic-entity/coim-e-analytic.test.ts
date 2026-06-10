@@ -174,7 +174,7 @@ describe('COIM-E — validateAnalytic', () => {
     a.false_positive_rate = -1;
     const result = validateAnalytic(a);
     expect(result.valid).toBe(false);
-    expect(result.errors.join(' ')).toContain('falsePositiveRate');
+    expect(result.errors.join(' ')).toContain('false_positive_rate');
   });
 
   it('rejects falsePositiveRate above 100', () => {
@@ -182,7 +182,7 @@ describe('COIM-E — validateAnalytic', () => {
     a.false_positive_rate = 101;
     const result = validateAnalytic(a);
     expect(result.valid).toBe(false);
-    expect(result.errors.join(' ')).toContain('falsePositiveRate');
+    expect(result.errors.join(' ')).toContain('false_positive_rate');
   });
 
   it('accepts falsePositiveRate at boundaries (0 and 100)', () => {

@@ -1,4 +1,3 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 /**
  * Mock Connector State Machine — Commander C2 (Unit 38, Connector Layer)
  *
@@ -35,13 +34,13 @@ export function resumeMockConnector(connector: Connector): Connector {
 /** Fault an active mock connector into error. */
 export function faultMockConnector(connector: Connector): Connector {
   const next = transitionState(connector, 'error');
-  return { ...connector, state: next, lastRunStatus: 'failed' };
+  return { ...connector, state: next, last_run_status: 'failed' };
 }
 
 /** Recover an errored mock connector back to active. */
 export function recoverMockConnector(connector: Connector): Connector {
   const next = transitionState(connector, 'active');
-  return { ...connector, state: next, lastRunStatus: 'success' };
+  return { ...connector, state: next, last_run_status: 'success' };
 }
 
 /** Whether a mock connector may transition to the given operational state. */

@@ -1,4 +1,3 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 import { describe, it, expect } from 'vitest';
 import {
   INTELLIGENCE_STREAMS,
@@ -49,7 +48,7 @@ function sig(overrides: Partial<StreamSignal> = {}): StreamSignal {
     source_connector_id: 'conn-test-001',
     boundEntityId: 'asset-0001',
     boundEntityType: 'asset',
-    observedAt: '2026-01-18T06:00:00.000Z',
+    observed_at: '2026-01-18T06:00:00.000Z',
     surface_attribution: 'external_attack_surface',
     payload: {},
     ...overrides,
@@ -165,8 +164,8 @@ describe('Unit 14 — Estate Intelligence Picture (EIP)', () => {
 
   it('lastSignalAt tracks freshest signal per stream', () => {
     const signals = [
-      sig({ stream: 'external_threat', connector_class: 'D', observedAt: '2026-01-17T10:00:00.000Z' }),
-      sig({ stream: 'external_threat', connector_class: 'D', observedAt: '2026-01-18T05:00:00.000Z' }),
+      sig({ stream: 'external_threat', connector_class: 'D', observed_at: '2026-01-17T10:00:00.000Z' }),
+      sig({ stream: 'external_threat', connector_class: 'D', observed_at: '2026-01-18T05:00:00.000Z' }),
     ];
     const eip = composeEstateIntelligencePicture(signals, ts);
     const et = eip.streams.find((s) => s.stream === 'external_threat')!;

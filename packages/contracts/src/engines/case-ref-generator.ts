@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 /**
  * Case Reference Number Generator — Commander C2
  *
@@ -110,7 +110,7 @@ export function generateCaseRef(request: CaseRefRequest): CaseRefResult {
 
   return {
     success: true,
-    case_ref,
+    case_ref: case_ref,
     error: null,
   };
 }

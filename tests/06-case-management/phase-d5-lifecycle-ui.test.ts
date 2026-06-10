@@ -144,7 +144,7 @@ describe('Phase D5: Closure Gate Status (awaiting-closure)', () => {
   });
 
   it('displays individual gate results with pass/fail indicators', () => {
-    expect(pageContent).toContain('closureGateState.gateResults.map');
+    expect(pageContent).toContain('closureGateState.gate_results.map');
     expect(pageContent).toContain('gate.passed');
     expect(pageContent).toContain('gate.gate');
     expect(pageContent).toContain('gate.reason');

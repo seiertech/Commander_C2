@@ -1,4 +1,3 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 /**
  * Vulnerability Signal Resolver — Unit Tests
  * CMEP-1.0: Case Management Excellence
@@ -43,7 +42,7 @@ describe('Vulnerability Signal Resolver', () => {
       const signalNames = result.signals.map((s) => s.name);
       expect(signalNames).toContain('severity');
       expect(signalNames).toContain('exploitability');
-      expect(signalNames).toContain('blastRadius');
+      expect(signalNames).toContain('blast_radius');
       expect(signalNames).toContain('businessContext');
       expect(signalNames).toContain('coverageScore');
       expect(signalNames).toContain('threatRelevance');

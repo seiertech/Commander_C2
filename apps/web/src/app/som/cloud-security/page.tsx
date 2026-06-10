@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 'use client';
 
 import { PageContainer } from '@/components/page-container';
@@ -33,7 +33,7 @@ export default function SomCloudSecurityPage() {
           <div className="card-header">
             <h3 className="card-title" style={{ display: 'flex', alignItems: 'center', gap: primitiveSpacing[2] }}>
               <span style={{ textTransform: 'uppercase', fontWeight: primitiveFontWeight.bold }}>{posture.cloud_provider}</span>
-              <span style={{ fontSize: primitiveTypeScale.micro, color: 'var(--tblr-secondary)', fontFamily: primitiveFonts.mono }}>{posture.accountId} · {posture.region}</span>
+              <span style={{ fontSize: primitiveTypeScale.micro, color: 'var(--tblr-secondary)', fontFamily: primitiveFonts.mono }}>{posture.account_id} · {posture.region}</span>
             </h3>
             <div className="card-actions">
               <span style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.bold, color: posture.adherence_score >= 85 ? primitiveSignal.success : posture.adherence_score >= 70 ? primitiveSignal.warning : primitiveSignal.critical }}>{posture.adherence_score}% compliant</span>
@@ -56,7 +56,7 @@ export default function SomCloudSecurityPage() {
                         <td style={{ fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.caption }}>{d.resource}</td>
                         <td style={{ fontSize: primitiveTypeScale.caption }}>{d.rule}</td>
                         <td><span className={`badge bg-${d.severity === 'critical' ? 'danger' : d.severity === 'high' ? 'warning' : 'secondary'}-lt`}>{d.severity}</span></td>
-                        <td style={{ fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{new Date(d.detectedAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}</td>
+                        <td style={{ fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{new Date(d.detected_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}</td>
                         <td style={{ fontSize: primitiveTypeScale.micro }}>{d.description}</td>
                       </tr>
                     ))}

@@ -1,4 +1,3 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 /**
  * Correlation Engine — Unit Tests
  * CMEP-1.0: Case Management Excellence
@@ -12,9 +11,9 @@ describe('Correlation Engine', () => {
   describe('CVE dedup', () => {
     it('groups findings with the same CVE across different entities', () => {
       const findings: CorrelationFinding[] = [
-        { findingId: 'f1', cveId: 'CVE-2024-1234', affected_entity_id: 'asset-1', detectedAt: '2026-01-15T10:00:00Z', attackTechniques: [], severityScore: 80 },
-        { findingId: 'f2', cveId: 'CVE-2024-1234', affected_entity_id: 'asset-2', detectedAt: '2026-01-15T11:00:00Z', attackTechniques: [], severityScore: 80 },
-        { findingId: 'f3', cveId: 'CVE-2024-5678', affected_entity_id: 'asset-3', detectedAt: '2026-01-15T12:00:00Z', attackTechniques: [], severityScore: 50 },
+        { findingId: 'f1', cve_id: 'CVE-2024-1234', affected_entity_id: 'asset-1', detected_at: '2026-01-15T10:00:00Z', attackTechniques: [], severityScore: 80 },
+        { findingId: 'f2', cve_id: 'CVE-2024-1234', affected_entity_id: 'asset-2', detected_at: '2026-01-15T11:00:00Z', attackTechniques: [], severityScore: 80 },
+        { findingId: 'f3', cve_id: 'CVE-2024-5678', affected_entity_id: 'asset-3', detected_at: '2026-01-15T12:00:00Z', attackTechniques: [], severityScore: 50 },
       ];
 
       const result = correlateFindings(findings);
@@ -28,8 +27,8 @@ describe('Correlation Engine', () => {
 
     it('does not group single-occurrence CVEs', () => {
       const findings: CorrelationFinding[] = [
-        { findingId: 'f1', cveId: 'CVE-2024-1111', affected_entity_id: 'asset-1', detectedAt: '2026-01-15T10:00:00Z', attackTechniques: [], severityScore: 80 },
-        { findingId: 'f2', cveId: 'CVE-2024-2222', affected_entity_id: 'asset-2', detectedAt: '2026-01-15T11:00:00Z', attackTechniques: [], severityScore: 70 },
+        { findingId: 'f1', cve_id: 'CVE-2024-1111', affected_entity_id: 'asset-1', detected_at: '2026-01-15T10:00:00Z', attackTechniques: [], severityScore: 80 },
+        { findingId: 'f2', cve_id: 'CVE-2024-2222', affected_entity_id: 'asset-2', detected_at: '2026-01-15T11:00:00Z', attackTechniques: [], severityScore: 70 },
       ];
 
       const result = correlateFindings(findings);
@@ -40,9 +39,9 @@ describe('Correlation Engine', () => {
   describe('temporal clustering', () => {
     it('clusters findings within the time window', () => {
       const findings: CorrelationFinding[] = [
-        { findingId: 'f1', cveId: null, affected_entity_id: 'asset-1', detectedAt: '2026-01-15T10:00:00Z', attackTechniques: [], severityScore: 60 },
-        { findingId: 'f2', cveId: null, affected_entity_id: 'asset-2', detectedAt: '2026-01-15T12:00:00Z', attackTechniques: [], severityScore: 60 },
-        { findingId: 'f3', cveId: null, affected_entity_id: 'asset-3', detectedAt: '2026-01-15T14:00:00Z', attackTechniques: [], severityScore: 60 },
+        { findingId: 'f1', cve_id: null, affected_entity_id: 'asset-1', detected_at: '2026-01-15T10:00:00Z', attackTechniques: [], severityScore: 60 },
+        { findingId: 'f2', cve_id: null, affected_entity_id: 'asset-2', detected_at: '2026-01-15T12:00:00Z', attackTechniques: [], severityScore: 60 },
+        { findingId: 'f3', cve_id: null, affected_entity_id: 'asset-3', detected_at: '2026-01-15T14:00:00Z', attackTechniques: [], severityScore: 60 },
       ];
 
       const result = correlateFindings(findings, { ...DEFAULT_CORRELATION_POLICY, temporalWindowHours: 24 });
@@ -51,8 +50,8 @@ describe('Correlation Engine', () => {
 
     it('does not cluster findings outside the time window', () => {
       const findings: CorrelationFinding[] = [
-        { findingId: 'f1', cveId: null, affected_entity_id: 'asset-1', detectedAt: '2026-01-15T00:00:00Z', attackTechniques: [], severityScore: 60 },
-        { findingId: 'f2', cveId: null, affected_entity_id: 'asset-2', detectedAt: '2026-01-20T00:00:00Z', attackTechniques: [], severityScore: 60 },
+        { findingId: 'f1', cve_id: null, affected_entity_id: 'asset-1', detected_at: '2026-01-15T00:00:00Z', attackTechniques: [], severityScore: 60 },
+        { findingId: 'f2', cve_id: null, affected_entity_id: 'asset-2', detected_at: '2026-01-20T00:00:00Z', attackTechniques: [], severityScore: 60 },
       ];
 
       const result = correlateFindings(findings, { ...DEFAULT_CORRELATION_POLICY, temporalWindowHours: 2 });
@@ -64,9 +63,9 @@ describe('Correlation Engine', () => {
     it('groups findings when distinct entities exceed threshold', () => {
       const findings: CorrelationFinding[] = Array.from({ length: 5 }, (_, i) => ({
         findingId: `f${i}`,
-        cveId: null,
+        cve_id: null,
         affected_entity_id: `asset-${i}`,
-        detectedAt: `2026-01-${15 + i}T10:00:00Z`, // spread across days to avoid temporal
+        detected_at: `2026-01-${15 + i}T10:00:00Z`, // spread across days to avoid temporal
         attackTechniques: [],
         severityScore: 50,
       }));
@@ -84,9 +83,9 @@ describe('Correlation Engine', () => {
   describe('attack-chain detection', () => {
     it('detects attack chain from technique overlap', () => {
       const findings: CorrelationFinding[] = [
-        { findingId: 'f1', cveId: null, affected_entity_id: 'asset-1', detectedAt: '2026-01-15T10:00:00Z', attackTechniques: ['T1059'], severityScore: 70 },
-        { findingId: 'f2', cveId: null, affected_entity_id: 'asset-1', detectedAt: '2026-01-18T10:00:00Z', attackTechniques: ['T1078'], severityScore: 80 },
-        { findingId: 'f3', cveId: null, affected_entity_id: 'asset-2', detectedAt: '2026-01-21T10:00:00Z', attackTechniques: ['T1048'], severityScore: 90 },
+        { findingId: 'f1', cve_id: null, affected_entity_id: 'asset-1', detected_at: '2026-01-15T10:00:00Z', attackTechniques: ['T1059'], severityScore: 70 },
+        { findingId: 'f2', cve_id: null, affected_entity_id: 'asset-1', detected_at: '2026-01-18T10:00:00Z', attackTechniques: ['T1078'], severityScore: 80 },
+        { findingId: 'f3', cve_id: null, affected_entity_id: 'asset-2', detected_at: '2026-01-21T10:00:00Z', attackTechniques: ['T1048'], severityScore: 90 },
       ];
 
       const result = correlateFindings(findings, {
@@ -102,9 +101,9 @@ describe('Correlation Engine', () => {
   describe('statistics', () => {
     it('reports correct totals', () => {
       const findings: CorrelationFinding[] = [
-        { findingId: 'f1', cveId: 'CVE-2024-1234', affected_entity_id: 'asset-1', detectedAt: '2026-01-15T10:00:00Z', attackTechniques: [], severityScore: 80 },
-        { findingId: 'f2', cveId: 'CVE-2024-1234', affected_entity_id: 'asset-2', detectedAt: '2026-01-15T11:00:00Z', attackTechniques: [], severityScore: 80 },
-        { findingId: 'f3', cveId: null, affected_entity_id: 'asset-3', detectedAt: '2026-01-15T12:00:00Z', attackTechniques: [], severityScore: 50 },
+        { findingId: 'f1', cve_id: 'CVE-2024-1234', affected_entity_id: 'asset-1', detected_at: '2026-01-15T10:00:00Z', attackTechniques: [], severityScore: 80 },
+        { findingId: 'f2', cve_id: 'CVE-2024-1234', affected_entity_id: 'asset-2', detected_at: '2026-01-15T11:00:00Z', attackTechniques: [], severityScore: 80 },
+        { findingId: 'f3', cve_id: null, affected_entity_id: 'asset-3', detected_at: '2026-01-15T12:00:00Z', attackTechniques: [], severityScore: 50 },
       ];
 
       const result = correlateFindings(findings);

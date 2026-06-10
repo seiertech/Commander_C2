@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 /**
  * Unit Tests — Entity Validators (Communications Excellence)
  *
@@ -33,7 +33,7 @@ describe('Entity Validators — CaseCommunicationThread', () => {
     const invalid = { ...seedCommunicationThreads[0], tenant_id: '' };
     const result = validateCaseCommunicationThread(invalid);
     expect(result.valid).toBe(false);
-    expect(result.errors.some((e) => e.includes('tenantId'))).toBe(true);
+    expect(result.errors.some((e) => e.includes('tenant_id'))).toBe(true);
   });
 
   it('rejects thread with invalid channel', () => {
@@ -44,7 +44,7 @@ describe('Entity Validators — CaseCommunicationThread', () => {
   });
 
   it('rejects thread with negative messageCount', () => {
-    const invalid = { ...seedCommunicationThreads[0], messageCount: -1 };
+    const invalid = { ...seedCommunicationThreads[0], message_count: -1 };
     const result = validateCaseCommunicationThread(invalid);
     expect(result.valid).toBe(false);
   });
@@ -92,12 +92,12 @@ describe('Entity Validators — PlaybookExecution', () => {
       updated_at: '2026-01-16T08:00:00.000Z',
       source: { connector_id: 'test', import_run_id: 'test', source_system: 'test', source_timestamp: '2026-01-16T08:00:00.000Z' },
       executionId: 'exec-001',
-      playbookId: 'pb-001',
+      playbook_id: 'pb-001',
       case_id: 'case-001',
       tenant_id: 'tenant-001',
       currentStep: 1,
       stepStatuses: [{ stepNumber: 1, status: 'executed' as const, executedAt: '2026-01-16T08:00:00.000Z', reason: null }],
-      startedAt: '2026-01-16T08:00:00.000Z',
+      started_at: '2026-01-16T08:00:00.000Z',
       completed_at: null,
       status: 'running' as const,
     };
@@ -113,12 +113,12 @@ describe('Entity Validators — PlaybookExecution', () => {
       updated_at: '2026-01-16T08:00:00.000Z',
       source: { connector_id: 'test', import_run_id: 'test', source_system: 'test', source_timestamp: '2026-01-16T08:00:00.000Z' },
       executionId: 'exec-001',
-      playbookId: 'pb-001',
+      playbook_id: 'pb-001',
       case_id: 'case-001',
       tenant_id: 'tenant-001',
       currentStep: 1,
       stepStatuses: [],
-      startedAt: '2026-01-16T08:00:00.000Z',
+      started_at: '2026-01-16T08:00:00.000Z',
       completed_at: null,
       status: 'invalid' as any,
     };
@@ -160,7 +160,7 @@ describe('Entity Validators — PhishingReport', () => {
   });
 
   it('rejects report with missing reportedBy', () => {
-    const invalid = { ...seedPhishingReports[0], reportedBy: '' };
+    const invalid = { ...seedPhishingReports[0], reported_by: '' };
     const result = validatePhishingReport(invalid);
     expect(result.valid).toBe(false);
   });

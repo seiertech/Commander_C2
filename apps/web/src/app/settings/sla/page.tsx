@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 'use client';
 import { StrategyConfigView } from '../strategy-config-view';
 /** Tenant Admin — SLA Configuration. Data: strategy.ts (sla surface) + seed-strategies */

@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 /**
  * Property-Based Tests — Ingestion Pipeline, Mappers, Push, Adherence
  *
@@ -62,7 +62,7 @@ describe('Property 4: Ingestion confluence and source-independence', () => {
               path: paths[i],
               ioc_category: category,
               rawValue: value,
-              sourceId: `source-${i}`,
+              source_id: `source-${i}`,
               confidence: 50 + i * 10,
               severity: 3,
               timestamp: '2026-01-01T00:00:00Z',
@@ -95,10 +95,10 @@ describe('Property 10: Vendor advisory IOC extraction yields distinct linked IOC
             created_at: '2026-01-01T00:00:00Z',
             updated_at: '2026-01-01T00:00:00Z',
             source: { connector_id: 'c1', import_run_id: 'r1', source_system: 'test', source_timestamp: '2026-01-01T00:00:00Z' },
-            advisoryId: 'ADV-2026-001',
+            advisory_id: 'ADV-2026-001',
             vendor: 'TestVendor',
             title: 'Test Advisory',
-            publishedAt: '2026-01-01T00:00:00Z',
+            published_at: '2026-01-01T00:00:00Z',
             lastModifiedAt: '2026-01-01T00:00:00Z',
             severity: 4,
             affectedProducts: ['product-1'],
@@ -249,11 +249,11 @@ describe('Property 19: IOC matching references existing Observables without dupl
       fc.property(
         fc.string({ minLength: 3, maxLength: 20 }).filter(s => s.trim().length > 0),
         fc.string({ minLength: 3, maxLength: 20 }).filter(s => s.trim().length > 0),
-        (iocId: string, observableId: string) => {
+        (ioc_id: string, observableId: string) => {
           const match = buildTenantIocMatch({
             id: 'match-001',
             tenant_id: 'tenant-001',
-            iocId,
+            ioc_id,
             matchedObservableId: observableId,
             matchType: 'exact',
             matchConfidence: 95,
@@ -336,7 +336,7 @@ describe('Property 22: Push intents are never live-executed in Phase 1', () => {
           const intent = buildPushActionIntent({
             id: 'intent-001',
             tenant_id: 'tenant-001',
-            iocId: 'ioc-001',
+            ioc_id: 'ioc-001',
             ioc_category: category,
             targetSystemType: 'siem',
             action_type,
@@ -365,7 +365,7 @@ describe('Property 23: Intelligence never creates adherence state directly', () 
         fc.integer({ min: 0, max: 100 }),
         (kevStatus: boolean, cvss_score: number) => {
           const evidence = mapCveToEnrichmentEvidence({
-            cveId: 'CVE-2026-0001',
+            cve_id: 'CVE-2026-0001',
             platformRecordId: 'record-001',
             cisaKevStatus: kevStatus,
             cvss_score,
@@ -384,7 +384,7 @@ describe('Property 23: Intelligence never creates adherence state directly', () 
         fc.integer({ min: 0, max: 100 }),
         (matchConfidence: number) => {
           const evidence = mapIocMatchToEnrichmentEvidence({
-            iocId: 'ioc-001',
+            ioc_id: 'ioc-001',
             platformRecordId: 'record-001',
             evaluationId: 'eval-001',
             matchConfidence,

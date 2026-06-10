@@ -1,4 +1,3 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 import { describe, it, expect } from 'vitest';
 import {
   EVIDENCE_TYPES,
@@ -47,7 +46,7 @@ function makeValidEvidence(): Evidence {
     contentRef: 's3://test-bucket/evidence/scan-001.json',
     immutabilityHash: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2',
     confidence: 90,
-    expiresAt: '2026-01-19T05:55:00.000Z',
+    expires_at: '2026-01-19T05:55:00.000Z',
     freshnessStatus: 'fresh',
     case_id: 'case-0001',
     subActionId: undefined,
@@ -103,7 +102,7 @@ describe('COIM-B — validateEvidence', () => {
     (ev as unknown as { evidence_type: string }).evidence_type = 'unknown_type';
     const result = validateEvidence(ev);
     expect(result.valid).toBe(false);
-    expect(result.errors.join(' ')).toContain('evidenceType');
+    expect(result.errors.join(' ')).toContain('evidence_type');
   });
 
   it('rejects unknown evidenceSource', () => {
@@ -145,7 +144,7 @@ describe('COIM-B — validateEvidence', () => {
     ev.collected_at = '';
     const result = validateEvidence(ev);
     expect(result.valid).toBe(false);
-    expect(result.errors.join(' ')).toContain('collectedAt');
+    expect(result.errors.join(' ')).toContain('collected_at');
   });
 
   it('rejects empty contentRef', () => {
@@ -177,7 +176,7 @@ describe('COIM-B — validateEvidence', () => {
     ev.case_id = '';
     const result = validateEvidence(ev);
     expect(result.valid).toBe(false);
-    expect(result.errors.join(' ')).toContain('caseId');
+    expect(result.errors.join(' ')).toContain('case_id');
   });
 
   it('rejects unknown freshnessStatus', () => {
@@ -191,10 +190,10 @@ describe('COIM-B — validateEvidence', () => {
   it('rejects expiresAt before collectedAt', () => {
     const ev = makeValidEvidence();
     ev.collected_at = '2026-01-18T06:00:00.000Z';
-    ev.expiresAt = '2026-01-17T06:00:00.000Z'; // before collectedAt
+    ev.expires_at = '2026-01-17T06:00:00.000Z'; // before collectedAt
     const result = validateEvidence(ev);
     expect(result.valid).toBe(false);
-    expect(result.errors.join(' ')).toContain('expiresAt');
+    expect(result.errors.join(' ')).toContain('expires_at');
   });
 
   it('accepts evidence without optional bindings', () => {
@@ -275,8 +274,8 @@ describe('COIM-B — seed fixture conformance', () => {
 
   it('expiresAt is after collectedAt for every seed evidence', () => {
     for (const ev of seedEvidence) {
-      if (ev.expiresAt) {
-        expect(new Date(ev.expiresAt).getTime()).toBeGreaterThan(
+      if (ev.expires_at) {
+        expect(new Date(ev.expires_at).getTime()).toBeGreaterThan(
           new Date(ev.collected_at).getTime(),
         );
       }

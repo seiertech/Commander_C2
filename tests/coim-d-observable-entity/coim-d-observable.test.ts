@@ -1,4 +1,3 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 import { describe, it, expect } from 'vitest';
 import {
   OBSERVABLE_TYPES,
@@ -38,7 +37,7 @@ function makeValidObservable(): Observable {
       source_system: 'test-system',
       source_timestamp: '2026-01-18T05:55:00.000Z',
     },
-    observableType: 'ip',
+    observable_type: 'ip',
     value: '192.0.2.1',
     firstSeen: '2026-01-17T10:00:00.000Z',
     lastSeen: '2026-01-18T05:55:00.000Z',
@@ -79,10 +78,10 @@ describe('COIM-D — validateObservable', () => {
 
   it('rejects unknown observableType', () => {
     const obs = makeValidObservable();
-    (obs as unknown as { observableType: string }).observableType = 'unknown_type';
+    (obs as unknown as { observable_type: string }).observable_type = 'unknown_type';
     const result = validateObservable(obs);
     expect(result.valid).toBe(false);
-    expect(result.errors.join(' ')).toContain('observableType');
+    expect(result.errors.join(' ')).toContain('observable_type');
   });
 
   it('rejects empty value', () => {
@@ -199,7 +198,7 @@ describe('COIM-D — seed fixture conformance', () => {
   });
 
   it('seed observables cover all 8 observable types', () => {
-    const types = new Set(seedObservables.map(obs => obs.observableType));
+    const types = new Set(seedObservables.map(obs => obs.observable_type));
     expect(types.size).toBe(8);
     for (const t of OBSERVABLE_TYPES) {
       expect(types.has(t)).toBe(true);
@@ -264,7 +263,7 @@ describe('COIM-D — many-to-many binding conformance', () => {
 
   it('every binding has a non-empty boundAt timestamp', () => {
     for (const binding of seedObservableBindings) {
-      expect(binding.boundAt).toBeTruthy();
+      expect(binding.bound_at).toBeTruthy();
     }
   });
 
@@ -293,7 +292,7 @@ describe('COIM-D — ownership model assertions', () => {
 
   it('source-owned fields are present and typed (immutable after write)', () => {
     const obs = makeValidObservable();
-    expect(typeof obs.observableType).toBe('string');
+    expect(typeof obs.observable_type).toBe('string');
     expect(typeof obs.value).toBe('string');
     expect(typeof obs.firstSeen).toBe('string');
     expect(typeof obs.lastSeen).toBe('string');

@@ -39,3 +39,37 @@ export interface CommonFields {
   /** Source provenance */
   source: SourceMetadata;
 }
+
+
+// ─── Connector Classification ────────────────────────────────────────────────
+
+/** Connector class (A=detection, B=verdict, C=identity, D=coverage/config) */
+export type ConnectorClass = 'A' | 'B' | 'C' | 'D';
+
+/** Labels for UI display */
+export const CONNECTOR_CLASS_LABELS: Record<ConnectorClass, string> = {
+  A: 'Class A — Detection & Telemetry',
+  B: 'Class B — Verdict & Disposition',
+  C: 'Class C — Identity & Access',
+  D: 'Class D — Coverage & Configuration',
+};
+
+// ─── Surface Attribution ─────────────────────────────────────────────────────
+
+/** Internal/External attack surface classification */
+export type SurfaceAttribution = 'internal_attack_surface' | 'external_attack_surface';
+
+// ─── Signal Purpose ──────────────────────────────────────────────────────────
+
+/** What the signal is for in the intelligence pipeline */
+export type SignalPurpose = 'detection' | 'verdict' | 'identity_context' | 'coverage_state' | 'configuration_state' | 'behavioural_baseline';
+
+// ─── Verdict Disposition ─────────────────────────────────────────────────────
+
+/** Verdict outcome from a Class B connector */
+export type VerdictDisposition = 'malicious' | 'suspicious' | 'benign' | 'informational' | 'unresolved' | 'BLOCK' | 'QUARANTINE' | 'REQUIRE_MFA' | 'MONITOR' | 'ALLOW';
+
+// ─── Build Status ────────────────────────────────────────────────────────────
+
+/** Page/feature build status */
+export type BuildStatus = 'DONE' | 'BUILD' | 'SCAFFOLD' | 'PLANNED';

@@ -42,7 +42,7 @@ export interface PreWarnedClassification extends CommonFields {
   /** When this classification was computed */
   computed_at: string;
   /** When this classification was acknowledged by an operator */
-  acknowledgedAt: string | null;
+  acknowledged_at: string | null;
   /** Recommended actions based on classification */
   recommendedActions: string[];
   /** Current status */

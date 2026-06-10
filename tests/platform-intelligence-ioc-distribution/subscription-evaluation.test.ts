@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 /**
  * Unit Tests — Subscription Evaluation Engine
  *
@@ -23,7 +23,7 @@ function makeSubscription(
     updated_at: '2026-01-10T09:00:00.000Z',
     source: SEED_SOURCE,
     tenant_id: SEED_TENANT.tenant_id,
-    sourceId: seedId('pis', 1),
+    source_id: seedId('pis', 1),
     subscriptionState: 'active',
     applicabilityFilters: [],
     evaluationPreferences: {},
@@ -39,11 +39,11 @@ function makePlatformRecord(overrides: Record<string, unknown> = {}) {
     created_at: '2026-01-15T09:00:00.000Z',
     updated_at: '2026-01-15T09:00:00.000Z',
     source: SEED_SOURCE,
-    sourceId: seedId('pis', 1),
+    source_id: seedId('pis', 1),
     recordType: 'cve' as const,
     severity: 4,
     confidence: 85,
-    publishedAt: '2026-01-10T00:00:00.000Z',
+    published_at: '2026-01-10T00:00:00.000Z',
     lastModifiedAt: '2026-01-14T00:00:00.000Z',
     catalogueVersion: 'v1.0.0',
     rawReference: 'https://nvd.example.com/vuln/CVE-2026-0001',

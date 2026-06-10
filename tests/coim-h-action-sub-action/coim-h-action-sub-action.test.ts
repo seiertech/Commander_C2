@@ -1,4 +1,3 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 import { describe, it, expect } from 'vitest';
 import type { Action, SubAction } from '../../packages/contracts/src/entities/action';
 import {
@@ -77,7 +76,7 @@ const baseSubAction = (overrides: Partial<SubAction> = {}): SubAction => ({
   actual_effort_hours: 0,
   approvalRef: 'approval-test-001-sub1',
   owner: 'test-team',
-  sequenceOrder: 1,
+  sequence_order: 1,
   tactic_type: 'isolate',
   countermeasures: [
     { technique_id: 'D3-NI', technique_name: 'Network Isolation' },
@@ -135,7 +134,7 @@ describe('COIM-H: Action/Sub-Action Entity Contract', () => {
       expect(sub.actual_effort_hours).toBeTypeOf('number');
       expect(sub.approvalRef).toBeDefined();
       expect(sub.owner).toBeDefined();
-      expect(sub.sequenceOrder).toBeTypeOf('number');
+      expect(sub.sequence_order).toBeTypeOf('number');
       // D3FEND fields (ARCH-DEBT-046)
       expect(sub.tactic_type).toBeDefined();
       expect(sub.countermeasures).toBeDefined();

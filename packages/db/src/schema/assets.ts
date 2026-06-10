@@ -16,7 +16,7 @@ import { tenants } from './tenants';
 
 export const assets = pgTable('assets', {
   id: text('id').primaryKey(),
-  tenantId: text('tenant_id').notNull().references(() => tenants.id),
+  tenant_id: text('tenant_id').notNull().references(() => tenants.id),
   /** Data classification per §11.1 */
   dataClassification: dataClassificationEnum('data_classification').notNull().default('state'),
   name: text('name').notNull(),
@@ -26,40 +26,40 @@ export const assets = pgTable('assets', {
   /** Source system references (JSON array) */
   sourceRefs: jsonb('source_refs').$type<string[]>().notNull().default([]),
   /** Attack surface attribution (Spec #60) */
-  surfaceAttribution: surfaceAttributionEnum('surface_attribution').notNull(),
+  surface_attribution: surfaceAttributionEnum('surface_attribution').notNull(),
   /** Coverage metadata */
   coverage: jsonb('coverage').$type<{
-    hasEdr: boolean;
-    hasVulnScan: boolean;
-    hasPatchManagement: boolean;
-    hasBackup: boolean;
+    has_edr: boolean;
+    has_vuln_scan: boolean;
+    has_patch_management: boolean;
+    has_backup: boolean;
   }>().notNull(),
   /** Business criticality (1-5) */
   criticality: integer('criticality').notNull().default(3),
   /** Tags */
   tags: jsonb('tags').$type<string[]>().notNull().default([]),
   /** Source provenance */
-  sourceConnectorId: text('source_connector_id').notNull(),
+  source_connector_id: text('source_connector_id').notNull(),
   sourceImportRunId: text('source_import_run_id').notNull(),
-  sourceSystem: text('source_system').notNull(),
-  sourceTimestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
+  source_system: text('source_system').notNull(),
+  source_timestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
   // ─── COIM-F augmentation (additive, nullable) ────────────────────────────
   // Source: COIM v1.0 §6.1; 05_ATTRIBUTE_AND_DATA_EFFICIENCY_MODEL §13.
   // Recommended operational-intelligence fields. No drops; no changes to existing columns.
   /** Asset lifecycle state (active/decommissioned/maintenance/unknown). */
-  lifecycleState: text('lifecycle_state'),
+  lifecycle_state: text('lifecycle_state'),
   /** Structured platform information (OS, version, cloud provider, arch). JSONB. */
   platform: jsonb('platform'),
   /** Network position classification. */
-  networkPosition: text('network_position'),
+  network_position: text('network_position'),
   /** Data classification for data held by this asset. */
   assetDataClassification: text('asset_data_classification'),
   /** When this asset was last confirmed active by a source. */
-  lastConfirmedAt: timestamp('last_confirmed_at', { withTimezone: true }),
+  last_confirmed_at: timestamp('last_confirmed_at', { withTimezone: true }),
   /** Which connector/source first discovered this asset. */
   firstDiscoveredBy: text('first_discovered_by'),
   /** Optional source classification for discovery signals (JSONB). */
-  sourceClassification: jsonb('source_classification'),
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  source_classification: jsonb('source_classification'),
+  created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updated_at: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 });

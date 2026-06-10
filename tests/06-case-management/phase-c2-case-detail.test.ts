@@ -49,7 +49,7 @@ describe('Case Detail — Sticky Header (Spec 02 v1.3 Req 5)', () => {
   });
 
   it('displays surface attribution', () => {
-    expect(pageContent).toContain('surfaceAttribution');
+    expect(pageContent).toContain('surface_attribution');
     expect(pageContent).toContain('External');
     expect(pageContent).toContain('Internal');
   });

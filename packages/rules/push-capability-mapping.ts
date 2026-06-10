@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 /**
  * Push Capability Mapping — Pure Total Function
  *
@@ -59,7 +59,7 @@ export const PUSH_CAPABILITY_MAP: Record<string, string[]> = {
  * Get target system types for a given IOC category.
  * Total: returns at least one target for every category (Req 15.3).
  */
-export function getTargetSystems(iocCategory: IocCategory): string[] {
+export function getTargetSystems(ioc_category: IocCategory): string[] {
   return PUSH_CAPABILITY_MAP[iocCategory] ?? ['siem'];
 }
 
@@ -80,36 +80,36 @@ export const PHASE1_ALLOWED_STATUSES: PushIntentStatus[] = [
  */
 export function buildPushActionIntent(params: {
   id: string;
-  tenantId: string;
-  iocId: string;
-  iocCategory: IocCategory;
+  tenant_id: string;
+  ioc_id: string;
+  ioc_category: IocCategory;
   targetSystemType: string;
-  actionType: PushActionType;
-  intentStatus: PushIntentStatus;
+  action_type: PushActionType;
+  intent_status: PushIntentStatus;
   requestedBy: string;
   requestedAt: string;
 }): PushActionIntent {
   return {
     id: params.id,
-    tenant: { tenantId: params.tenantId, tenantName: `Tenant ${params.tenantId}` },
-    createdAt: params.requestedAt,
-    updatedAt: params.requestedAt,
+    tenant: { tenant_id: params.tenant_id, tenant_name: `Tenant ${params.tenant_id}` },
+    created_at: params.requestedAt,
+    updated_at: params.requestedAt,
     source: {
-      connectorId: 'push-intent-builder',
-      importRunId: `push-run-${params.id}`,
-      sourceSystem: 'intelligence-push',
-      sourceTimestamp: params.requestedAt,
+      connector_id: 'push-intent-builder',
+      import_run_id: `push-run-${params.id}`,
+      source_system: 'intelligence-push',
+      source_timestamp: params.requestedAt,
     },
-    tenantId: params.tenantId,
-    iocId: params.iocId,
-    iocCategory: params.iocCategory,
+    tenant_id: params.tenant_id,
+    ioc_id: params.ioc_id,
+    ioc_category: params.ioc_category,
     targetSystemType: params.targetSystemType,
-    actionType: params.actionType,
-    intentStatus: params.intentStatus,
+    action_type: params.action_type,
+    intent_status: params.intent_status,
     requestedBy: params.requestedBy,
     requestedAt: params.requestedAt,
-    approvedBy: null,
-    approvedAt: null,
+    approved_by: null,
+    approved_at: null,
     executionReference: `mock-execution-${params.id}`,
   };
 }

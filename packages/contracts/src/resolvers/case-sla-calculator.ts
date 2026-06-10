@@ -1,4 +1,3 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 /**
  * Case SLA Calculator — Commander C2
  *
@@ -25,7 +24,7 @@ export interface SlaResolution {
  * Maps case priority to the SLA profile defined in strategy configuration.
  */
 export function resolveSla(
-  caseRecord: Pick<Case, 'priority' | 'caseType'>,
+  caseRecord: Pick<Case, 'priority' | 'case_type'>,
   strategies: StrategyPolicy[],
 ): SlaResolution {
   const slaPolicy = strategies.find(

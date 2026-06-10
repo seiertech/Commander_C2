@@ -1,4 +1,3 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 /**
  * War Room Communication Cadence Engine — Commander C2
  *
@@ -61,11 +60,11 @@ export function computeNextUpdateTime(
 export function getCadenceForStatus(warRoom: WarRoom): number {
   switch (warRoom.status) {
     case 'activated':
-      return warRoom.communicationCadence.activatedCadenceMinutes;
+      return warRoom.communication_cadence.activatedCadenceMinutes;
     case 'monitoring':
-      return warRoom.communicationCadence.monitoringCadenceMinutes;
+      return warRoom.communication_cadence.monitoringCadenceMinutes;
     case 'winding_down':
-      return warRoom.communicationCadence.windingDownCadenceMinutes;
+      return warRoom.communication_cadence.windingDownCadenceMinutes;
     case 'closed':
       return 0;
     default:
@@ -116,16 +115,16 @@ export function detectStalling(
 // ─── War Room Update Value Object ────────────────────────────────────────────
 
 export interface ActionSummary {
-  actionId: string;
+  action_id: string;
   description: string;
-  completedAt: string;
+  completed_at: string;
   actor: string;
 }
 
 export interface OpenBlocker {
   description: string;
   since: string;
-  assignedTo: string | null;
+  assigned_to: string | null;
 }
 
 export interface WarRoomUpdate {
@@ -142,15 +141,15 @@ export interface WarRoomUpdate {
 // ─── Structured Update Generation ────────────────────────────────────────────
 
 export interface RecentAction {
-  actionId: string;
+  action_id: string;
   description: string;
-  completedAt: string;
+  completed_at: string;
   actor: string;
 }
 
 export interface BoundCaseSummary {
-  caseId: string;
-  caseRef: string;
+  case_id: string;
+  case_ref: string;
   status: string;
   priority: string;
 }
@@ -167,7 +166,7 @@ export function generateStructuredUpdate(
   cases: BoundCaseSummary[],
   recentActions: RecentAction[],
 ): WarRoomUpdate {
-  const activatedAt = new Date(warRoom.createdAt).getTime();
+  const activatedAt = new Date(warRoom.created_at).getTime();
   const now = Date.now();
   const durationMs = now - activatedAt;
   const durationHours = Math.floor(durationMs / (1000 * 60 * 60));
@@ -178,9 +177,9 @@ export function generateStructuredUpdate(
   const aiConfidenceLevel = deriveConfidenceLevel(cases, recentActions);
 
   const sinceLastUpdate: ActionSummary[] = recentActions.map((a) => ({
-    actionId: a.actionId,
+    action_id: a.action_id,
     description: a.description,
-    completedAt: a.completedAt,
+    completed_at: a.completed_at,
     actor: a.actor,
   }));
 

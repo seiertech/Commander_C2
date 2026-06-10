@@ -1,4 +1,3 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 import { describe, it, expect } from 'vitest';
 import {
   evaluateClosureGates,
@@ -37,8 +36,8 @@ describe('evaluateClosureGates — all gates pass', () => {
     const result = evaluateClosureGates(input, seedStrategies);
 
     expect(result.allGatesPass).toBe(true);
-    expect(result.gateResults).toHaveLength(4);
-    expect(result.gateResults.every((g) => g.passed)).toBe(true);
+    expect(result.gate_results).toHaveLength(4);
+    expect(result.gate_results.every((g) => g.passed)).toBe(true);
   });
 });
 
@@ -54,7 +53,7 @@ describe('evaluateClosureGates — single gate fails (remediation not verified)'
     const result = evaluateClosureGates(input, seedStrategies);
 
     expect(result.allGatesPass).toBe(false);
-    const failedGate = result.gateResults.find((g) => g.gate === 'remediation-verified');
+    const failedGate = result.gate_results.find((g) => g.gate === 'remediation-verified');
     expect(failedGate).toBeDefined();
     expect(failedGate!.passed).toBe(false);
     expect(failedGate!.reason).toContain('not been verified');
@@ -73,7 +72,7 @@ describe('evaluateClosureGates — single gate fails (validation not passed)', (
     const result = evaluateClosureGates(input, seedStrategies);
 
     expect(result.allGatesPass).toBe(false);
-    const failedGate = result.gateResults.find((g) => g.gate === 'validation-passed');
+    const failedGate = result.gate_results.find((g) => g.gate === 'validation-passed');
     expect(failedGate).toBeDefined();
     expect(failedGate!.passed).toBe(false);
     expect(failedGate!.reason).toContain('not passed');
@@ -92,7 +91,7 @@ describe('evaluateClosureGates — single gate fails (active drift)', () => {
     const result = evaluateClosureGates(input, seedStrategies);
 
     expect(result.allGatesPass).toBe(false);
-    const failedGate = result.gateResults.find((g) => g.gate === 'no-active-drift');
+    const failedGate = result.gate_results.find((g) => g.gate === 'no-active-drift');
     expect(failedGate).toBeDefined();
     expect(failedGate!.passed).toBe(false);
     expect(failedGate!.reason).toContain('Active drift detected');
@@ -111,7 +110,7 @@ describe('evaluateClosureGates — single gate fails (SLA breached)', () => {
     const result = evaluateClosureGates(input, seedStrategies);
 
     expect(result.allGatesPass).toBe(false);
-    const failedGate = result.gateResults.find((g) => g.gate === 'sla-not-breached');
+    const failedGate = result.gate_results.find((g) => g.gate === 'sla-not-breached');
     expect(failedGate).toBeDefined();
     expect(failedGate!.passed).toBe(false);
     expect(failedGate!.reason).toContain('SLA has been breached');
@@ -130,7 +129,7 @@ describe('evaluateClosureGates — multiple gates fail', () => {
     const result = evaluateClosureGates(input, seedStrategies);
 
     expect(result.allGatesPass).toBe(false);
-    const failedGates = result.gateResults.filter((g) => !g.passed);
+    const failedGates = result.gate_results.filter((g) => !g.passed);
     expect(failedGates).toHaveLength(4);
   });
 });
@@ -206,12 +205,12 @@ describe('evaluateClosureGates — strategy consumption proof', () => {
     // With seed strategies (4 gates) — should fail because validation-passed and no-active-drift fail
     const seedResult = evaluateClosureGates(input, seedStrategies);
     expect(seedResult.allGatesPass).toBe(false);
-    expect(seedResult.gateResults).toHaveLength(4);
+    expect(seedResult.gate_results).toHaveLength(4);
 
     // With custom strategy (2 gates) — should pass because only remediation-verified and sla-not-breached are checked
     const customResult = evaluateClosureGates(input, [customStrategy]);
     expect(customResult.allGatesPass).toBe(true);
-    expect(customResult.gateResults).toHaveLength(2);
+    expect(customResult.gate_results).toHaveLength(2);
 
     // Verify strategyRef changes
     expect(customResult.strategyRef.policy_id).toBe('custom-closure-gate-strategy');

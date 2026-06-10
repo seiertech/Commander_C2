@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 /**
  * Property-Based Tests — Allow/Block Evaluation
  *
@@ -32,7 +32,7 @@ function makeEntry(
     addedBy: 'analyst-001',
     addedAt: '2026-01-01T00:00:00Z',
     reason: 'test',
-    expiresAt: null,
+    expires_at: null,
   };
 }
 
@@ -116,7 +116,7 @@ describe('Property 13: Allow/block evaluation is decisive and confidence-indepen
         (category: IocCategory, value: string) => {
           const entries: TenantIocAllowBlockEntry[] = [{
             ...makeEntry(category, value, 'block', 'expired-block'),
-            expiresAt: '2020-01-01T00:00:00Z', // expired
+            expires_at: '2020-01-01T00:00:00Z', // expired
           }];
           const result = evaluateAllowBlock(category, value, entries, '2026-06-01T00:00:00Z');
           expect(result.decision).toBe('proceed');

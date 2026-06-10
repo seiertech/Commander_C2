@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 /**
  * Identity Intelligence Engine — Commander C2 (Unit 25)
  * Source: Spec #59 Intelligence Layer Architecture (Internal Behavioural stream)
@@ -52,7 +52,7 @@ export function assessIdentityRisk(signals: IdentitySignal[]): IdentityRiskScore
   const riskScore = Math.min(100, highCount * 30 + signals.length * 10);
   const confidence = Math.min(100, 50 + signals.length * 10);
 
-  return { identityRef, risk_score, confidence, factors };
+  return { identityRef, risk_score: risk_score, confidence, factors };
 }
 
 /**

@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 /**
  * Property-Based Tests — Communications Excellence
  *
@@ -55,7 +55,7 @@ const threadArbitrary: fc.Arbitrary<CaseCommunicationThread> = fc.record({
   }),
   sentAt: fc.constant('2026-01-16T08:00:00.000Z'),
   lastResponseAt: fc.option(fc.constant('2026-01-16T10:00:00.000Z'), { nil: null }),
-  messageCount: fc.integer({ min: 0, max: 50 }),
+  message_count: fc.integer({ min: 0, max: 50 }),
   escalationCount: fc.integer({ min: 0, max: 10 }),
 });
 
@@ -91,7 +91,7 @@ const verdictArbitrary: fc.Arbitrary<DetonationVerdict> = fc.record({
 const boundedConditionArbitrary: fc.Arbitrary<string> = fc.oneof(
   fc.constant('always'),
   fc.constant('never'),
-  fc.tuple(fc.constantFrom('priority', 'status', 'team', 'caseType'), fc.string({ minLength: 1, maxLength: 10 }))
+  fc.tuple(fc.constantFrom('priority', 'status', 'team', 'case_type'), fc.string({ minLength: 1, maxLength: 10 }))
     .map(([field, value]) => `case.${field} == '${value}'`),
   fc.tuple(fc.constantFrom('priority', 'status'), fc.array(fc.string({ minLength: 1, maxLength: 5 }), { minLength: 1, maxLength: 3 }))
     .map(([field, values]) => `case.${field} IN [${values.map((v) => `'${v}'`).join(', ')}]`),

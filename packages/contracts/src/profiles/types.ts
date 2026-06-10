@@ -17,7 +17,7 @@
 
 /** A named priority signal with its raw score (0–100) */
 export interface PrioritySignalScore {
-  /** Signal name (e.g. 'severity', 'exploitability', 'blastRadius') */
+  /** Signal name (e.g. 'severity', 'exploitability', 'blast_radius') */
   name: string;
   /** Raw score 0–100 */
   score: number;

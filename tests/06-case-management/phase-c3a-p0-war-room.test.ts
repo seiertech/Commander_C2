@@ -53,7 +53,7 @@ describe('P0 War Room — P0 Propagation (Assertion 2)', () => {
   });
 
   it('displays scope (surface attribution)', () => {
-    expect(pageContent).toContain('surfaceAttribution');
+    expect(pageContent).toContain('surface_attribution');
   });
 
   it('displays owner', () => {

@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 /**
  * Playbook Engine — Commander C2
  *
@@ -24,7 +24,7 @@ import type { PlaybookExecution, StepExecutionStatus, PlaybookStepExecutionStatu
 
 /** Minimal case data needed for playbook evaluation */
 export interface PlaybookCaseData {
-  caseType: string;
+  case_type: string;
   [key: string]: unknown;
 }
 
@@ -72,7 +72,7 @@ export function evaluatePlaybookTrigger(
   caseData: PlaybookCaseData,
 ): boolean {
   // Case type must match
-  if (caseData.caseType !== playbook.trigger.caseType) {
+  if (caseData.case_type !== playbook.trigger.case_type) {
     return false;
   }
 
@@ -239,7 +239,7 @@ export function advanceExecution(
   const anyFailed = updatedStepStatuses.some((ss) => ss.status === 'failed');
 
   let executionStatus = execution.status;
-  let completedAt = execution.completedAt;
+  let completedAt = execution.completed_at;
 
   if (anyFailed && !stepResult.success) {
     executionStatus = 'aborted';
@@ -254,8 +254,8 @@ export function advanceExecution(
     currentStep: stepResult.stepNumber,
     stepStatuses: updatedStepStatuses,
     status: executionStatus,
-    completedAt,
-    updatedAt: new Date().toISOString(),
+    completed_at: completed_at,
+    updated_at: new Date().toISOString(),
   };
 }
 

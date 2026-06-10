@@ -1,4 +1,3 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 'use client';
 
 import type { Case } from '../../../../packages/contracts/src/entities/case';

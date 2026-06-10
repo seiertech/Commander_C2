@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 /**
  * Case Aggregation Resolver — Commander C2 (COIM-G)
  *
@@ -171,7 +171,7 @@ export function computeCaseAggregation(
   const affectedEntityCount = countAffectedEntities(riskObjects);
   return {
     attacks: aggregateAttacks(riskObjects),
-    affected_entity_count,
+    affected_entity_count: affected_entity_count,
     blastRadiusScore: blastRadius(affectedEntityCount),
     dwellTimeHours: computeDwellTimeHours(riskObjects, caseCreatedAt),
     confidenceAggregate: computeConfidenceAggregate(riskObjects),

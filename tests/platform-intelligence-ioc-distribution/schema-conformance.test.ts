@@ -42,9 +42,9 @@ describe('Schema conformance — Platform Intelligence', () => {
   it('no cross-workload foreign keys between catalogue and evaluation planes', () => {
     // Evaluation schema should NOT have references to catalogue tables
     // Cross-plane references are plain text columns, not references()
-    expect(tenantSchema).toContain("sourceId: text('source_id').notNull()"); // no .references()
+    expect(tenantSchema).toContain("source_id: text('source_id').notNull()"); // no .references()
     expect(tenantSchema).toContain("platformRecordId: text('platform_record_id').notNull()"); // no .references()
-    expect(tenantSchema).toContain("iocId: text('ioc_id').notNull()"); // no .references()
+    expect(tenantSchema).toContain("ioc_id: text('ioc_id').notNull()"); // no .references()
     expect(tenantSchema).toContain("case_id: text('case_id').notNull()"); // no .references()
 
     // Verify no references() to catalogue tables in cross-plane columns

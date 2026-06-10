@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 import { describe, it, expect } from 'vitest';
 import type {
   ControlFramework,
@@ -67,12 +67,12 @@ const baseFw = (overrides: Partial<ControlFramework> = {}): ControlFramework => 
   version: '1.0',
   category: 'industry',
   publisher: 'Test Publisher',
-  totalControls: 10,
+  total_controls: 10,
   origin: 'prebuilt',
   active: true,
-  licenceStatus: 'open',
-  sourceRef: 'https://example.com/framework',
-  mappingCompleteness: 50,
+  licence_status: 'open',
+  source_ref: 'https://example.com/framework',
+  mapping_completeness: 50,
   lastReviewedAt: '2026-01-10T00:00:00.000Z',
   ...overrides,
 });
@@ -102,7 +102,7 @@ const baseReq = (overrides: Partial<ControlRequirement> = {}): ControlRequiremen
   source: { connector_id: 'conn-test', import_run_id: 'run-test', source_system: 'test', source_timestamp: '2026-01-10T00:00:00.000Z' },
   framework_id: 'test-framework',
   control_id: 'TEST-1',
-  requirementId: 'REQ-TEST-1',
+  requirement_id: 'REQ-TEST-1',
   description: 'Test requirement description',
   targetType: 'asset',
   evaluationRule: { field: 'coverage.has_edr', operator: 'equals', expectedValue: 'true' },
@@ -119,7 +119,7 @@ const baseEval = (overrides: Partial<ControlEvaluation> = {}): ControlEvaluation
   source: { connector_id: 'conn-test', import_run_id: 'run-test', source_system: 'test', source_timestamp: '2026-01-18T06:30:00.000Z' },
   framework_id: 'test-framework',
   control_id: 'TEST-1',
-  requirementId: 'REQ-TEST-1',
+  requirement_id: 'REQ-TEST-1',
   evaluatedEntityType: 'asset',
   evaluatedEntityId: 'asset-0001',
   verdict: 'compliant',
@@ -211,12 +211,12 @@ describe('CFM: ControlFramework Validation', () => {
     expect(r.valid).toBe(false);
   });
   it('rejects negative totalControls', () => {
-    const r = validateControlFramework(baseFw({ totalControls: -1 }));
+    const r = validateControlFramework(baseFw({ total_controls: -1 }));
     expect(r.valid).toBe(false);
   });
   it('rejects mappingCompleteness out of range', () => {
-    expect(validateControlFramework(baseFw({ mappingCompleteness: 101 })).valid).toBe(false);
-    expect(validateControlFramework(baseFw({ mappingCompleteness: -1 })).valid).toBe(false);
+    expect(validateControlFramework(baseFw({ mapping_completeness: 101 })).valid).toBe(false);
+    expect(validateControlFramework(baseFw({ mapping_completeness: -1 })).valid).toBe(false);
   });
 });
 
@@ -244,7 +244,7 @@ describe('CFM: ControlRequirement Validation', () => {
     expect(validateControlRequirement(baseReq()).valid).toBe(true);
   });
   it('rejects missing requirementId', () => {
-    expect(validateControlRequirement(baseReq({ requirementId: '' })).valid).toBe(false);
+    expect(validateControlRequirement(baseReq({ requirement_id: '' })).valid).toBe(false);
   });
   it('rejects invalid targetType', () => {
     expect(validateControlRequirement(baseReq({ targetType: 'invalid' as any })).valid).toBe(false);
@@ -276,11 +276,11 @@ describe('CFM: ControlEvaluation Validation', () => {
     expect(validateControlEvaluation(baseEval({ confidence: -1 })).valid).toBe(false);
   });
   it('rejects invalid exceptionState', () => {
-    expect(validateControlEvaluation(baseEval({ exceptionState: 'invalid' as any })).valid).toBe(false);
+    expect(validateControlEvaluation(baseEval({ exception_state: 'invalid' as any })).valid).toBe(false);
   });
   it('accepts valid exception states', () => {
-    expect(validateControlEvaluation(baseEval({ exceptionState: 'accepted_risk' })).valid).toBe(true);
-    expect(validateControlEvaluation(baseEval({ exceptionState: 'compensating_control' })).valid).toBe(true);
+    expect(validateControlEvaluation(baseEval({ exception_state: 'accepted_risk' })).valid).toBe(true);
+    expect(validateControlEvaluation(baseEval({ exception_state: 'compensating_control' })).valid).toBe(true);
   });
 });
 
@@ -326,7 +326,7 @@ describe('CFM: Seed Fixture Conformance', () => {
 
   it('ISO 27001 has restricted licence status', () => {
     const iso = seedControlFrameworks.find(f => f.framework_id === 'iso-27001-2022')!;
-    expect(iso.licenceStatus).toBe('restricted');
+    expect(iso.licence_status).toBe('restricted');
   });
 
   it('seed framework controls are valid (15 controls)', () => {
@@ -368,7 +368,7 @@ describe('CFM: Seed Fixture Conformance', () => {
   });
 
   it('seed evaluations include an accepted_risk exception', () => {
-    const exceptions = seedControlEvaluations.filter(e => e.exceptionState === 'accepted_risk');
+    const exceptions = seedControlEvaluations.filter(e => e.exception_state === 'accepted_risk');
     expect(exceptions.length).toBeGreaterThan(0);
   });
 
@@ -402,7 +402,7 @@ describe('CFM: Seed Fixture Conformance', () => {
 describe('CFM: Adherence Evaluation Flow', () => {
   it('evaluation references a requirement which references a control which references a framework', () => {
     const eval1 = seedControlEvaluations[0]; // ACME-SEC-001 / REQ-EDR-PRESENT
-    const req = seedControlRequirements.find(r => r.requirementId === eval1.requirementId);
+    const req = seedControlRequirements.find(r => r.requirement_id === eval1.requirement_id);
     expect(req).toBeDefined();
     expect(req!.framework_id).toBe(eval1.framework_id);
     expect(req!.control_id).toBe(eval1.control_id);
@@ -421,7 +421,7 @@ describe('CFM: Adherence Evaluation Flow', () => {
   });
 
   it('evaluation carries evidence reference for auditability', () => {
-    const withEvidence = seedControlEvaluations.filter(e => e.evidenceRef);
+    const withEvidence = seedControlEvaluations.filter(e => e.evidence_ref);
     expect(withEvidence.length).toBeGreaterThan(0);
   });
 
@@ -439,7 +439,7 @@ describe('CFM: Adherence Evaluation Flow', () => {
 
 describe('CFM: Licence and Sourcing Adherence', () => {
   it('restricted frameworks have licence notes explaining constraints', () => {
-    const restricted = seedControlFrameworks.filter(f => f.licenceStatus === 'restricted');
+    const restricted = seedControlFrameworks.filter(f => f.licence_status === 'restricted');
     for (const fw of restricted) {
       expect(fw.licenceNotes).toBeTruthy();
       expect(fw.licenceNotes!.toLowerCase()).toContain('restricted');
@@ -455,7 +455,7 @@ describe('CFM: Licence and Sourcing Adherence', () => {
 
   it('all frameworks have a sourceRef', () => {
     for (const fw of seedControlFrameworks) {
-      expect(fw.sourceRef).toBeTruthy();
+      expect(fw.source_ref).toBeTruthy();
     }
   });
 
@@ -488,8 +488,8 @@ describe('CFM: Tenant Admin Framework Management', () => {
 
   it('frameworks carry mappingCompleteness (0-100)', () => {
     for (const fw of seedControlFrameworks) {
-      expect(fw.mappingCompleteness).toBeGreaterThanOrEqual(0);
-      expect(fw.mappingCompleteness).toBeLessThanOrEqual(100);
+      expect(fw.mapping_completeness).toBeGreaterThanOrEqual(0);
+      expect(fw.mapping_completeness).toBeLessThanOrEqual(100);
     }
   });
 

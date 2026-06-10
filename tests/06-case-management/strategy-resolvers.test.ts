@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 import { describe, it, expect } from 'vitest';
 import { resolveSla } from '../../packages/contracts/src/resolvers/case-sla-calculator';
 import { resolveRouting } from '../../packages/contracts/src/resolvers/case-router';
@@ -32,7 +32,7 @@ describe('SLA Resolver', () => {
     const result = resolveSla(p0Case, seedStrategies);
     expect(result.status).toBe('resolved');
     expect(result.response_hours).toBe(4);
-    expect(result.sourcePolicy).not.toBeNull();
+    expect(result.source_policy).not.toBeNull();
   });
 
   it('resolves SLA for P1 case from strategy', () => {

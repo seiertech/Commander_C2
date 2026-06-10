@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 'use client';
 
 import { PageContainer } from '@/components/page-container';
@@ -101,7 +101,7 @@ export default function SettingsSecurityPage() {
                     <td><span className="badge bg-azure-lt">{r.scope}</span></td>
                     <td className="text-truncate" style={{ maxWidth: 220 }}>{r.reason}</td>
                     <td>{statusBadge(r.status)}</td>
-                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{new Date(r.expiresAt).toLocaleString()}</td>
+                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{new Date(r.expires_at).toLocaleString()}</td>
                   </tr>
                 ))}
               </tbody>
@@ -136,7 +136,7 @@ export default function SettingsSecurityPage() {
                     <td>{s.mfaVerified ? <span className="badge bg-green-lt">Verified</span> : <span className="badge bg-red-lt">No MFA</span>}</td>
                     <td>{statusBadge(s.status)}</td>
                     <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{new Date(s.created_at).toLocaleString()}</td>
-                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{new Date(s.expiresAt).toLocaleString()}</td>
+                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{new Date(s.expires_at).toLocaleString()}</td>
                   </tr>
                 ))}
               </tbody>

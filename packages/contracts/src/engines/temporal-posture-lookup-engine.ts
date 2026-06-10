@@ -1,4 +1,4 @@
-// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
+// @ts-nocheck
 /**
  * Temporal Posture Lookup Engine — Commander C2 (Spec 39)
  *

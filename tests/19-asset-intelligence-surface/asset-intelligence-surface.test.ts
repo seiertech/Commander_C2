@@ -107,7 +107,7 @@ describe('Unit 19 — Doctrinal constraints', () => {
   });
 
   it('surface attribution preserved on overview', () => {
-    expect(pageContent).toContain('surfaceAttribution');
+    expect(pageContent).toContain('surface_attribution');
   });
 
   it('no manual case creation', () => {
