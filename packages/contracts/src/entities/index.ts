@@ -60,3 +60,60 @@ export type {
   TopologyEdgeValidation,
 } from './topology-edge';
 export { validateTopologyEdge } from './topology-edge';
+
+// ─── Layer 3: Event & Intelligence (OCSF 1.3.0) ─────────────────────────────
+export type {
+  OcsfSeverityId,
+  OcsfStatusId,
+  OcsfBaseActivityId,
+  OcsfCategoryUid,
+  OcsfMetadata,
+  OcsfProduct,
+  OcsfObservable,
+  OcsfReputation,
+  OcsfEnrichment,
+  OcsfBaseEvent,
+  NatoSourceReliability,
+  NatoInformationCredibility,
+  CommanderEventExtensions,
+} from './ocsf-types';
+export {
+  OCSF_SEVERITY_LABELS,
+  OCSF_STATUS_LABELS,
+  OCSF_CATEGORY_LABELS,
+  NATO_RELIABILITY_LABELS,
+  NATO_CREDIBILITY_LABELS,
+  computeTypeUid,
+  deriveSeverityLabel,
+} from './ocsf-types';
+
+export type {
+  Signal,
+  SignalStatus,
+  SignalValidation,
+} from './signal';
+export { validateSignal } from './signal';
+
+export type {
+  FindingEvent,
+  FindingState,
+  MitreAttackReference,
+  FindingEventValidation,
+} from './finding-event';
+export { validateFindingEvent } from './finding-event';
+
+export type {
+  RemediationEvent,
+  RemediationStatus,
+  RemediationMethod,
+  RemediationEventValidation,
+} from './remediation-event';
+export { validateRemediationEvent } from './remediation-event';
+
+export type {
+  IntelligenceAssessment,
+  AssessmentStatus,
+  ThreatLevel,
+  IntelligenceAssessmentValidation,
+} from './intelligence-assessment';
+export { validateIntelligenceAssessment } from './intelligence-assessment';
