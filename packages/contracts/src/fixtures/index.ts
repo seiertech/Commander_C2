@@ -10,3 +10,25 @@ export { SEED_TENANT, SEED_SOURCE, seedId } from './seed-tenant';
 
 // ─── Standards Declarations ──────────────────────────────────────────────────
 export { SEED_DECLARATIONS, validateAllSeedDeclarations } from './seed-standards-declarations';
+
+// ─── Architecture Classifications ────────────────────────────────────────────
+export {
+  SEED_ARCHITECTURE_CLASSIFICATIONS,
+  validateAllSeedArchitectureClassifications,
+} from './seed-architecture-classifications';
+
+// ─── Topology (Nodes + Edges) ────────────────────────────────────────────────
+export {
+  SEED_TOPOLOGY_NODES,
+  SEED_TOPOLOGY_EDGES,
+  validateAllSeedTopologyNodes,
+  validateAllSeedTopologyEdges,
+} from './seed-topology';
+
+// ─── Field Mappings: TOGAF & Zachman ─────────────────────────────────────────
+export {
+  SEED_FIELD_MAPPINGS_TOGAF,
+  SEED_FIELD_MAPPINGS_ZACHMAN,
+  SEED_FIELD_MAPPINGS_TOGAF_ZACHMAN,
+  validateAllTogafZachmanMappings,
+} from './seed-field-mappings-togaf-zachman';
