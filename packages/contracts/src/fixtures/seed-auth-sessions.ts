@@ -1,0 +1,73 @@
+/**
+ * Seed Auth Sessions — Commander SDR (Spec 35)
+ * 4 sample session records for development/testing
+ */
+
+import type { AuthSession } from '../entities/auth-session';
+
+export const seedAuthSessions: AuthSession[] = [
+  {
+    id: 'session-001',
+    entityType: 'auth-session',
+    tenant: { tenantId: 'tenant-seiertech-01', tenantName: 'Seiertech Demo' },
+    source: { connectorId: 'system', importRunId: 'init-001', sourceSystem: 'commander-auth', sourceTimestamp: '2025-01-15T08:30:00Z' },
+    sessionId: 'sess-a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+    userId: 'user-analyst-01',
+    tenantId: 'tenant-seiertech-01',
+    createdAt: '2025-01-15T08:30:00Z',
+    expiresAt: '2025-01-15T20:30:00Z',
+    mfaVerified: true,
+    ipAddress: '10.0.1.45',
+    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0',
+    status: 'active',
+    updatedAt: '2025-01-15T08:30:00Z',
+  },
+  {
+    id: 'session-002',
+    entityType: 'auth-session',
+    tenant: { tenantId: 'tenant-seiertech-01', tenantName: 'Seiertech Demo' },
+    source: { connectorId: 'system', importRunId: 'init-001', sourceSystem: 'commander-auth', sourceTimestamp: '2025-01-15T07:00:00Z' },
+    sessionId: 'sess-b2c3d4e5-f6a7-8901-bcde-f23456789012',
+    userId: 'user-som-01',
+    tenantId: 'tenant-seiertech-01',
+    createdAt: '2025-01-15T07:00:00Z',
+    expiresAt: '2025-01-15T19:00:00Z',
+    mfaVerified: true,
+    ipAddress: '10.0.1.22',
+    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) Safari/17.0',
+    status: 'active',
+    updatedAt: '2025-01-15T12:00:00Z',
+  },
+  {
+    id: 'session-003',
+    entityType: 'auth-session',
+    tenant: { tenantId: 'tenant-seiertech-01', tenantName: 'Seiertech Demo' },
+    source: { connectorId: 'system', importRunId: 'init-001', sourceSystem: 'commander-auth', sourceTimestamp: '2025-01-14T09:00:00Z' },
+    sessionId: 'sess-c3d4e5f6-a7b8-9012-cdef-345678901234',
+    userId: 'user-admin-01',
+    tenantId: 'tenant-seiertech-01',
+    createdAt: '2025-01-14T09:00:00Z',
+    expiresAt: '2025-01-14T21:00:00Z',
+    mfaVerified: true,
+    ipAddress: '10.0.2.10',
+    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Firefox/121.0',
+    status: 'expired',
+    updatedAt: '2025-01-14T21:00:00Z',
+  },
+  {
+    id: 'session-004',
+    entityType: 'auth-session',
+    tenant: { tenantId: 'tenant-seiertech-01', tenantName: 'Seiertech Demo' },
+    source: { connectorId: 'system', importRunId: 'init-001', sourceSystem: 'commander-auth', sourceTimestamp: '2025-01-15T06:00:00Z' },
+    sessionId: 'sess-d4e5f6a7-b8c9-0123-defa-456789012345',
+    userId: 'user-analyst-02',
+    tenantId: 'tenant-seiertech-01',
+    createdAt: '2025-01-15T06:00:00Z',
+    expiresAt: '2025-01-15T18:00:00Z',
+    mfaVerified: false,
+    ipAddress: '192.168.1.100',
+    userAgent: 'Mozilla/5.0 (Linux; Android 14) Chrome/120.0',
+    status: 'revoked',
+    updatedAt: '2025-01-15T10:30:00Z',
+  },
+];

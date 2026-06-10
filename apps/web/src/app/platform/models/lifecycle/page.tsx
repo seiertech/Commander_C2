@@ -1,0 +1,88 @@
+'use client';
+
+import { useMode } from '@/context/mode-context';
+import { PageContainer } from '@/components/page-container';
+import { seedModels } from '../../../../../../../packages/contracts/src/fixtures/seed-platform';
+import { componentTokens } from '../../../../../../../packages/ui/src/tokens/components';
+import {
+  primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
+  primitiveFonts, primitiveLetterSpacing, primitiveSignal,
+} from '../../../../../../../packages/ui/src/tokens/primitives';
+
+/**
+ * Platform — Detection Model Lifecycle
+ *
+ * Source: Spec #36 Rule/Model/Decision Governance Surface
+ * Use Case: UC-177 — Manage detection model lifecycle
+ * Route: /platform/models/lifecycle | Nav Group: Platform | Status: BUILD
+ *
+ * State machine view: authoring → testing → promoted → tuning → retired.
+ */
+
+const LIFECYCLE_STAGES = ['training', 'candidate', 'active', 'retired'] as const;
+
+const stageColor = (status: string) => {
+  switch (status) {
+    case 'active': return primitiveSignal.success;
+    case 'training': return primitiveSignal.info;
+    case 'candidate': return primitiveSignal.warning;
+    case 'retired': return primitiveSignal.neutral;
+    default: return primitiveSignal.neutral;
+  }
+};
+
+export default function PlatformModelLifecyclePage() {
+  const { tokens } = useMode();
+
+  const modelsByStage = LIFECYCLE_STAGES.map((stage) => ({
+    stage,
+    models: seedModels.filter((m) => m.status === stage),
+  }));
+
+  return (
+    <PageContainer pretitle="Platform › Model Management › Lifecycle" title="Detection Model Lifecycle">
+      {/* Stage pipeline */}
+      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${LIFECYCLE_STAGES.length}, 1fr)`, gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
+        {LIFECYCLE_STAGES.map((stage) => (
+          <div key={stage} style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding, textAlign: 'center' }}>
+            <span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>{stage}</span>
+            <span style={{ fontSize: primitiveTypeScale.kpiValue, fontFamily: primitiveFonts.mono, fontWeight: primitiveFontWeight.bold, color: stageColor(stage) }}>
+              {seedModels.filter((m) => m.status === stage).length}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {/* Models by stage */}
+      {modelsByStage.filter((s) => s.models.length > 0).map(({ stage, models }) => (
+        <div key={stage} style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding, marginBottom: componentTokens.gridGap }}>
+          <h3 style={{ fontSize: primitiveTypeScale.h4, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: `0 0 ${componentTokens.cardHeaderMargin}`, textTransform: 'uppercase' }}>{stage}</h3>
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
+              <thead>
+                <tr>
+                  {['Name', 'Type', 'Version', 'Domain', 'Accuracy', 'FP Rate', 'Last Evaluated'].map((h) => (
+                    <th key={h} style={{ textAlign: 'left', padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, borderBottom: `2px solid ${tokens.border.default}`, color: tokens.text.muted, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, fontSize: primitiveTypeScale.micro }}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {models.map((m) => (
+                  <tr key={m.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{m.name}</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{m.modelType}</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono }}>{m.version}</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{m.domain}</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: m.accuracy >= 90 ? primitiveSignal.success : primitiveSignal.warning, fontFamily: primitiveFonts.mono }}>{m.accuracy}%</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: m.falsePositiveRate <= 5 ? primitiveSignal.success : primitiveSignal.warning, fontFamily: primitiveFonts.mono }}>{m.falsePositiveRate}%</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontSize: primitiveTypeScale.micro }}>{new Date(m.lastEvaluatedAt).toLocaleDateString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ))}
+    </PageContainer>
+  );
+}

@@ -1,0 +1,95 @@
+/**
+ * Seed Verdict Pattern Cases — Commander SDR Test Fixtures
+ *
+ * 4 records: one per phase progression (surface, triage, customer_investigation,
+ * outcome/closed).
+ * Source: Spec #41 Internal Risk Investigation Sub-Lifecycle
+ */
+
+import type { VerdictPatternCase } from '../entities/verdict-pattern-case';
+import { SEED_TENANT, SEED_SOURCE, seedId } from './seed-tenant';
+
+const VP_SOURCE = { ...SEED_SOURCE, sourceSystem: 'commander-identity-intelligence' };
+
+export const seedVerdictPatterns: VerdictPatternCase[] = [
+  {
+    id: seedId('verdict-pattern', 1),
+    entityType: 'verdict-pattern-case',
+    tenant: SEED_TENANT,
+    createdAt: '2026-02-08T08:00:00.000Z',
+    updatedAt: '2026-02-08T08:00:00.000Z',
+    source: VP_SOURCE,
+    patternId: 'vp-0001',
+    identityRef: 'identity-svc-prod-01',
+    patternType: 'access_anomaly',
+    severity: 4,
+    dispositions: ['MONITOR', 'REQUIRE_MFA'],
+    phase: 'surface',
+    surfacedAt: '2026-02-08T08:00:00.000Z',
+    outcomeCategory: null,
+    evidenceGrade: 'intelligence',
+  },
+  {
+    id: seedId('verdict-pattern', 2),
+    entityType: 'verdict-pattern-case',
+    tenant: SEED_TENANT,
+    createdAt: '2026-02-08T09:30:00.000Z',
+    updatedAt: '2026-02-08T11:00:00.000Z',
+    source: VP_SOURCE,
+    patternId: 'vp-0002',
+    identityRef: 'identity-analyst-03',
+    patternType: 'data_exfiltration',
+    severity: 5,
+    dispositions: ['BLOCK', 'AUDIT'],
+    phase: 'triage',
+    surfacedAt: '2026-02-08T09:30:00.000Z',
+    triagedAt: '2026-02-08T11:00:00.000Z',
+    outcomeCategory: null,
+    evidenceGrade: 'intelligence',
+    jurisdictionRef: 'jurisdiction-eu-gdpr',
+  },
+  {
+    id: seedId('verdict-pattern', 3),
+    entityType: 'verdict-pattern-case',
+    tenant: SEED_TENANT,
+    createdAt: '2026-02-06T14:00:00.000Z',
+    updatedAt: '2026-02-08T16:00:00.000Z',
+    source: VP_SOURCE,
+    patternId: 'vp-0003',
+    identityRef: 'identity-contractor-07',
+    patternType: 'privilege_misuse',
+    severity: 3,
+    dispositions: ['COACH', 'MONITOR'],
+    phase: 'customer_investigation',
+    surfacedAt: '2026-02-06T14:00:00.000Z',
+    triagedAt: '2026-02-06T15:00:00.000Z',
+    routedAt: '2026-02-07T09:00:00.000Z',
+    handedOffAt: '2026-02-07T10:00:00.000Z',
+    outcomeCategory: null,
+    handoffRecipient: 'customer-security-lead',
+    evidenceGrade: 'investigation',
+  },
+  {
+    id: seedId('verdict-pattern', 4),
+    entityType: 'verdict-pattern-case',
+    tenant: SEED_TENANT,
+    createdAt: '2026-01-25T10:00:00.000Z',
+    updatedAt: '2026-02-05T14:00:00.000Z',
+    source: VP_SOURCE,
+    patternId: 'vp-0004',
+    identityRef: 'identity-admin-01',
+    patternType: 'policy_violation',
+    severity: 2,
+    dispositions: ['AUDIT'],
+    phase: 'closure',
+    surfacedAt: '2026-01-25T10:00:00.000Z',
+    triagedAt: '2026-01-25T11:00:00.000Z',
+    routedAt: '2026-01-26T09:00:00.000Z',
+    handedOffAt: '2026-01-26T10:00:00.000Z',
+    outcomeRecordedAt: '2026-02-03T15:00:00.000Z',
+    closedAt: '2026-02-05T14:00:00.000Z',
+    outcomeCategory: 'no_issue',
+    handoffRecipient: 'customer-compliance-team',
+    evidenceGrade: 'investigation',
+  },
+];

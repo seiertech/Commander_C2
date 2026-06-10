@@ -1,0 +1,53 @@
+'use client';
+
+import { PageContainer } from '@/components/page-container';
+import { seedControlFrameworks, seedControlEvaluations } from '../../../../../packages/contracts/src/fixtures/seed-control-frameworks';
+import { primitiveTypeScale } from '../../../../../packages/ui/src/tokens/primitives';
+
+/**
+ * Governance — Compliance Overview
+ *
+ * Source: Unit 35 (Team 2, BLOCKED) — rendered from available framework data
+ * Data: control-framework.ts + seed-control-frameworks
+ * Route: /governance | Nav Group: Governance
+ */
+
+export default function GovernancePage() {
+  const frameworks = seedControlFrameworks;
+  const evaluations = seedControlEvaluations;
+  const activeFrameworks = frameworks.filter((f) => f.active);
+
+  return (
+    <PageContainer pretitle="Assurance & Audit › Governance" title="Governance & Compliance" headerActions={<span className="badge bg-blue-lt">{activeFrameworks.length} active frameworks</span>}>
+      <div className="row row-deck row-cards mb-3">
+        <div className="col-sm-6 col-lg-3"><div className="card"><div className="card-body"><div className="subheader">Frameworks</div><div className="h1 mb-0">{frameworks.length}</div></div></div></div>
+        <div className="col-sm-6 col-lg-3"><div className="card"><div className="card-body"><div className="subheader">Active</div><div className="h1 mb-0">{activeFrameworks.length}</div></div></div></div>
+        <div className="col-sm-6 col-lg-3"><div className="card"><div className="card-body"><div className="subheader">Evaluations</div><div className="h1 mb-0">{evaluations.length}</div></div></div></div>
+        <div className="col-sm-6 col-lg-3"><div className="card"><div className="card-body"><div className="subheader">Avg Mapping</div><div className="h1 mb-0">{frameworks.length > 0 ? Math.round(frameworks.reduce((s, f) => s + f.mappingCompleteness, 0) / frameworks.length) : 0}%</div></div></div></div>
+      </div>
+      <div className="card">
+        <div className="card-header"><h3 className="card-title">Framework Compliance Status</h3></div>
+        <div className="card-body p-0">
+          <div className="table-responsive">
+            <table className="table table-vcenter card-table">
+              <thead><tr><th>Framework</th><th>Category</th><th>Controls</th><th>Mapping</th><th>Licence</th><th>Status</th></tr></thead>
+              <tbody>
+                {frameworks.map((f) => (
+                  <tr key={f.id}>
+                    <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{f.frameworkName}</td>
+                    <td><span className={`badge ${f.category === 'regulatory' ? 'bg-purple-lt' : 'bg-blue-lt'}`}>{f.category}</span></td>
+                    <td>{f.totalControls}</td>
+                    <td>{f.mappingCompleteness}%</td>
+                    <td><span className={`badge ${f.licenceStatus === 'open' ? 'bg-green-lt' : 'bg-orange-lt'}`}>{f.licenceStatus}</span></td>
+                    <td><span className={`badge ${f.active ? 'bg-green-lt' : 'bg-red-lt'}`}>{f.active ? 'Active' : 'Inactive'}</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      {/* AI-PLACEMENT: AICAP-009 — Map evidence to control requirements for audit-ready compliance reports */}
+    </PageContainer>
+  );
+}

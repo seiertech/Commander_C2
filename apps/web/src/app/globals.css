@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* === EXISTING CSS BELOW — DO NOT MODIFY === */
+
+/*
+ * Commander SDR — Global CSS Overrides
+ *
+ * Loaded after Tabler CSS (see layout.tsx import order).
+ * These overrides apply app-wide and take precedence over Tabler defaults.
+ *
+ * Scope: visual/structural overrides only. No data logic.
+ */
+
+/* ── ISSUE 1: Square card corners — app-wide mandate ─────────────────────── */
+/* Override Tabler's default --tblr-card-border-radius so every .card
+   across every page has sharp corners. */
+:root {
+  --tblr-card-border-radius: 0;
+  --tblr-border-radius: 0;
+  --tblr-border-radius-sm: 0;
+  --tblr-border-radius-lg: 0;
+  --tblr-border-radius-xl: 0;
+  --tblr-border-radius-2xl: 0;
+  --tblr-border-radius-pill: 9999px; /* keep pill shape for badges/avatars */
+}
+
+.card {
+  border-radius: 0 !important;
+}
+
+/* ── ISSUE 5: Remove stray gold/yellow from non-brand elements ────────────── */
+/* KPI metric values used primitiveBrand.gold (#ffd21f) — strip that.
+   Gold is ONLY permitted on: .commander-brand-gold and .nav-link active underline. */
+.card .h1,
+.card .h2,
+.card .h3 {
+  color: var(--tblr-body-color);
+}
+
+/* ── ISSUE 6: Tabler text colour system — no mixing with Commander tokens ─── */
+/* Ensure Tabler's CSS variable chain is the single source of truth for text. */
+.page-title,
+.page-pretitle,
+.card-title,
+.subheader {
+  color: var(--tblr-body-color);
+}
+
+.subheader {
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--tblr-muted);
+}
+
+/* ── ISSUE 7: Sidebar — no border-radius, no horizontal overflow ─────────── */
+/* Ensures Tabler's navbar-vertical does not introduce rounded corners or
+   horizontal scrollbars that regress the Commander shell. */
+.navbar-vertical {
+  border-radius: 0 !important;
+  overflow-x: hidden !important;
+}

@@ -1,0 +1,105 @@
+/**
+ * Seed Notifications — Commander SDR Test Fixtures
+ *
+ * Synthetic in-app notifications for the analyst workspace.
+ * Source: Spec #26 Case Communication and Broadcast Channel
+ * No real customer data, secrets, or vendor credentials.
+ */
+
+import type { Notification } from '../entities/notification';
+import { SEED_TENANT, SEED_SOURCE, seedId } from './seed-tenant';
+
+const ENGINE_SOURCE = { ...SEED_SOURCE, sourceSystem: 'notification-engine' };
+
+export const seedNotifications: Notification[] = [
+  {
+    id: seedId('notif', 1),
+    entityType: 'notification',
+    tenant: SEED_TENANT,
+    createdAt: '2026-02-01T08:05:00.000Z',
+    updatedAt: '2026-02-01T08:05:00.000Z',
+    source: ENGINE_SOURCE,
+    recipientUserId: 'user-analyst-001',
+    notificationType: 'sla_warning',
+    severity: 'critical',
+    title: 'SLA Breach Imminent',
+    message: 'Case CASE-0001 (P0 CVE-2026-0001) has less than 1 hour remaining on its 4-hour SLA target.',
+    entityRef: 'case-0001',
+    relatedEntityType: 'case',
+    read: false,
+    readAt: null,
+    actionUrl: '/cases/case-0001',
+  },
+  {
+    id: seedId('notif', 2),
+    entityType: 'notification',
+    tenant: SEED_TENANT,
+    createdAt: '2026-02-01T09:30:00.000Z',
+    updatedAt: '2026-02-01T09:35:00.000Z',
+    source: ENGINE_SOURCE,
+    recipientUserId: 'user-analyst-001',
+    notificationType: 'escalation',
+    severity: 'warning',
+    title: 'Case Escalated to War Room',
+    message: 'Case CASE-0001 has been escalated to War Room WR-CASE-0001. You have been added as an analyst member.',
+    entityRef: 'war-room-0001',
+    relatedEntityType: 'war-room',
+    read: true,
+    readAt: '2026-02-01T09:35:00.000Z',
+    actionUrl: '/war-room/p0',
+  },
+  {
+    id: seedId('notif', 3),
+    entityType: 'notification',
+    tenant: SEED_TENANT,
+    createdAt: '2026-02-01T10:00:00.000Z',
+    updatedAt: '2026-02-01T10:00:00.000Z',
+    source: ENGINE_SOURCE,
+    recipientUserId: 'user-analyst-001',
+    notificationType: 'approval_required',
+    severity: 'info',
+    title: 'Approval Required: Outbound Communication',
+    message: 'A governed outbound draft for case CASE-0002 requires your review and approval before send.',
+    entityRef: 'case-0002',
+    relatedEntityType: 'case',
+    read: false,
+    readAt: null,
+    actionUrl: '/cases/case-0002',
+  },
+  {
+    id: seedId('notif', 4),
+    entityType: 'notification',
+    tenant: SEED_TENANT,
+    createdAt: '2026-02-01T11:00:00.000Z',
+    updatedAt: '2026-02-01T11:30:00.000Z',
+    source: ENGINE_SOURCE,
+    recipientUserId: 'user-analyst-001',
+    notificationType: 'case_update',
+    severity: 'info',
+    title: 'New Evidence Added',
+    message: 'New forensic evidence has been bound to case CASE-0003 (credential exposure). Review recommended.',
+    entityRef: 'case-0003',
+    relatedEntityType: 'case',
+    read: true,
+    readAt: '2026-02-01T11:30:00.000Z',
+    actionUrl: '/cases/case-0003',
+  },
+  {
+    id: seedId('notif', 5),
+    entityType: 'notification',
+    tenant: SEED_TENANT,
+    createdAt: '2026-02-01T14:00:00.000Z',
+    updatedAt: '2026-02-01T14:00:00.000Z',
+    source: ENGINE_SOURCE,
+    recipientUserId: 'user-analyst-001',
+    notificationType: 'assignment',
+    severity: 'info',
+    title: 'Case Assigned to You',
+    message: 'Case CASE-0005 (configuration drift — internal network) has been assigned to you by the routing engine.',
+    entityRef: 'case-0005',
+    relatedEntityType: 'case',
+    read: false,
+    readAt: null,
+    actionUrl: '/cases/case-0005',
+  },
+];

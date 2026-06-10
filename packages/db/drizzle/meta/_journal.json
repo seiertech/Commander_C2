@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1780231319634,
+      "tag": "0000_risk_objects_unit1",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1780242839832,
+      "tag": "0001_strategy_policies_unit2",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1780244223913,
+      "tag": "0002_case_strategy_bindings_unit3",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1780245258812,
+      "tag": "0003_connector_foundation_unit4",
+      "breakpoints": true
+    }
+  ]
+}
