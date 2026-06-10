@@ -9,7 +9,7 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/
 /**
  * Identity & Access — Access Drift
  *
- * Source: Unit 18 (Identity Intelligence Surface)
+ * Source: Thesis (Identity Intelligence Surface)
  * Data: identity.ts + risk-object.ts (identity_risk type)
  * Route: /identity/drift | Nav Group: Identity & Access
  *

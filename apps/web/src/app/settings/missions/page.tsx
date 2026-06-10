@@ -8,7 +8,7 @@ import { primitiveTypeScale } from '../../../../../../packages/ui/src/tokens/pri
 /**
  * Settings — Mission Configuration
  *
- * Source: Spec #37 Mission Objective Binding Model
+ * Source: Thesis Mission Objective Binding Model
  * Use Cases: UC-162 (create/edit mission with binding rules), UC-163 (bind entities), UC-166 (approve changes)
  * Data: mission.ts + seed-missions, mission-binding.ts + seed-mission-bindings
  * Route: /settings/missions | Boundary: operational

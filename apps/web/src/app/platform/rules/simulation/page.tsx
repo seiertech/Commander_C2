@@ -13,7 +13,7 @@ import {
 /**
  * Platform — Rule Simulation (Blast Radius Preview)
  *
- * Source: Spec #34 Drift and Rule Engine
+ * Source: Thesis Drift and Rule Engine
  * Use Case: UC-171 — Simulate rule change (blast radius)
  * Data: BlastRadius from seed-blast-radius
  * Route: /platform/rules/simulation | Nav Group: Platform | Status: BUILD

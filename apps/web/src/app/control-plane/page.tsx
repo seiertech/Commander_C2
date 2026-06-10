@@ -8,7 +8,7 @@ import { seedDeployments } from '../../../../../packages/contracts/src/fixtures/
 /**
  * Commercial Control Plane — Operator Command Home
  *
- * Source: Spec #38 Commander Internal Control Plane UI Surface
+ * Source: Thesis Commander Internal Control Plane UI Surface
  * Use Cases: UC-157 (operator command home), UC-160 (trial conversion metrics)
  * Boundary: control-plane (internal Seiertech application)
  *

@@ -9,11 +9,11 @@ import { seedCases } from '../../../../../packages/contracts/src/fixtures/seed-c
 import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
 
 /**
- * Identity Intelligence Surface — Unit 18 (Surface Layer)
+ * Identity Intelligence Surface — Thesis Layer
  *
- * Source: Spec #68 Identity Intelligence Surface; RBAC per DEC-sec-c2-internal-cop-rbac (Option C).
+ * Source: Thesis Identity Intelligence Surface; RBAC per DEC-sec-c2-internal-cop-rbac (Option C).
  *
- * SCOPE (Unit 18) — six-section per-identity composition:
+ * SCOPE (Thesis) — six-section per-identity composition:
  *   1. Identity Overview      2. Access Intelligence   3. Behavioural Intelligence (IR-overlay gated)
  *   4. Threat Intelligence    5. Case History          6. Risk Trajectory
  * List → detail (/identity?id=<id>) selection; drill paths to cases, assets, threat intel.
@@ -28,7 +28,7 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/
  *     AND (b) Class B (Internal Behavioural) ingestion exists. No per-identity behavioural data is
  *     fabricated (ai-grounding / no-estate-fact-invention doctrine).
  *   - Audit-of-access, hard tenant isolation and jurisdiction-aware enforcement are mandatory and are
- *     enforced at the API/backend layer (Spec #50 §Backend Enforcement Rule; Spec #56 §8). This
+ *     enforced at the API/backend layer (Thesis; Thesis. This
  *     surface does not implement its own auth runtime (none exists yet — held for the auth/entitlement
  *     scoped pass); it renders the gate honestly rather than faking enforcement.
  *

@@ -9,7 +9,7 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/
 /**
  * Platform — Connectors & Data Sources
  *
- * Source: Unit 4 (Connector Layer Foundation), Unit 38 (Mock Connectors)
+ * Source: Thesis (Connector Layer Foundation), Thesis (Mock Connectors)
  * Data: connector.ts + seed-connectors + connector-pull-orchestrator
  * Route: /platform/connectors | Nav Group: Platform
  *

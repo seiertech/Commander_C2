@@ -8,7 +8,7 @@ import { primitiveTypeScale } from '../../../../../../packages/ui/src/tokens/pri
 /**
  * Assets — Classification View
  *
- * Source: Unit 19 (Asset Intelligence Surface)
+ * Source: Thesis (Asset Intelligence Surface)
  * Data: asset.ts (classification, assetDataClassification) + seed-assets
  * Route: /assets/classification | Nav Group: Assets
  *

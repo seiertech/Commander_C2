@@ -15,7 +15,7 @@ import {
 /**
  * Platform — Rule Validation (Pre-Activation Status)
  *
- * Source: Spec #34 Drift and Rule Engine
+ * Source: Thesis Drift and Rule Engine
  * Use Case: UC-168 — Validate rule before activation
  * Engine: rule-validation-engine (validateRuleSchema, checkOperatorWhitelist,
  *         rejectCodeExecution, validateTenantScope)

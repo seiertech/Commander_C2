@@ -20,13 +20,13 @@ import {
 } from '../../../../packages/contracts/src/engines/ooda-layer';
 
 /**
- * Command Centre — Operational Entry-Point Surface (Unit 16a)
+ * Command Centre — Operational Entry-Point Surface (Thesisa)
  *
- * Source: Spec #41 Visual Language & Intensity Ceiling, #65/#66 Operating Pictures;
+ * Source: Thesis Visual Language & Intensity Ceiling, #65/#66 Operating Pictures;
  *         Route Registry (path: /); DEC-command-centre-split-16a-16b.
  *
- * SCOPE (Unit 16a — Operational Command Centre):
- *   1. OODA phase-health gauges (from Unit 15 OODA Layer engine)
+ * SCOPE (Thesisa — Operational Command Centre):
+ *   1. OODA phase-health gauges (from Thesis OODA Layer engine)
  *   2. Case queue overview (by priority, status, surface attribution)
  *   3. Risk object overview (by type, treatment state)
  *   4. Connector health overview
@@ -34,13 +34,13 @@ import {
  *   6. Visual intensity ceiling Level 3 (mode-aware command/intelligence treatment)
  *   7. Drill links to the (scaffold) External / Internal Operating Pictures
  *
- * EXPLICITLY OUT OF SCOPE (Unit 16b — Aggregate/Posture Command Centre, BLOCKED):
+ * EXPLICITLY OUT OF SCOPE (Thesisb — Aggregate/Posture Command Centre, BLOCKED):
  *   - Aggregate posture / SLA / coverage KPI rollups from unmapped data points.
  *     These require the data-point-to-metric mapping artifact (DEC-command-centre-deferred,
  *     now scoped to 16b). They are deliberately NOT rendered here.
  *
  * Doctrinal constraints:
- *   - Consumes canonical seed fixtures + Unit 14/15 engine outputs; invents no entities.
+ *   - Consumes canonical seed fixtures + Thesis/15 engine outputs; invents no entities.
  *   - No manual case creation (Assertion 1).
  *   - OODA health thresholds are strategy-sourced, never hardcoded (performance/strategy doctrine).
  *
@@ -164,7 +164,7 @@ export default function CommandCentrePage() {
         </div>
       )}
 
-      {/* ── OODA Phase Health Gauges (Unit 15 engine) ── */}
+      {/* ── OODA Phase Health Gauges (Thesis engine) ── */}
       <div className="row row-deck row-cards mb-3">
         {OODA_PHASES.map((phase) => {
           const score = tempo.phases.find((p) => p.phase === phase)!;
@@ -335,8 +335,8 @@ export default function CommandCentrePage() {
           <div className="card">
             <div className="card-body">
               <p className="text-muted mb-0" style={{ fontSize: primitiveTypeScale.body }}>
-                Operational entry-point surface (Unit 16a). Displays seed/mock data and OODA Layer
-                engine output. Aggregate posture/SLA/coverage rollups are delivered by Unit 16b after
+                Operational entry-point surface (Thesisa). Displays seed/mock data and OODA Layer
+                engine output. Aggregate posture/SLA/coverage rollups are delivered by Thesisb after
                 the data-point-to-metric mapping exercise; they are not shown here. Real connector
                 integration requires Phase 2 approval.
               </p>

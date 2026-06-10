@@ -8,7 +8,7 @@ import { primitiveTypeScale } from '../../../../../../packages/ui/src/tokens/pri
 /**
  * Assets — Ownership View
  *
- * Source: Unit 19 (Asset Intelligence Surface)
+ * Source: Thesis (Asset Intelligence Surface)
  * Data: asset.ts (owner field) + seed-assets
  * Route: /assets/ownership | Nav Group: Assets
  *

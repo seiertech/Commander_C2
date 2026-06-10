@@ -8,7 +8,7 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/
 /**
  * Identity & Access — Privileged Access
  *
- * Source: Unit 18 (Identity Intelligence Surface)
+ * Source: Thesis (Identity Intelligence Surface)
  * Data: identity.ts (privilegeLevel field) + seed-identities
  * Route: /identity/privileged | Nav Group: Identity & Access
  *

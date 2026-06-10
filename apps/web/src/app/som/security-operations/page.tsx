@@ -7,7 +7,7 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/
 /**
  * SOM — Security Operations Manager
  *
- * Source: Unit 8 (Case Routing Engine), assignment-engine resolver
+ * Source: Thesis (Case Routing Engine), assignment-engine resolver
  * Data: case.ts (owner/team) + seed-cases
  * Route: /som/security-operations | Nav Group: SOM
  *

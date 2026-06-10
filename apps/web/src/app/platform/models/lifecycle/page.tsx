@@ -12,7 +12,7 @@ import {
 /**
  * Platform — Detection Model Lifecycle
  *
- * Source: Spec #36 Rule/Model/Decision Governance Surface
+ * Source: Thesis Rule/Model/Decision Governance Surface
  * Use Case: UC-177 — Manage detection model lifecycle
  * Route: /platform/models/lifecycle | Nav Group: Platform | Status: BUILD
  *

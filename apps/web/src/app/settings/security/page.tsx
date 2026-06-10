@@ -9,7 +9,7 @@ import { primitiveTypeScale } from '../../../../../../packages/ui/src/tokens/pri
 /**
  * Security Settings — Platform Security & Hardening (Spec 35)
  *
- * Source: Spec #35 Platform Security and Hardening
+ * Source: Thesis Platform Security and Hardening
  * Data: auth-session.ts, break-glass-request.ts, rbac-policy.ts + seed fixtures
  * Use Cases: UC-151 (break-glass), UC-148 (auth), UC-152 (RBAC)
  * Route: /settings/security | Boundary: tenant-admin

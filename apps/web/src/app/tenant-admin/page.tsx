@@ -13,13 +13,13 @@ import {
 } from './mock-tenant-config';
 
 /**
- * Tenant Admin Surface v1 — Unit 22 (second application boundary)
+ * Tenant Admin Surface v1 — Thesis (second application boundary)
  *
- * Source: Spec #39 Commander Application Boundary; SDR Control Plane Spec v1.1; Spec #47 (Tenant Admin).
+ * Source: Thesis Commander Application Boundary; SDR Control Plane Spec v1.1; Thesis.
  * Visual language: Tenant Admin chrome (inherited, provisional per DEC-v1.3.2-tenant-admin-shell-pending-reference),
  * provided by tenant-admin/layout.tsx. Visual intensity ceiling Level 2 (controlled administrative console).
  *
- * SCOPE (Unit 22 v1 — owner-authorised display + mock-backed configuration):
+ * SCOPE (Thesis v1 — owner-authorised display + mock-backed configuration):
  *   tenant profile · users · roles · authority overlays · MFA policy · SSO readiness/config ·
  *   connector settings · tenant security posture · local/mock configuration flows.
  *
@@ -153,7 +153,7 @@ export default function TenantAdminOverviewPage() {
           <Field label="Residency" value={p.residency} />
         </div>
         <p style={{ color: muted, fontSize: typography.fontSize.xs, marginTop: '8px' }}>
-          Aggregate over mock data only; live posture computation is owned by Unit 16b + the data-point-to-metric mapping.
+          Aggregate over mock data only; live posture computation is owned by Thesisb + the data-point-to-metric mapping.
         </p>
       </Section>
 

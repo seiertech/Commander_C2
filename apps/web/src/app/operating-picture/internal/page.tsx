@@ -11,12 +11,12 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/
 import { STREAM_LABELS, CLASS_TO_STREAM } from '../../../../../../packages/contracts/src/engines/intelligence-layer';
 
 /**
- * Internal Operating Picture — Unit 21 (Surface Layer)
+ * Internal Operating Picture — Thesis Layer
  *
- * Source: Spec #66 Internal Operating Picture, #60 Internal/External Attack Surface Framework;
+ * Source: Thesis Internal Operating Picture, #60 Internal/External Attack Surface Framework;
  *         RBAC per DEC-sec-c2-internal-cop-rbac (Option C).
  *
- * SCOPE (Unit 21):
+ * SCOPE (Thesis):
  *   1. Internal attack surface inventory (internal_attack_surface assets/identities)
  *   2. Internal Behavioural Intelligence stream visualisation (Class B connectors) — AGGREGATE tier
  *   3. Internal attack surface case queue (cases with surfaceAttribution: internal_attack_surface)
@@ -29,7 +29,7 @@ import { STREAM_LABELS, CLASS_TO_STREAM } from '../../../../../../packages/contr
  *     health, case queue, risk objects, Policy Effectiveness aggregate) renders to base personas
  *     via route RBAC (CISO, SOM, Security Analyst, Identity/Access Specialist, Security Architect,
  *     Risk Analyst, Risk/Adherence/Audit). Route RBAC is backend-authoritative; frontend is
- *     presentation only (Spec #50 §Backend Enforcement Rule; Spec #56 §8).
+ *     presentation only (Thesis; Thesis.
  *   - PER-IDENTITY TIER (Identity Risk Pattern Visualisation, Geographic Anomaly Markers,
  *     per-identity verdict detail) is gated by the INTERNAL RISK AUTHORITY OVERLAY. AGGREGATE-ONLY
  *     is the DEFAULT: the per-identity tier renders as an access-gated placeholder. No per-identity

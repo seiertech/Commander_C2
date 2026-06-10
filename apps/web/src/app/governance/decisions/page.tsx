@@ -14,7 +14,7 @@ import {
 /**
  * Governance — Decision Records
  *
- * Source: Spec #36 Rule/Model/Decision Governance Surface
+ * Source: Thesis Rule/Model/Decision Governance Surface
  * Use Case: UC-175 — Explain any system decision with full rationale
  * Route: /governance/decisions | Nav Group: Governance | Status: BUILD
  */

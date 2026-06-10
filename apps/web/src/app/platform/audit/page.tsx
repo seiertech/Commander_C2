@@ -8,7 +8,7 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/
 /**
  * Platform — Audit & Logs
  *
- * Source: Unit 43 (Audit Trail — Foundational, BLOCKED)
+ * Source: Thesis (Audit Trail — Foundational, BLOCKED)
  * Data: audit-event.ts + seed-events (activity events)
  * Route: /platform/audit | Nav Group: Platform
  *

@@ -10,7 +10,7 @@ import { componentTokens } from '../../../../../../packages/ui/src/tokens/compon
 /**
  * Strategy Centre — Unified Configuration Surface (Spec 43)
  *
- * Source: Spec #32 Strategy Layer Runtime Surface
+ * Source: Thesis Strategy Layer Runtime Surface
  * Data: strategy.ts, seed-strategies
  * Use Cases: UC-140, UC-142, UC-144, UC-146
  * Route: /strategy/centre | Nav Group: Strategy

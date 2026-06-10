@@ -7,7 +7,7 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/
 /**
  * Tool Health — Overview
  *
- * Source: Unit 46 (Team 2, BLOCKED) — rendered from available connector data
+ * Source: Thesis (Team 2, BLOCKED) — rendered from available connector data
  * Data: connector.ts (state, lastRunStatus) + seed-connectors
  * Route: /tool-health | Nav Group: Tool Health
  */

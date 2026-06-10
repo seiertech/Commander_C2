@@ -10,7 +10,7 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/
 /**
  * SOM — CISO Dashboard
  *
- * Source: Unit 36 (Team 2, BLOCKED) — rendered from available aggregate data
+ * Source: Thesis (Team 2, BLOCKED) — rendered from available aggregate data
  * Data: case.ts + risk-object.ts + asset.ts + identity.ts (aggregates)
  * Route: /som/ciso | Nav Group: SOM
  *

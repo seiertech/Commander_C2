@@ -8,7 +8,7 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/
 /**
  * Vulnerability Management — Overview
  *
- * Source: Platform Intelligence and IOC Distribution (Unit 50)
+ * Source: Platform Intelligence and IOC Distribution (Thesis)
  * Data: vulnerability-intelligence-record.ts + seed-vulnerability-intelligence
  * Route: /vulnerabilities | Nav Group: Vulnerability Management
  *

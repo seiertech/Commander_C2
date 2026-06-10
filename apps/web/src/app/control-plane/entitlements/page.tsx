@@ -7,7 +7,7 @@ import { seedEntitlements } from '../../../../../../packages/contracts/src/fixtu
 /**
  * Commercial Control Plane — Entitlement Manifest Editor
  *
- * Source: Spec #38 Commander Internal Control Plane UI Surface
+ * Source: Thesis Commander Internal Control Plane UI Surface
  * Use Case: UC-158 — Manage entitlement manifests
  * Boundary: control-plane (internal Seiertech application)
  * Data: entitlement-manifest.ts + seed-entitlements

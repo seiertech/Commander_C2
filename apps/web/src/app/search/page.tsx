@@ -10,7 +10,7 @@ import { primitiveTypeScale } from '../../../../../packages/ui/src/tokens/primit
 /**
  * Universal Search — Commander SDR (Spec 42)
  *
- * Source: Spec #42 Universal Search
+ * Source: Thesis Universal Search
  * Data: search-index-config.ts, seed-search-config.ts, universal-search-engine.ts
  * Use Cases: UC-154 (search across governed entities)
  * Route: /search | Nav Group: Platform

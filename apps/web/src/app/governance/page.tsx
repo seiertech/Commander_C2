@@ -7,7 +7,7 @@ import { primitiveTypeScale } from '../../../../../packages/ui/src/tokens/primit
 /**
  * Governance — Adherence Overview
  *
- * Source: Unit 35 (Team 2, BLOCKED) — rendered from available framework data
+ * Source: Thesis (Team 2, BLOCKED) — rendered from available framework data
  * Data: control-framework.ts + seed-control-frameworks
  * Route: /governance | Nav Group: Governance
  */

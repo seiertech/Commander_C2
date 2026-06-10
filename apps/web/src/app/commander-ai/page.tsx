@@ -7,7 +7,7 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/
 /**
  * Commander AI — Status Overview
  *
- * Source: Unit 40 (Commander AI Core)
+ * Source: Thesis (Commander AI Core)
  * Data: commander-ai-core engine (grounding, refusal framework)
  * Route: /commander-ai | Nav Group: Platform
  *
@@ -40,7 +40,7 @@ export default function CommanderAiPage() {
               Model integration (Bedrock Agent/Converse) is Phase 2 scope.
             </p>
           </div>
-          <span className="badge bg-blue-lt">Unit 40 — DONE</span>
+          <span className="badge bg-blue-lt">Thesis — DONE</span>
         </div>
       </div>
 
@@ -48,7 +48,7 @@ export default function CommanderAiPage() {
         {/* Modes */}
         <div className="col-lg-6">
           <div className="card">
-            <div className="card-header"><h3 className="card-title">Commander Modes (Spec #13 §4)</h3></div>
+            <div className="card-header"><h3 className="card-title">Commander Modes (Thesis
             <div className="card-body p-0">
               <div className="table-responsive">
                 <table className="table table-vcenter card-table">

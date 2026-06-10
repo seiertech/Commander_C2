@@ -9,7 +9,7 @@ import { componentTokens } from '../../../../../../packages/ui/src/tokens/compon
 /**
  * Strategy Audit History — Policy Change Timeline (Spec 43)
  *
- * Source: Spec #32 Strategy Layer Runtime Surface
+ * Source: Thesis Strategy Layer Runtime Surface
  * Data: strategy.ts, seed-strategies, audit-event.ts
  * Use Cases: UC-143
  * Route: /strategy/audit-history | Nav Group: Strategy

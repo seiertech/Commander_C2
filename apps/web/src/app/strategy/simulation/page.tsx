@@ -12,7 +12,7 @@ import { componentTokens } from '../../../../../../packages/ui/src/tokens/compon
 /**
  * Policy Simulation — Strategy Simulation Surface (Spec 43)
  *
- * Source: Spec #32 Strategy Layer Runtime Surface
+ * Source: Thesis Strategy Layer Runtime Surface
  * Data: strategy.ts, seed-strategies, strategy-simulation-engine.ts
  * Use Cases: UC-141
  * Route: /strategy/simulation | Nav Group: Strategy
