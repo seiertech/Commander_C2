@@ -94,7 +94,7 @@ export const MOCK_TENANT_USERS: TenantUser[] = [
   { id: 'tu-002', displayName: 'Security Operations Manager', email: 'som@acme-demo.example', roles: ['SOM'], authorityOverlays: ['Approval'], authStrength: 'mfa-enabled', status: 'active' },
   { id: 'tu-003', displayName: 'Carlos Identity-Analyst', email: 'carlos.identity@acme-demo.example', roles: ['Identity/Access Specialist'], authorityOverlays: ['Internal Risk (scoped)'], authStrength: 'mfa-enabled', status: 'active' },
   { id: 'tu-004', displayName: 'Jack Tenant-Admin', email: 'jack.admin@acme-demo.example', roles: ['Tenant Admin'], authorityOverlays: ['Administrative'], authStrength: 'mfa-enabled', status: 'active' },
-  { id: 'tu-005', displayName: 'Irene Compliance-Analyst', email: 'irene.compliance@acme-demo.example', roles: ['Risk/Compliance/Audit'], authorityOverlays: ['Reporting'], authStrength: 'password-only', status: 'invited' },
+  { id: 'tu-005', displayName: 'Irene Compliance-Analyst', email: 'irene.adherence@acme-demo.example', roles: ['Risk/Compliance/Audit'], authorityOverlays: ['Reporting'], authStrength: 'password-only', status: 'invited' },
 ];
 
 export const MOCK_TENANT_ROLES: TenantRole[] = [

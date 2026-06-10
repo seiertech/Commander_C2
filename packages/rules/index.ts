@@ -4,7 +4,7 @@
  * Pure functions: normalisation, deduplication, confidence aggregation,
  * freshness evaluation, allow/block, relationship state, ingestion pipeline,
  * advisory extraction, tenant builders, push mapping, case mappers,
- * threat hunts, compliance enrichment, cross-plane resolution.
+ * threat hunts, adherence enrichment, cross-plane resolution.
  */
 
 export { normaliseIoc } from './ioc-normalisation';
@@ -44,8 +44,8 @@ export type { ActionRecommendation, ActionFollowUp } from './case-outcome-mapper
 export { buildThreatHuntRecord, transitionHuntStatus } from './threat-hunt-builder';
 export type { BuildHuntInput } from './threat-hunt-builder';
 
-export { mapCveToEnrichmentEvidence, mapIocMatchToEnrichmentEvidence, assertNeverCreatesComplianceState } from './compliance-enrichment';
-export type { IntelligenceEnrichmentEvidence } from './compliance-enrichment';
+export { mapCveToEnrichmentEvidence, mapIocMatchToEnrichmentEvidence, assertNeverCreatesAdherenceState } from './adherence-enrichment';
+export type { IntelligenceEnrichmentEvidence } from './adherence-enrichment';
 
 export { resolveReference, batchResolveReferences } from './cross-plane-resolver';
 export type { ResolutionResult } from './cross-plane-resolver';

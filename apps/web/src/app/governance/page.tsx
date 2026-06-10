@@ -47,7 +47,7 @@ export default function GovernancePage() {
           </div>
         </div>
       </div>
-      {/* AI-PLACEMENT: AICAP-009 — Map evidence to control requirements for audit-ready compliance reports */}
+      {/* AI-PLACEMENT: AICAP-009 — Map evidence to control requirements for audit-ready adherence reports */}
     </PageContainer>
   );
 }

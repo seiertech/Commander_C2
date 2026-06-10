@@ -15,7 +15,7 @@ export default function SomCloudSecurityPage() {
   const cloudAssets = seedAssets.filter((a) => a.platform?.cloudProvider);
   const cloudProviders = cloudAssets.reduce((acc, a) => { const p = a.platform!.cloudProvider!; acc[p] = (acc[p] || 0) + 1; return acc; }, {} as Record<string, number>);
   const cloudConnectors = seedConnectors.filter((c) => c.sourceType.includes('aws') || c.sourceType.includes('azure') || c.sourceType.includes('gcp'));
-  const avgCompliance = seedCloudSecurityPosture.length ? Math.round(seedCloudSecurityPosture.reduce((s, p) => s + p.complianceScore, 0) / seedCloudSecurityPosture.length) : 0;
+  const avgCompliance = seedCloudSecurityPosture.length ? Math.round(seedCloudSecurityPosture.reduce((s, p) => s + p.adherenceScore, 0) / seedCloudSecurityPosture.length) : 0;
   const totalDrift = seedCloudSecurityPosture.reduce((s, p) => s + p.driftCount, 0);
   const totalCritical = seedCloudSecurityPosture.reduce((s, p) => s + p.criticalFindings, 0);
 
@@ -37,7 +37,7 @@ export default function SomCloudSecurityPage() {
               <span style={{ fontSize: primitiveTypeScale.micro, color: 'var(--tblr-secondary)', fontFamily: primitiveFonts.mono }}>{posture.accountId} · {posture.region}</span>
             </h3>
             <div className="card-actions">
-              <span style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.bold, color: posture.complianceScore >= 85 ? primitiveSignal.success : posture.complianceScore >= 70 ? primitiveSignal.warning : primitiveSignal.critical }}>{posture.complianceScore}% compliant</span>
+              <span style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.bold, color: posture.adherenceScore >= 85 ? primitiveSignal.success : posture.adherenceScore >= 70 ? primitiveSignal.warning : primitiveSignal.critical }}>{posture.adherenceScore}% compliant</span>
             </div>
           </div>
           <div className="card-body">

@@ -141,7 +141,7 @@ export function filterByRbac(results: SearchResult[], userRole: string): SearchR
 }
 
 /**
- * Audit a sensitive search query — logs the query for compliance.
+ * Audit a sensitive search query — logs the query for adherence.
  */
 export function auditSensitiveSearch(
   query: string,

@@ -111,10 +111,10 @@ export const seedDecisionRecords: DecisionRecord[] = [
     caseRef: 'case-0005',
     engineRef: 'case-prioritisation-engine',
     decisionType: 'escalation',
-    rationale: 'Case escalated from P3 to P1: mission-critical asset (payments API) with active drift + failed SLA compliance check.',
+    rationale: 'Case escalated from P3 to P1: mission-critical asset (payments API) with active drift + failed SLA adherence check.',
     inputFactors: [
       { factorName: 'mission.binding', factorValue: 'protect-payments', weight: 0.5, source: 'mission-impact' },
-      { factorName: 'sla.compliance', factorValue: 'failed', weight: 0.3, source: 'strategy-resolver' },
+      { factorName: 'sla.adherence', factorValue: 'failed', weight: 0.3, source: 'strategy-resolver' },
       { factorName: 'drift.active', factorValue: 'true', weight: 0.2, source: 'drift-engine' },
     ],
     outputAction: 'escalate-to-p1',

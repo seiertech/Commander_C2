@@ -10,15 +10,15 @@
  * Resolves: ARCH-DEBT-051 (Control Framework Mapping entity absent)
  *
  * FIVE entities:
- * 1. ControlFramework — the compliance standard itself (ISO 27001, NIST CSF, etc.)
+ * 1. ControlFramework — the adherence standard itself (ISO 27001, NIST CSF, etc.)
  * 2. FrameworkControl — individual control within a framework
  * 3. ControlRequirement — testable requirement bound to a control
  * 4. ControlEvaluation — result of evaluating an entity against a requirement
  * 5. ControlMapping — relationship binding Commander entities to framework controls
  *
  * METHODOLOGY:
- * - Ingestion is the first classification layer, NOT the compliance decision layer
- * - OCSF/event class informs but never determines compliance alone
+ * - Ingestion is the first classification layer, NOT the adherence decision layer
+ * - OCSF/event class informs but never determines adherence alone
  * - Compliance evaluation compares asset/identity/case/risk/evidence state
  *   against defined requirements to produce a verdict
  * - Commander identity is primary — controls are mapped TO framework controls
@@ -72,9 +72,9 @@ export const LICENCE_STATUSES: LicenceStatus[] = [
 ];
 
 /**
- * ControlFramework — the compliance standard itself.
+ * ControlFramework — the adherence standard itself.
  *
- * Represents a versioned compliance/control framework available to a tenant.
+ * Represents a versioned adherence/control framework available to a tenant.
  * Tenant-scoped: frameworks are enabled/disabled per tenant.
  * Origin distinguishes prebuilt Commander-shipped frameworks from
  * tenant-custom or tenant-uploaded frameworks.
@@ -179,7 +179,7 @@ export const REQUIREMENT_TARGET_TYPES: RequirementTargetType[] = [
 /**
  * ControlRequirement — a testable requirement bound to a framework control.
  *
- * Defines WHAT is being tested for compliance:
+ * Defines WHAT is being tested for adherence:
  * - patch_age_days <= 30
  * - mfa_enabled == true
  * - edr_present == true
@@ -255,14 +255,14 @@ export const EVALUATION_OPERATORS: EvaluationOperator[] = [
 // ═══════════════════════════════════════════════════════════════════════════════
 
 /** Compliance evaluation result. */
-export type ComplianceVerdict =
+export type AdherenceVerdict =
   | 'compliant'
   | 'non_compliant'
   | 'partial'
   | 'unknown'
   | 'not_applicable';
 
-export const COMPLIANCE_VERDICTS: ComplianceVerdict[] = [
+export const ADHERENCE_VERDICTS: AdherenceVerdict[] = [
   'compliant',
   'non_compliant',
   'partial',
@@ -274,10 +274,10 @@ export const COMPLIANCE_VERDICTS: ComplianceVerdict[] = [
  * ControlEvaluation — result of evaluating an entity against a requirement.
  *
  * Produced when Commander evaluates a specific entity's state against
- * a ControlRequirement. This is the compliance decision layer.
+ * a ControlRequirement. This is the adherence decision layer.
  *
  * Includes exception/accepted-risk state and SLA/treatment state
- * from the owning Risk Object (if one exists for non-compliance).
+ * from the owning Risk Object (if one exists for non-adherence).
  */
 export interface ControlEvaluation extends CommonFields {
   entityType: 'control_evaluation';
@@ -291,7 +291,7 @@ export interface ControlEvaluation extends CommonFields {
   evaluatedEntityType: RequirementTargetType;
   evaluatedEntityId: string;
   /** Evaluation verdict */
-  verdict: ComplianceVerdict;
+  verdict: AdherenceVerdict;
   /** Evidence supporting the verdict (reference to evidence entity or inline) */
   evidenceRef?: string;
   /** If non-compliant, reference to the created/linked Risk Object */
@@ -455,7 +455,7 @@ export function validateControlEvaluation(ev: ControlEvaluation): ControlFramewo
   if (!ev.requirementId || ev.requirementId.trim() === '') errors.push('requirementId is required.');
   if (!REQUIREMENT_TARGET_TYPES.includes(ev.evaluatedEntityType)) errors.push(`Invalid evaluatedEntityType: ${String(ev.evaluatedEntityType)}.`);
   if (!ev.evaluatedEntityId || ev.evaluatedEntityId.trim() === '') errors.push('evaluatedEntityId is required.');
-  if (!COMPLIANCE_VERDICTS.includes(ev.verdict)) errors.push(`Invalid verdict: ${String(ev.verdict)}.`);
+  if (!ADHERENCE_VERDICTS.includes(ev.verdict)) errors.push(`Invalid verdict: ${String(ev.verdict)}.`);
   if (!ev.evaluatedAt || ev.evaluatedAt.trim() === '') errors.push('evaluatedAt is required.');
   if (ev.confidence < 0 || ev.confidence > 100) errors.push(`confidence must be 0-100: ${ev.confidence}.`);
   if (ev.exceptionState && !EXCEPTION_STATES.includes(ev.exceptionState)) errors.push(`Invalid exceptionState: ${String(ev.exceptionState)}.`);

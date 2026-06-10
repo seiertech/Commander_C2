@@ -587,7 +587,7 @@ export const seedCases: Case[] = [
     source: { ...SEED_SOURCE, importRunId: 'run-case-028', sourceSystem: 'commander-routing-engine' },
     caseRef: 'CASE-2026-0028',
     caseType: 'policy-effectiveness',
-    title: 'Patch compliance policy at 94% — within acceptable range but trending down',
+    title: 'Patch adherence policy at 94% — within acceptable range but trending down',
     status: 'closed',
     priority: 'P4',
     owner: 'Frank Governance-Lead',

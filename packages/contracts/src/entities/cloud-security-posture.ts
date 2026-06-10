@@ -4,7 +4,7 @@
  * Source: Spec #22 Architecture Intelligence
  *
  * Models multi-cloud security posture with drift detection.
- * Tracks compliance scores, drift findings, and framework adherence
+ * Tracks adherence scores, drift findings, and framework adherence
  * across AWS, Azure, and GCP accounts/subscriptions/projects.
  *
  * Constraints:
@@ -52,15 +52,15 @@ export interface CloudSecurityPosture extends CommonFields {
   accountId: string;
   /** Cloud region */
   region: string;
-  /** Overall compliance percentage (0-100) */
-  complianceScore: number;
+  /** Overall adherence percentage (0-100) */
+  adherenceScore: number;
   /** Active drift finding count */
   driftCount: number;
   /** Critical-severity finding count */
   criticalFindings: number;
   /** Last posture scan timestamp */
   lastScanAt: string;
-  /** Applicable compliance frameworks */
+  /** Applicable adherence frameworks */
   frameworks: string[];
   /** Specific drift items */
   driftDetails: DriftDetail[];
@@ -81,7 +81,7 @@ export function validateCloudSecurityPosture(record: CloudSecurityPosture): Clou
   if (!record.cloudProvider || !CLOUD_PROVIDERS.includes(record.cloudProvider)) errors.push(`cloudProvider: must be one of: ${CLOUD_PROVIDERS.join(', ')}`);
   if (!record.accountId || record.accountId.trim() === '') errors.push('accountId: required');
   if (!record.region || record.region.trim() === '') errors.push('region: required');
-  if (typeof record.complianceScore !== 'number' || record.complianceScore < 0 || record.complianceScore > 100) errors.push('complianceScore: must be 0-100');
+  if (typeof record.adherenceScore !== 'number' || record.adherenceScore < 0 || record.adherenceScore > 100) errors.push('adherenceScore: must be 0-100');
   if (typeof record.driftCount !== 'number' || record.driftCount < 0) errors.push('driftCount: must be non-negative');
   if (typeof record.criticalFindings !== 'number' || record.criticalFindings < 0) errors.push('criticalFindings: must be non-negative');
   if (!record.lastScanAt || record.lastScanAt.trim() === '') errors.push('lastScanAt: required');

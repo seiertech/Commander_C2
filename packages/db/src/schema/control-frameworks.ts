@@ -1,7 +1,7 @@
 /**
  * Control Framework Mapping Tables — Commander SDR
  *
- * Five tables for compliance/control-framework mapping:
+ * Five tables for adherence/control-framework mapping:
  * 1. control_frameworks — the standards themselves
  * 2. framework_controls — individual controls within a framework
  * 3. control_requirements — testable requirements per control
@@ -15,7 +15,7 @@
  * Resolves: ARCH-DEBT-051 (Control Framework Mapping entity absent)
  *
  * Data classification: Configuration (framework definitions) + State (evaluations)
- * Workload class: operational-read (evaluations queried by compliance pages)
+ * Workload class: operational-read (evaluations queried by adherence pages)
  *
  * NOTE: No cross-workload foreign keys to case/risk-object tables per
  * performance doctrine §5 (they may live in separate physical databases at T2+).
@@ -63,7 +63,7 @@ export const evaluationOperatorEnum = pgEnum('evaluation_operator', [
   'within_days',
 ]);
 
-export const complianceVerdictEnum = pgEnum('compliance_verdict', [
+export const adherenceVerdictEnum = pgEnum('adherence_verdict', [
   'compliant',
   'non_compliant',
   'partial',
@@ -172,7 +172,7 @@ export const controlEvaluations = pgTable('control_evaluations', {
   requirementId: text('requirement_id').notNull(),
   evaluatedEntityType: text('evaluated_entity_type').notNull(),
   evaluatedEntityId: text('evaluated_entity_id').notNull(),
-  verdict: complianceVerdictEnum('verdict').notNull(),
+  verdict: adherenceVerdictEnum('verdict').notNull(),
   evidenceRef: text('evidence_ref'),
   riskObjectRef: text('risk_object_ref'),
   exceptionState: exceptionStateEnum('exception_state').default('none'),

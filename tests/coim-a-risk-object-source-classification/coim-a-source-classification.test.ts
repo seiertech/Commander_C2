@@ -42,7 +42,7 @@ describe('COIM-A — finding class taxonomy', () => {
     expect(FINDING_CLASSES).toHaveLength(7);
     expect(FINDING_CLASSES).toContain('vulnerability');
     expect(FINDING_CLASSES).toContain('detection');
-    expect(FINDING_CLASSES).toContain('compliance');
+    expect(FINDING_CLASSES).toContain('adherence');
     expect(FINDING_CLASSES).toContain('incident');
     expect(FINDING_CLASSES).toContain('data_security');
     expect(FINDING_CLASSES).toContain('iam_analysis');

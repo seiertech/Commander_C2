@@ -86,7 +86,7 @@ export const seedPostureMetrics: PostureMetricConfig[] = [
   {
     id: seedId('pm', 2), entityType: 'posture-metric-config',
     tenant: SEED_TENANT, createdAt: BASE_DATE, updatedAt: BASE_DATE, source: POSTURE_SOURCE,
-    label: 'SLA Compliance', metricKey: 'sla-compliance',
+    label: 'SLA Compliance', metricKey: 'sla-adherence',
     domain: 'sla', unit: '%', higherIsBetter: true, displayOrder: 2,
     thresholds: { strategySurface: 'sla', policyId: 'pol-sla-001', green: 95, amber: 85 },
     periods: buildPeriods(

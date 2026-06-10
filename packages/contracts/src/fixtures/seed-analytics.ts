@@ -13,7 +13,7 @@
  * 5. ml_model        — ML anomaly detection model for user behaviour
  * 6. ueba_model      — UEBA baseline model for identity risk scoring
  * 7. vendor_model    — Vendor proprietary risk scoring model (e.g. CrowdStrike)
- * 8. security_control_analytic — Policy evaluation logic for firewall rule compliance
+ * 8. security_control_analytic — Policy evaluation logic for firewall rule adherence
  *
  * All tenant-scoped, deterministic IDs, source provenance.
  * Mix of active/deprecated/testing states and scored/unscored false-positive rates.

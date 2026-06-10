@@ -5,18 +5,18 @@
  *         Master Technical Specification §Surface Layer (reporting)
  *
  * Reports are generated artefacts — scheduled or on-demand snapshots of
- * Commander operational posture, compliance status, or executive briefings.
+ * Commander operational posture, adherence status, or executive briefings.
  */
 
 import type { CommonFields } from './common';
 
-export type ReportType = 'executive-briefing' | 'compliance-pack' | 'posture-snapshot' | 'sla-report' | 'team-performance' | 'ciso-pack';
+export type ReportType = 'executive-briefing' | 'adherence-pack' | 'posture-snapshot' | 'sla-report' | 'team-performance' | 'ciso-pack';
 
 export type ReportStatus = 'scheduled' | 'generating' | 'completed' | 'failed' | 'archived';
 
 export type ReportCadence = 'daily' | 'weekly' | 'monthly' | 'quarterly' | 'on-demand';
 
-export const REPORT_TYPES: ReportType[] = ['executive-briefing', 'compliance-pack', 'posture-snapshot', 'sla-report', 'team-performance', 'ciso-pack'];
+export const REPORT_TYPES: ReportType[] = ['executive-briefing', 'adherence-pack', 'posture-snapshot', 'sla-report', 'team-performance', 'ciso-pack'];
 export const REPORT_STATUSES: ReportStatus[] = ['scheduled', 'generating', 'completed', 'failed', 'archived'];
 export const REPORT_CADENCES: ReportCadence[] = ['daily', 'weekly', 'monthly', 'quarterly', 'on-demand'];
 

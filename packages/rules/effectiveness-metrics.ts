@@ -3,7 +3,7 @@
  *
  * Computes operational effectiveness metrics:
  * - MTTR (Mean Time To Resolve)
- * - SLA compliance rate
+ * - SLA adherence rate
  * - Reopen rate
  * - Noise ratio
  * - Mean dwell time
@@ -20,8 +20,8 @@
 export interface EffectivenessTargets {
   /** Target MTTR hours by priority */
   mttrTargetHours: Record<string, number>;
-  /** SLA compliance rate target (percentage) */
-  slaComplianceTarget: number;
+  /** SLA adherence rate target (percentage) */
+  slaAdherenceTarget: number;
   /** Maximum acceptable reopen rate (percentage) */
   maxReopenRate: number;
   /** Maximum acceptable noise ratio (percentage) */
@@ -37,7 +37,7 @@ export interface EffectivenessTargets {
 /** Default effectiveness targets */
 export const DEFAULT_EFFECTIVENESS_TARGETS: EffectivenessTargets = {
   mttrTargetHours: { P0: 4, P1: 24, P2: 72, P3: 168, P4: 336 },
-  slaComplianceTarget: 95,
+  slaAdherenceTarget: 95,
   maxReopenRate: 10,
   maxNoiseRatio: 15,
   maxMeanDwellTimeHours: 48,
@@ -69,8 +69,8 @@ export interface EffectivenessMetrics {
   mttrHours: number;
   /** MTTR by priority level */
   mttrByPriority: Record<string, number>;
-  /** SLA compliance rate (percentage 0–100) */
-  slaComplianceRate: number;
+  /** SLA adherence rate (percentage 0–100) */
+  slaAdherenceRate: number;
   /** Reopen rate (percentage 0–100) */
   reopenRate: number;
   /** Noise ratio (percentage 0–100) */
@@ -159,9 +159,9 @@ function calculateMetrics(records: CaseResolutionRecord[]): EffectivenessMetrics
     mttrByPriority[priority] = hours.reduce((sum, h) => sum + h, 0) / hours.length;
   }
 
-  // SLA compliance rate
+  // SLA adherence rate
   const slaCompliant = records.filter((r) => !r.slaBreached).length;
-  const slaComplianceRate = (slaCompliant / totalCases) * 100;
+  const slaAdherenceRate = (slaCompliant / totalCases) * 100;
 
   // Reopen rate
   const reopened = records.filter((r) => r.reopened).length;
@@ -182,7 +182,7 @@ function calculateMetrics(records: CaseResolutionRecord[]): EffectivenessMetrics
   return {
     mttrHours,
     mttrByPriority,
-    slaComplianceRate,
+    slaAdherenceRate,
     reopenRate,
     noiseRatio,
     meanDwellTimeHours,
@@ -197,13 +197,13 @@ function detectBreaches(
 ): ThresholdBreach[] {
   const breaches: ThresholdBreach[] = [];
 
-  // SLA compliance
-  if (metrics.slaComplianceRate < targets.slaComplianceTarget) {
+  // SLA adherence
+  if (metrics.slaAdherenceRate < targets.slaAdherenceTarget) {
     breaches.push({
-      metric: 'slaComplianceRate',
-      currentValue: metrics.slaComplianceRate,
-      targetValue: targets.slaComplianceTarget,
-      severity: metrics.slaComplianceRate < targets.slaComplianceTarget - 10 ? 'critical' : 'warning',
+      metric: 'slaAdherenceRate',
+      currentValue: metrics.slaAdherenceRate,
+      targetValue: targets.slaAdherenceTarget,
+      severity: metrics.slaAdherenceRate < targets.slaAdherenceTarget - 10 ? 'critical' : 'warning',
     });
   }
 
@@ -257,8 +257,8 @@ function calculateOverallScore(
   // Weighted score: each metric contributes equally
   const scores: number[] = [];
 
-  // SLA compliance (higher = better)
-  scores.push(Math.min(metrics.slaComplianceRate / targets.slaComplianceTarget, 1.0));
+  // SLA adherence (higher = better)
+  scores.push(Math.min(metrics.slaAdherenceRate / targets.slaAdherenceTarget, 1.0));
 
   // Reopen rate (lower = better)
   scores.push(metrics.reopenRate <= targets.maxReopenRate ? 1.0 : Math.max(0, 1 - (metrics.reopenRate - targets.maxReopenRate) / 50));
@@ -279,7 +279,7 @@ function emptyMetrics(): EffectivenessMetrics {
   return {
     mttrHours: 0,
     mttrByPriority: {},
-    slaComplianceRate: 100,
+    slaAdherenceRate: 100,
     reopenRate: 0,
     noiseRatio: 0,
     meanDwellTimeHours: 0,

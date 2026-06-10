@@ -126,7 +126,7 @@ export default function ControlsPage() {
       </div>
 
       {/* AI Placement */}
-      {/* AI-PLACEMENT: AICAP-009 — Map evidence findings to control requirements and produce audit-ready compliance reports */}
+      {/* AI-PLACEMENT: AICAP-009 — Map evidence findings to control requirements and produce audit-ready adherence reports */}
     </PageContainer>
   );
 }

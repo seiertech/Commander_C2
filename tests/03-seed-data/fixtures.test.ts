@@ -16,7 +16,7 @@ import { CONNECTOR_CLASS_LABELS } from '../../packages/contracts/src/entities/co
  * - Tenant isolation (v1.3 Req 7)
  * - Deterministic IDs (v1.3 Req 20)
  * - No real credentials (Domain Req 1, v1.3 Req 19)
- * - Connector class compliance (v1.3 Req 14 — A/B/C/D only)
+ * - Connector class adherence (v1.3 Req 14 — A/B/C/D only)
  * - Surface attribution preserved (Doctrinal Assertion 10)
  * - Case lifecycle system-owned (Doctrinal Assertion 1)
  * - Entity completeness (v1.3 Reqs 3-6)

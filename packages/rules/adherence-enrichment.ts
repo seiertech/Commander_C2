@@ -1,12 +1,12 @@
 /**
- * Compliance Enrichment-Evidence Mapper
+ * Adherence Enrichment-Evidence Mapper
  *
  * Feature: platform-intelligence-ioc-distribution
  * Authority: Requirements 19.1, 19.2, 19.3
  *
  * Pure mapper exposing CVE/KEV/IOC results as enrichment evidence for
  * ControlEvaluation via the existing evidence-binding model.
- * NEVER produces compliance state directly — compliance state is produced
+ * NEVER produces adherence state directly — adherence state is produced
  * only through ControlRequirement + ControlEvaluation evaluation (Req 19.3).
  */
 
@@ -31,7 +31,7 @@ export interface IntelligenceEnrichmentEvidence {
 
 /**
  * Map a CVE/KEV result to enrichment evidence.
- * Does NOT create compliance state (Req 19.1).
+ * Does NOT create adherence state (Req 19.1).
  */
 export function mapCveToEnrichmentEvidence(params: {
   cveId: string;
@@ -55,7 +55,7 @@ export function mapCveToEnrichmentEvidence(params: {
 
 /**
  * Map an IOC match to enrichment evidence.
- * Does NOT create compliance state (Req 19.1).
+ * Does NOT create adherence state (Req 19.1).
  */
 export function mapIocMatchToEnrichmentEvidence(params: {
   iocId: string;
@@ -78,11 +78,11 @@ export function mapIocMatchToEnrichmentEvidence(params: {
 }
 
 /**
- * Verify that enrichment evidence NEVER directly produces compliance state.
+ * Verify that enrichment evidence NEVER directly produces adherence state.
  * This is the Phase 1 boundary assertion (Req 19.1, 19.3).
  */
-export function assertNeverCreatesComplianceState(evidence: IntelligenceEnrichmentEvidence): boolean {
-  // Enrichment evidence has no complianceVerdict, no compliance state field.
+export function assertNeverCreatesAdherenceState(evidence: IntelligenceEnrichmentEvidence): boolean {
+  // Enrichment evidence has no adherenceVerdict, no adherence state field.
   // It's always just enrichment data for the ControlEvaluation to consume.
-  return !('complianceVerdict' in evidence) && !('complianceState' in evidence);
+  return !('adherenceVerdict' in evidence) && !('adherenceState' in evidence);
 }

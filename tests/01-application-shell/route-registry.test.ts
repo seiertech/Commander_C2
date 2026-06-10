@@ -161,7 +161,7 @@ describe('Route Registry', () => {
     });
   });
 
-  describe('Doctrinal compliance', () => {
+  describe('Doctrinal adherence', () => {
     it('no route allows manual case creation', () => {
       const forbidden = allRoutes.filter((r) =>
         r.label.toLowerCase().includes('create case') ||

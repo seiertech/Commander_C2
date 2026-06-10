@@ -157,7 +157,7 @@ export default function TenantAdminOverviewPage() {
         </p>
       </Section>
 
-      {/* Capability Status — the explicit live/not-live ledger (critical-rule compliance) */}
+      {/* Capability Status — the explicit live/not-live ledger (critical-rule adherence) */}
       <Section id="capability-status" title="Capability Status — Built vs Not-Live (deferral ledger)">
         <p style={{ color: muted, fontSize: typography.fontSize.xs, margin: '0 0 12px' }}>
           Every capability above is display/mock in v1. The table below is the authoritative record of what is built now,

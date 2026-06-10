@@ -320,7 +320,7 @@ export const seedEvents: SeedEvent[] = [
     id: seedId('event', 38),
     timestamp: '2026-01-17T21:15:00.000Z',
     severity: 'success',
-    message: 'Case CASE-2026-0028 closed: Patch compliance policy trending stable',
+    message: 'Case CASE-2026-0028 closed: Patch adherence policy trending stable',
     entityRef: seedId('case', 28),
     entityType: 'case',
   },

@@ -9,7 +9,7 @@ const PAGE_PATH = resolve(ROOT, 'apps/web/src/app/cases/page.tsx');
 const CASE_ROW_PATH = resolve(ROOT, 'apps/web/src/components/expandable-case-row.tsx');
 const pageContent = readFileSync(PAGE_PATH, 'utf-8');
 const caseRowContent = existsSync(CASE_ROW_PATH) ? readFileSync(CASE_ROW_PATH, 'utf-8') : '';
-// Combined content: page delegates to CaseList/ExpandableCaseRow — check both for doctrinal compliance
+// Combined content: page delegates to CaseList/ExpandableCaseRow — check both for doctrinal adherence
 const combinedContent = pageContent + '\n' + caseRowContent;
 
 /**

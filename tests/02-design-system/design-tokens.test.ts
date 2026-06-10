@@ -15,7 +15,7 @@ import { getCommanderAIButtonStyles } from '../../packages/ui/src/components/com
 /**
  * Design System Token & Component Tests — Commander SDR (v1.3.2 Remediated)
  *
- * Validates all 18 v1.3.2 EARS requirements plus existing component compliance.
+ * Validates all 18 v1.3.2 EARS requirements plus existing component adherence.
  */
 
 describe('v1.3.2 Req 1-3 — Typography', () => {

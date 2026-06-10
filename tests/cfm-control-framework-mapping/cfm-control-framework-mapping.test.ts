@@ -12,7 +12,7 @@ import {
   CONTROL_TIERS,
   REQUIREMENT_TARGET_TYPES,
   EVALUATION_OPERATORS,
-  COMPLIANCE_VERDICTS,
+  ADHERENCE_VERDICTS,
   EXCEPTION_STATES,
   MAPPED_ENTITY_TYPES,
   MAPPING_SOURCES,
@@ -168,8 +168,8 @@ describe('CFM: Enum Constants', () => {
     expect(EVALUATION_OPERATORS).toContain('within_days');
   });
 
-  it('compliance verdicts are 5 values', () => {
-    expect(COMPLIANCE_VERDICTS).toEqual(['compliant', 'non_compliant', 'partial', 'unknown', 'not_applicable']);
+  it('adherence verdicts are 5 values', () => {
+    expect(ADHERENCE_VERDICTS).toEqual(['compliant', 'non_compliant', 'partial', 'unknown', 'not_applicable']);
   });
 
   it('exception states are 5 values', () => {
@@ -411,7 +411,7 @@ describe('CFM: Compliance Evaluation Flow', () => {
     expect(fw).toBeDefined();
   });
 
-  it('non-compliant evaluation links to risk object (compliance gap creates/enriches RO)', () => {
+  it('non-compliant evaluation links to risk object (adherence gap creates/enriches RO)', () => {
     const nonCompliant = seedControlEvaluations.filter(e => e.verdict === 'non_compliant' && e.riskObjectRef);
     expect(nonCompliant.length).toBeGreaterThan(0);
     for (const ev of nonCompliant) {

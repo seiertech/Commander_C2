@@ -112,7 +112,7 @@ export function enforceBreakGlass(request: BreakGlassRequest): BreakGlassEnforce
 }
 
 /**
- * Audit sensitive access — logs access to sensitive resources for compliance.
+ * Audit sensitive access — logs access to sensitive resources for adherence.
  */
 export function auditSensitiveAccess(
   userId: string,

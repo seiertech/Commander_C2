@@ -39,7 +39,7 @@ export const treatmentStateEnum = pgEnum('treatment_state', [
 export const findingClassEnum = pgEnum('finding_class', [
   'vulnerability',
   'detection',
-  'compliance',
+  'adherence',
   'incident',
   'data_security',
   'iam_analysis',

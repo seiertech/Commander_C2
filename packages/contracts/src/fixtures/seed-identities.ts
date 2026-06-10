@@ -238,7 +238,7 @@ export const seedIdentities: Identity[] = [
     displayName: 'Irene Compliance-Analyst',
     classification: 'human',
     sourceSystemLineage: ['entra-id-mock'],
-    email: 'irene.compliance@acme-demo.example',
+    email: 'irene.adherence@acme-demo.example',
     department: 'Governance & Risk',
     role: 'Security Analyst',
     riskScore: 9,

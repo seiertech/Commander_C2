@@ -28,7 +28,7 @@
  * Feature: platform-intelligence-ioc-distribution, Property 22: Push intents are never live-executed in Phase 1
  * Validates: Requirements 15.4
  *
- * Feature: platform-intelligence-ioc-distribution, Property 23: Intelligence never creates compliance state directly
+ * Feature: platform-intelligence-ioc-distribution, Property 23: Intelligence never creates adherence state directly
  * Validates: Requirements 19.1, 19.3
  */
 
@@ -40,7 +40,7 @@ import { buildTenantEvaluation, buildTenantIocMatch } from '../../packages/rules
 import { getTargetSystems, buildPushActionIntent, PUSH_CAPABILITY_MAP, PHASE1_ALLOWED_STATUSES } from '../../packages/rules/push-capability-mapping';
 import { buildIocCaseLink, buildVulnerabilityCaseLink } from '../../packages/rules/case-outcome-mappers';
 import { resolveReference } from '../../packages/rules/cross-plane-resolver';
-import { mapCveToEnrichmentEvidence, mapIocMatchToEnrichmentEvidence, assertNeverCreatesComplianceState } from '../../packages/rules/compliance-enrichment';
+import { mapCveToEnrichmentEvidence, mapIocMatchToEnrichmentEvidence, assertNeverCreatesComplianceState } from '../../packages/rules/adherence-enrichment';
 import { IOC_CATEGORIES, IOC_CASE_LINK_TYPES, PUSH_INTENT_STATUSES, PUSH_ACTION_TYPES, EVALUATION_TYPES, TENANT_EXPOSURE_STATES } from '../../packages/contracts/src/entities/intelligence-common';
 import type { IocCategory, IocCaseLinkType, PushIntentStatus, PushActionType } from '../../packages/contracts/src/entities/intelligence-common';
 import type { IndicatorOfCompromise } from '../../packages/contracts/src/entities/indicator-of-compromise';
@@ -355,9 +355,9 @@ describe('Property 22: Push intents are never live-executed in Phase 1', () => {
   });
 });
 
-describe('Property 23: Intelligence never creates compliance state directly', () => {
-  // Feature: platform-intelligence-ioc-distribution, Property 23: Intelligence never creates compliance state directly
-  it('CVE enrichment evidence does not contain compliance state', () => {
+describe('Property 23: Intelligence never creates adherence state directly', () => {
+  // Feature: platform-intelligence-ioc-distribution, Property 23: Intelligence never creates adherence state directly
+  it('CVE enrichment evidence does not contain adherence state', () => {
     fc.assert(
       fc.property(
         fc.boolean(),
@@ -377,7 +377,7 @@ describe('Property 23: Intelligence never creates compliance state directly', ()
     );
   });
 
-  it('IOC match enrichment evidence does not contain compliance state', () => {
+  it('IOC match enrichment evidence does not contain adherence state', () => {
     fc.assert(
       fc.property(
         fc.integer({ min: 0, max: 100 }),

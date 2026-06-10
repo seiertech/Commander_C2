@@ -34,7 +34,7 @@ export { verdicts, verdictDispositionEnum } from './verdicts';
 export { observables, observableRiskObjectBindings, observableTypeEnum } from './observables';
 export { analytics, analyticTypeEnum, analyticStateEnum } from './analytics';
 export { actions, subActions, actionStatusEnum, outcomeClassificationEnum, d3fendTacticTypeEnum } from './actions';
-export { controlFrameworks, frameworkControls, controlRequirements, controlEvaluations, controlMappings, frameworkCategoryEnum, licenceStatusEnum, controlTierEnum, evaluationOperatorEnum, complianceVerdictEnum, exceptionStateEnum, mappingSourceEnum, coverageContributionEnum } from './control-frameworks';
+export { controlFrameworks, frameworkControls, controlRequirements, controlEvaluations, controlMappings, frameworkCategoryEnum, licenceStatusEnum, controlTierEnum, evaluationOperatorEnum, adherenceVerdictEnum, exceptionStateEnum, mappingSourceEnum, coverageContributionEnum } from './control-frameworks';
 
 // ─── Platform Intelligence & IOC Distribution ────────────────────────────────
 export {

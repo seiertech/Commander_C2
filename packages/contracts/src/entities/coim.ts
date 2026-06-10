@@ -29,7 +29,7 @@ import type { ConnectorClass } from './common';
 export type FindingClass =
   | 'vulnerability'
   | 'detection'
-  | 'compliance'
+  | 'adherence'
   | 'incident'
   | 'data_security'
   | 'iam_analysis'
@@ -38,7 +38,7 @@ export type FindingClass =
 export const FINDING_CLASSES: FindingClass[] = [
   'vulnerability',
   'detection',
-  'compliance',
+  'adherence',
   'incident',
   'data_security',
   'iam_analysis',

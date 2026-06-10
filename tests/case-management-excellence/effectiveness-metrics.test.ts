@@ -30,12 +30,12 @@ describe('Effectiveness Metrics Engine', () => {
   });
 
   describe('threshold breach detection', () => {
-    it('detects SLA compliance breach', () => {
+    it('detects SLA adherence breach', () => {
       const records: CaseResolutionRecord[] = Array.from({ length: 10 }, (_, i) => ({
         caseId: `c${i}`,
         priority: 'P1',
         resolutionHours: 20,
-        slaBreached: i < 3, // 30% breached → 70% compliance
+        slaBreached: i < 3, // 30% breached → 70% adherence
         reopened: false,
         isNoise: false,
         dwellTimeHours: 5,

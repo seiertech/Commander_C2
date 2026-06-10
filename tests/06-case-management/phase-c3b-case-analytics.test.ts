@@ -60,7 +60,7 @@ describe('Case Analytics — SLA from Strategy Resolver (Constraint 9)', () => {
     expect(pageContent).toContain('seedStrategies');
   });
 
-  it('SLA compliance derived from resolver output', () => {
+  it('SLA adherence derived from resolver output', () => {
     expect(pageContent).toContain('slaResolutions');
     expect(pageContent).toContain("s.status === 'resolved'");
   });

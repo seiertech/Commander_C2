@@ -286,12 +286,12 @@ describe('Authority Resolution', () => {
       const claim = makeClaim({
         sourceConnectorId: 'intune-001',
         connectorClass: 'C',
-        claimedAttributes: { os: 'Windows 11', compliance: 'true' },
+        claimedAttributes: { os: 'Windows 11', adherence: 'true' },
         confidence: 95,
       });
       const result = resolveAuthority([claim]);
       expect(result.winningClaim).toBe(claim);
-      expect(result.resolvedAttributes).toEqual({ os: 'Windows 11', compliance: 'true' });
+      expect(result.resolvedAttributes).toEqual({ os: 'Windows 11', adherence: 'true' });
       expect(result.rationale).toContain('Single claim');
       expect(result.rationale).toContain('intune-001');
     });

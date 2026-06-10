@@ -89,7 +89,7 @@ export const seedVerdictPatterns: VerdictPatternCase[] = [
     outcomeRecordedAt: '2026-02-03T15:00:00.000Z',
     closedAt: '2026-02-05T14:00:00.000Z',
     outcomeCategory: 'no_issue',
-    handoffRecipient: 'customer-compliance-team',
+    handoffRecipient: 'customer-adherence-team',
     evidenceGrade: 'investigation',
   },
 ];
