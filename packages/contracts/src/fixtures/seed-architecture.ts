@@ -139,3 +139,30 @@ export const TOPOLOGY_EDGE_FIXTURES: TopologyEdge[] = [
     standard_marker: 'TOGAF',
   },
 ];
+
+
+// ─── Architecture Component Fixtures (UI-consumed) ───────────────────────────
+// Used by /architecture/dependencies & /architecture/drift pages.
+// Fields: id, name, componentType, dependencies, criticality, status, driftState
+
+export interface ArchitectureComponent {
+  id: string;
+  name: string;
+  componentType: string;
+  dependencies: string[];
+  criticality: number;
+  status: 'healthy' | 'degraded' | 'critical';
+  driftState: 'compliant' | 'drifted' | 'unknown';
+  standard_marker: string;
+}
+
+export const seedArchitectureComponents: ArchitectureComponent[] = [
+  { id: 'comp-001', name: 'Web Application Tier', componentType: 'application_service', dependencies: ['comp-002', 'comp-004'], criticality: 1, status: 'healthy', driftState: 'compliant', standard_marker: 'TOGAF/Zachman' },
+  { id: 'comp-002', name: 'Primary Database Cluster', componentType: 'data_store', dependencies: [], criticality: 1, status: 'healthy', driftState: 'compliant', standard_marker: 'TOGAF/Zachman' },
+  { id: 'comp-003', name: 'API Gateway', componentType: 'network_gateway', dependencies: ['comp-001'], criticality: 2, status: 'degraded', driftState: 'drifted', standard_marker: 'TOGAF/Zachman' },
+  { id: 'comp-004', name: 'Identity Provider', componentType: 'identity_service', dependencies: [], criticality: 1, status: 'healthy', driftState: 'compliant', standard_marker: 'TOGAF/Zachman' },
+  { id: 'comp-005', name: 'Message Queue', componentType: 'middleware', dependencies: ['comp-002'], criticality: 3, status: 'healthy', driftState: 'compliant', standard_marker: 'TOGAF/Zachman' },
+  { id: 'comp-006', name: 'Cache Layer', componentType: 'data_store', dependencies: ['comp-002'], criticality: 3, status: 'healthy', driftState: 'drifted', standard_marker: 'TOGAF/Zachman' },
+  { id: 'comp-007', name: 'CDN Edge', componentType: 'network_gateway', dependencies: ['comp-001'], criticality: 4, status: 'healthy', driftState: 'compliant', standard_marker: 'TOGAF/Zachman' },
+  { id: 'comp-008', name: 'Monitoring Stack', componentType: 'observability', dependencies: ['comp-001', 'comp-002', 'comp-003'], criticality: 2, status: 'healthy', driftState: 'compliant', standard_marker: 'TOGAF/Zachman' },
+];
