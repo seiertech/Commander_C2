@@ -34,7 +34,7 @@ export interface RiskSummary {
   /** Total active risk objects */
   totalRiskObjects: number;
   /** Open (unresolved) count */
-  openCount: number;
+  open_count: number;
   /** Critical severity count */
   critical: number;
   /** High severity count */
@@ -86,13 +86,13 @@ export interface CaseSummary {
 // ─── CISO Summary Entity ─────────────────────────────────────────────────────
 
 export interface CisoSummary extends CommonFields {
-  entityType: 'ciso-summary';
+  entity_type: 'ciso-summary';
   /** When this summary was computed */
-  generatedAt: string;
+  generated_at: string;
   /** Overall posture score */
   posture: PostureScore;
   /** Risk object summary */
-  riskSummary: RiskSummary;
+  risk_summary: RiskSummary;
   /** Exposure summary */
   exposureSummary: ExposureSummary;
   /** Debt summary */
@@ -100,7 +100,7 @@ export interface CisoSummary extends CommonFields {
   /** Control adherence summary */
   controlSummary: ControlSummary;
   /** Case management summary */
-  caseSummary: CaseSummary;
+  case_summary: CaseSummary;
   /** Top strategic blockers (free-text list) */
   strategicBlockers: string[];
   /** Overall trend direction */
@@ -123,11 +123,11 @@ export function validateCisoSummary(summary: CisoSummary): CisoSummaryValidation
   if (!summary.id || summary.id.trim() === '') {
     errors.push('id: required');
   }
-  if (!summary.tenant || !summary.tenant.tenantId || summary.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!summary.tenant || !summary.tenant.tenant_id || summary.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
-  if (!summary.generatedAt || summary.generatedAt.trim() === '') {
-    errors.push('generatedAt: required');
+  if (!summary.generated_at || summary.generated_at.trim() === '') {
+    errors.push('generated_at: required');
   }
   if (!summary.posture) {
     errors.push('posture: required');
@@ -139,11 +139,11 @@ export function validateCisoSummary(summary: CisoSummary): CisoSummaryValidation
       errors.push('posture.byDomain: must be an object');
     }
   }
-  if (!summary.riskSummary) {
-    errors.push('riskSummary: required');
+  if (!summary.risk_summary) {
+    errors.push('risk_summary: required');
   } else {
-    if (typeof summary.riskSummary.totalRiskObjects !== 'number') errors.push('riskSummary.totalRiskObjects: must be a number');
-    if (typeof summary.riskSummary.openCount !== 'number') errors.push('riskSummary.openCount: must be a number');
+    if (typeof summary.risk_summary.totalRiskObjects !== 'number') errors.push('riskSummary.totalRiskObjects: must be a number');
+    if (typeof summary.risk_summary.open_count !== 'number') errors.push('riskSummary.open_count: must be a number');
   }
   if (!summary.exposureSummary) {
     errors.push('exposureSummary: required');
@@ -154,8 +154,8 @@ export function validateCisoSummary(summary: CisoSummary): CisoSummaryValidation
   if (!summary.controlSummary) {
     errors.push('controlSummary: required');
   }
-  if (!summary.caseSummary) {
-    errors.push('caseSummary: required');
+  if (!summary.case_summary) {
+    errors.push('case_summary: required');
   }
   if (!Array.isArray(summary.strategicBlockers)) {
     errors.push('strategicBlockers: must be an array');

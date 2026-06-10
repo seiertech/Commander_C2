@@ -18,9 +18,9 @@ describe('Vulnerability Signal Resolver', () => {
   };
 
   const baseContext: VulnSignalContext = {
-    cvssScore: 9.5,
+    cvss_score: 9.5,
     intelligenceSignal: baseIntelSignal,
-    affectedEntityCount: 5,
+    affected_entity_count: 5,
     maxAssetCriticality: 80,
     businessValueScore: 70,
     controlCoveragePercent: 40,
@@ -42,7 +42,7 @@ describe('Vulnerability Signal Resolver', () => {
       const signalNames = result.signals.map((s) => s.name);
       expect(signalNames).toContain('severity');
       expect(signalNames).toContain('exploitability');
-      expect(signalNames).toContain('blastRadius');
+      expect(signalNames).toContain('blast_radius');
       expect(signalNames).toContain('businessContext');
       expect(signalNames).toContain('coverageScore');
       expect(signalNames).toContain('threatRelevance');
@@ -51,15 +51,15 @@ describe('Vulnerability Signal Resolver', () => {
     });
 
     it('respects custom weights', () => {
-      const weights = { severity: 1.0, exploitability: 0, blastRadius: 0, businessContext: 0, coverageScore: 0, threatRelevance: 0, attackContext: 0, identityExposure: 0 };
+      const weights = { severity: 1.0, exploitability: 0, blast_radius: 0, businessContext: 0, coverageScore: 0, threatRelevance: 0, attackContext: 0, identityExposure: 0 };
       const result = resolveVulnSignals(baseContext, weights);
       // CVSS 9.5 → normalised 95
       expect(result.compositeScore).toBe(95);
     });
 
     it('higher CVSS increases severity signal', () => {
-      const lowCvss = { ...baseContext, cvssScore: 3.0 };
-      const highCvss = { ...baseContext, cvssScore: 9.8 };
+      const lowCvss = { ...baseContext, cvss_score: 3.0 };
+      const highCvss = { ...baseContext, cvss_score: 9.8 };
 
       const lowResult = resolveVulnSignals(lowCvss);
       const highResult = resolveVulnSignals(highCvss);
@@ -74,7 +74,7 @@ describe('Vulnerability Signal Resolver', () => {
     it('uses computeIntelligencePrioritySignal output as exploitability signal', () => {
       // Compute real intelligence signal
       const intelSignal = computeIntelligencePrioritySignal(
-        { cisaKevStatus: true, kevDueDate: '2026-01-20T00:00:00Z', epssScore: 0.85, epssPercentile: 92, cvssScore: 9.5 },
+        { cisaKevStatus: true, kevDueDate: '2026-01-20T00:00:00Z', epss_score: 0.85, epssPercentile: 92, cvss_score: 9.5 },
         undefined,
         new Date('2026-01-15T00:00:00Z'),
       );

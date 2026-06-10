@@ -37,7 +37,7 @@ export const DEFAULT_PRIORITY_THRESHOLDS: PriorityThresholds = {
 /** Input for priority reassessment */
 export interface ReassessmentInput {
   /** Case identifier */
-  caseId: string;
+  case_id: string;
   /** Current case priority */
   currentPriority: PriorityLevel;
   /** Current composite priority score */

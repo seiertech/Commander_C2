@@ -21,7 +21,7 @@ export interface FullStrategyResolution {
   routing: RoutingResolution;
   priority: PriorityResolution;
   validation: ValidationResolution;
-  closureGates: ClosureGateResolution;
+  closure_gates: ClosureGateResolution;
   reopening: ReopeningResolution;
 }
 
@@ -30,7 +30,7 @@ export interface FullStrategyResolution {
  * Every value comes from strategy layer — zero hardcoded defaults.
  */
 export function resolveAllStrategies(
-  caseRecord: Pick<Case, 'priority' | 'caseType'>,
+  caseRecord: Pick<Case, 'priority' | 'case_type'>,
   strategies: StrategyPolicy[],
 ): FullStrategyResolution {
   return {
@@ -38,7 +38,7 @@ export function resolveAllStrategies(
     routing: resolveRouting(caseRecord, strategies),
     priority: resolvePriority(strategies),
     validation: resolveValidationWindow(strategies),
-    closureGates: resolveClosureGates(strategies),
+    closure_gates: resolveClosureGates(strategies),
     reopening: resolveReopeningTriggers(strategies),
   };
 }

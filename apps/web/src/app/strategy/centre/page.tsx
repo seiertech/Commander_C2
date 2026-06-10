@@ -1,11 +1,11 @@
 'use client';
 
 import { PageContainer } from '@/components/page-container';
-import { seedStrategies } from '../../../../../../packages/contracts/src/fixtures/seed-strategies';
 import { STRATEGY_SURFACE_LABELS } from '../../../../../../packages/contracts/src/entities/strategy';
 import type { StrategySurfaceType } from '../../../../../../packages/contracts/src/entities/strategy';
 import { primitiveTypeScale, primitiveHud } from '../../../../../../packages/ui/src/tokens/primitives';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
+import { thesisStrategies } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Strategy Centre — Unified Configuration Surface (Spec 43)
@@ -19,15 +19,15 @@ import { componentTokens } from '../../../../../../packages/ui/src/tokens/compon
  */
 
 export default function StrategyCentrePage() {
-  const policies = seedStrategies;
+  const policies = thesisStrategies;
   const activePolicies = policies.filter((p) => p.status === 'active');
   const pendingApproval = policies.filter((p) => p.status === 'pending-approval');
-  const surfacesCovered = new Set(activePolicies.map((p) => p.surfaceType)).size;
+  const surfacesCovered = new Set(activePolicies.map((p) => p.surface_type)).size;
 
   // Build a lookup: surface → active policy
   const surfacePolicyMap = new Map<StrategySurfaceType, typeof policies[number]>();
   for (const p of activePolicies) {
-    surfacePolicyMap.set(p.surfaceType, p);
+    surfacePolicyMap.set(p.surface_type, p);
   }
 
   const statusBadge = (status: string) => {
@@ -118,12 +118,12 @@ export default function StrategyCentrePage() {
                           <span className="text-secondary">—</span>
                         )}
                       </td>
-                      <td>{policy?.policyVersion ?? '—'}</td>
+                      <td>{policy?.policy_version ?? '—'}</td>
                       <td>{policy ? statusBadge(policy.status) : <span className="badge bg-secondary">No policy</span>}</td>
-                      <td>{policy ? new Date(policy.updatedAt).toLocaleDateString() : '—'}</td>
+                      <td>{policy ? new Date(policy.updated_at).toLocaleDateString() : '—'}</td>
                       <td>
                         {policy?.approval ? (
-                          <span className="badge bg-green-lt" title={`${policy.approval.approvedAt ? new Date(policy.approval.approvedAt).toLocaleDateString() : ''} — ${policy.approval.rationale ?? ''}`}>{policy.approval.approvedBy}</span>
+                          <span className="badge bg-green-lt" title={`${policy.approval.approved_at ? new Date(policy.approval.approved_at).toLocaleDateString() : ''} — ${policy.approval.rationale ?? ''}`}>{policy.approval.approved_by}</span>
                         ) : (
                           <span className="text-secondary">—</span>
                         )}

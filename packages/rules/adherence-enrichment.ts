@@ -34,21 +34,21 @@ export interface IntelligenceEnrichmentEvidence {
  * Does NOT create adherence state (Req 19.1).
  */
 export function mapCveToEnrichmentEvidence(params: {
-  cveId: string;
+  cve_id: string;
   platformRecordId: string;
   cisaKevStatus: boolean;
-  cvssScore: number;
+  cvss_score: number;
   producedAt: string;
 }): IntelligenceEnrichmentEvidence {
   return {
     enrichmentType: params.cisaKevStatus ? 'kev_status' : 'cve_presence',
     platformRecordId: params.platformRecordId,
-    summary: `CVE ${params.cveId} (CVSS ${params.cvssScore})${params.cisaKevStatus ? ' — CISA KEV listed' : ''}`,
+    summary: `CVE ${params.cve_id} (CVSS ${params.cvss_score})${params.cisaKevStatus ? ' — CISA KEV listed' : ''}`,
     producedAt: params.producedAt,
     metadata: {
-      cveId: params.cveId,
+      cve_id: params.cve_id,
       cisaKevStatus: params.cisaKevStatus,
-      cvssScore: params.cvssScore,
+      cvss_score: params.cvss_score,
     },
   };
 }
@@ -58,7 +58,7 @@ export function mapCveToEnrichmentEvidence(params: {
  * Does NOT create adherence state (Req 19.1).
  */
 export function mapIocMatchToEnrichmentEvidence(params: {
-  iocId: string;
+  ioc_id: string;
   platformRecordId: string;
   evaluationId: string;
   matchConfidence: number;
@@ -71,7 +71,7 @@ export function mapIocMatchToEnrichmentEvidence(params: {
     summary: `IOC match (confidence ${params.matchConfidence}%)`,
     producedAt: params.producedAt,
     metadata: {
-      iocId: params.iocId,
+      ioc_id: params.ioc_id,
       matchConfidence: params.matchConfidence,
     },
   };

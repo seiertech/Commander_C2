@@ -49,21 +49,21 @@ export type ClassifierSource = typeof CLASSIFIER_SOURCES[number];
 // ─── Posture Accountability Record ───────────────────────────────────────────
 
 export interface PostureAccountability extends CommonFields {
-  entityType: 'posture-accountability';
+  entity_type: 'posture-accountability';
   /** Unique accountability record identifier */
-  accountabilityId: string;
+  accountability_id: string;
   /** Type of entity being classified */
   accountableEntityType: AccountableEntityType;
   /** Reference to the canonical entity (asset ID, identity ID, etc.) */
-  entityRef: string;
+  entity_ref: string;
   /** Current temporal posture classification */
   classification: PostureAccountabilityClassification;
   /** Previous classification (null if first classification) */
   previousClassification: PostureAccountabilityClassification | null;
   /** When this classification was determined */
-  classifiedAt: string;
+  classified_at: string;
   /** Who/what determined the classification */
-  classifiedBy: ClassifierSource;
+  classified_by: ClassifierSource;
   /** Human-readable reason for this classification */
   reason: string;
   /** References to evidence supporting the classification (drift IDs, coverage gap IDs, etc.) */
@@ -90,14 +90,14 @@ export interface PostureAccountabilityValidation {
 export function validatePostureAccountability(r: PostureAccountability): PostureAccountabilityValidation {
   const errors: string[] = [];
   if (!r.id || r.id.trim() === '') errors.push('id: required');
-  if (!r.tenant?.tenantId) errors.push('tenant.tenantId: required');
-  if (!r.accountabilityId || r.accountabilityId.trim() === '') errors.push('accountabilityId: required');
+  if (!r.tenant?.tenant_id) errors.push('tenant.tenant_id: required');
+  if (!r.accountability_id || r.accountability_id.trim() === '') errors.push('accountability_id: required');
   if (!ACCOUNTABLE_ENTITY_TYPES.includes(r.accountableEntityType)) errors.push(`accountableEntityType: must be one of: ${ACCOUNTABLE_ENTITY_TYPES.join(', ')}`);
-  if (!r.entityRef || r.entityRef.trim() === '') errors.push('entityRef: required');
+  if (!r.entity_ref || r.entity_ref.trim() === '') errors.push('entity_ref: required');
   if (!POSTURE_ACCOUNTABILITY_CLASSIFICATIONS.includes(r.classification)) errors.push(`classification: must be one of: ${POSTURE_ACCOUNTABILITY_CLASSIFICATIONS.join(', ')}`);
   if (r.previousClassification !== null && !POSTURE_ACCOUNTABILITY_CLASSIFICATIONS.includes(r.previousClassification)) errors.push(`previousClassification: must be null or one of: ${POSTURE_ACCOUNTABILITY_CLASSIFICATIONS.join(', ')}`);
-  if (!r.classifiedAt || r.classifiedAt.trim() === '') errors.push('classifiedAt: required');
-  if (!CLASSIFIER_SOURCES.includes(r.classifiedBy)) errors.push(`classifiedBy: must be one of: ${CLASSIFIER_SOURCES.join(', ')}`);
+  if (!r.classified_at || r.classified_at.trim() === '') errors.push('classified_at: required');
+  if (!CLASSIFIER_SOURCES.includes(r.classified_by)) errors.push(`classified_by: must be one of: ${CLASSIFIER_SOURCES.join(', ')}`);
   if (!r.reason || r.reason.trim() === '') errors.push('reason: required');
   if (!Array.isArray(r.evidenceRefs)) errors.push('evidenceRefs: must be an array');
   if (typeof r.durationInState !== 'number' || r.durationInState < 0) errors.push('durationInState: must be >= 0');

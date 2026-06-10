@@ -37,7 +37,7 @@ export interface DriftDetail {
   /** Severity of the drift */
   severity: DriftSeverity;
   /** When the drift was first detected */
-  detectedAt: string;
+  detected_at: string;
   /** Brief description */
   description: string;
 }
@@ -45,15 +45,15 @@ export interface DriftDetail {
 // ─── Cloud Security Posture Entity ───────────────────────────────────────────
 
 export interface CloudSecurityPosture extends CommonFields {
-  entityType: 'cloud-security-posture';
+  entity_type: 'cloud-security-posture';
   /** Cloud provider */
-  cloudProvider: CloudProvider;
+  cloud_provider: CloudProvider;
   /** Cloud account/subscription/project identifier */
-  accountId: string;
+  account_id: string;
   /** Cloud region */
   region: string;
   /** Overall adherence percentage (0-100) */
-  adherenceScore: number;
+  adherence_score: number;
   /** Active drift finding count */
   driftCount: number;
   /** Critical-severity finding count */
@@ -77,11 +77,11 @@ export function validateCloudSecurityPosture(record: CloudSecurityPosture): Clou
   const errors: string[] = [];
 
   if (!record.id || record.id.trim() === '') errors.push('id: required');
-  if (!record.tenant || !record.tenant.tenantId) errors.push('tenant.tenantId: required');
-  if (!record.cloudProvider || !CLOUD_PROVIDERS.includes(record.cloudProvider)) errors.push(`cloudProvider: must be one of: ${CLOUD_PROVIDERS.join(', ')}`);
-  if (!record.accountId || record.accountId.trim() === '') errors.push('accountId: required');
+  if (!record.tenant || !record.tenant.tenant_id) errors.push('tenant.tenant_id: required');
+  if (!record.cloud_provider || !CLOUD_PROVIDERS.includes(record.cloud_provider)) errors.push(`cloud_provider: must be one of: ${CLOUD_PROVIDERS.join(', ')}`);
+  if (!record.account_id || record.account_id.trim() === '') errors.push('account_id: required');
   if (!record.region || record.region.trim() === '') errors.push('region: required');
-  if (typeof record.adherenceScore !== 'number' || record.adherenceScore < 0 || record.adherenceScore > 100) errors.push('adherenceScore: must be 0-100');
+  if (typeof record.adherence_score !== 'number' || record.adherence_score < 0 || record.adherence_score > 100) errors.push('adherence_score: must be 0-100');
   if (typeof record.driftCount !== 'number' || record.driftCount < 0) errors.push('driftCount: must be non-negative');
   if (typeof record.criticalFindings !== 'number' || record.criticalFindings < 0) errors.push('criticalFindings: must be non-negative');
   if (!record.lastScanAt || record.lastScanAt.trim() === '') errors.push('lastScanAt: required');

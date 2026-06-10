@@ -3,13 +3,13 @@
 import dynamic from 'next/dynamic';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedTeamPulse } from '../../../../../../packages/contracts/src/fixtures/seed-pulse';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
   primitiveFonts, primitiveLetterSpacing, primitiveSignal, primitiveData,
 } from '../../../../../../packages/ui/src/tokens/primitives';
 import type { ApexOptions } from 'apexcharts';
+import { thesisTeamPulse } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -26,17 +26,17 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 export default function TeamPulseEscalationPage() {
   const { mode, tokens } = useMode();
 
-  const teams = seedTeamPulse.filter((e) => e.level === 'team');
-  const totalEscalationDepth = teams.reduce((acc, t) => acc + t.escalationQueueDepth, 0);
-  const teamsWithEscalations = teams.filter((t) => t.escalationQueueDepth > 0).length;
-  const avgHoursSinceClosure = teams.length > 0 ? Math.round(teams.reduce((acc, t) => acc + t.hoursSinceLastClosure, 0) / teams.length) : 0;
+  const teams = thesisTeamPulse.filter((e) => e.level === 'team');
+  const totalEscalationDepth = teams.reduce((acc, t) => acc + t.escalation_queue_depth, 0);
+  const teamsWithEscalations = teams.filter((t) => t.escalation_queue_depth > 0).length;
+  const avgHoursSinceClosure = teams.length > 0 ? Math.round(teams.reduce((acc, t) => acc + t.hours_since_last_closure, 0) / teams.length) : 0;
 
   const chartOpts: ApexOptions = {
     chart: { type: 'bar', toolbar: { show: false }, background: 'transparent', fontFamily: primitiveFonts.body },
     theme: { mode: mode === 'mission' ? 'dark' : 'light' },
     colors: [primitiveData[5], primitiveData[2]],
     plotOptions: { bar: { horizontal: false, columnWidth: '50%', borderRadius: 0 } },
-    xaxis: { categories: teams.map((t) => t.teamOrAnalyst), labels: { style: { colors: tokens.text.muted, fontSize: primitiveTypeScale.micro } } },
+    xaxis: { categories: teams.map((t) => t.team_or_analyst), labels: { style: { colors: tokens.text.muted, fontSize: primitiveTypeScale.micro } } },
     yaxis: { labels: { style: { colors: tokens.text.muted, fontSize: primitiveTypeScale.micro } } },
     grid: { borderColor: tokens.border.subtle, strokeDashArray: 3 },
     legend: { labels: { colors: tokens.text.secondary }, fontSize: primitiveTypeScale.caption },
@@ -45,8 +45,8 @@ export default function TeamPulseEscalationPage() {
   };
 
   const chartSeries = [
-    { name: 'Escalation Queue', data: teams.map((t) => t.escalationQueueDepth) },
-    { name: 'Hrs Since Closure', data: teams.map((t) => t.hoursSinceLastClosure) },
+    { name: 'Escalation Queue', data: teams.map((t) => t.escalation_queue_depth) },
+    { name: 'Hrs Since Closure', data: teams.map((t) => t.hours_since_last_closure) },
   ];
 
   return (
@@ -87,14 +87,14 @@ export default function TeamPulseEscalationPage() {
             </thead>
             <tbody>
               {teams.map((t) => {
-                const bandColor = t.workloadBand === 'red' ? primitiveSignal.critical : t.workloadBand === 'amber' ? primitiveSignal.warning : primitiveSignal.success;
+                const bandColor = t.workload_band === 'red' ? primitiveSignal.critical : t.workload_band === 'amber' ? primitiveSignal.warning : primitiveSignal.success;
                 return (
                   <tr key={t.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{t.teamOrAnalyst}</td>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: t.escalationQueueDepth > 0 ? primitiveSignal.warning : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.escalationQueueDepth}</td>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.hoursSinceLastClosure}h</td>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', color: '#fff', background: bandColor }}>{t.workloadBand}</span></td>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.openCases}</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{t.team_or_analyst}</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: t.escalation_queue_depth > 0 ? primitiveSignal.warning : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.escalation_queue_depth}</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.hours_since_last_closure}h</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', color: '#fff', background: bandColor }}>{t.workload_band}</span></td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.open_cases}</td>
                   </tr>
                 );
               })}

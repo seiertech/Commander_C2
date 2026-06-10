@@ -51,7 +51,7 @@ export interface CaseTypeAssignmentResult {
   /** Whether assignment succeeded */
   success: boolean;
   /** The assigned case type */
-  caseType: CaseType | null;
+  case_type: CaseType | null;
   /** Error message if failed */
   error: string | null;
 }
@@ -114,7 +114,7 @@ export function assignCaseType(request: CaseTypeAssignmentRequest): CaseTypeAssi
   if (!DEFAULT_RISK_TO_CASE_MAP[riskObjectType]) {
     return {
       success: false,
-      caseType: null,
+      case_type: null,
       error: `Unknown risk object type '${riskObjectType}'.`,
     };
   }
@@ -123,7 +123,7 @@ export function assignCaseType(request: CaseTypeAssignmentRequest): CaseTypeAssi
   if (context !== 'default' && SIGNAL_CONTEXT_CASE_TYPES[context]) {
     return {
       success: true,
-      caseType: SIGNAL_CONTEXT_CASE_TYPES[context],
+      case_type: SIGNAL_CONTEXT_CASE_TYPES[context],
       error: null,
     };
   }
@@ -134,7 +134,7 @@ export function assignCaseType(request: CaseTypeAssignmentRequest): CaseTypeAssi
     if (overrides && overrides[context]) {
       return {
         success: true,
-        caseType: overrides[context]!,
+        case_type: overrides[context]!,
         error: null,
       };
     }
@@ -143,7 +143,7 @@ export function assignCaseType(request: CaseTypeAssignmentRequest): CaseTypeAssi
   // 3. Default mapping
   return {
     success: true,
-    caseType: DEFAULT_RISK_TO_CASE_MAP[riskObjectType],
+    case_type: DEFAULT_RISK_TO_CASE_MAP[riskObjectType],
     error: null,
   };
 }

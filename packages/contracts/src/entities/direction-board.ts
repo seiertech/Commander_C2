@@ -34,9 +34,9 @@ export type DirectionBoardStatus = typeof DIRECTION_BOARD_STATUSES[number];
 // ─── Direction Board Entity ──────────────────────────────────────────────────
 
 export interface DirectionBoard extends CommonFields {
-  entityType: 'direction-board';
+  entity_type: 'direction-board';
   /** Unique board identifier */
-  boardId: string;
+  board_id: string;
   /** Title of the direction board item */
   title: string;
   /** Category classification */
@@ -48,11 +48,11 @@ export interface DirectionBoard extends CommonFields {
   /** Owner responsible for resolution */
   owner: string;
   /** Due date for resolution (null if open-ended) */
-  dueDate: string | null;
+  due_date: string | null;
   /** Detailed description of the item */
   description: string;
   /** Assessment of impact if unresolved */
-  impactAssessment: string;
+  impact_assessment: string;
   /** References to linked cases */
   linkedCaseRefs: string[];
   /** References to linked risk objects */
@@ -77,11 +77,11 @@ export function validateDirectionBoard(record: DirectionBoard): DirectionBoardVa
   if (!record.id || record.id.trim() === '') {
     errors.push('id: required');
   }
-  if (!record.tenant || !record.tenant.tenantId || record.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!record.tenant || !record.tenant.tenant_id || record.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
-  if (!record.boardId || record.boardId.trim() === '') {
-    errors.push('boardId: required');
+  if (!record.board_id || record.board_id.trim() === '') {
+    errors.push('board_id: required');
   }
   if (!record.title || record.title.trim() === '') {
     errors.push('title: required');
@@ -101,8 +101,8 @@ export function validateDirectionBoard(record: DirectionBoard): DirectionBoardVa
   if (!record.description || record.description.trim() === '') {
     errors.push('description: required');
   }
-  if (!record.impactAssessment || record.impactAssessment.trim() === '') {
-    errors.push('impactAssessment: required');
+  if (!record.impact_assessment || record.impact_assessment.trim() === '') {
+    errors.push('impact_assessment: required');
   }
   if (!Array.isArray(record.linkedCaseRefs)) {
     errors.push('linkedCaseRefs: must be an array');

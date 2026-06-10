@@ -2,9 +2,9 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedCisoSummary } from '../../../../../packages/contracts/src/fixtures/seed-ciso';
 import { componentTokens } from '../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
+import { thesisCisoSummary } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * CISO Dashboard — Executive Posture Summary
@@ -15,7 +15,7 @@ import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFon
 
 export default function CisoDashboardPage() {
   const { tokens } = useMode();
-  const s = seedCisoSummary;
+  const s = thesisCisoSummary;
   const postureColor = s.posture.overall >= 80 ? primitiveSignal.success : s.posture.overall >= 60 ? primitiveSignal.warning : primitiveSignal.critical;
   const trendLabel = s.trend === 'improving' ? '↑ Improving' : s.trend === 'degrading' ? '↓ Degrading' : '→ Stable';
 
@@ -23,17 +23,17 @@ export default function CisoDashboardPage() {
     <PageContainer pretitle="Executive" title="CISO Dashboard">
       <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
         <Kpi tokens={tokens} label="Posture Score" value={`${s.posture.overall}%`} accent={postureColor} />
-        <Kpi tokens={tokens} label="Open Cases" value={String(s.caseSummary.totalOpen)} accent={s.caseSummary.p0Count > 0 ? primitiveSignal.critical : undefined} />
-        <Kpi tokens={tokens} label="Risk Objects" value={String(s.riskSummary.openCount)} accent={s.riskSummary.critical > 0 ? primitiveSignal.critical : undefined} />
+        <Kpi tokens={tokens} label="Open Cases" value={String(s.case_summary.totalOpen)} accent={s.case_summary.p0Count > 0 ? primitiveSignal.critical : undefined} />
+        <Kpi tokens={tokens} label="Risk Objects" value={String(s.risk_summary.open_count)} accent={s.risk_summary.critical > 0 ? primitiveSignal.critical : undefined} />
         <Kpi tokens={tokens} label="Trend" value={trendLabel} />
       </section>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
         <Card tokens={tokens} title="Risk Summary">
-          <Row tokens={tokens} label="Critical" value={String(s.riskSummary.critical)} accent={primitiveSignal.critical} />
-          <Row tokens={tokens} label="High" value={String(s.riskSummary.high)} accent={primitiveSignal.warning} />
-          <Row tokens={tokens} label="Medium" value={String(s.riskSummary.medium)} />
-          <Row tokens={tokens} label="Low" value={String(s.riskSummary.low)} />
+          <Row tokens={tokens} label="Critical" value={String(s.risk_summary.critical)} accent={primitiveSignal.critical} />
+          <Row tokens={tokens} label="High" value={String(s.risk_summary.high)} accent={primitiveSignal.warning} />
+          <Row tokens={tokens} label="Medium" value={String(s.risk_summary.medium)} />
+          <Row tokens={tokens} label="Low" value={String(s.risk_summary.low)} />
         </Card>
         <Card tokens={tokens} title="Exposure">
           <Row tokens={tokens} label="External Surface" value={String(s.exposureSummary.externalSurfaceCount)} />
@@ -49,10 +49,10 @@ export default function CisoDashboardPage() {
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
         <Card tokens={tokens} title="Cases">
-          <Row tokens={tokens} label="Total Open" value={String(s.caseSummary.totalOpen)} />
-          <Row tokens={tokens} label="P0 (Critical)" value={String(s.caseSummary.p0Count)} accent={s.caseSummary.p0Count > 0 ? primitiveSignal.critical : undefined} />
-          <Row tokens={tokens} label="Avg Age" value={`${s.caseSummary.avgAge}d`} />
-          <Row tokens={tokens} label="SLA Breach" value={String(s.caseSummary.slaBreachCount)} accent={s.caseSummary.slaBreachCount > 0 ? primitiveSignal.critical : undefined} />
+          <Row tokens={tokens} label="Total Open" value={String(s.case_summary.totalOpen)} />
+          <Row tokens={tokens} label="P0 (Critical)" value={String(s.case_summary.p0Count)} accent={s.case_summary.p0Count > 0 ? primitiveSignal.critical : undefined} />
+          <Row tokens={tokens} label="Avg Age" value={`${s.case_summary.avgAge}d`} />
+          <Row tokens={tokens} label="SLA Breach" value={String(s.case_summary.slaBreachCount)} accent={s.case_summary.slaBreachCount > 0 ? primitiveSignal.critical : undefined} />
         </Card>
         <Card tokens={tokens} title="Debt">
           <Row tokens={tokens} label="Total Items" value={String(s.debtSummary.totalItems)} />

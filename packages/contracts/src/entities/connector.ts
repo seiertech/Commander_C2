@@ -9,23 +9,23 @@
 import type { CommonFields, ConnectorClass } from './common';
 
 export interface Connector extends CommonFields {
-  entityType: 'connector';
+  entity_type: 'connector';
   /** Connector display name */
   name: string;
   /** Connector class(es) per Spec #61 — A/B/C/D only */
   classes: ConnectorClass[];
   /** Source type (vendor platform name) */
-  sourceType: string;
+  source_type: string;
   /** Connector tier */
   tier: 'core' | 'extended' | 'community';
   /** Current state */
   state: ConnectorState;
   /** Last successful run */
-  lastRunAt: string | null;
+  last_run_at: string | null;
   /** Last run status */
-  lastRunStatus: 'success' | 'partial' | 'failed' | 'never-run';
+  last_run_status: 'success' | 'partial' | 'failed' | 'never-run';
   /** Mapping pack version (v1.3 Req 9) */
-  mappingPackVersion: string;
+  mapping_pack_version: string;
 }
 
 export type ConnectorState =
@@ -59,25 +59,25 @@ export interface ClassConformance {
   class: ConnectorClass;
   tier: ConformanceTier;
   certifiedAt: string | null;
-  lastAssessedAt: string;
+  last_assessed_at: string;
 }
 
 /** Signal purpose resolution — maps a pull operation to its resolved purposes */
 export interface SignalPurposeResolution {
-  connectorId: string;
+  connector_id: string;
   pullRunId: string;
   resolvedPurposes: import('./common').SignalPurpose[];
-  resolvedAt: string;
+  resolved_at: string;
 }
 
 /** Pull operation result */
 export interface PullResult {
-  connectorId: string;
+  connector_id: string;
   runId: string;
   status: 'success' | 'partial' | 'failed';
   recordsIngested: number;
   signalPurposes: import('./common').SignalPurpose[];
-  startedAt: string;
-  completedAt: string;
+  started_at: string;
+  completed_at: string;
   errorDetail: string | null;
 }

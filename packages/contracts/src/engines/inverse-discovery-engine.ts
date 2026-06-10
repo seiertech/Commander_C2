@@ -18,14 +18,14 @@ import type { RootCause, LookupEntityType } from '../entities/inverse-discovery-
 // ─── Input/Output Types ──────────────────────────────────────────────────────
 
 export interface SignalInput {
-  signalRef: string;
+  signal_ref: string;
   connectorRef: string;
-  referencedEntity: { key: string; entityType: LookupEntityType };
+  referenced_entity: { key: string; entity_type: LookupEntityType };
 }
 
 export interface ExistingEntity {
   key: string;
-  entityType: LookupEntityType;
+  entity_type: LookupEntityType;
   lastVerifiedAt: string;
   aliases?: string[];
 }
@@ -34,19 +34,19 @@ export interface LookupResultOutput {
   resolved: boolean;
   partial: boolean;
   matchedEntity: ExistingEntity | null;
-  lookupKey: string;
+  lookup_key: string;
 }
 
 export interface CaseRef {
-  caseId: string;
+  case_id: string;
   type: 'coverage-blindspot';
-  generatedAt: string;
+  generated_at: string;
 }
 
 export interface OnboardingRef {
   workflowId: string;
-  entityType: LookupEntityType;
-  lookupKey: string;
+  entity_type: LookupEntityType;
+  lookup_key: string;
   triggeredAt: string;
 }
 
@@ -57,20 +57,20 @@ export interface OnboardingRef {
  */
 export function detectLookupFailure(signal: SignalInput, existingEntities: ExistingEntity[]): LookupResultOutput {
   const exact = existingEntities.find(
-    (e) => e.entityType === signal.referencedEntity.entityType && e.key === signal.referencedEntity.key,
+    (e) => e.entity_type === signal.referenced_entity.entity_type && e.key === signal.referenced_entity.key,
   );
   if (exact) {
-    return { resolved: true, partial: false, matchedEntity: exact, lookupKey: signal.referencedEntity.key };
+    return { resolved: true, partial: false, matchedEntity: exact, lookup_key: signal.referenced_entity.key };
   }
 
   const partial = existingEntities.find(
-    (e) => e.entityType === signal.referencedEntity.entityType && e.aliases?.includes(signal.referencedEntity.key),
+    (e) => e.entity_type === signal.referenced_entity.entity_type && e.aliases?.includes(signal.referenced_entity.key),
   );
   if (partial) {
-    return { resolved: false, partial: true, matchedEntity: partial, lookupKey: signal.referencedEntity.key };
+    return { resolved: false, partial: true, matchedEntity: partial, lookup_key: signal.referenced_entity.key };
   }
 
-  return { resolved: false, partial: false, matchedEntity: null, lookupKey: signal.referencedEntity.key };
+  return { resolved: false, partial: false, matchedEntity: null, lookup_key: signal.referenced_entity.key };
 }
 
 /**
@@ -81,7 +81,7 @@ export function classifyRootCause(failure: LookupResultOutput, existingEntities:
 
   // Check if a stale entity matches by key but is very old
   const staleMatch = existingEntities.find(
-    (e) => e.key === failure.lookupKey && new Date(e.lastVerifiedAt).getTime() < Date.now() - 90 * 24 * 3600 * 1000,
+    (e) => e.key === failure.lookup_key && new Date(e.lastVerifiedAt).getTime() < Date.now() - 90 * 24 * 3600 * 1000,
   );
   if (staleMatch) return 'staleness';
 
@@ -90,7 +90,7 @@ export function classifyRootCause(failure: LookupResultOutput, existingEntities:
 
   // Check if entity was recently decommissioned (within 30 days)
   const decomMatch = existingEntities.find(
-    (e) => e.key.includes(failure.lookupKey.split('.')[0]) && new Date(e.lastVerifiedAt).getTime() < Date.now() - 30 * 24 * 3600 * 1000,
+    (e) => e.key.includes(failure.lookup_key.split('.')[0]) && new Date(e.lastVerifiedAt).getTime() < Date.now() - 30 * 24 * 3600 * 1000,
   );
   if (decomMatch) return 'decommissioned';
 
@@ -103,20 +103,20 @@ export function classifyRootCause(failure: LookupResultOutput, existingEntities:
  */
 export function generateBlindspotCase(failure: LookupResultOutput): CaseRef {
   return {
-    caseId: `case-blindspot-${failure.lookupKey.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`,
+    case_id: `case-blindspot-${failure.lookup_key.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`,
     type: 'coverage-blindspot',
-    generatedAt: new Date().toISOString(),
+    generated_at: new Date().toISOString(),
   };
 }
 
 /**
  * Trigger entity onboarding workflow for an unresolved entity.
  */
-export function triggerOnboarding(failure: LookupResultOutput, entityType: LookupEntityType): OnboardingRef {
+export function triggerOnboarding(failure: LookupResultOutput, entity_type: LookupEntityType): OnboardingRef {
   return {
-    workflowId: `onboard-${failure.lookupKey.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`,
-    entityType,
-    lookupKey: failure.lookupKey,
+    workflowId: `onboard-${failure.lookup_key.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`,
+    entity_type,
+    lookup_key: failure.lookup_key,
     triggeredAt: new Date().toISOString(),
   };
 }

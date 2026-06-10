@@ -10,8 +10,8 @@ export interface ToolMetrics {
   toolId: string;
   toolName: string;
   detectionRate: number;    // 0-1
-  falsePositiveRate: number; // 0-1
-  coveragePercent: number;   // 0-100
+  false_positive_rate: number; // 0-1
+  coverage_percent: number;   // 0-100
   meanTimeToDetect: number;  // seconds
   lastEvaluated: string;
 }
@@ -22,13 +22,13 @@ export interface ToolCapability {
 }
 
 export interface EstateAsset {
-  assetId: string;
+  asset_id: string;
   assetType: string;
   requiredCapabilities: string[];
 }
 
 export interface BlindSpot {
-  assetId: string;
+  asset_id: string;
   assetType: string;
   missingCapability: string;
   severity: number; // 1-5
@@ -54,10 +54,10 @@ export function assessToolEffectiveness(metrics: ToolMetrics): number {
   const detectionScore = metrics.detectionRate * 40;
 
   // False positive penalty (0-20 penalty)
-  const fpPenalty = metrics.falsePositiveRate * 20;
+  const fpPenalty = metrics.false_positive_rate * 20;
 
   // Coverage contribution (0-30)
-  const coverageScore = (metrics.coveragePercent / 100) * 30;
+  const coverageScore = (metrics.coverage_percent / 100) * 30;
 
   // Speed bonus: under 60s = full 10pts, degrades linearly to 0 at 3600s
   const speedScore =
@@ -95,11 +95,11 @@ export function identifyBlindSpots(
         const severity = criticalTypes.has(asset.assetType) ? 5 : 3;
 
         blindSpots.push({
-          assetId: asset.assetId,
+          asset_id: asset.asset_id,
           assetType: asset.assetType,
           missingCapability: required,
           severity,
-          description: `Asset "${asset.assetId}" (${asset.assetType}) requires "${required}" — no tool provides this capability.`,
+          description: `Asset "${asset.asset_id}" (${asset.assetType}) requires "${required}" — no tool provides this capability.`,
         });
       }
     }
@@ -134,7 +134,7 @@ export function recommendActions(
 
       actions.push({
         toolId: tool.toolId,
-        action: `Extend ${tool.toolId} to cover "${spot.missingCapability}" for asset "${spot.assetId}".`,
+        action: `Extend ${tool.toolId} to cover "${spot.missingCapability}" for asset "${spot.asset_id}".`,
         priority,
         rationale: `Blind spot severity ${spot.severity}: ${spot.description}`,
       });

@@ -38,7 +38,7 @@ export interface MissionObjective {
   /** Current status */
   status: ObjectiveStatus;
   /** Target completion date */
-  targetDate: string;
+  target_date: string;
   /** References to evidence (case IDs, report IDs, etc.) */
   evidenceRefs: string[];
 }
@@ -63,7 +63,7 @@ export type BindingRuleType = typeof BINDING_RULE_TYPES[number];
 
 export interface MissionBindingRule {
   /** Rule type */
-  ruleType: BindingRuleType;
+  rule_type: BindingRuleType;
   /** Pattern to match (e.g. tag name, service group name, dependency path) */
   pattern: string;
   /** Whether matches should be automatically bound */
@@ -73,7 +73,7 @@ export interface MissionBindingRule {
 // ─── Mission Entity ──────────────────────────────────────────────────────────
 
 export interface Mission extends CommonFields {
-  entityType: 'mission';
+  entity_type: 'mission';
   /** Human-readable mission name */
   name: string;
   /** Detailed description of mission scope and intent */
@@ -85,15 +85,15 @@ export interface Mission extends CommonFields {
   /** Structured objectives tracked within this mission */
   objectives: MissionObjective[];
   /** Security domains this mission impacts */
-  impactDomains: string[];
+  impact_domains: string[];
   /** Mission owner (role or individual) */
   owner: string;
   /** Mission start date */
   startDate: string;
   /** Target completion date */
-  targetDate: string;
+  target_date: string;
   /** Overall progress (0-100) */
-  progressPercent: number;
+  progress_percent: number;
   /** Case IDs aligned to this mission */
   alignedCases: string[];
   /** Key performance indicators */
@@ -130,8 +130,8 @@ export function validateMission(mission: Mission): MissionValidation {
   if (!mission.id || mission.id.trim() === '') {
     errors.push('id: required');
   }
-  if (!mission.tenant || !mission.tenant.tenantId || mission.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!mission.tenant || !mission.tenant.tenant_id || mission.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
   if (!mission.name || mission.name.trim() === '') {
     errors.push('name: required');
@@ -158,13 +158,13 @@ export function validateMission(mission: Mission): MissionValidation {
       if (!OBJECTIVE_STATUSES.includes(obj.status)) {
         errors.push(`objectives[].status: must be one of: ${OBJECTIVE_STATUSES.join(', ')}`);
       }
-      if (!obj.targetDate || obj.targetDate.trim() === '') {
-        errors.push('objectives[].targetDate: required');
+      if (!obj.target_date || obj.target_date.trim() === '') {
+        errors.push('objectives[].target_date: required');
       }
     }
   }
-  if (!Array.isArray(mission.impactDomains) || mission.impactDomains.length === 0) {
-    errors.push('impactDomains: must contain at least one domain');
+  if (!Array.isArray(mission.impact_domains) || mission.impact_domains.length === 0) {
+    errors.push('impact_domains: must contain at least one domain');
   }
   if (!mission.owner || mission.owner.trim() === '') {
     errors.push('owner: required');
@@ -172,11 +172,11 @@ export function validateMission(mission: Mission): MissionValidation {
   if (!mission.startDate || mission.startDate.trim() === '') {
     errors.push('startDate: required');
   }
-  if (!mission.targetDate || mission.targetDate.trim() === '') {
-    errors.push('targetDate: required');
+  if (!mission.target_date || mission.target_date.trim() === '') {
+    errors.push('target_date: required');
   }
-  if (typeof mission.progressPercent !== 'number' || mission.progressPercent < 0 || mission.progressPercent > 100) {
-    errors.push('progressPercent: must be 0-100');
+  if (typeof mission.progress_percent !== 'number' || mission.progress_percent < 0 || mission.progress_percent > 100) {
+    errors.push('progress_percent: must be 0-100');
   }
   if (!Array.isArray(mission.alignedCases)) {
     errors.push('alignedCases: must be an array');
@@ -209,8 +209,8 @@ export function validateMission(mission: Mission): MissionValidation {
     errors.push('bindingRules: must be an array');
   } else {
     for (const rule of mission.bindingRules) {
-      if (!BINDING_RULE_TYPES.includes(rule.ruleType)) {
-        errors.push(`bindingRules[].ruleType: must be one of: ${BINDING_RULE_TYPES.join(', ')}`);
+      if (!BINDING_RULE_TYPES.includes(rule.rule_type)) {
+        errors.push(`bindingRules[].rule_type: must be one of: ${BINDING_RULE_TYPES.join(', ')}`);
       }
       if (!rule.pattern || rule.pattern.trim() === '') {
         errors.push('bindingRules[].pattern: required');

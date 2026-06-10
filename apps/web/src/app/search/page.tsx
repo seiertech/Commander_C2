@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import { PageContainer } from '@/components/page-container';
-import { seedSearchConfigs } from '../../../../../packages/contracts/src/fixtures/seed-search-config';
 import { planQuery } from '../../../../../packages/contracts/src/engines/universal-search-engine';
 import type { SearchResult } from '../../../../../packages/contracts/src/engines/universal-search-engine';
 import { primitiveTypeScale } from '../../../../../packages/ui/src/tokens/primitives';
+import { thesisSearchConfigs } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Universal Search — Commander C2 (Spec 42)
@@ -21,12 +21,12 @@ import { primitiveTypeScale } from '../../../../../packages/ui/src/tokens/primit
 
 /** Mock search results for demonstration — in production backed by search infrastructure */
 const MOCK_RESULTS: SearchResult[] = [
-  { entityType: 'case', entityId: 'case-001', title: 'Suspicious lateral movement detected', snippet: 'Case created from drift detection engine — lateral movement between subnet A and subnet B...', relevanceScore: 0.95, route: '/cases/case-001', tenantId: 'tenant-seiertech-01', lastUpdated: '2025-01-15T10:00:00Z' },
-  { entityType: 'asset', entityId: 'asset-003', title: 'SRV-PROD-DB-01', snippet: 'Production database server — PostgreSQL 15.2, criticality 5, EDR coverage active...', relevanceScore: 0.88, route: '/assets', tenantId: 'tenant-seiertech-01', lastUpdated: '2025-01-14T18:00:00Z' },
-  { entityType: 'identity', entityId: 'identity-002', title: 'svc-backup-admin', snippet: 'Service account — elevated privileges, last accessed 2 hours ago, risk factor: dormant privilege...', relevanceScore: 0.82, route: '/identity', tenantId: 'tenant-seiertech-01', lastUpdated: '2025-01-15T08:00:00Z' },
-  { entityType: 'vulnerability-intelligence-record', entityId: 'vuln-001', title: 'CVE-2024-3094 (XZ Utils)', snippet: 'Critical supply chain compromise — CVSS 10.0, KEV listed, affects liblzma 5.6.0/5.6.1...', relevanceScore: 0.79, route: '/vulnerabilities', tenantId: 'tenant-seiertech-01', lastUpdated: '2025-01-13T12:00:00Z' },
-  { entityType: 'strategy-policy', entityId: 'strat-001', title: 'Prioritisation Weight Policy v2.1', snippet: 'Active strategy policy — governs case priority calculation weights across all case types...', relevanceScore: 0.71, route: '/strategy/centre', tenantId: 'tenant-seiertech-01', lastUpdated: '2025-01-12T09:00:00Z' },
-  { entityType: 'connector', entityId: 'conn-001', title: 'CrowdStrike Falcon (Mock)', snippet: 'Class A SOC Telemetry connector — state: active, tier: mock, last run 4h ago...', relevanceScore: 0.65, route: '/tool-health/connectors', tenantId: 'tenant-seiertech-01', lastUpdated: '2025-01-15T06:00:00Z' },
+  { entity_type: 'case', entity_id: 'case-001', title: 'Suspicious lateral movement detected', snippet: 'Case created from drift detection engine — lateral movement between subnet A and subnet B...', relevanceScore: 0.95, route: '/cases/case-001', tenant_id: 'tenant-seiertech-01', lastUpdated: '2025-01-15T10:00:00Z' },
+  { entity_type: 'asset', entity_id: 'asset-003', title: 'SRV-PROD-DB-01', snippet: 'Production database server — PostgreSQL 15.2, criticality 5, EDR coverage active...', relevanceScore: 0.88, route: '/assets', tenant_id: 'tenant-seiertech-01', lastUpdated: '2025-01-14T18:00:00Z' },
+  { entity_type: 'identity', entity_id: 'identity-002', title: 'svc-backup-admin', snippet: 'Service account — elevated privileges, last accessed 2 hours ago, risk factor: dormant privilege...', relevanceScore: 0.82, route: '/identity', tenant_id: 'tenant-seiertech-01', lastUpdated: '2025-01-15T08:00:00Z' },
+  { entity_type: 'vulnerability-intelligence-record', entity_id: 'vuln-001', title: 'CVE-2024-3094 (XZ Utils)', snippet: 'Critical supply chain compromise — CVSS 10.0, KEV listed, affects liblzma 5.6.0/5.6.1...', relevanceScore: 0.79, route: '/vulnerabilities', tenant_id: 'tenant-seiertech-01', lastUpdated: '2025-01-13T12:00:00Z' },
+  { entity_type: 'strategy-policy', entity_id: 'strat-001', title: 'Prioritisation Weight Policy v2.1', snippet: 'Active strategy policy — governs case priority calculation weights across all case types...', relevanceScore: 0.71, route: '/strategy/centre', tenant_id: 'tenant-seiertech-01', lastUpdated: '2025-01-12T09:00:00Z' },
+  { entity_type: 'connector', entity_id: 'conn-001', title: 'CrowdStrike Falcon (Mock)', snippet: 'Class A SOC Telemetry connector — state: active, tier: mock, last run 4h ago...', relevanceScore: 0.65, route: '/tool-health/connectors', tenant_id: 'tenant-seiertech-01', lastUpdated: '2025-01-15T06:00:00Z' },
 ];
 
 const ENTITY_TYPE_LABELS: Record<string, string> = {
@@ -49,7 +49,7 @@ export default function SearchPage() {
   const [results, setResults] = useState<SearchResult[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
 
-  const config = seedSearchConfigs[0];
+  const config = thesisSearchConfigs[0];
 
   const handleSearch = () => {
     if (query.trim().length < 2) {
@@ -59,14 +59,14 @@ export default function SearchPage() {
     }
 
     // Plan the query for RBAC/audit awareness
-    const plan = planQuery({ query, tenantId: 'tenant-seiertech-01', userRole: 'SOM' });
+    const plan = planQuery({ query, tenant_id: 'tenant-seiertech-01', userRole: 'SOM' });
 
     // In Phase 1 we use mock results filtered by query relevance
     const filtered = MOCK_RESULTS.filter(
       (r) =>
         r.title.toLowerCase().includes(query.toLowerCase()) ||
         r.snippet.toLowerCase().includes(query.toLowerCase()) ||
-        r.entityType.toLowerCase().includes(query.toLowerCase())
+        r.entity_type.toLowerCase().includes(query.toLowerCase())
     );
 
     setResults(filtered);
@@ -81,8 +81,8 @@ export default function SearchPage() {
 
   // Group results by entity type
   const groupedResults = results.reduce<Record<string, SearchResult[]>>((acc, r) => {
-    if (!acc[r.entityType]) acc[r.entityType] = [];
-    acc[r.entityType].push(r);
+    if (!acc[r.entity_type]) acc[r.entity_type] = [];
+    acc[r.entity_type].push(r);
     return acc;
   }, {});
 
@@ -92,7 +92,7 @@ export default function SearchPage() {
       title="Universal Search"
       headerActions={
         <span className="badge bg-blue-lt">
-          {config.entityTypes.length} entity types indexed
+          {config.entity_types.length} entity types indexed
         </span>
       }
     >
@@ -152,7 +152,7 @@ export default function SearchPage() {
             <div className="list-group list-group-flush">
               {items.map((r) => (
                 <a
-                  key={r.entityId}
+                  key={r.entity_id}
                   href={r.route}
                   className="list-group-item list-group-item-action"
                 >
@@ -201,7 +201,7 @@ export default function SearchPage() {
             <div className="col-md-6">
               <dl className="row mb-0">
                 <dt className="col-5">Entity Types</dt>
-                <dd className="col-7 text-muted">{config.entityTypes.length} types</dd>
+                <dd className="col-7 text-muted">{config.entity_types.length} types</dd>
                 <dt className="col-5">Sensitive Fields</dt>
                 <dd className="col-7 text-muted">{config.sensitiveFields.length} fields</dd>
                 <dt className="col-5">Last Reindexed</dt>

@@ -39,13 +39,13 @@ const AT = '2026-06-02T00:00:00.000Z';
 
 describe('Unit 40 — Grounding framework', () => {
   it('grounds references that exist in Commander data', () => {
-    const r = groundReferences([{ entityType: 'case', entityId: seedCases[0].id }], corpus);
+    const r = groundReferences([{ entity_type: 'case', entity_id: seedCases[0].id }], corpus);
     expect(r.grounded).toBe(true);
     expect(r.unresolved).toEqual([]);
   });
 
   it('fails to ground references that do not exist (no estate-fact invention)', () => {
-    const r = groundReferences([{ entityType: 'case', entityId: 'case-DOES-NOT-EXIST' }], corpus);
+    const r = groundReferences([{ entity_type: 'case', entity_id: 'case-DOES-NOT-EXIST' }], corpus);
     expect(r.grounded).toBe(false);
     expect(r.unresolved).toHaveLength(1);
   });
@@ -80,7 +80,7 @@ describe('Unit 40 — Refusal framework', () => {
 
   it('refuses read-only actions referencing ungrounded estate facts', () => {
     const c = checkRefusal(
-      { intent: 'draft', references: [{ entityType: 'case', entityId: 'nope' }] },
+      { intent: 'draft', references: [{ entity_type: 'case', entity_id: 'nope' }] },
       corpus,
     );
     expect(c.allowed).toBe(false);
@@ -89,7 +89,7 @@ describe('Unit 40 — Refusal framework', () => {
 
   it('allows read-only actions fully grounded in Commander data', () => {
     const c = checkRefusal(
-      { intent: 'explain', references: [{ entityType: 'case', entityId: seedCases[0].id }] },
+      { intent: 'explain', references: [{ entity_type: 'case', entity_id: seedCases[0].id }] },
       corpus,
     );
     expect(c.allowed).toBe(true);
@@ -103,8 +103,8 @@ describe('Unit 40 — Grounded capabilities', () => {
   it('drafts a case summary grounded in the real case', () => {
     const out = draftCaseSummary(seedCases[0].id, corpus);
     expect(out.refused).toBe(false);
-    expect(out.text).toContain(seedCases[0].caseRef);
-    expect(out.groundedIn).toEqual([{ entityType: 'case', entityId: seedCases[0].id }]);
+    expect(out.text).toContain(seedCases[0].case_ref);
+    expect(out.groundedIn).toEqual([{ entity_type: 'case', entity_id: seedCases[0].id }]);
   });
 
   it('refuses to draft a summary for a non-existent case', () => {
@@ -129,9 +129,9 @@ describe('Unit 40 — Grounded capabilities', () => {
   it('navigation only returns existing entities', () => {
     const out = navigateToEntity(seedAssets[0].name, corpus);
     expect(out.groundedIn.every((ref) =>
-      seedAssets.some((a) => a.id === ref.entityId) ||
-      seedCases.some((c) => c.id === ref.entityId) ||
-      seedIdentities.some((i) => i.id === ref.entityId),
+      seedAssets.some((a) => a.id === ref.entity_id) ||
+      seedCases.some((c) => c.id === ref.entity_id) ||
+      seedIdentities.some((i) => i.id === ref.entity_id),
     )).toBe(true);
   });
 
@@ -147,7 +147,7 @@ describe('Unit 40 — Execution logging', () => {
   it('logs an AI output as an immutable commander-ai audit record', () => {
     const out = draftCaseSummary(seedCases[0].id, corpus);
     const audit = logAiExecution(out, SEED_TENANT, AT, 'audit-ai-001');
-    expect(audit.entityType).toBe('audit-event');
+    expect(audit.entity_type).toBe('audit-event');
     expect(audit.actor.type).toBe('commander-ai');
     expect(audit.immutable).toBe(true);
     expect(audit.action).toBe('ai-draft');

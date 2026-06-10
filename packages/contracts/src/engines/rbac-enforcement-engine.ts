@@ -11,7 +11,7 @@ import type { BreakGlassRequest } from '../entities/break-glass-request';
 
 export interface PermissionResult {
   allowed: boolean;
-  userId: string;
+  user_id: string;
   action: string;
   resource: string;
   matchedPolicy: string | null;
@@ -21,19 +21,19 @@ export interface PermissionResult {
 
 export interface BreakGlassEnforcementResult {
   granted: boolean;
-  requestId: string;
+  request_id: string;
   scope: string;
-  expiresAt: string;
-  auditRef: string;
+  expires_at: string;
+  audit_ref: string;
 }
 
 export interface SensitiveAccessAudit {
   timestamp: string;
-  userId: string;
+  user_id: string;
   action: string;
   resource: string;
   granted: boolean;
-  policyRef: string;
+  policy_ref: string;
   sensitiveReason: string;
 }
 
@@ -44,7 +44,7 @@ export interface SensitiveAccessAudit {
  * Checks active RBAC policies for the user's role.
  */
 export function evaluatePermission(
-  userId: string,
+  user_id: string,
   userRole: string,
   action: string,
   resource: string,
@@ -54,14 +54,14 @@ export function evaluatePermission(
   // Check break-glass override first
   if (activeBreakGlass && activeBreakGlass.status === 'approved') {
     const now = new Date().toISOString();
-    if (activeBreakGlass.expiresAt > now) {
+    if (activeBreakGlass.expires_at > now) {
       return {
         allowed: true,
-        userId,
+        user_id,
         action,
         resource,
         matchedPolicy: null,
-        reason: `Break-glass access active (${activeBreakGlass.requestId}).`,
+        reason: `Break-glass access active (${activeBreakGlass.request_id}).`,
         breakGlassActive: true,
       };
     }
@@ -75,18 +75,18 @@ export function evaluatePermission(
   if (matchingPolicy) {
     return {
       allowed: true,
-      userId,
+      user_id,
       action,
       resource,
-      matchedPolicy: matchingPolicy.policyId,
-      reason: `Permitted by policy ${matchingPolicy.policyId} (role: ${userRole}).`,
+      matchedPolicy: matchingPolicy.policy_id,
+      reason: `Permitted by policy ${matchingPolicy.policy_id} (role: ${userRole}).`,
       breakGlassActive: false,
     };
   }
 
   return {
     allowed: false,
-    userId,
+    user_id,
     action,
     resource,
     matchedPolicy: null,
@@ -100,14 +100,14 @@ export function evaluatePermission(
  */
 export function enforceBreakGlass(request: BreakGlassRequest): BreakGlassEnforcementResult {
   const now = new Date().toISOString();
-  const granted = request.status === 'approved' && request.expiresAt > now;
+  const granted = request.status === 'approved' && request.expires_at > now;
 
   return {
     granted,
-    requestId: request.requestId,
+    request_id: request.request_id,
     scope: request.scope,
-    expiresAt: request.expiresAt,
-    auditRef: request.auditRef,
+    expires_at: request.expires_at,
+    audit_ref: request.audit_ref,
   };
 }
 
@@ -115,20 +115,20 @@ export function enforceBreakGlass(request: BreakGlassRequest): BreakGlassEnforce
  * Audit sensitive access — logs access to sensitive resources for adherence.
  */
 export function auditSensitiveAccess(
-  userId: string,
+  user_id: string,
   action: string,
   resource: string,
   granted: boolean,
-  policyRef: string,
+  policy_ref: string,
   sensitiveReason: string
 ): SensitiveAccessAudit {
   return {
     timestamp: new Date().toISOString(),
-    userId,
+    user_id,
     action,
     resource,
     granted,
-    policyRef,
+    policy_ref,
     sensitiveReason,
   };
 }

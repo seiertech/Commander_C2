@@ -12,7 +12,7 @@ import type { SourceClassification } from './coim';
 
 export interface Asset extends CommonFields {
   /** Canonical entity type discriminator */
-  entityType: 'asset';
+  entity_type: 'asset';
   /** Asset display name */
   name: string;
   /** Asset classification */
@@ -22,15 +22,15 @@ export interface Asset extends CommonFields {
   /** Environment (production, staging, development, etc.) */
   environment: string;
   /** Source system references */
-  sourceRefs: string[];
+  source_refs: string[];
   /** Attack surface attribution (Spec #60) */
-  surfaceAttribution: SurfaceAttribution;
+  surface_attribution: SurfaceAttribution;
   /** Coverage-relevant fields */
   coverage: {
-    hasEdr: boolean;
-    hasVulnScan: boolean;
-    hasPatchManagement: boolean;
-    hasBackup: boolean;
+    has_edr: boolean;
+    has_vuln_scan: boolean;
+    has_patch_management: boolean;
+    has_backup: boolean;
   };
   /** Business criticality (1-5) */
   criticality: number;
@@ -43,13 +43,13 @@ export interface Asset extends CommonFields {
   // level for full backward-compatibility with existing fixtures and tests.
 
   /** Asset lifecycle state (COIM-F). Commander-tracked. */
-  lifecycleState?: AssetLifecycleState;
+  lifecycle_state?: AssetLifecycleState;
 
   /** Structured platform information (COIM-F). Source-provided. */
   platform?: AssetPlatform;
 
   /** Network position classification (COIM-F). Source-provided. */
-  networkPosition?: AssetNetworkPosition;
+  network_position?: AssetNetworkPosition;
 
   /**
    * Data classification for the asset (COIM-F).
@@ -59,7 +59,7 @@ export interface Asset extends CommonFields {
   assetDataClassification?: AssetDataClassification;
 
   /** When this asset was last confirmed active by a source (COIM-F timeline). */
-  lastConfirmedAt?: string;
+  last_confirmed_at?: string;
 
   /** Which connector/source first discovered this asset (COIM-F timeline). */
   firstDiscoveredBy?: string;
@@ -69,7 +69,7 @@ export interface Asset extends CommonFields {
    * Recommended where source provides structured discovery metadata.
    * Immutable after write; informs but never governs lifecycle/priority.
    */
-  sourceClassification?: SourceClassification;
+  source_classification?: SourceClassification;
 }
 
 // ─── COIM-F: Asset Lifecycle State ──────────────────────────────────────────
@@ -103,7 +103,7 @@ export interface AssetPlatform {
   /** Platform version */
   version?: string;
   /** Cloud provider if applicable (e.g. "aws", "azure", "gcp") */
-  cloudProvider?: string;
+  cloud_provider?: string;
   /** Architecture (e.g. "x86_64", "arm64") */
   architecture?: string;
 }

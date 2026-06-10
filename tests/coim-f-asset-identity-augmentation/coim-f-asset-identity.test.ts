@@ -94,24 +94,24 @@ describe('COIM-F — Identity operational-intelligence taxonomy', () => {
 
 describe('COIM-F — Asset augmentation fields (additive, optional)', () => {
   it('Asset type accepts lifecycleState field (optional)', () => {
-    const a: Partial<Asset> & { lifecycleState?: AssetLifecycleState } = {
-      lifecycleState: 'active',
+    const a: Partial<Asset> & { lifecycle_state?: AssetLifecycleState } = {
+      lifecycle_state: 'active',
     };
-    expect(a.lifecycleState).toBe('active');
+    expect(a.lifecycle_state).toBe('active');
   });
 
   it('Asset type accepts platform field (optional structured object)', () => {
     const a: Partial<Asset> = {
-      platform: { os: 'Ubuntu 22.04', version: '22.04', cloudProvider: 'aws', architecture: 'x86_64' },
+      platform: { os: 'Ubuntu 22.04', version: '22.04', cloud_provider: 'aws', architecture: 'x86_64' },
     };
     expect(a.platform?.os).toBe('Ubuntu 22.04');
   });
 
   it('Asset type accepts networkPosition field (optional)', () => {
-    const a: Partial<Asset> & { networkPosition?: AssetNetworkPosition } = {
-      networkPosition: 'internet-facing',
+    const a: Partial<Asset> & { network_position?: AssetNetworkPosition } = {
+      network_position: 'internet-facing',
     };
-    expect(a.networkPosition).toBe('internet-facing');
+    expect(a.network_position).toBe('internet-facing');
   });
 
   it('Asset type accepts assetDataClassification field (optional)', () => {
@@ -122,8 +122,8 @@ describe('COIM-F — Asset augmentation fields (additive, optional)', () => {
   });
 
   it('Asset type accepts lastConfirmedAt field (optional ISO 8601)', () => {
-    const a: Partial<Asset> = { lastConfirmedAt: '2026-01-18T06:00:00.000Z' };
-    expect(a.lastConfirmedAt).toBeTruthy();
+    const a: Partial<Asset> = { last_confirmed_at: '2026-01-18T06:00:00.000Z' };
+    expect(a.last_confirmed_at).toBeTruthy();
   });
 
   it('Asset type accepts firstDiscoveredBy field (optional string)', () => {
@@ -133,25 +133,25 @@ describe('COIM-F — Asset augmentation fields (additive, optional)', () => {
 
   it('Asset type accepts sourceClassification field (optional COIM object)', () => {
     const a: Partial<Asset> = {
-      sourceClassification: {
-        findingClass: 'vulnerability',
-        sourceSeverity: { severityLevel: 'high', severityId: 4 },
-        sourceConfidence: { confidenceLevel: 'high', confidenceScore: 90 },
-        sourceProduct: { vendor: 'Tenable', name: 'Nessus' },
-        sourceFindingUid: 'FIND-001',
+      source_classification: {
+        finding_class: 'vulnerability',
+        source_severity: { severity_level: 'high', severity_id: 4 },
+        source_confidence: { confidence_level: 'high', confidence_score: 90 },
+        source_product: { vendor: 'Tenable', name: 'Nessus' },
+        source_finding_uid: 'FIND-001',
       },
     };
-    expect(a.sourceClassification?.findingClass).toBe('vulnerability');
+    expect(a.source_classification?.finding_class).toBe('vulnerability');
   });
 
   it('all COIM-F fields are optional — asset without them is valid shape', () => {
     // A minimal asset omitting all COIM-F fields — should compile and work
-    const minimal: Pick<Asset, 'entityType' | 'name' | 'classification'> = {
-      entityType: 'asset',
+    const minimal: Pick<Asset, 'entity_type' | 'name' | 'classification'> = {
+      entity_type: 'asset',
       name: 'TEST-SERVER',
       classification: 'server',
     };
-    expect(minimal.entityType).toBe('asset');
+    expect(minimal.entity_type).toBe('asset');
     // TypeScript type level: no lifecycleState/platform/etc required
   });
 });
@@ -160,10 +160,10 @@ describe('COIM-F — Asset augmentation fields (additive, optional)', () => {
 
 describe('COIM-F — Identity augmentation fields (additive, optional)', () => {
   it('Identity type accepts privilegeLevel field (optional)', () => {
-    const i: Partial<Identity> & { privilegeLevel?: IdentityPrivilegeLevel } = {
-      privilegeLevel: 'super-privileged',
+    const i: Partial<Identity> & { privilege_level?: IdentityPrivilegeLevel } = {
+      privilege_level: 'super-privileged',
     };
-    expect(i.privilegeLevel).toBe('super-privileged');
+    expect(i.privilege_level).toBe('super-privileged');
   });
 
   it('Identity type accepts authenticationStrength field (optional)', () => {
@@ -204,24 +204,24 @@ describe('COIM-F — Identity augmentation fields (additive, optional)', () => {
 
   it('Identity type accepts sourceClassification field (optional COIM object)', () => {
     const i: Partial<Identity> = {
-      sourceClassification: {
-        findingClass: 'iam_analysis',
-        sourceSeverity: { severityLevel: 'high', severityId: 4 },
-        sourceConfidence: { confidenceLevel: 'high', confidenceScore: 85 },
-        sourceProduct: { vendor: 'Microsoft', name: 'Entra ID' },
-        sourceFindingUid: 'IAM-FIND-001',
+      source_classification: {
+        finding_class: 'iam_analysis',
+        source_severity: { severity_level: 'high', severity_id: 4 },
+        source_confidence: { confidence_level: 'high', confidence_score: 85 },
+        source_product: { vendor: 'Microsoft', name: 'Entra ID' },
+        source_finding_uid: 'IAM-FIND-001',
       },
     };
-    expect(i.sourceClassification?.findingClass).toBe('iam_analysis');
+    expect(i.source_classification?.finding_class).toBe('iam_analysis');
   });
 
   it('all COIM-F fields are optional — identity without them is valid shape', () => {
-    const minimal: Pick<Identity, 'entityType' | 'displayName' | 'classification'> = {
-      entityType: 'identity',
-      displayName: 'Test User',
+    const minimal: Pick<Identity, 'entity_type' | 'display_name' | 'classification'> = {
+      entity_type: 'identity',
+      display_name: 'Test User',
       classification: 'human',
     };
-    expect(minimal.entityType).toBe('identity');
+    expect(minimal.entity_type).toBe('identity');
   });
 });
 
@@ -231,79 +231,79 @@ describe('COIM-F — backward compatibility: existing seed fixtures unchanged', 
   it('all 40 seed assets still have required fields (no regression)', () => {
     expect(seedAssets).toHaveLength(40);
     for (const asset of seedAssets) {
-      expect(asset.entityType).toBe('asset');
+      expect(asset.entity_type).toBe('asset');
       expect(asset.name).toBeTruthy();
       expect(asset.classification).toBeTruthy();
       expect(asset.owner).toBeTruthy();
       expect(asset.environment).toBeTruthy();
       expect(typeof asset.criticality).toBe('number');
-      expect(asset.surfaceAttribution).toBeDefined();
+      expect(asset.surface_attribution).toBeDefined();
       expect(asset.coverage).toBeDefined();
-      expect(typeof asset.coverage.hasEdr).toBe('boolean');
-      expect(asset.tenant.tenantId).toBeTruthy();
-      expect(asset.source.connectorId).toBeTruthy();
+      expect(typeof asset.coverage.has_edr).toBe('boolean');
+      expect(asset.tenant.tenant_id).toBeTruthy();
+      expect(asset.source.connector_id).toBeTruthy();
     }
   });
 
   it('all 25 seed identities still have required fields (no regression)', () => {
     expect(seedIdentities).toHaveLength(25);
     for (const identity of seedIdentities) {
-      expect(identity.entityType).toBe('identity');
-      expect(identity.displayName).toBeTruthy();
+      expect(identity.entity_type).toBe('identity');
+      expect(identity.display_name).toBeTruthy();
       expect(identity.classification).toBeTruthy();
-      expect(identity.riskScore).toBeGreaterThanOrEqual(0);
+      expect(identity.risk_score).toBeGreaterThanOrEqual(0);
       expect(identity.status).toBeTruthy();
-      expect(identity.surfaceAttribution).toBeDefined();
-      expect(identity.tenant.tenantId).toBeTruthy();
-      expect(identity.source.connectorId).toBeTruthy();
+      expect(identity.surface_attribution).toBeDefined();
+      expect(identity.tenant.tenant_id).toBeTruthy();
+      expect(identity.source.connector_id).toBeTruthy();
     }
   });
 
   it('existing seed assets do NOT set COIM-F fields (they remain undefined)', () => {
     // Seed assets were created before COIM-F — they should have no COIM-F fields
     for (const asset of seedAssets) {
-      expect(asset.lifecycleState).toBeUndefined();
+      expect(asset.lifecycle_state).toBeUndefined();
       expect(asset.platform).toBeUndefined();
-      expect(asset.networkPosition).toBeUndefined();
+      expect(asset.network_position).toBeUndefined();
       expect(asset.assetDataClassification).toBeUndefined();
-      expect(asset.lastConfirmedAt).toBeUndefined();
+      expect(asset.last_confirmed_at).toBeUndefined();
       expect(asset.firstDiscoveredBy).toBeUndefined();
-      expect(asset.sourceClassification).toBeUndefined();
+      expect(asset.source_classification).toBeUndefined();
     }
   });
 
   it('existing seed identities do NOT set COIM-F fields (they remain undefined)', () => {
     for (const identity of seedIdentities) {
-      expect(identity.privilegeLevel).toBeUndefined();
+      expect(identity.privilege_level).toBeUndefined();
       expect(identity.authenticationStrength).toBeUndefined();
       expect(identity.lastAuthenticatedAt).toBeUndefined();
       expect(identity.entitlementSummary).toBeUndefined();
       expect(identity.riskFactors).toBeUndefined();
-      expect(identity.sourceClassification).toBeUndefined();
+      expect(identity.source_classification).toBeUndefined();
     }
   });
 
   it('tenant scope unchanged for all seed assets', () => {
     for (const asset of seedAssets) {
-      expect(asset.tenant.tenantId).toBe('tenant-001-acme-corp');
+      expect(asset.tenant.tenant_id).toBe('tenant-001-acme-corp');
     }
   });
 
   it('tenant scope unchanged for all seed identities', () => {
     for (const identity of seedIdentities) {
-      expect(identity.tenant.tenantId).toBe('tenant-001-acme-corp');
+      expect(identity.tenant.tenant_id).toBe('tenant-001-acme-corp');
     }
   });
 
   it('surface attribution present on all assets (doctrinal assertion 10)', () => {
     for (const asset of seedAssets) {
-      expect(['internal_attack_surface', 'external_attack_surface']).toContain(asset.surfaceAttribution);
+      expect(['internal_attack_surface', 'external_attack_surface']).toContain(asset.surface_attribution);
     }
   });
 
   it('surface attribution present on all identities (doctrinal assertion 10)', () => {
     for (const identity of seedIdentities) {
-      expect(['internal_attack_surface', 'external_attack_surface']).toContain(identity.surfaceAttribution);
+      expect(['internal_attack_surface', 'external_attack_surface']).toContain(identity.surface_attribution);
     }
   });
 });

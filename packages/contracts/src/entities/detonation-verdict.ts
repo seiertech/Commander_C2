@@ -48,9 +48,9 @@ export interface DetonationCheck {
 
 export interface DetonationVerdict extends CommonFields {
   /** Verdict identifier */
-  verdictId: string;
+  verdict_id: string;
   /** Tenant scope */
-  tenantId: string;
+  tenant_id: string;
   /** Reference to the original email message */
   emailMessageId: string;
   /** Detonation source system that produced this verdict */
@@ -60,9 +60,9 @@ export interface DetonationVerdict extends CommonFields {
   /** Individual checks performed */
   checks: DetonationCheck[];
   /** When the verdict was received from source */
-  receivedAt: string;
+  received_at: string;
   /** When Commander processed the verdict */
-  processedAt: string;
+  processed_at: string;
 }
 
 // ─── Validation ──────────────────────────────────────────────────────────────
@@ -83,14 +83,14 @@ export function validateDetonationVerdict(
   if (!verdict.id || verdict.id.trim() === '') {
     errors.push('id: required');
   }
-  if (!verdict.tenant || !verdict.tenant.tenantId || verdict.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!verdict.tenant || !verdict.tenant.tenant_id || verdict.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
-  if (!verdict.verdictId || verdict.verdictId.trim() === '') {
-    errors.push('verdictId: required');
+  if (!verdict.verdict_id || verdict.verdict_id.trim() === '') {
+    errors.push('verdict_id: required');
   }
-  if (!verdict.tenantId || verdict.tenantId.trim() === '') {
-    errors.push('tenantId: required');
+  if (!verdict.tenant_id || verdict.tenant_id.trim() === '') {
+    errors.push('tenant_id: required');
   }
   if (!verdict.emailMessageId || verdict.emailMessageId.trim() === '') {
     errors.push('emailMessageId: required');
@@ -117,11 +117,11 @@ export function validateDetonationVerdict(
       }
     }
   }
-  if (!verdict.receivedAt || verdict.receivedAt.trim() === '') {
-    errors.push('receivedAt: required');
+  if (!verdict.received_at || verdict.received_at.trim() === '') {
+    errors.push('received_at: required');
   }
-  if (!verdict.processedAt || verdict.processedAt.trim() === '') {
-    errors.push('processedAt: required');
+  if (!verdict.processed_at || verdict.processed_at.trim() === '') {
+    errors.push('processed_at: required');
   }
 
   return { valid: errors.length === 0, errors };

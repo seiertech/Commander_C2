@@ -1,9 +1,6 @@
 import { colors } from '../../../../../packages/ui/src/tokens/colors';
 import { typography } from '../../../../../packages/ui/src/tokens/typography';
-import { seedEntitlements } from '../../../../../packages/contracts/src/fixtures/seed-entitlements';
-import { seedCustomers } from '../../../../../packages/contracts/src/fixtures/seed-customers';
-import { seedConnectors } from '../../../../../packages/contracts/src/fixtures/seed-connectors';
-import { seedDeployments } from '../../../../../packages/contracts/src/fixtures/seed-deployments';
+import { thesisEntitlements, thesisCustomers, thesisConnectors, thesisDeployments } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Commercial Control Plane — Operator Command Home
@@ -16,12 +13,12 @@ import { seedDeployments } from '../../../../../packages/contracts/src/fixtures/
  * Control Plane's own dark chrome AND its page-header.
  */
 export default function ControlPlaneOverviewPage() {
-  const totalCustomers = seedCustomers.length;
-  const activeTrials = seedEntitlements.filter((e) => e.status === 'trial').length;
-  const entitlementExceptions = seedEntitlements.filter((e) => e.status === 'suspended' || e.status === 'expired').length;
-  const activeConnectors = seedConnectors.filter((c) => c.state === 'active').length;
-  const totalConnectors = seedConnectors.length;
-  const deploymentRings = seedDeployments.length;
+  const totalCustomers = thesisCustomers.length;
+  const activeTrials = thesisEntitlements.filter((e) => e.status === 'trial').length;
+  const entitlementExceptions = thesisEntitlements.filter((e) => e.status === 'suspended' || e.status === 'expired').length;
+  const activeConnectors = thesisConnectors.filter((c) => c.state === 'active').length;
+  const totalConnectors = thesisConnectors.length;
+  const deploymentRings = thesisDeployments.length;
 
   const kpis = [
     { label: 'Total Customers', value: totalCustomers },

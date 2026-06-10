@@ -28,13 +28,13 @@ export type ExposureTrend = typeof EXPOSURE_TRENDS[number];
 // ─── Exposure Computation Entity ─────────────────────────────────────────────
 
 export interface ExposureComputation extends CommonFields {
-  entityType: 'exposure-computation';
+  entity_type: 'exposure-computation';
   /** Engine instance that produced this computation */
-  engineId: string;
+  engine_id: string;
   /** Whether this is external or internal surface analysis */
-  surfaceType: ExposureSurfaceType;
+  surface_type: ExposureSurfaceType;
   /** Description of the exposure vector */
-  exposureVector: string;
+  exposure_vector: string;
   /** References to affected assets */
   assetRefs: string[];
   /** References to affected identities */
@@ -48,7 +48,7 @@ export interface ExposureComputation extends CommonFields {
   /** Number of identified coverage gaps */
   coverageGapCount: number;
   /** When this computation was performed */
-  computedAt: string;
+  computed_at: string;
   /** Trend direction of the exposure */
   trend: ExposureTrend;
   /** References to applied mitigations */
@@ -71,17 +71,17 @@ export function validateExposureComputation(record: ExposureComputation): Exposu
   if (!record.id || record.id.trim() === '') {
     errors.push('id: required');
   }
-  if (!record.tenant || !record.tenant.tenantId || record.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!record.tenant || !record.tenant.tenant_id || record.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
-  if (!record.engineId || record.engineId.trim() === '') {
-    errors.push('engineId: required');
+  if (!record.engine_id || record.engine_id.trim() === '') {
+    errors.push('engine_id: required');
   }
-  if (!record.surfaceType || !EXPOSURE_SURFACE_TYPES.includes(record.surfaceType)) {
-    errors.push(`surfaceType: must be one of: ${EXPOSURE_SURFACE_TYPES.join(', ')}`);
+  if (!record.surface_type || !EXPOSURE_SURFACE_TYPES.includes(record.surface_type)) {
+    errors.push(`surface_type: must be one of: ${EXPOSURE_SURFACE_TYPES.join(', ')}`);
   }
-  if (!record.exposureVector || record.exposureVector.trim() === '') {
-    errors.push('exposureVector: required');
+  if (!record.exposure_vector || record.exposure_vector.trim() === '') {
+    errors.push('exposure_vector: required');
   }
   if (!Array.isArray(record.assetRefs)) {
     errors.push('assetRefs: must be an array');
@@ -98,8 +98,8 @@ export function validateExposureComputation(record: ExposureComputation): Exposu
   if (typeof record.coverageGapCount !== 'number' || record.coverageGapCount < 0) {
     errors.push('coverageGapCount: must be a non-negative number');
   }
-  if (!record.computedAt || record.computedAt.trim() === '') {
-    errors.push('computedAt: required');
+  if (!record.computed_at || record.computed_at.trim() === '') {
+    errors.push('computed_at: required');
   }
   if (!record.trend || !EXPOSURE_TRENDS.includes(record.trend)) {
     errors.push(`trend: must be one of: ${EXPOSURE_TRENDS.join(', ')}`);

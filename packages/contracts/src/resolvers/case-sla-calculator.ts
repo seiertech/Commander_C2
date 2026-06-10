@@ -13,9 +13,9 @@ import type { Case } from '../entities/case';
 
 export interface SlaResolution {
   status: 'resolved' | 'unresolved';
-  responseHours: number | null;
-  escalationCadenceMinutes: number | null;
-  sourcePolicy: { id: string; version: string } | null;
+  response_hours: number | null;
+  escalation_cadence_minutes: number | null;
+  source_policy: { id: string; version: string } | null;
   reason: string;
 }
 
@@ -24,20 +24,20 @@ export interface SlaResolution {
  * Maps case priority to the SLA profile defined in strategy configuration.
  */
 export function resolveSla(
-  caseRecord: Pick<Case, 'priority' | 'caseType'>,
+  caseRecord: Pick<Case, 'priority' | 'case_type'>,
   strategies: StrategyPolicy[],
 ): SlaResolution {
   const slaPolicy = strategies.find(
-    (s) => s.surfaceType === 'sla' && s.status === 'active',
+    (s) => s.surface_type === 'sla' && s.status === 'active',
   );
 
   if (!slaPolicy) {
-    return { status: 'unresolved', responseHours: null, escalationCadenceMinutes: null, sourcePolicy: null, reason: 'No active SLA strategy policy found' };
+    return { status: 'unresolved', response_hours: null, escalation_cadence_minutes: null, source_policy: null, reason: 'No active SLA strategy policy found' };
   }
 
-  const config = slaPolicy.configuration as { profiles?: Array<{ name: string; responseHours: number; escalationCadenceMinutes: number }> };
+  const config = slaPolicy.configuration as { profiles?: Array<{ name: string; response_hours: number; escalation_cadence_minutes: number }> };
   if (!config.profiles || config.profiles.length === 0) {
-    return { status: 'unresolved', responseHours: null, escalationCadenceMinutes: null, sourcePolicy: { id: slaPolicy.id, version: slaPolicy.policyVersion }, reason: 'SLA strategy has no profiles configured' };
+    return { status: 'unresolved', response_hours: null, escalation_cadence_minutes: null, source_policy: { id: slaPolicy.id, version: slaPolicy.policy_version }, reason: 'SLA strategy has no profiles configured' };
   }
 
   // Map priority to profile name pattern
@@ -53,14 +53,14 @@ export function resolveSla(
   const profile = config.profiles.find((p) => p.name === profileName);
 
   if (!profile) {
-    return { status: 'unresolved', responseHours: null, escalationCadenceMinutes: null, sourcePolicy: { id: slaPolicy.id, version: slaPolicy.policyVersion }, reason: `No SLA profile found for priority ${caseRecord.priority} (expected profile: ${profileName})` };
+    return { status: 'unresolved', response_hours: null, escalation_cadence_minutes: null, source_policy: { id: slaPolicy.id, version: slaPolicy.policy_version }, reason: `No SLA profile found for priority ${caseRecord.priority} (expected profile: ${profileName})` };
   }
 
   return {
     status: 'resolved',
-    responseHours: profile.responseHours,
-    escalationCadenceMinutes: profile.escalationCadenceMinutes,
-    sourcePolicy: { id: slaPolicy.id, version: slaPolicy.policyVersion },
+    response_hours: profile.response_hours,
+    escalation_cadence_minutes: profile.escalation_cadence_minutes,
+    source_policy: { id: slaPolicy.id, version: slaPolicy.policy_version },
     reason: `Resolved from SLA profile "${profile.name}"`,
   };
 }

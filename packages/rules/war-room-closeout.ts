@@ -17,8 +17,8 @@ import type { WarRoom, WarRoomMember, WarRoomSubscriber } from '../contracts/src
 // ─── Input Shapes ────────────────────────────────────────────────────────────
 
 export interface CloseOutCaseSummary {
-  caseId: string;
-  caseRef: string;
+  case_id: string;
+  case_ref: string;
   status: string;
   priority: string;
   resolvedAt: string | null;
@@ -32,10 +32,10 @@ export interface AuditTimelineEntry {
 }
 
 export interface MemberParticipation {
-  userId: string;
+  user_id: string;
   role: string;
-  joinedAt: string;
-  leftAt: string | null;
+  joined_at: string;
+  left_at: string | null;
   actionsCount: number;
   decisionsCount: number;
 }
@@ -67,7 +67,7 @@ export interface EvidenceChainEntry {
   evidenceId: string;
   type: string;
   description: string;
-  collectedAt: string;
+  collected_at: string;
   source: string;
 }
 
@@ -134,7 +134,7 @@ export function generateCloseOutReport(
   evidenceChain: EvidenceChainEntry[],
 ): CloseOutReport {
   const now = new Date().toISOString();
-  const activationTime = new Date(warRoom.createdAt).getTime();
+  const activationTime = new Date(warRoom.created_at).getTime();
   const closureTime = Date.now();
   const durationMs = closureTime - activationTime;
   const durationHours = Math.floor(durationMs / (1000 * 60 * 60));
@@ -175,7 +175,7 @@ export function generateCloseOutReport(
 
   return {
     warRoomRef: warRoom.warRoomRef,
-    activationTimestamp: warRoom.createdAt,
+    activationTimestamp: warRoom.created_at,
     closureTimestamp: now,
     totalDuration,
     executiveSummary,

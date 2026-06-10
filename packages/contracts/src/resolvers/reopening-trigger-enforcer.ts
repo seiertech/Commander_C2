@@ -29,7 +29,7 @@ export interface ReopeningTriggerResult {
   /** Which triggers fired */
   firedTriggers: { trigger: string; reason: string }[];
   /** Strategy reference for audit */
-  strategyRef: { policyId: string; policyVersion: string };
+  strategyRef: { policy_id: string; policy_version: string };
 }
 
 /**
@@ -65,7 +65,7 @@ export function evaluateReopeningTriggers(
   strategies: StrategyPolicy[],
 ): ReopeningTriggerResult {
   const policy = strategies.find(
-    (s) => s.surfaceType === 'reopening-trigger' && s.status === 'active',
+    (s) => s.surface_type === 'reopening-trigger' && s.status === 'active',
   );
 
   if (!policy) {
@@ -103,8 +103,8 @@ export function evaluateReopeningTriggers(
     shouldReopen,
     firedTriggers,
     strategyRef: {
-      policyId: policy.id,
-      policyVersion: policy.policyVersion,
+      policy_id: policy.id,
+      policy_version: policy.policy_version,
     },
   };
 }

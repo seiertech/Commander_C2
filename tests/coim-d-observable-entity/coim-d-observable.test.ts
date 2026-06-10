@@ -27,17 +27,17 @@ import { seedObservables, seedObservableBindings } from '../../packages/contract
 function makeValidObservable(): Observable {
   return {
     id: 'observable-test-001',
-    entityType: 'observable',
-    tenant: { tenantId: 'tenant-test-001', tenantName: 'Test Tenant' },
-    createdAt: '2026-01-18T06:00:00.000Z',
-    updatedAt: '2026-01-18T06:00:00.000Z',
+    entity_type: 'observable',
+    tenant: { tenant_id: 'tenant-test-001', tenant_name: 'Test Tenant' },
+    created_at: '2026-01-18T06:00:00.000Z',
+    updated_at: '2026-01-18T06:00:00.000Z',
     source: {
-      connectorId: 'connector-test-001',
-      importRunId: 'run-test-001',
-      sourceSystem: 'test-system',
-      sourceTimestamp: '2026-01-18T05:55:00.000Z',
+      connector_id: 'connector-test-001',
+      import_run_id: 'run-test-001',
+      source_system: 'test-system',
+      source_timestamp: '2026-01-18T05:55:00.000Z',
     },
-    observableType: 'ip',
+    observable_type: 'ip',
     value: '192.0.2.1',
     firstSeen: '2026-01-17T10:00:00.000Z',
     lastSeen: '2026-01-18T05:55:00.000Z',
@@ -78,10 +78,10 @@ describe('COIM-D — validateObservable', () => {
 
   it('rejects unknown observableType', () => {
     const obs = makeValidObservable();
-    (obs as unknown as { observableType: string }).observableType = 'unknown_type';
+    (obs as unknown as { observable_type: string }).observable_type = 'unknown_type';
     const result = validateObservable(obs);
     expect(result.valid).toBe(false);
-    expect(result.errors.join(' ')).toContain('observableType');
+    expect(result.errors.join(' ')).toContain('observable_type');
   });
 
   it('rejects empty value', () => {
@@ -185,7 +185,7 @@ describe('COIM-D — seed fixture conformance', () => {
 
   it('every seed observable has entityType "observable"', () => {
     for (const obs of seedObservables) {
-      expect(obs.entityType).toBe('observable');
+      expect(obs.entity_type).toBe('observable');
     }
   });
 
@@ -198,7 +198,7 @@ describe('COIM-D — seed fixture conformance', () => {
   });
 
   it('seed observables cover all 8 observable types', () => {
-    const types = new Set(seedObservables.map(obs => obs.observableType));
+    const types = new Set(seedObservables.map(obs => obs.observable_type));
     expect(types.size).toBe(8);
     for (const t of OBSERVABLE_TYPES) {
       expect(types.has(t)).toBe(true);
@@ -257,13 +257,13 @@ describe('COIM-D — many-to-many binding conformance', () => {
 
   it('every binding has a non-empty riskObjectId', () => {
     for (const binding of seedObservableBindings) {
-      expect(binding.riskObjectId).toBeTruthy();
+      expect(binding.risk_object_id).toBeTruthy();
     }
   });
 
   it('every binding has a non-empty boundAt timestamp', () => {
     for (const binding of seedObservableBindings) {
-      expect(binding.boundAt).toBeTruthy();
+      expect(binding.bound_at).toBeTruthy();
     }
   });
 
@@ -278,7 +278,7 @@ describe('COIM-D — many-to-many binding conformance', () => {
   });
 
   it('no duplicate bindings exist (each observable-risk-object pair is unique)', () => {
-    const pairs = seedObservableBindings.map(b => `${b.observableId}:${b.riskObjectId}`);
+    const pairs = seedObservableBindings.map(b => `${b.observableId}:${b.risk_object_id}`);
     const uniquePairs = new Set(pairs);
     expect(uniquePairs.size).toBe(pairs.length);
   });
@@ -287,12 +287,12 @@ describe('COIM-D — many-to-many binding conformance', () => {
 describe('COIM-D — ownership model assertions', () => {
   it('observable entity has entityType discriminator', () => {
     const obs = makeValidObservable();
-    expect(obs.entityType).toBe('observable');
+    expect(obs.entity_type).toBe('observable');
   });
 
   it('source-owned fields are present and typed (immutable after write)', () => {
     const obs = makeValidObservable();
-    expect(typeof obs.observableType).toBe('string');
+    expect(typeof obs.observable_type).toBe('string');
     expect(typeof obs.value).toBe('string');
     expect(typeof obs.firstSeen).toBe('string');
     expect(typeof obs.lastSeen).toBe('string');
@@ -308,14 +308,14 @@ describe('COIM-D — ownership model assertions', () => {
     const obs = makeValidObservable();
     expect(typeof obs.id).toBe('string');
     expect(obs.tenant).toBeDefined();
-    expect(typeof obs.tenant.tenantId).toBe('string');
-    expect(typeof obs.tenant.tenantName).toBe('string');
-    expect(typeof obs.createdAt).toBe('string');
-    expect(typeof obs.updatedAt).toBe('string');
+    expect(typeof obs.tenant.tenant_id).toBe('string');
+    expect(typeof obs.tenant.tenant_name).toBe('string');
+    expect(typeof obs.created_at).toBe('string');
+    expect(typeof obs.updated_at).toBe('string');
     expect(obs.source).toBeDefined();
-    expect(typeof obs.source.connectorId).toBe('string');
-    expect(typeof obs.source.importRunId).toBe('string');
-    expect(typeof obs.source.sourceSystem).toBe('string');
-    expect(typeof obs.source.sourceTimestamp).toBe('string');
+    expect(typeof obs.source.connector_id).toBe('string');
+    expect(typeof obs.source.import_run_id).toBe('string');
+    expect(typeof obs.source.source_system).toBe('string');
+    expect(typeof obs.source.source_timestamp).toBe('string');
   });
 });

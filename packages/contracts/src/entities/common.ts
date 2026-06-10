@@ -8,20 +8,20 @@
 
 /** Tenant context — required on every record */
 export interface TenantContext {
-  tenantId: string;
-  tenantName: string;
+  tenant_id: string;
+  tenant_name: string;
 }
 
 /** Source metadata — provenance tracking */
 export interface SourceMetadata {
   /** Connector that produced this record */
-  connectorId: string;
+  connector_id: string;
   /** Import run identifier */
-  importRunId: string;
+  import_run_id: string;
   /** Source system identifier */
-  sourceSystem: string;
+  source_system: string;
   /** Timestamp of source extraction */
-  sourceTimestamp: string;
+  source_timestamp: string;
 }
 
 /** Common fields present on all canonical entities */
@@ -29,13 +29,47 @@ export interface CommonFields {
   /** Deterministic unique identifier */
   id: string;
   /** Canonical entity type discriminator */
-  entityType: string;
+  entity_type: string;
   /** Tenant scope — required, never ambiguous */
   tenant: TenantContext;
   /** When this record was created in Commander */
-  createdAt: string;
+  created_at: string;
   /** When this record was last updated */
-  updatedAt: string;
+  updated_at: string;
   /** Source provenance */
   source: SourceMetadata;
 }
+
+
+// ─── Connector Classification ────────────────────────────────────────────────
+
+/** Connector class (A=detection, B=verdict, C=identity, D=coverage/config) */
+export type ConnectorClass = 'A' | 'B' | 'C' | 'D';
+
+/** Labels for UI display */
+export const CONNECTOR_CLASS_LABELS: Record<ConnectorClass, string> = {
+  A: 'Class A — Detection & Telemetry',
+  B: 'Class B — Verdict & Disposition',
+  C: 'Class C — Identity & Access',
+  D: 'Class D — Coverage & Configuration',
+};
+
+// ─── Surface Attribution ─────────────────────────────────────────────────────
+
+/** Internal/External attack surface classification */
+export type SurfaceAttribution = 'internal_attack_surface' | 'external_attack_surface';
+
+// ─── Signal Purpose ──────────────────────────────────────────────────────────
+
+/** What the signal is for in the intelligence pipeline */
+export type SignalPurpose = 'detection' | 'verdict' | 'identity_context' | 'coverage_state' | 'configuration_state' | 'behavioural_baseline' | 'case-creation' | 'case-enrichment' | 'verdict-pattern' | 'drift-evaluation' | 'coverage-assessment' | 'threat-correlation' | 'identity-behaviour' | 'posture-measurement';
+
+// ─── Verdict Disposition ─────────────────────────────────────────────────────
+
+/** Verdict outcome from a Class B connector */
+export type VerdictDisposition = 'malicious' | 'suspicious' | 'benign' | 'informational' | 'unresolved' | 'BLOCK' | 'QUARANTINE' | 'REQUIRE_MFA' | 'MONITOR' | 'ALLOW' | 'REQUIRE_COMPLIANT' | 'COACH' | 'AUDIT';
+
+// ─── Build Status ────────────────────────────────────────────────────────────
+
+/** Page/feature build status */
+export type BuildStatus = 'DONE' | 'BUILD' | 'SCAFFOLD' | 'PLANNED';

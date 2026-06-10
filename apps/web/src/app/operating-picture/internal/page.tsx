@@ -2,13 +2,9 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedAssets } from '../../../../../../packages/contracts/src/fixtures/seed-assets';
-import { seedIdentities } from '../../../../../../packages/contracts/src/fixtures/seed-identities';
-import { seedCases } from '../../../../../../packages/contracts/src/fixtures/seed-cases';
-import { seedRiskObjects } from '../../../../../../packages/contracts/src/fixtures/seed-risk-objects';
-import { seedConnectors } from '../../../../../../packages/contracts/src/fixtures/seed-connectors';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
 import { STREAM_LABELS, CLASS_TO_STREAM } from '../../../../../../packages/contracts/src/engines/intelligence-layer';
+import { thesisAssets, thesisIdentities, thesisCases, thesisRiskObjects, thesisConnectors } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Internal Operating Picture — Thesis Layer
@@ -19,7 +15,7 @@ import { STREAM_LABELS, CLASS_TO_STREAM } from '../../../../../../packages/contr
  * SCOPE (Thesis):
  *   1. Internal attack surface inventory (internal_attack_surface assets/identities)
  *   2. Internal Behavioural Intelligence stream visualisation (Class B connectors) — AGGREGATE tier
- *   3. Internal attack surface case queue (cases with surfaceAttribution: internal_attack_surface)
+ *   3. Internal attack surface case queue (cases with surface_attribution: internal_attack_surface)
  *   4. Internal attack surface risk objects
  *   5. Verdict pattern visualisation (Class B) — per-identity detail IR-overlay gated
  *   6. Drill paths to cases, assets, identities, verdict patterns
@@ -59,17 +55,17 @@ export default function InternalOperatingPicturePage() {
   const { tokens } = useMode();
 
   // ── 1. Internal attack surface inventory ──
-  const internalAssets = seedAssets.filter((a) => a.surfaceAttribution === INTERNAL);
-  const internalIdentities = seedIdentities.filter((i) => i.surfaceAttribution === INTERNAL);
+  const internalAssets = thesisAssets.filter((a) => a.surface_attribution === INTERNAL);
+  const internalIdentities = thesisIdentities.filter((i) => i.surface_attribution === INTERNAL);
 
   // ── 2. Internal Behavioural Intelligence stream — Class B connectors feed this stream (aggregate) ──
-  const internalBehaviouralConnectors = seedConnectors.filter((c) =>
+  const internalBehaviouralConnectors = thesisConnectors.filter((c) =>
     c.classes.some((cls) => CLASS_TO_STREAM[cls] === 'internal_behavioural'),
   );
 
   // ── 3. Internal attack surface case queue ──
-  const internalCases = seedCases
-    .filter((c) => c.surfaceAttribution === INTERNAL)
+  const internalCases = thesisCases
+    .filter((c) => c.surface_attribution === INTERNAL)
     .sort((a, b) => {
       const order: Record<string, number> = { P0: 0, P1: 1, P2: 2, P3: 3, P4: 4 };
       return (order[a.priority] ?? 4) - (order[b.priority] ?? 4);
@@ -81,8 +77,8 @@ export default function InternalOperatingPicturePage() {
     ...internalIdentities.map((i) => i.id),
     ...internalCases.map((c) => c.id),
   ]);
-  const internalRiskObjects = seedRiskObjects.filter((r) =>
-    r.affectedEntities?.some((id) => internalEntityIds.has(id)) || internalEntityIds.has(r.affectedEntityId),
+  const internalRiskObjects = thesisRiskObjects.filter((r) =>
+    r.affected_entities?.some((id) => internalEntityIds.has(id)) || internalEntityIds.has(r.affected_entity_id),
   );
 
   const priorityBadge = (p: string) =>
@@ -172,7 +168,7 @@ export default function InternalOperatingPicturePage() {
                           <span className="status-dot me-2" style={{ display: 'inline-block', background: c.state === 'active' ? primitiveSignal.success : c.state === 'error' ? primitiveSignal.critical : primitiveSignal.neutral }} />
                           <span style={{ fontSize: primitiveTypeScale.caption }}>{c.state}</span>
                         </td>
-                        <td className="text-end text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{c.lastRunStatus}</td>
+                        <td className="text-end text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{c.last_run_status}</td>
                       </tr>
                     ))}
                     {internalBehaviouralConnectors.length === 0 && (
@@ -255,7 +251,7 @@ export default function InternalOperatingPicturePage() {
                     {internalRiskObjects.map((r) => (
                       <tr key={r.id}>
                         <td style={{ fontSize: primitiveTypeScale.body }}>{r.type}</td>
-                        <td className="text-muted text-end" style={{ fontSize: primitiveTypeScale.caption }}>{r.treatmentState}</td>
+                        <td className="text-muted text-end" style={{ fontSize: primitiveTypeScale.caption }}>{r.treatment_state}</td>
                       </tr>
                     ))}
                     {internalRiskObjects.length === 0 && (

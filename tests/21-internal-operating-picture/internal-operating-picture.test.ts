@@ -44,8 +44,8 @@ describe('Unit 21 — Surface Attribution (internal only)', () => {
   });
 
   it('seed data contains internal-attributed assets and cases to surface', () => {
-    expect(seedAssets.some((a) => a.surfaceAttribution === 'internal_attack_surface')).toBe(true);
-    expect(seedCases.some((c) => c.surfaceAttribution === 'internal_attack_surface')).toBe(true);
+    expect(seedAssets.some((a) => a.surface_attribution === 'internal_attack_surface')).toBe(true);
+    expect(seedCases.some((c) => c.surface_attribution === 'internal_attack_surface')).toBe(true);
   });
 });
 

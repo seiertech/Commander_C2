@@ -11,9 +11,9 @@ describe('Effectiveness Metrics Engine', () => {
   describe('MTTR computation', () => {
     it('computes mean time to resolve', () => {
       const records: CaseResolutionRecord[] = [
-        { caseId: 'c1', priority: 'P1', resolutionHours: 10, slaBreached: false, reopened: false, isNoise: false, dwellTimeHours: 2, routingCorrect: true },
-        { caseId: 'c2', priority: 'P1', resolutionHours: 20, slaBreached: false, reopened: false, isNoise: false, dwellTimeHours: 4, routingCorrect: true },
-        { caseId: 'c3', priority: 'P2', resolutionHours: 30, slaBreached: false, reopened: false, isNoise: false, dwellTimeHours: 6, routingCorrect: true },
+        { case_id: 'c1', priority: 'P1', resolutionHours: 10, slaBreached: false, reopened: false, isNoise: false, dwellTimeHours: 2, routingCorrect: true },
+        { case_id: 'c2', priority: 'P1', resolutionHours: 20, slaBreached: false, reopened: false, isNoise: false, dwellTimeHours: 4, routingCorrect: true },
+        { case_id: 'c3', priority: 'P2', resolutionHours: 30, slaBreached: false, reopened: false, isNoise: false, dwellTimeHours: 6, routingCorrect: true },
       ];
 
       const result = computeEffectivenessMetrics(records);
@@ -32,7 +32,7 @@ describe('Effectiveness Metrics Engine', () => {
   describe('threshold breach detection', () => {
     it('detects SLA adherence breach', () => {
       const records: CaseResolutionRecord[] = Array.from({ length: 10 }, (_, i) => ({
-        caseId: `c${i}`,
+        case_id: `c${i}`,
         priority: 'P1',
         resolutionHours: 20,
         slaBreached: i < 3, // 30% breached → 70% adherence
@@ -52,7 +52,7 @@ describe('Effectiveness Metrics Engine', () => {
 
     it('detects reopen rate breach', () => {
       const records: CaseResolutionRecord[] = Array.from({ length: 10 }, (_, i) => ({
-        caseId: `c${i}`,
+        case_id: `c${i}`,
         priority: 'P2',
         resolutionHours: 48,
         slaBreached: false,
@@ -70,7 +70,7 @@ describe('Effectiveness Metrics Engine', () => {
 
     it('triggers OODA degradation when overall score below threshold', () => {
       const records: CaseResolutionRecord[] = Array.from({ length: 10 }, (_, i) => ({
-        caseId: `c${i}`,
+        case_id: `c${i}`,
         priority: 'P1',
         resolutionHours: 200,
         slaBreached: true,
@@ -87,7 +87,7 @@ describe('Effectiveness Metrics Engine', () => {
 
     it('no breaches when all metrics within target', () => {
       const records: CaseResolutionRecord[] = Array.from({ length: 20 }, (_, i) => ({
-        caseId: `c${i}`,
+        case_id: `c${i}`,
         priority: 'P2',
         resolutionHours: 24,
         slaBreached: false,

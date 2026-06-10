@@ -1,10 +1,8 @@
 'use client';
 
 import { PageContainer } from '@/components/page-container';
-import { seedAuthSessions } from '../../../../../../packages/contracts/src/fixtures/seed-auth-sessions';
-import { seedBreakGlassRequests } from '../../../../../../packages/contracts/src/fixtures/seed-break-glass';
-import { seedRbacPolicies } from '../../../../../../packages/contracts/src/fixtures/seed-rbac-policies';
 import { primitiveTypeScale } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisAuthSessions, thesisBreakGlass, thesisRbacPolicies } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Security Settings — Platform Security & Hardening (Spec 35)
@@ -18,9 +16,9 @@ import { primitiveTypeScale } from '../../../../../../packages/ui/src/tokens/pri
  */
 
 export default function SettingsSecurityPage() {
-  const activeSessions = seedAuthSessions.filter((s) => s.status === 'active');
-  const pendingBreakGlass = seedBreakGlassRequests.filter((r) => r.status === 'pending');
-  const activeRbacPolicies = seedRbacPolicies.filter((p) => p.active);
+  const activeSessions = thesisAuthSessions.filter((s) => s.status === 'active');
+  const pendingBreakGlass = thesisBreakGlass.filter((r) => r.status === 'pending');
+  const activeRbacPolicies = thesisRbacPolicies.filter((p) => p.active);
 
   const statusBadge = (status: string) => {
     switch (status) {
@@ -70,7 +68,7 @@ export default function SettingsSecurityPage() {
           <div className="card">
             <div className="card-body">
               <div className="subheader">MFA Verified</div>
-              <div className="h1 mb-0">{seedAuthSessions.filter((s) => s.mfaVerified).length}/{seedAuthSessions.length}</div>
+              <div className="h1 mb-0">{thesisAuthSessions.filter((s) => s.mfaVerified).length}/{thesisAuthSessions.length}</div>
             </div>
           </div>
         </div>
@@ -95,14 +93,14 @@ export default function SettingsSecurityPage() {
                 </tr>
               </thead>
               <tbody>
-                {seedBreakGlassRequests.map((r) => (
+                {thesisBreakGlass.map((r) => (
                   <tr key={r.id}>
-                    <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{r.requestId}</td>
+                    <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{r.request_id}</td>
                     <td>{r.requestorId}</td>
                     <td><span className="badge bg-azure-lt">{r.scope}</span></td>
                     <td className="text-truncate" style={{ maxWidth: 220 }}>{r.reason}</td>
                     <td>{statusBadge(r.status)}</td>
-                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{new Date(r.expiresAt).toLocaleString()}</td>
+                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{new Date(r.expires_at).toLocaleString()}</td>
                   </tr>
                 ))}
               </tbody>
@@ -130,14 +128,14 @@ export default function SettingsSecurityPage() {
                 </tr>
               </thead>
               <tbody>
-                {seedAuthSessions.map((s) => (
+                {thesisAuthSessions.map((s) => (
                   <tr key={s.id}>
-                    <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{s.userId}</td>
-                    <td className="text-muted">{s.ipAddress}</td>
+                    <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{s.user_id}</td>
+                    <td className="text-muted">{s.ip_address}</td>
                     <td>{s.mfaVerified ? <span className="badge bg-green-lt">Verified</span> : <span className="badge bg-red-lt">No MFA</span>}</td>
                     <td>{statusBadge(s.status)}</td>
-                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{new Date(s.createdAt).toLocaleString()}</td>
-                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{new Date(s.expiresAt).toLocaleString()}</td>
+                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{new Date(s.created_at).toLocaleString()}</td>
+                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{new Date(s.expires_at).toLocaleString()}</td>
                   </tr>
                 ))}
               </tbody>
@@ -164,7 +162,7 @@ export default function SettingsSecurityPage() {
                 </tr>
               </thead>
               <tbody>
-                {seedRbacPolicies.map((p) => (
+                {thesisRbacPolicies.map((p) => (
                   <tr key={p.id}>
                     <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{p.role}</td>
                     <td><span className="badge bg-azure-lt">{p.resourceScope}</span></td>

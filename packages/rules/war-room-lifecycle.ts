@@ -107,7 +107,7 @@ export function transitionWarRoom(
   const updatedWarRoom: WarRoom = {
     ...warRoom,
     status: newStatus,
-    updatedAt: timestamp,
+    updated_at: timestamp,
   };
 
   return {

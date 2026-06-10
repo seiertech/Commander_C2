@@ -44,7 +44,7 @@ export type PlaybookCondition = string;
 /** Playbook trigger — matches a case type + optional conditions */
 export interface PlaybookTrigger {
   /** Case type that activates this playbook */
-  caseType: CaseType;
+  case_type: CaseType;
   /** Additional bounded conditions (all must be true) */
   conditions: PlaybookCondition[];
 }
@@ -71,7 +71,7 @@ export interface PlaybookStep {
 
 export interface CommunicationPlaybook extends CommonFields {
   /** Playbook identifier */
-  playbookId: string;
+  playbook_id: string;
   /** Human-readable playbook name */
   name: string;
   /** Trigger definition — when this playbook activates */
@@ -119,17 +119,17 @@ export function validateCommunicationPlaybook(
   if (!playbook.id || playbook.id.trim() === '') {
     errors.push('id: required');
   }
-  if (!playbook.tenant || !playbook.tenant.tenantId || playbook.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!playbook.tenant || !playbook.tenant.tenant_id || playbook.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
-  if (!playbook.playbookId || playbook.playbookId.trim() === '') {
-    errors.push('playbookId: required');
+  if (!playbook.playbook_id || playbook.playbook_id.trim() === '') {
+    errors.push('playbook_id: required');
   }
   if (!playbook.name || playbook.name.trim() === '') {
     errors.push('name: required');
   }
-  if (!playbook.trigger || !playbook.trigger.caseType) {
-    errors.push('trigger.caseType: required');
+  if (!playbook.trigger || !playbook.trigger.case_type) {
+    errors.push('trigger.case_type: required');
   }
   if (!Array.isArray(playbook.steps) || playbook.steps.length === 0) {
     errors.push('steps: must be a non-empty array');

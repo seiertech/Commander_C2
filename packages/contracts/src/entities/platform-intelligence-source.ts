@@ -9,7 +9,7 @@
  * commercial IOC feed). Managed by the Admin_Tenant.
  *
  * Ownership model:
- * - Source-owned (immutable): name, vendor, sourceType, connectorClass, feedReference,
+ * - Source-owned (immutable): name, vendor, source_type, connector_class, feedReference,
  *   licenceStatus, sourceMetadataExtra
  * - Commander-owned (mutable): refreshCadenceMinutes, lastSuccessfulSync,
  *   nextScheduledSync, failureState, sourceFreshness, catalogueVersionHash, healthState
@@ -41,13 +41,13 @@ export interface PlatformIntelligenceSource extends CommonFields {
   /** Feed vendor/origin */
   vendor: string;
   /** Source type — required, known constant (Req 1.3/1.4) */
-  sourceType: PlatformIntelligenceSourceType;
+  source_type: PlatformIntelligenceSourceType;
   /** Fixed to class D — Threat Intelligence (Req 1.1, Spec #61) */
-  connectorClass: 'D';
+  connector_class: 'D';
   /** Feed URL/reference (no live fetch in Phase 1) */
   feedReference: string;
   /** Licence/use status */
-  licenceStatus: string;
+  licence_status: string;
   /** Additional source metadata */
   sourceMetadataExtra: Record<string, unknown>;
 
@@ -90,18 +90,18 @@ export function validatePlatformIntelligenceSource(
     errors.push('name: required, must be a non-empty string');
   }
 
-  if (!source.sourceType || !PLATFORM_INTELLIGENCE_SOURCE_TYPES.includes(source.sourceType)) {
+  if (!source.source_type || !PLATFORM_INTELLIGENCE_SOURCE_TYPES.includes(source.source_type)) {
     errors.push(
-      `sourceType: must be one of: ${PLATFORM_INTELLIGENCE_SOURCE_TYPES.join(', ')}`,
+      `source_type: must be one of: ${PLATFORM_INTELLIGENCE_SOURCE_TYPES.join(', ')}`,
     );
   }
 
-  if (source.connectorClass !== 'D') {
-    errors.push('connectorClass: must be "D" (Threat Intelligence)');
+  if (source.connector_class !== 'D') {
+    errors.push('connector_class: must be "D" (Threat Intelligence)');
   }
 
-  if (!source.tenant || !source.tenant.tenantId || source.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!source.tenant || !source.tenant.tenant_id || source.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
 
   if (!source.id || source.id.trim() === '') {
