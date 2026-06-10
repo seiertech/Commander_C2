@@ -109,5 +109,5 @@ export { seedEmailCommunications } from './seed-email-communications';
 
 
 // ─── Standards Evidence Model Fixtures (Phase 1) ─────────────────────────────
-export { STANDARDS_DECLARATIONS } from './seed-standards-declarations';
+export { SCHEMA_COMPLIANCE_FIXTURES as STANDARDS_DECLARATIONS } from './seed-standards-declarations';
 export { STANDARDS_FIELD_MAPPINGS } from './seed-standards-field-mappings';
