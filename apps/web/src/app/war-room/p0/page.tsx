@@ -35,7 +35,7 @@ export default function P0WarRoomPage() {
 
   const now = Math.max(...thesisCases.map((c) => new Date(c.updated_at).getTime()));
   const p0Cases = thesisCases.filter((c) => c.priority === 'P0');
-  const p0Ids = new Set(p0Cases.map((c) => c.id));
+  const p0Ids = new Set(p0Cases.map((c) => c.case_id));
   const boundSubActions = thesisSubActions.filter((s) => p0Ids.has(s.case_id));
 
   return (
@@ -67,7 +67,7 @@ export default function P0WarRoomPage() {
           const remaining = (slaHours ?? 0) - ageHours;
           const breached = c.sla.breached || remaining <= 0;
           return (
-            <div key={c.id} style={{
+            <div key={c.case_id} style={{
               padding: componentTokens.cardPadding, background: HUD.elevated,
               border: `1px solid ${primitiveSignal.critical}`, marginBottom: componentTokens.gridGap,
               boxShadow: `0 0 ${primitiveGlow.radius} rgba(217,45,32,${primitiveGlow.intensity})`,

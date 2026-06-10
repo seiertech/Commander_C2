@@ -2,7 +2,7 @@
 
 import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale } from '../../../../../../packages/ui/src/tokens/primitives';
-import { thesisMissionSeeds, thesisMissionBindings } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisMissions, thesisMissionBindings } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Settings — Mission Configuration
@@ -19,7 +19,7 @@ export default function SettingsMissionsPage() {
       <div className="card mb-3">
         <div className="card-header d-flex justify-content-between align-items-center">
           <h3 className="card-title">Strategic Missions</h3>
-          <span className="badge bg-blue-lt">{thesisMissionSeeds.length} missions</span>
+          <span className="badge bg-blue-lt">{thesisMissions.length} missions</span>
         </div>
         <div className="card-body p-0">
           <div className="table-responsive">
@@ -36,7 +36,7 @@ export default function SettingsMissionsPage() {
                 </tr>
               </thead>
               <tbody>
-                {thesisMissionSeeds.map((mission) => {
+                {thesisMissions.map((mission) => {
                   const bindings = thesisMissionBindings.filter((b) => b.mission_id === mission.id);
                   return (
                     <tr key={mission.id}>
@@ -56,7 +56,7 @@ export default function SettingsMissionsPage() {
                         <span className="badge bg-blue-lt">{bindings.length} bound</span>
                       </td>
                       <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>
-                        {mission.bindingRules.map((r) => `${r.rule_type}:${r.pattern}`).join(', ') || 'None'}
+                        {mission.bindingRules.map((r: any) => `${r.rule_type}:${r.pattern}`).join(', ') || 'None'}
                       </td>
                       <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>
                         {mission.reviewedBy ? `${mission.reviewedBy} (${new Date(mission.reviewedAt!).toLocaleDateString()})` : 'Pending'}

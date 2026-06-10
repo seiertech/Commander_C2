@@ -95,7 +95,7 @@ export default function IdentityIntelligencePage({ searchParams }: { searchParam
 
   const i = selected;
   const caseHistory = thesisCases.filter((c) => c.related_entities.includes(i.id));
-  const relatedAssets = thesisAssets.filter((a) => i.associated_assets.includes(a.id));
+  const relatedAssets = thesisAssets.filter((a) => i.associated_assets.includes(a.asset_id));
 
   return (
     <PageContainer
@@ -147,7 +147,7 @@ export default function IdentityIntelligencePage({ searchParams }: { searchParam
           {relatedAssets.length > 0 ? (
             <div className="d-flex flex-column gap-1">
               {relatedAssets.map((a) => (
-                <a key={a.id} href={`/assets?id=${a.id}`} style={{ fontSize: primitiveTypeScale.body, color: tokens.action.primary }}>{a.name}</a>
+                <a key={a.asset_id} href={`/assets?id=${a.asset_id}`} style={{ fontSize: primitiveTypeScale.body, color: tokens.action.primary }}>{a.asset_name}</a>
               ))}
             </div>
           ) : (
@@ -208,9 +208,9 @@ export default function IdentityIntelligencePage({ searchParams }: { searchParam
             <table className="table table-vcenter card-table">
               <tbody>
                 {caseHistory.map((c) => (
-                  <tr key={c.id}>
+                  <tr key={c.case_id}>
                     <td style={{ width: '48px' }}><span className={`badge ${c.priority === 'P0' ? 'bg-red' : c.priority === 'P1' ? 'bg-orange' : 'bg-secondary'}`}>{c.priority}</span></td>
-                    <td><a href={`/cases/${c.id}`} style={{ color: tokens.action.primary, fontSize: primitiveTypeScale.body }}>{c.title}</a></td>
+                    <td><a href={`/cases/${c.case_id}`} style={{ color: tokens.action.primary, fontSize: primitiveTypeScale.body }}>{c.title}</a></td>
                     <td className="text-muted text-end" style={{ fontSize: primitiveTypeScale.caption }}>{c.status}</td>
                   </tr>
                 ))}
