@@ -30,10 +30,19 @@
 - [x] L11: Reporting views (no standalone entities — thesis §16)
 
 ## Phase 3: UI Migration Pass (per layer, batched)
-- [ ] Run use cases against pages per layer
-- [ ] Update field references to thesis entity names
-- [ ] Verify data points display correctly
-- [ ] Update PAGE_SCHEDULE
+- [x] Create thesis-adapters.ts (bridge SDR fixtures → thesis entity shapes)
+- [x] Mission Overview page — thesis entities (delta_score, risk_reduction_value, mission_type)
+- [x] Architecture page — thesis entities (togaf_domain, zachman_aspect, topology nodes)
+- [x] External Operating Picture — Intelligence Confidence Grading (NATO/Admiralty)
+- [x] Posture page — thesis §9 NIST CSF attribution
+- [x] Cases page — thesis §11 ITIL+OODA+CTEM attribution
+- [x] Assets page — thesis §8 ISO 19770 attribution
+- [x] Governance page — thesis §15 UC-CTRL-001, UC-GOV-001
+- [x] SOM page — thesis §12 UC-CAP-002
+- [x] Batch header migration — 28 pages (Unit/Spec → Thesis)
+- [x] Controls + Team Pulse — thesis §15 and §12
+- [x] Complete 'Commander SDR' → 'Commander C2' rename (298 files)
+- [ ] Remaining pages: individual field reference updates (ongoing)
 
 ## Phase 4: Fixture Rewrite
 - [ ] Rewrite all 82 SDR fixtures to thesis field names
@@ -43,4 +52,4 @@
 - [ ] Update 60+ test files to thesis entity shapes
 
 **Last Updated:** 2026-06-10
-**Current Phase:** 2 COMPLETE — all 35 thesis entities built (L1→L11)
+**Current Phase:** 3 IN PROGRESS — core pages migrated, headers thesis-attributed
