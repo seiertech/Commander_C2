@@ -98,7 +98,7 @@ describe('No Real Credentials (Domain Req 1, v1.3 Req 19)', () => {
   });
 });
 
-describe('Connector Class Compliance (v1.3 Req 14)', () => {
+describe('Connector Class Adherence (v1.3 Req 14)', () => {
   const validClasses = ['A', 'B', 'C', 'D'];
 
   it('all connectors use only valid classes A/B/C/D', () => {

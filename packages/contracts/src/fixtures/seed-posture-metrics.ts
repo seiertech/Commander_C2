@@ -82,11 +82,11 @@ export const seedPostureMetrics: PostureMetricConfig[] = [
       80, 60, true, 4,
     ),
   },
-  // ─── 2. SLA Compliance ─────────────────────────────────────────────────────
+  // ─── 2. SLA Adherence ─────────────────────────────────────────────────────
   {
     id: seedId('pm', 2), entityType: 'posture-metric-config',
     tenant: SEED_TENANT, createdAt: BASE_DATE, updatedAt: BASE_DATE, source: POSTURE_SOURCE,
-    label: 'SLA Compliance', metricKey: 'sla-adherence',
+    label: 'SLA Adherence', metricKey: 'sla-adherence',
     domain: 'sla', unit: '%', higherIsBetter: true, displayOrder: 2,
     thresholds: { strategySurface: 'sla', policyId: 'pol-sla-001', green: 95, amber: 85 },
     periods: buildPeriods(

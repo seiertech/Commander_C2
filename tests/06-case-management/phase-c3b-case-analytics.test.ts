@@ -43,9 +43,9 @@ describe('Case Analytics — Four Chart Types (placeholders — ApexCharts pendi
     expect(pageContent).toContain('chartType="donut"');
   });
 
-  it('has SLA Compliance (numeric gauge from strategy resolver)', () => {
-    expect(pageContent).toContain('SLA Compliance');
-    expect(pageContent).toContain('slaCompliancePct');
+  it('has SLA Adherence (numeric gauge from strategy resolver)', () => {
+    expect(pageContent).toContain('SLA Adherence');
+    expect(pageContent).toContain('slaAdherencePct');
   });
 
   it('has Priority Distribution (bar chart placeholder)', () => {

@@ -221,7 +221,7 @@ export const OPERATIONAL_NAV_GROUPS: NavGroup[] = [
     id: 'governance',
     label: 'Governance',
     subItems: [
-      { label: 'Compliance', path: '/governance', status: 'SCAFFOLD' },
+      { label: 'Adherence', path: '/governance', status: 'SCAFFOLD' },
       { label: 'Policies & Standards', path: '/governance/policies', status: 'SCAFFOLD' },
       { label: 'Exceptions', path: '/governance/exceptions', status: 'SCAFFOLD' },
     ],

@@ -402,7 +402,7 @@ export const seedStrategies: StrategyPolicy[] = [
       /** Target MTTR hours by priority */
       mttrTargetHours: { P0: 4, P1: 24, P2: 72, P3: 168, P4: 336 },
       /** SLA adherence rate threshold (percentage) */
-      slaComplianceTarget: 95,
+      slaAdherenceTarget: 95,
       /** Maximum acceptable reopen rate (percentage) */
       maxReopenRate: 10,
       /** Maximum acceptable noise ratio (percentage) */

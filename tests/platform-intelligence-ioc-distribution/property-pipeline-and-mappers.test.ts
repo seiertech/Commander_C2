@@ -1,5 +1,5 @@
 /**
- * Property-Based Tests — Ingestion Pipeline, Mappers, Push, Compliance
+ * Property-Based Tests — Ingestion Pipeline, Mappers, Push, Adherence
  *
  * Feature: platform-intelligence-ioc-distribution, Property 4: Ingestion confluence and source-independence
  * Validates: Requirements 8.2, 9.2, 24.2
@@ -40,7 +40,7 @@ import { buildTenantEvaluation, buildTenantIocMatch } from '../../packages/rules
 import { getTargetSystems, buildPushActionIntent, PUSH_CAPABILITY_MAP, PHASE1_ALLOWED_STATUSES } from '../../packages/rules/push-capability-mapping';
 import { buildIocCaseLink, buildVulnerabilityCaseLink } from '../../packages/rules/case-outcome-mappers';
 import { resolveReference } from '../../packages/rules/cross-plane-resolver';
-import { mapCveToEnrichmentEvidence, mapIocMatchToEnrichmentEvidence, assertNeverCreatesComplianceState } from '../../packages/rules/adherence-enrichment';
+import { mapCveToEnrichmentEvidence, mapIocMatchToEnrichmentEvidence, assertNeverCreatesAdherenceState } from '../../packages/rules/adherence-enrichment';
 import { IOC_CATEGORIES, IOC_CASE_LINK_TYPES, PUSH_INTENT_STATUSES, PUSH_ACTION_TYPES, EVALUATION_TYPES, TENANT_EXPOSURE_STATES } from '../../packages/contracts/src/entities/intelligence-common';
 import type { IocCategory, IocCaseLinkType, PushIntentStatus, PushActionType } from '../../packages/contracts/src/entities/intelligence-common';
 import type { IndicatorOfCompromise } from '../../packages/contracts/src/entities/indicator-of-compromise';
@@ -370,7 +370,7 @@ describe('Property 23: Intelligence never creates adherence state directly', () 
             cvssScore,
             producedAt: '2026-01-01T00:00:00Z',
           });
-          expect(assertNeverCreatesComplianceState(evidence)).toBe(true);
+          expect(assertNeverCreatesAdherenceState(evidence)).toBe(true);
         },
       ),
       { numRuns: 100 },
@@ -389,7 +389,7 @@ describe('Property 23: Intelligence never creates adherence state directly', () 
             matchConfidence,
             producedAt: '2026-01-01T00:00:00Z',
           });
-          expect(assertNeverCreatesComplianceState(evidence)).toBe(true);
+          expect(assertNeverCreatesAdherenceState(evidence)).toBe(true);
         },
       ),
       { numRuns: 100 },

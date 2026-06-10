@@ -209,7 +209,7 @@ export const seedControlEvaluations: ControlEvaluation[] = [
 // ═══════════════════════════════════════════════════════════════════════════════
 
 export const seedControlMappings: ControlMapping[] = [
-  // analytic-0008 (CIS Firewall Compliance) → CIS 4.1
+  // analytic-0008 (CIS Firewall Adherence) → CIS 4.1
   { id: seedId('cm', 1), entityType: 'control_mapping', tenant: SEED_TENANT, createdAt: '2026-01-10T00:00:00.000Z', updatedAt: '2026-01-10T00:00:00.000Z', source: CFM_SOURCE, frameworkId: 'cis-controls-v8', controlId: '4.1', mappedEntityType: 'analytic', mappedEntityId: seedId('analytic', 8), confidence: 90, mappingSource: 'system', rationale: 'Firewall rule adherence analytic directly evaluates CIS Control 4.1 secure configuration requirements.', coverageContribution: 'full' },
   // risk-object-0003 (vulnerability_drift) → ISO A.8.8
   { id: seedId('cm', 2), entityType: 'control_mapping', tenant: SEED_TENANT, createdAt: '2026-01-18T06:30:00.000Z', updatedAt: '2026-01-18T06:30:00.000Z', source: CFM_SOURCE, frameworkId: 'iso-27001-2022', controlId: 'A.8.8', mappedEntityType: 'risk_object', mappedEntityId: seedId('risk-object', 3), confidence: 85, mappingSource: 'system', rationale: 'Vulnerability drift risk object represents a gap in technical vulnerability management (ISO A.8.8).', coverageContribution: 'partial' },

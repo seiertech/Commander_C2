@@ -43,8 +43,8 @@ describe('Effectiveness Metrics Engine', () => {
       }));
 
       const result = computeEffectivenessMetrics(records);
-      expect(result.metrics.slaComplianceRate).toBe(70);
-      const slaBreach = result.breaches.find((b) => b.metric === 'slaComplianceRate');
+      expect(result.metrics.slaAdherenceRate).toBe(70);
+      const slaBreach = result.breaches.find((b) => b.metric === 'slaAdherenceRate');
       expect(slaBreach).toBeDefined();
       expect(slaBreach!.currentValue).toBe(70);
       expect(slaBreach!.targetValue).toBe(95);

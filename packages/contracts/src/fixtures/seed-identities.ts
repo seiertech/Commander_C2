@@ -235,7 +235,7 @@ export const seedIdentities: Identity[] = [
     createdAt: '2026-01-07T08:05:00.000Z',
     updatedAt: '2026-01-15T09:00:00.000Z',
     source: { ...SEED_SOURCE, importRunId: 'run-id-013', sourceSystem: 'entra-id-mock' },
-    displayName: 'Irene Compliance-Analyst',
+    displayName: 'Irene Adherence-Analyst',
     classification: 'human',
     sourceSystemLineage: ['entra-id-mock'],
     email: 'irene.adherence@acme-demo.example',

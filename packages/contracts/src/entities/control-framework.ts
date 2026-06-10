@@ -19,7 +19,7 @@
  * METHODOLOGY:
  * - Ingestion is the first classification layer, NOT the adherence decision layer
  * - OCSF/event class informs but never determines adherence alone
- * - Compliance evaluation compares asset/identity/case/risk/evidence state
+ * - Adherence evaluation compares asset/identity/case/risk/evidence state
  *   against defined requirements to produce a verdict
  * - Commander identity is primary — controls are mapped TO framework controls
  *
@@ -254,7 +254,7 @@ export const EVALUATION_OPERATORS: EvaluationOperator[] = [
 // 4. CONTROL EVALUATION
 // ═══════════════════════════════════════════════════════════════════════════════
 
-/** Compliance evaluation result. */
+/** Adherence evaluation result. */
 export type AdherenceVerdict =
   | 'compliant'
   | 'non_compliant'

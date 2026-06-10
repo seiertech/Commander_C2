@@ -150,10 +150,10 @@ describe('Unit 16a — Operating Picture drill links', () => {
 });
 
 describe('Unit 16a — Aggregate KPI rollups are OUT of scope (deferred to 16b)', () => {
-  it('does NOT render hardcoded Posture Score / SLA Compliance / Coverage aggregate metrics', () => {
+  it('does NOT render hardcoded Posture Score / SLA Adherence / Coverage aggregate metrics', () => {
     // These belong to Unit 16b and must not appear as seeded/guessed aggregate values.
     expect(pageContent).not.toContain('Posture Score');
-    expect(pageContent).not.toContain('SLA Compliance');
+    expect(pageContent).not.toContain('SLA Adherence');
     // No hardcoded percentage literals for aggregate posture metrics.
     expect(pageContent).not.toContain("'72%'");
     expect(pageContent).not.toContain("'94%'");

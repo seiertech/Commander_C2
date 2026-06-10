@@ -28,7 +28,7 @@ import { STREAM_LABELS, CLASS_TO_STREAM } from '../../../../../../packages/contr
  *   - AGGREGATE TIER (this surface's default `aggregate_only` view: inventory, aggregate stream
  *     health, case queue, risk objects, Policy Effectiveness aggregate) renders to base personas
  *     via route RBAC (CISO, SOM, Security Analyst, Identity/Access Specialist, Security Architect,
- *     Risk Analyst, Risk/Compliance/Audit). Route RBAC is backend-authoritative; frontend is
+ *     Risk Analyst, Risk/Adherence/Audit). Route RBAC is backend-authoritative; frontend is
  *     presentation only (Spec #50 §Backend Enforcement Rule; Spec #56 §8).
  *   - PER-IDENTITY TIER (Identity Risk Pattern Visualisation, Geographic Anomaly Markers,
  *     per-identity verdict detail) is gated by the INTERNAL RISK AUTHORITY OVERLAY. AGGREGATE-ONLY

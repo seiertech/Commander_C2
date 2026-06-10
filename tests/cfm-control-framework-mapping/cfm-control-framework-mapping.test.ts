@@ -398,7 +398,7 @@ describe('CFM: Seed Fixture Conformance', () => {
 
 // ─── Methodology: Ingestion → Mapping → Requirement → Evaluation → Output ───
 
-describe('CFM: Compliance Evaluation Flow', () => {
+describe('CFM: Adherence Evaluation Flow', () => {
   it('evaluation references a requirement which references a control which references a framework', () => {
     const eval1 = seedControlEvaluations[0]; // ACME-SEC-001 / REQ-EDR-PRESENT
     const req = seedControlRequirements.find(r => r.requirementId === eval1.requirementId);
@@ -434,9 +434,9 @@ describe('CFM: Compliance Evaluation Flow', () => {
   });
 });
 
-// ─── Licence/Sourcing Compliance ──────────────────────────────────────────────
+// ─── Licence/Sourcing Adherence ──────────────────────────────────────────────
 
-describe('CFM: Licence and Sourcing Compliance', () => {
+describe('CFM: Licence and Sourcing Adherence', () => {
   it('restricted frameworks have licence notes explaining constraints', () => {
     const restricted = seedControlFrameworks.filter(f => f.licenceStatus === 'restricted');
     for (const fw of restricted) {

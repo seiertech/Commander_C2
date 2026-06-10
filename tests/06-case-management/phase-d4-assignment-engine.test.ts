@@ -547,9 +547,9 @@ describe('Phase D4: Strategy Consumption Proof (Zero Hardcoded Values)', () => {
   });
 });
 
-// ─── Doctrinal Assertion Compliance ──────────────────────────────────────────
+// ─── Doctrinal Assertion Adherence ──────────────────────────────────────────
 
-describe('Phase D4: Doctrinal Assertion Compliance', () => {
+describe('Phase D4: Doctrinal Assertion Adherence', () => {
   it('no manual override path exists in the API', () => {
     // The assignCase and reassignCase functions have no 'manualOverride' parameter
     // Reassignment only accepts system-driven reasons

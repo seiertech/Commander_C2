@@ -15,7 +15,7 @@ export default function SomCloudSecurityPage() {
   const cloudAssets = seedAssets.filter((a) => a.platform?.cloudProvider);
   const cloudProviders = cloudAssets.reduce((acc, a) => { const p = a.platform!.cloudProvider!; acc[p] = (acc[p] || 0) + 1; return acc; }, {} as Record<string, number>);
   const cloudConnectors = seedConnectors.filter((c) => c.sourceType.includes('aws') || c.sourceType.includes('azure') || c.sourceType.includes('gcp'));
-  const avgCompliance = seedCloudSecurityPosture.length ? Math.round(seedCloudSecurityPosture.reduce((s, p) => s + p.adherenceScore, 0) / seedCloudSecurityPosture.length) : 0;
+  const avgAdherence = seedCloudSecurityPosture.length ? Math.round(seedCloudSecurityPosture.reduce((s, p) => s + p.adherenceScore, 0) / seedCloudSecurityPosture.length) : 0;
   const totalDrift = seedCloudSecurityPosture.reduce((s, p) => s + p.driftCount, 0);
   const totalCritical = seedCloudSecurityPosture.reduce((s, p) => s + p.criticalFindings, 0);
 
@@ -23,7 +23,7 @@ export default function SomCloudSecurityPage() {
     <PageContainer pretitle="SOM › Cloud Security" title="Cloud Security Manager" headerActions={<span className="badge bg-blue-lt">{cloudAssets.length} cloud assets</span>}>
       <div className="row row-deck row-cards mb-3">
         <div className="col-sm-6 col-lg-3"><div className="card"><div className="card-body"><div className="subheader">Cloud Assets</div><div className="h1 mb-0">{cloudAssets.length}</div></div></div></div>
-        <div className="col-sm-6 col-lg-3"><div className="card"><div className="card-body"><div className="subheader">Avg Compliance</div><div className="h1 mb-0" style={{ color: avgCompliance >= 85 ? primitiveSignal.success : avgCompliance >= 70 ? primitiveSignal.warning : primitiveSignal.critical }}>{avgCompliance}%</div></div></div></div>
+        <div className="col-sm-6 col-lg-3"><div className="card"><div className="card-body"><div className="subheader">Avg Adherence</div><div className="h1 mb-0" style={{ color: avgAdherence >= 85 ? primitiveSignal.success : avgAdherence >= 70 ? primitiveSignal.warning : primitiveSignal.critical }}>{avgAdherence}%</div></div></div></div>
         <div className="col-sm-6 col-lg-3"><div className="card"><div className="card-body"><div className="subheader">Active Drift</div><div className="h1 mb-0" style={{ color: totalDrift > 0 ? primitiveSignal.warning : primitiveSignal.success }}>{totalDrift}</div></div></div></div>
         <div className="col-sm-6 col-lg-3"><div className="card"><div className="card-body"><div className="subheader">Critical Findings</div><div className="h1 mb-0" style={{ color: totalCritical > 0 ? primitiveSignal.critical : primitiveSignal.success }}>{totalCritical}</div></div></div></div>
       </div>

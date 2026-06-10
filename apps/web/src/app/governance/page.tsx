@@ -5,7 +5,7 @@ import { seedControlFrameworks, seedControlEvaluations } from '../../../../../pa
 import { primitiveTypeScale } from '../../../../../packages/ui/src/tokens/primitives';
 
 /**
- * Governance — Compliance Overview
+ * Governance — Adherence Overview
  *
  * Source: Unit 35 (Team 2, BLOCKED) — rendered from available framework data
  * Data: control-framework.ts + seed-control-frameworks
@@ -18,7 +18,7 @@ export default function GovernancePage() {
   const activeFrameworks = frameworks.filter((f) => f.active);
 
   return (
-    <PageContainer pretitle="Assurance & Audit › Governance" title="Governance & Compliance" headerActions={<span className="badge bg-blue-lt">{activeFrameworks.length} active frameworks</span>}>
+    <PageContainer pretitle="Assurance & Audit › Governance" title="Governance & Adherence" headerActions={<span className="badge bg-blue-lt">{activeFrameworks.length} active frameworks</span>}>
       <div className="row row-deck row-cards mb-3">
         <div className="col-sm-6 col-lg-3"><div className="card"><div className="card-body"><div className="subheader">Frameworks</div><div className="h1 mb-0">{frameworks.length}</div></div></div></div>
         <div className="col-sm-6 col-lg-3"><div className="card"><div className="card-body"><div className="subheader">Active</div><div className="h1 mb-0">{activeFrameworks.length}</div></div></div></div>
@@ -26,7 +26,7 @@ export default function GovernancePage() {
         <div className="col-sm-6 col-lg-3"><div className="card"><div className="card-body"><div className="subheader">Avg Mapping</div><div className="h1 mb-0">{frameworks.length > 0 ? Math.round(frameworks.reduce((s, f) => s + f.mappingCompleteness, 0) / frameworks.length) : 0}%</div></div></div></div>
       </div>
       <div className="card">
-        <div className="card-header"><h3 className="card-title">Framework Compliance Status</h3></div>
+        <div className="card-header"><h3 className="card-title">Framework Adherence Status</h3></div>
         <div className="card-body p-0">
           <div className="table-responsive">
             <table className="table table-vcenter card-table">

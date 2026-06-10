@@ -62,7 +62,7 @@ export const MOCK_CLASS_A_CONNECTORS: Connector[] = [
 /** Mock Class B connectors — Operational Verdict. */
 export const MOCK_CLASS_B_CONNECTORS: Connector[] = [
   mockConnector(4, 'Mock Email Security (Proofpoint-style)', ['B'], 'mock-email-security'),
-  mockConnector(5, 'Mock Endpoint Compliance (Intune-style)', ['B', 'C'], 'mock-endpoint-adherence'),
+  mockConnector(5, 'Mock Endpoint Adherence (Intune-style)', ['B', 'C'], 'mock-endpoint-adherence'),
   mockConnector(6, 'Mock Web Filtering (Zscaler-style)', ['B'], 'mock-web-filtering', 'extended'),
   mockConnector(7, 'Mock Identity Policy (Okta-style)', ['B'], 'mock-identity-policy'),
   mockConnector(8, 'Mock DLP (Forcepoint-style)', ['B'], 'mock-dlp', 'extended'),
