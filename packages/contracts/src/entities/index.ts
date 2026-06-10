@@ -147,3 +147,22 @@ export type {
   ControlAssessmentValidation,
 } from './control-assessment';
 export { validateControlAssessment } from './control-assessment';
+
+// ─── Layer 5: Asset & Configuration (ITIL 4, ISO 19770) ─────────────────────
+export type {
+  AssetRecord,
+  AssetType,
+  AssetLifecycleStatus,
+  AssetCriticality,
+  AssetRecordValidation,
+} from './asset-record';
+export { validateAssetRecord } from './asset-record';
+
+export type {
+  ConfigurationItem,
+  CiType,
+  CiStatus,
+  DriftStatus,
+  ConfigurationItemValidation,
+} from './configuration-item';
+export { validateConfigurationItem } from './configuration-item';

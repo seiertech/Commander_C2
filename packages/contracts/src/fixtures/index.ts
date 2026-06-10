@@ -52,3 +52,11 @@ export {
   validateAllSeedPostureScores,
   validateAllSeedControlAssessments,
 } from './seed-risk-posture';
+
+// ─── Asset & Configuration (ITIL 4, ISO 19770) ──────────────────────────────
+export {
+  SEED_ASSET_RECORDS,
+  SEED_CONFIGURATION_ITEMS,
+  validateAllSeedAssetRecords,
+  validateAllSeedConfigurationItems,
+} from './seed-asset-config';
