@@ -73,9 +73,9 @@ export default function InternalOperatingPicturePage() {
 
   // ── 4. Internal attack surface risk objects ──
   const internalEntityIds = new Set<string>([
-    ...internalAssets.map((a) => a.id),
+    ...internalAssets.map((a) => a.asset_id),
     ...internalIdentities.map((i) => i.id),
-    ...internalCases.map((c) => c.id),
+    ...internalCases.map((c) => c.case_id),
   ]);
   const internalRiskObjects = thesisRiskObjects.filter((r) =>
     r.affected_entities?.some((id) => internalEntityIds.has(id)) || internalEntityIds.has(r.affected_entity_id),
@@ -133,8 +133,8 @@ export default function InternalOperatingPicturePage() {
                   </thead>
                   <tbody>
                     {internalAssets.map((a) => (
-                      <tr key={a.id}>
-                        <td><a href={`/assets?id=${a.id}`} style={{ fontSize: primitiveTypeScale.body, color: tokens.action.primary }}>{a.name}</a></td>
+                      <tr key={a.asset_id}>
+                        <td><a href={`/assets?id=${a.asset_id}`} style={{ fontSize: primitiveTypeScale.body, color: tokens.action.primary }}>{a.asset_name}</a></td>
                         <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{a.classification}</td>
                         <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{a.environment}</td>
                         <td className="text-end">{a.criticality}</td>
@@ -228,9 +228,9 @@ export default function InternalOperatingPicturePage() {
                 <table className="table table-vcenter card-table">
                   <tbody>
                     {internalCases.map((c) => (
-                      <tr key={c.id}>
+                      <tr key={c.case_id}>
                         <td style={{ width: '48px' }}><span className={`badge ${priorityBadge(c.priority)}`}>{c.priority}</span></td>
-                        <td><a href={`/cases/${c.id}`} style={{ fontSize: primitiveTypeScale.body, color: tokens.action.primary }}>{c.title}</a></td>
+                        <td><a href={`/cases/${c.case_id}`} style={{ fontSize: primitiveTypeScale.body, color: tokens.action.primary }}>{c.title}</a></td>
                         <td className="text-muted text-end" style={{ fontSize: primitiveTypeScale.caption, whiteSpace: 'nowrap' }}>{c.status}</td>
                       </tr>
                     ))}

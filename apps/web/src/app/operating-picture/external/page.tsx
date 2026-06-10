@@ -42,9 +42,9 @@ export default function ExternalOperatingPicturePage() {
 
   // ── 4. External attack surface risk objects (risk objects on external-attributed entities) ──
   const externalEntityIds = new Set<string>([
-    ...externalAssets.map((a) => a.id),
+    ...externalAssets.map((a) => a.asset_id),
     ...externalIdentities.map((i) => i.id),
-    ...externalCases.map((c) => c.id),
+    ...externalCases.map((c) => c.case_id),
   ]);
   const externalRiskObjects = thesisRiskObjects.filter((r) =>
     r.affected_entities?.some((id) => externalEntityIds.has(id)) || externalEntityIds.has(r.affected_entity_id),
@@ -111,9 +111,9 @@ export default function ExternalOperatingPicturePage() {
                   </thead>
                   <tbody>
                     {externalAssets.map((a) => (
-                      <tr key={a.id}>
+                      <tr key={a.asset_id}>
                         <td>
-                          <a href={`/assets?id=${a.id}`} style={{ fontSize: primitiveTypeScale.body, color: tokens.action.primary }}>{a.name}</a>
+                          <a href={`/assets?id=${a.asset_id}`} style={{ fontSize: primitiveTypeScale.body, color: tokens.action.primary }}>{a.asset_name}</a>
                         </td>
                         <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{a.classification}</td>
                         <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{a.environment}</td>
@@ -186,12 +186,12 @@ export default function ExternalOperatingPicturePage() {
                 <table className="table table-vcenter card-table">
                   <tbody>
                     {externalCases.map((c) => (
-                      <tr key={c.id}>
+                      <tr key={c.case_id}>
                         <td style={{ width: '48px' }}>
                           <span className={`badge ${priorityBadge(c.priority)}`}>{c.priority}</span>
                         </td>
                         <td>
-                          <a href={`/cases/${c.id}`} style={{ fontSize: primitiveTypeScale.body, color: tokens.action.primary }}>{c.title}</a>
+                          <a href={`/cases/${c.case_id}`} style={{ fontSize: primitiveTypeScale.body, color: tokens.action.primary }}>{c.title}</a>
                         </td>
                         <td className="text-muted text-end" style={{ fontSize: primitiveTypeScale.caption, whiteSpace: 'nowrap' }}>{c.status}</td>
                       </tr>

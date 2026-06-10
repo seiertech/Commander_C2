@@ -4,7 +4,7 @@ import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
-import { thesisTopology, thesisMissionSeeds } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisTopology, thesisMissions } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Fusion Map — Mission Overlay
@@ -16,7 +16,7 @@ import { thesisTopology, thesisMissionSeeds } from '../../../../../../packages/c
 export default function FusionMapMissionPage() {
   const { tokens } = useMode();
   const { nodes } = thesisTopology;
-  const activeMissions = thesisMissionSeeds.filter((m) => m.status === 'active');
+  const activeMissions = thesisMissions.filter((m) => m.status === 'active');
   const missionCaseRefs = new Set(activeMissions.flatMap((m) => m.alignedCases));
   const missionNodes = nodes.filter((n) => n.entity_type === 'case' && missionCaseRefs.has(n.entity_ref));
   const missionDomains = new Set(activeMissions.flatMap((m) => m.impact_domains));
@@ -52,8 +52,8 @@ export default function FusionMapMissionPage() {
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
               <thead><tr>{['Mission', 'Progress', 'Domains'].map((h) => <th key={h} style={{ textAlign: 'left', padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, borderBottom: `2px solid ${tokens.border.default}`, color: tokens.text.muted, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, fontSize: primitiveTypeScale.micro }}>{h}</th>)}</tr></thead>
               <tbody>{activeMissions.map((m) => (
-                <tr key={m.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{m.name}</td>
+                <tr key={m.mission_id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{m.mission_name}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{m.progress_percent}%</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontSize: primitiveTypeScale.micro }}>{m.impact_domains.join(', ')}</td>
                 </tr>
