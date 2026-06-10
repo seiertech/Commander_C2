@@ -8,9 +8,9 @@ import type { SearchIndexConfig } from '../entities/search-index-config';
 export const seedSearchConfigs: SearchIndexConfig[] = [
   {
     id: 'search-config-001',
-    entityType: 'search-index-config',
+    entity_type: 'search-index-config',
     indexId: 'idx-commander-universal',
-    entityTypes: [
+    entity_types: [
       'case',
       'risk-object',
       'asset',
@@ -30,16 +30,16 @@ export const seedSearchConfigs: SearchIndexConfig[] = [
     auditEnabled: true,
     lastReindexedAt: '2025-01-15T06:00:00Z',
     tenant: {
-      tenantId: 'tenant-001',
-      tenantName: 'Seiertech Demo',
+      tenant_id: 'tenant-001',
+      tenant_name: 'Seiertech Demo',
     },
     source: {
-      connectorId: 'system',
-      importRunId: 'init-001',
-      sourceSystem: 'commander-platform',
-      sourceTimestamp: '2025-01-01T00:00:00Z',
+      connector_id: 'system',
+      import_run_id: 'init-001',
+      source_system: 'commander-platform',
+      source_timestamp: '2025-01-01T00:00:00Z',
     },
-    createdAt: '2025-01-01T00:00:00Z',
-    updatedAt: '2025-01-15T06:00:00Z',
+    created_at: '2025-01-01T00:00:00Z',
+    updated_at: '2025-01-15T06:00:00Z',
   },
 ];

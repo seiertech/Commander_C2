@@ -15,10 +15,10 @@ import { thesisArchitectureComponents } from '../../../../../../packages/contrac
 
 export default function ArchitectureDriftPage() {
   const { tokens } = useMode();
-  const drifted = thesisArchitectureComponents.filter((c) => c.driftState !== 'compliant');
-  const major = drifted.filter((c) => c.driftState === 'major_drift').length;
-  const minor = drifted.filter((c) => c.driftState === 'minor_drift').length;
-  const compliant = thesisArchitectureComponents.filter((c) => c.driftState === 'compliant').length;
+  const drifted = thesisArchitectureComponents.filter((c) => c.drift_state !== 'compliant');
+  const major = drifted.filter((c) => c.drift_state === 'major_drift').length;
+  const minor = drifted.filter((c) => c.drift_state === 'minor_drift').length;
+  const compliant = thesisArchitectureComponents.filter((c) => c.drift_state === 'compliant').length;
 
   return (
     <PageContainer pretitle="Architecture › Drift" title="Architecture Drift">
@@ -34,11 +34,11 @@ export default function ArchitectureDriftPage() {
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
             <thead><tr>{['Component', 'Drift State', 'Baseline', 'Current', 'Last Scanned', 'Criticality'].map((h) => <th key={h} style={{ textAlign: 'left', padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, borderBottom: `2px solid ${tokens.border.default}`, color: tokens.text.muted, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, fontSize: primitiveTypeScale.micro }}>{h}</th>)}</tr></thead>
             <tbody>{thesisArchitectureComponents.map((c) => {
-              const dc = c.driftState === 'compliant' ? primitiveSignal.success : c.driftState === 'minor_drift' ? primitiveSignal.warning : primitiveSignal.critical;
+              const dc = c.drift_state === 'compliant' ? primitiveSignal.success : c.drift_state === 'minor_drift' ? primitiveSignal.warning : primitiveSignal.critical;
               return (
                 <tr key={c.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{c.name}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, color: '#fff', background: dc }}>{c.driftState.replace(/_/g, ' ')}</span></td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, color: '#fff', background: dc }}>{c.drift_state.replace(/_/g, ' ')}</span></td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{c.baselineVersion}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: c.baselineVersion !== c.currentVersion ? primitiveSignal.warning : tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{c.currentVersion}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{new Date(c.lastScannedAt).toLocaleString()}</td>

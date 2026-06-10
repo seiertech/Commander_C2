@@ -9,15 +9,15 @@
 import type { CommonFields } from './common';
 
 export interface AuditEvent extends CommonFields {
-  entityType: 'audit-event';
+  entity_type: 'audit-event';
   /** Actor who performed the action */
   actor: AuditActor;
   /** Action performed */
   action: string;
   /** Entity reference (what was acted upon) */
-  entityRef: {
-    entityType: string;
-    entityId: string;
+  entity_ref: {
+    entity_type: string;
+    entity_id: string;
   };
   /** Source signal that triggered this event */
   sourceSignal: string | null;

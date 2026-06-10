@@ -23,7 +23,7 @@ import { IOC_RELATIONSHIP_STATES } from './intelligence-common';
 
 export interface IocRelationship extends CommonFields {
   /** IOC entity ID — non-empty (Req 7.1/7.5) */
-  iocId: string;
+  ioc_id: string;
   /** Related entity ID — non-empty (Req 7.1/7.5) */
   relatedEntityId: string;
   /** Related entity type (CVE, advisory, campaign, malware, actor, case, risk_object, action) */
@@ -37,7 +37,7 @@ export interface IocRelationship extends CommonFields {
   /** When this relationship was last updated */
   lastUpdatedAt: string;
   /** Evidence reference */
-  evidenceRef: string;
+  evidence_ref: string;
   /** State history — appended on every state change (Req 7.3) */
   stateHistory: RelationshipStateTransition[];
 }
@@ -58,8 +58,8 @@ export function validateIocRelationship(
 ): IocRelationshipValidation {
   const errors: string[] = [];
 
-  if (!relationship.iocId || relationship.iocId.trim() === '') {
-    errors.push('iocId: required, must be a non-empty string');
+  if (!relationship.ioc_id || relationship.ioc_id.trim() === '') {
+    errors.push('ioc_id: required, must be a non-empty string');
   }
 
   if (!relationship.relatedEntityId || relationship.relatedEntityId.trim() === '') {
@@ -87,8 +87,8 @@ export function validateIocRelationship(
     errors.push('id: required');
   }
 
-  if (!relationship.tenant || !relationship.tenant.tenantId || relationship.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!relationship.tenant || !relationship.tenant.tenant_id || relationship.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
 
   return { valid: errors.length === 0, errors };

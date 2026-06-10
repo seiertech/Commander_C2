@@ -15,10 +15,10 @@ import { thesisExposures } from '../../../../../../packages/contracts/src/fixtur
 
 export default function ExposureBlastZonesPage() {
   const { tokens } = useMode();
-  const zones = Array.from(new Set(thesisExposures.map((e) => e.blastZone)));
+  const zones = Array.from(new Set(thesisExposures.map((e) => e.blast_zone)));
   const zoneData = zones.map((z) => {
-    const items = thesisExposures.filter((e) => e.blastZone === z);
-    return { zone: z, count: items.length, openCount: items.filter((e) => e.status === 'open').length, maxSeverity: Math.min(...items.map((e) => e.severity)) };
+    const items = thesisExposures.filter((e) => e.blast_zone === z);
+    return { zone: z, count: items.length, open_count: items.filter((e) => e.status === 'open').length, maxSeverity: Math.min(...items.map((e) => e.severity)) };
   });
 
   return (
@@ -38,7 +38,7 @@ export default function ExposureBlastZonesPage() {
               <tr key={z.zone} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{z.zone}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{z.count}</td>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono, color: z.openCount > 0 ? primitiveSignal.critical : tokens.text.secondary }}>{z.openCount}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono, color: z.open_count > 0 ? primitiveSignal.critical : tokens.text.secondary }}>{z.open_count}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono, color: z.maxSeverity <= 2 ? primitiveSignal.critical : primitiveSignal.warning }}>{z.maxSeverity}/5</td>
               </tr>
             ))}</tbody>

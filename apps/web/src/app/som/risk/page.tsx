@@ -11,7 +11,7 @@ import { thesisRiskObjects, thesisCases } from '../../../../../../packages/contr
  */
 export default function SomRiskPage() {
   const risks = thesisRiskObjects;
-  const openRisks = risks.filter((r) => r.treatmentState === 'open');
+  const openRisks = risks.filter((r) => r.treatment_state === 'open');
   const typeBreakdown = risks.reduce((acc, r) => { acc[r.type] = (acc[r.type] || 0) + 1; return acc; }, {} as Record<string, number>);
   const p0p1Cases = thesisCases.filter((c) => c.priority === 'P0' || c.priority === 'P1');
 
@@ -31,7 +31,7 @@ export default function SomRiskPage() {
               <thead><tr><th>Type</th><th>Count</th><th>Open</th></tr></thead>
               <tbody>
                 {Object.entries(typeBreakdown).sort((a, b) => b[1] - a[1]).map(([type, count]) => (
-                  <tr key={type}><td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{type}</td><td>{count}</td><td>{risks.filter((r) => r.type === type && r.treatmentState === 'open').length}</td></tr>
+                  <tr key={type}><td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{type}</td><td>{count}</td><td>{risks.filter((r) => r.type === type && r.treatment_state === 'open').length}</td></tr>
                 ))}
               </tbody>
             </table>

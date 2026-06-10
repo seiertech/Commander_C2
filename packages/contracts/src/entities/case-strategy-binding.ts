@@ -18,13 +18,13 @@ import type { StrategySurfaceType } from './strategy';
 /** A reference to a strategy policy binding */
 export interface StrategyPolicyRef {
   /** Strategy surface type — from Spec #32 canonical types */
-  surfaceType: StrategySurfaceType;
+  surface_type: StrategySurfaceType;
   /** Policy ID reference */
-  policyId: string;
+  policy_id: string;
   /** Policy version applied */
-  policyVersion: string;
+  policy_version: string;
   /** When this binding was evaluated */
-  evaluatedAt: string;
+  evaluated_at: string;
 }
 
 /**
@@ -33,7 +33,7 @@ export interface StrategyPolicyRef {
  */
 export interface CaseStrategyBinding {
   /** Case ID this binding applies to */
-  caseId: string;
+  case_id: string;
   /** Routing strategy — determines owner/team */
   routingStrategy: StrategyPolicyRef;
   /** SLA strategy — determines SLA target hours */

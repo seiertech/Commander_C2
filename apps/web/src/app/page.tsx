@@ -50,7 +50,7 @@ export default function CommandCentrePage() {
   // ── OODA phase-health thresholds — strategy-sourced (no hardcoded thresholds) ──
   // operational-tempo strategy supplies healthy/degraded/critical tempo thresholds.
   const tempoStrategy = thesisStrategies.find(
-    (s) => s.surfaceType === 'operational-tempo' && s.status === 'active',
+    (s) => s.surface_type === 'operational-tempo' && s.status === 'active',
   );
   const tempoCfg = (tempoStrategy?.configuration as { tempoThresholds?: { healthy: number; degraded: number; critical: number } } | undefined)?.tempoThresholds;
   // greenMin = healthy band floor; amberMin = degraded band floor; below amberMin = red.
@@ -63,7 +63,7 @@ export default function CommandCentrePage() {
   // ── OODA phase-health inputs derived deterministically from canonical seed state ──
   const activeConnectors = thesisConnectors.filter((c) => c.state === 'active').length;
   const connectorHealthRatio = thesisConnectors.length > 0 ? activeConnectors / thesisConnectors.length : 0;
-  const freshConnectors = thesisConnectors.filter((c) => c.lastRunStatus === 'success').length;
+  const freshConnectors = thesisConnectors.filter((c) => c.last_run_status === 'success').length;
   const signalFreshnessRatio = thesisConnectors.length > 0 ? freshConnectors / thesisConnectors.length : 0;
 
   const openCases = thesisCases.filter((c) => c.status === 'open' || c.status === 'in-progress');
@@ -111,15 +111,15 @@ export default function CommandCentrePage() {
   const casesByStatus = statusOrder
     .map((s) => ({ key: s, count: thesisCases.filter((c) => c.status === s).length }))
     .filter((s) => s.count > 0);
-  const externalCount = thesisCases.filter((c) => c.surfaceAttribution === 'external_attack_surface').length;
-  const internalCount = thesisCases.filter((c) => c.surfaceAttribution === 'internal_attack_surface').length;
+  const externalCount = thesisCases.filter((c) => c.surface_attribution === 'external_attack_surface').length;
+  const internalCount = thesisCases.filter((c) => c.surface_attribution === 'internal_attack_surface').length;
 
   // ── Risk object overview ──
   const riskByType = Array.from(
     thesisRiskObjects.reduce((m, r) => m.set(r.type, (m.get(r.type) ?? 0) + 1), new Map<string, number>()),
   ).map(([key, count]) => ({ key, count }));
   const riskByTreatment = Array.from(
-    thesisRiskObjects.reduce((m, r) => m.set(r.treatmentState, (m.get(r.treatmentState) ?? 0) + 1), new Map<string, number>()),
+    thesisRiskObjects.reduce((m, r) => m.set(r.treatment_state, (m.get(r.treatment_state) ?? 0) + 1), new Map<string, number>()),
   ).map(([key, count]) => ({ key, count }));
 
   // ── Connector health overview ──

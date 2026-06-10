@@ -138,7 +138,7 @@ export function getPermittedActors(from: CaseStatus, to: CaseStatus): readonly L
 /** Immutable record of a case lifecycle transition */
 export interface CaseTransitionRecord {
   id: string;
-  caseId: string;
+  case_id: string;
   from: CaseStatus;
   to: CaseStatus;
   actor: LifecycleActor;
@@ -160,7 +160,7 @@ export interface TransitionResult {
 
 /** Full lifecycle history for a case */
 export interface CaseLifecycleHistory {
-  caseId: string;
+  case_id: string;
   records: CaseTransitionRecord[];
 }
 
@@ -174,7 +174,7 @@ export interface CaseLifecycleHistory {
  * - request.transition.from MUST match currentStatus
  */
 export function executeTransition(
-  caseId: string,
+  case_id: string,
   currentStatus: CaseStatus,
   request: TransitionRequest,
 ): TransitionResult {
@@ -225,8 +225,8 @@ export function executeTransition(
 
   // 5. Success — produce transition record
   const record: CaseTransitionRecord = {
-    id: `txn-${caseId}-${Date.now()}`,
-    caseId,
+    id: `txn-${case_id}-${Date.now()}`,
+    case_id,
     from: currentStatus,
     to: request.transition.to,
     actor: request.actor,

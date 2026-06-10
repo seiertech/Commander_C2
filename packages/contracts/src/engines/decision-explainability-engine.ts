@@ -18,18 +18,18 @@ import type { DecisionRecord, DecisionFactor } from '../entities/decision-record
 // ─── Output Types ────────────────────────────────────────────────────────────
 
 export interface RuleHit {
-  ruleRef: string;
-  decisionRef: string;
+  rule_ref: string;
+  decision_ref: string;
   confidence: number;
-  decidedAt: string;
+  decided_at: string;
   outputAction: string;
 }
 
 export interface EngineOutput {
-  engineRef: string;
-  decisionRef: string;
+  engine_ref: string;
+  decision_ref: string;
   confidence: number;
-  decidedAt: string;
+  decided_at: string;
   outputAction: string;
   rationale: string;
 }
@@ -38,13 +38,13 @@ export interface HumanReadableExplanation {
   summary: string;
   factors: Array<{ name: string; value: string; weight: number; contribution: string }>;
   confidence: number;
-  decidedBy: string;
+  decided_by: string;
   overridden: boolean;
-  overrideReason?: string;
+  override_reason?: string;
 }
 
 export interface DecisionExplanation {
-  caseRef: string;
+  case_ref: string;
   totalDecisions: number;
   decisions: DecisionRecord[];
   ruleHits: RuleHit[];
@@ -56,10 +56,10 @@ export interface DecisionExplanation {
 /**
  * Explain all decisions associated with a case.
  */
-export function explainDecision(caseRef: string, allRecords: DecisionRecord[]): DecisionExplanation {
-  const decisions = allRecords.filter((r) => r.caseRef === caseRef);
+export function explainDecision(case_ref: string, allRecords: DecisionRecord[]): DecisionExplanation {
+  const decisions = allRecords.filter((r) => r.case_ref === caseRef);
   return {
-    caseRef,
+    case_ref,
     totalDecisions: decisions.length,
     decisions,
     ruleHits: traceRuleHits(caseRef, allRecords),
@@ -70,14 +70,14 @@ export function explainDecision(caseRef: string, allRecords: DecisionRecord[]): 
 /**
  * Extract rule-hit decisions for a case.
  */
-export function traceRuleHits(caseRef: string, allRecords: DecisionRecord[]): RuleHit[] {
+export function traceRuleHits(case_ref: string, allRecords: DecisionRecord[]): RuleHit[] {
   return allRecords
-    .filter((r) => r.caseRef === caseRef && r.decisionType === 'rule_hit' && r.ruleRef)
+    .filter((r) => r.case_ref === caseRef && r.decision_type === 'rule_hit' && r.rule_ref)
     .map((r) => ({
-      ruleRef: r.ruleRef!,
-      decisionRef: r.recordId,
+      rule_ref: r.rule_ref!,
+      decision_ref: r.recordId,
       confidence: r.confidence,
-      decidedAt: r.decidedAt,
+      decided_at: r.decided_at,
       outputAction: r.outputAction,
     }));
 }
@@ -85,14 +85,14 @@ export function traceRuleHits(caseRef: string, allRecords: DecisionRecord[]): Ru
 /**
  * Extract engine-output decisions for a case.
  */
-export function traceEngineOutputs(caseRef: string, allRecords: DecisionRecord[]): EngineOutput[] {
+export function traceEngineOutputs(case_ref: string, allRecords: DecisionRecord[]): EngineOutput[] {
   return allRecords
-    .filter((r) => r.caseRef === caseRef && r.decisionType === 'engine_output' && r.engineRef)
+    .filter((r) => r.case_ref === caseRef && r.decision_type === 'engine_output' && r.engine_ref)
     .map((r) => ({
-      engineRef: r.engineRef!,
-      decisionRef: r.recordId,
+      engine_ref: r.engine_ref!,
+      decision_ref: r.recordId,
       confidence: r.confidence,
-      decidedAt: r.decidedAt,
+      decided_at: r.decided_at,
       outputAction: r.outputAction,
       rationale: r.rationale,
     }));
@@ -113,8 +113,8 @@ export function renderRationale(decision: DecisionRecord): HumanReadableExplanat
     summary: decision.rationale,
     factors,
     confidence: decision.confidence,
-    decidedBy: decision.decidedBy,
+    decided_by: decision.decided_by,
     overridden: decision.overridden,
-    overrideReason: decision.overrideReason,
+    override_reason: decision.override_reason,
   };
 }

@@ -15,8 +15,8 @@ import { thesisControlEvaluations } from '../../../../../../packages/contracts/s
 
 export default function GovernanceExceptionsPage() {
   const { tokens } = useMode();
-  const exceptions = thesisControlEvaluations.filter((e) => e.exceptionState !== 'none');
-  const acceptedRisk = exceptions.filter((e) => e.exceptionState === 'accepted_risk').length;
+  const exceptions = thesisControlEvaluations.filter((e) => e.exception_state !== 'none');
+  const acceptedRisk = exceptions.filter((e) => e.exception_state === 'accepted_risk').length;
   const allEvals = thesisControlEvaluations.length;
 
   return (
@@ -36,11 +36,11 @@ export default function GovernanceExceptionsPage() {
               <tr><td colSpan={7} style={{ padding: primitiveSpacing[4], textAlign: 'center', color: tokens.text.muted }}>No exceptions recorded.</td></tr>
             ) : exceptions.map((e) => (
               <tr key={e.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{e.frameworkId}</td>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontFamily: primitiveFonts.mono }}>{e.controlId}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{e.framework_id}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontFamily: primitiveFonts.mono }}>{e.control_id}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{e.evaluatedEntityId}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, color: '#fff', background: primitiveSignal.critical }}>NON-ADHERENT</span></td>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, color: '#fff', background: primitiveSignal.warning }}>{(e.exceptionState ?? 'unknown').replace(/_/g, ' ')}</span></td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, color: '#fff', background: primitiveSignal.warning }}>{(e.exception_state ?? 'unknown').replace(/_/g, ' ')}</span></td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{e.confidence}%</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{e.nextEvaluationDue ? new Date(e.nextEvaluationDue).toLocaleDateString() : '—'}</td>
               </tr>

@@ -32,9 +32,9 @@ export default function TeamPulseWorkloadPage() {
 
   const teams = thesisTeamPulse.filter((e) => e.level === 'team');
   const individuals = thesisTeamPulse.filter((e) => e.level === 'individual');
-  const totalOpen = teams.reduce((acc, t) => acc + t.openCases, 0);
-  const totalHighPriority = teams.reduce((acc, t) => acc + t.highPriorityCases, 0);
-  const totalSlaBreached = teams.reduce((acc, t) => acc + t.slaBreachedCases, 0);
+  const totalOpen = teams.reduce((acc, t) => acc + t.open_cases, 0);
+  const totalHighPriority = teams.reduce((acc, t) => acc + t.high_priority_cases, 0);
+  const totalSlaBreached = teams.reduce((acc, t) => acc + t.sla_breached_cases, 0);
 
   const bandColor = (band: string) =>
     band === 'red' ? primitiveSignal.critical : band === 'amber' ? primitiveSignal.warning : primitiveSignal.success;
@@ -44,7 +44,7 @@ export default function TeamPulseWorkloadPage() {
     theme: { mode: mode === 'mission' ? 'dark' : 'light' },
     colors: [primitiveData[1], primitiveData[3], primitiveSignal.critical],
     plotOptions: { bar: { horizontal: true, barHeight: '60%', borderRadius: 0 } },
-    xaxis: { categories: teams.map((t) => t.teamOrAnalyst), labels: { style: { colors: tokens.text.muted, fontSize: primitiveTypeScale.micro } } },
+    xaxis: { categories: teams.map((t) => t.team_or_analyst), labels: { style: { colors: tokens.text.muted, fontSize: primitiveTypeScale.micro } } },
     yaxis: { labels: { style: { colors: tokens.text.muted, fontSize: primitiveTypeScale.micro } } },
     grid: { borderColor: tokens.border.subtle, strokeDashArray: 3 },
     legend: { labels: { colors: tokens.text.secondary }, fontSize: primitiveTypeScale.caption },
@@ -53,9 +53,9 @@ export default function TeamPulseWorkloadPage() {
   };
 
   const chartSeries = [
-    { name: 'Open Cases', data: teams.map((t) => t.openCases) },
-    { name: 'High Priority', data: teams.map((t) => t.highPriorityCases) },
-    { name: 'SLA Breached', data: teams.map((t) => t.slaBreachedCases) },
+    { name: 'Open Cases', data: teams.map((t) => t.open_cases) },
+    { name: 'High Priority', data: teams.map((t) => t.high_priority_cases) },
+    { name: 'SLA Breached', data: teams.map((t) => t.sla_breached_cases) },
   ];
 
   return (
@@ -89,13 +89,13 @@ export default function TeamPulseWorkloadPage() {
             <tbody>
               {teams.map((t) => (
                 <tr key={t.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{t.teamOrAnalyst}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.openCases}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.highPriorityCases}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: t.slaBreachedCases > 0 ? primitiveSignal.critical : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.slaBreachedCases}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', color: '#fff', background: bandColor(t.workloadBand) }}>{t.workloadBand}</span></td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.hoursSinceLastClosure}h</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.escalationQueueDepth}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{t.team_or_analyst}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.open_cases}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.high_priority_cases}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: t.sla_breached_cases > 0 ? primitiveSignal.critical : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.sla_breached_cases}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', color: '#fff', background: bandColor(t.workload_band) }}>{t.workload_band}</span></td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.hours_since_last_closure}h</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.escalation_queue_depth}</td>
                 </tr>
               ))}
             </tbody>
@@ -118,12 +118,12 @@ export default function TeamPulseWorkloadPage() {
             <tbody>
               {individuals.map((t) => (
                 <tr key={t.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{t.teamOrAnalyst}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.openCases}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.highPriorityCases}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: t.slaBreachedCases > 0 ? primitiveSignal.critical : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.slaBreachedCases}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', color: '#fff', background: bandColor(t.workloadBand) }}>{t.workloadBand}</span></td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.hoursSinceLastClosure}h</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{t.team_or_analyst}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.open_cases}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.high_priority_cases}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: t.sla_breached_cases > 0 ? primitiveSignal.critical : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.sla_breached_cases}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', color: '#fff', background: bandColor(t.workload_band) }}>{t.workload_band}</span></td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.hours_since_last_closure}h</td>
                 </tr>
               ))}
             </tbody>

@@ -30,7 +30,7 @@ export default function SystemPulseEnginePage() {
   const degraded = thesisSystemPulse.filter((s) => s.health === 'degraded').length;
   const offline = thesisSystemPulse.filter((s) => s.health === 'offline').length;
   const avgErrorRate = thesisSystemPulse.length > 0
-    ? (thesisSystemPulse.reduce((acc, s) => acc + s.errorRate, 0) / thesisSystemPulse.length).toFixed(1)
+    ? (thesisSystemPulse.reduce((acc, s) => acc + s.error_rate, 0) / thesisSystemPulse.length).toFixed(1)
     : '0';
 
   const healthColor = (h: string) =>
@@ -53,8 +53,8 @@ export default function SystemPulseEnginePage() {
   };
 
   const chartSeries = [
-    { name: 'Processing Rate', data: thesisSystemPulse.map((s) => s.processingRate) },
-    { name: 'Error Rate %', data: thesisSystemPulse.map((s) => s.errorRate) },
+    { name: 'Processing Rate', data: thesisSystemPulse.map((s) => s.processing_rate) },
+    { name: 'Error Rate %', data: thesisSystemPulse.map((s) => s.error_rate) },
   ];
 
   return (
@@ -90,10 +90,10 @@ export default function SystemPulseEnginePage() {
                 <tr key={s.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{s.subsystem}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', color: '#fff', background: healthColor(s.health) }}>{s.health}</span></td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{s.processingRate}/hr</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: s.errorRate > 3 ? primitiveSignal.warning : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{s.errorRate}%</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: s.queueBacklog > 10 ? primitiveSignal.warning : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{s.queueBacklog}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{s.dataFreshnessHours}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{s.processing_rate}/hr</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: s.error_rate > 3 ? primitiveSignal.warning : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{s.error_rate}%</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: s.queue_backlog > 10 ? primitiveSignal.warning : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{s.queue_backlog}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{s.data_freshness_hours}</td>
                 </tr>
               ))}
             </tbody>

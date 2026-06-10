@@ -18,9 +18,9 @@ import { IOC_MATCH_TYPES } from './intelligence-common';
 
 export interface TenantIocMatch extends CommonFields {
   /** Customer tenant ID — present (Req 12.3) */
-  tenantId: string;
+  tenant_id: string;
   /** IOC entity ID — non-empty, cross-plane reference (Req 12.1/12.3) */
-  iocId: string;
+  ioc_id: string;
   /** Reference to existing Observable COIM-D — preserving dedup (Req 12.1/12.2) */
   matchedObservableId: string;
   /** Match type classification (Req 12.1/12.3) */
@@ -28,7 +28,7 @@ export interface TenantIocMatch extends CommonFields {
   /** Match confidence 0–100 (Req 12.1/12.3) */
   matchConfidence: number;
   /** When the match was identified */
-  matchedAt: string;
+  matched_at: string;
   /** Match source identifier */
   matchSource: string;
   /** Evidence references */
@@ -52,12 +52,12 @@ export function validateTenantIocMatch(
 ): TenantIocMatchValidation {
   const errors: string[] = [];
 
-  if (!match.tenantId || match.tenantId.trim() === '') {
-    errors.push('tenantId: required');
+  if (!match.tenant_id || match.tenant_id.trim() === '') {
+    errors.push('tenant_id: required');
   }
 
-  if (!match.iocId || match.iocId.trim() === '') {
-    errors.push('iocId: required, must reference an Indicator_Of_Compromise');
+  if (!match.ioc_id || match.ioc_id.trim() === '') {
+    errors.push('ioc_id: required, must reference an Indicator_Of_Compromise');
   }
 
   if (!match.matchedObservableId || match.matchedObservableId.trim() === '') {
@@ -76,8 +76,8 @@ export function validateTenantIocMatch(
     errors.push('id: required');
   }
 
-  if (!match.tenant || !match.tenant.tenantId || match.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!match.tenant || !match.tenant.tenant_id || match.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
 
   return { valid: errors.length === 0, errors };

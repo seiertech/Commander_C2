@@ -92,8 +92,8 @@ export default function PlatformAuditPage() {
                       <SeverityBadge severity={e.severity} />
                     </td>
                     <td style={{ fontSize: primitiveTypeScale.body }}>{e.message}</td>
-                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{e.entityRef}</td>
-                    <td><span className="badge bg-secondary">{e.entityType}</span></td>
+                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{e.entity_ref}</td>
+                    <td><span className="badge bg-secondary">{e.entity_type}</span></td>
                   </tr>
                 ))}
               </tbody>

@@ -33,7 +33,7 @@ export default function ControlPlaneSupportPage() {
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{s.category.replace(/_/g, ' ')}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, color: '#fff', background: s.priority === 'critical' ? primitiveSignal.critical : s.priority === 'high' ? primitiveSignal.warning : primitiveSignal.neutral }}>{s.priority}</span></td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, color: '#fff', background: s.status === 'resolved' ? primitiveSignal.success : s.status === 'in_progress' ? primitiveSignal.info : primitiveSignal.neutral }}>{s.status.replace(/_/g, ' ')}</span></td>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontSize: primitiveTypeScale.micro }}>{s.assignedTo}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontSize: primitiveTypeScale.micro }}>{s.assigned_to}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{new Date(s.openedAt).toLocaleDateString()}</td>
               </tr>
             ))}</tbody>

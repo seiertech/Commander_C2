@@ -131,11 +131,11 @@ export interface DomainProfile<TContext = unknown> {
   /** Resolve priority signals for this domain */
   signalResolver: SignalResolver<TContext>;
   /** Compute domain-specific SLA modifiers */
-  slaModifiers: SlaModifierResolver<TContext>;
+  sla_modifiers: SlaModifierResolver<TContext>;
   /** Define validation types for this domain */
   validationProfile: ValidationProfileResolver<TContext>;
   /** Evaluate domain-specific closure gates */
-  closureGates: ClosureGateEvaluator<TContext>;
+  closure_gates: ClosureGateEvaluator<TContext>;
   /** Evaluate domain-specific reopening triggers */
-  reopeningTriggers: ReopeningTriggerEvaluator<TContext>;
+  reopening_triggers: ReopeningTriggerEvaluator<TContext>;
 }

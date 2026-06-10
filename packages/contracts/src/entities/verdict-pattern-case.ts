@@ -58,7 +58,7 @@ export type EvidenceGrade = typeof EVIDENCE_GRADES[number];
 // ─── Verdict Pattern Case Entity ─────────────────────────────────────────────
 
 export interface VerdictPatternCase extends CommonFields {
-  entityType: 'verdict-pattern-case';
+  entity_type: 'verdict-pattern-case';
   /** Unique pattern identifier */
   patternId: string;
   /** Identity reference exhibiting the pattern */
@@ -82,7 +82,7 @@ export interface VerdictPatternCase extends CommonFields {
   /** When the customer recorded the outcome */
   outcomeRecordedAt?: string;
   /** When the case was closed */
-  closedAt?: string;
+  closed_at?: string;
   /** Outcome category (null until recorded) */
   outcomeCategory: OutcomeCategory | null;
   /** Who the investigation was handed off to */
@@ -104,7 +104,7 @@ export function validateVerdictPatternCase(c: VerdictPatternCase): VerdictPatter
   const errors: string[] = [];
 
   if (!c.id || c.id.trim() === '') errors.push('id: required');
-  if (!c.tenant || !c.tenant.tenantId) errors.push('tenant.tenantId: required');
+  if (!c.tenant || !c.tenant.tenant_id) errors.push('tenant.tenant_id: required');
   if (!c.patternId || c.patternId.trim() === '') errors.push('patternId: required');
   if (!c.identityRef || c.identityRef.trim() === '') errors.push('identityRef: required');
   if (!PATTERN_TYPES.includes(c.patternType)) {

@@ -32,7 +32,7 @@ export default function SettingsConnectorsPage() {
                     <td>{c.classes.map((cls) => <span key={cls} className="badge bg-blue-lt me-1">{cls} — {CONNECTOR_CLASS_LABELS[cls]}</span>)}</td>
                     <td><span className={`badge ${c.state === 'active' ? 'bg-green-lt' : c.state === 'error' ? 'bg-red-lt' : 'bg-secondary'}`}>{c.state}</span></td>
                     <td><span className="badge bg-secondary">{c.tier}</span></td>
-                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{c.lastRunAt ? new Date(c.lastRunAt).toLocaleString() : 'Never'}</td>
+                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{c.last_run_at ? new Date(c.last_run_at).toLocaleString() : 'Never'}</td>
                   </tr>
                 ))}
               </tbody>

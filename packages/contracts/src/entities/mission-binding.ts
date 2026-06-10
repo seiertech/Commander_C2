@@ -32,23 +32,23 @@ export type BoundBy = typeof BOUND_BY_OPTIONS[number];
 // ─── Mission Binding Entity ──────────────────────────────────────────────────
 
 export interface MissionBinding extends CommonFields {
-  entityType: 'mission-binding';
+  entity_type: 'mission-binding';
   /** Unique binding identifier */
-  bindingId: string;
+  binding_id: string;
   /** Mission this binding belongs to */
-  missionId: string;
+  mission_id: string;
   /** Type of entity being bound */
   boundEntityType: BindingEntityType;
   /** Reference to the bound entity */
-  entityRef: string;
+  entity_ref: string;
   /** Method used to create this binding */
   bindingMethod: BindingMethod;
   /** Confidence score (0-100) */
   confidence: number;
   /** When the binding was created */
-  boundAt: string;
+  bound_at: string;
   /** Who/what created the binding */
-  boundBy: BoundBy;
+  bound_by: BoundBy;
   /** Whether this binding is currently active */
   active: boolean;
 }
@@ -69,20 +69,20 @@ export function validateMissionBinding(binding: MissionBinding): MissionBindingV
   if (!binding.id || binding.id.trim() === '') {
     errors.push('id: required');
   }
-  if (!binding.tenant || !binding.tenant.tenantId || binding.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!binding.tenant || !binding.tenant.tenant_id || binding.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
-  if (!binding.bindingId || binding.bindingId.trim() === '') {
-    errors.push('bindingId: required');
+  if (!binding.binding_id || binding.binding_id.trim() === '') {
+    errors.push('binding_id: required');
   }
-  if (!binding.missionId || binding.missionId.trim() === '') {
-    errors.push('missionId: required');
+  if (!binding.mission_id || binding.mission_id.trim() === '') {
+    errors.push('mission_id: required');
   }
   if (!BINDING_ENTITY_TYPES.includes(binding.boundEntityType)) {
     errors.push(`boundEntityType: must be one of: ${BINDING_ENTITY_TYPES.join(', ')}`);
   }
-  if (!binding.entityRef || binding.entityRef.trim() === '') {
-    errors.push('entityRef: required');
+  if (!binding.entity_ref || binding.entity_ref.trim() === '') {
+    errors.push('entity_ref: required');
   }
   if (!BINDING_METHODS.includes(binding.bindingMethod)) {
     errors.push(`bindingMethod: must be one of: ${BINDING_METHODS.join(', ')}`);
@@ -90,11 +90,11 @@ export function validateMissionBinding(binding: MissionBinding): MissionBindingV
   if (typeof binding.confidence !== 'number' || binding.confidence < 0 || binding.confidence > 100) {
     errors.push('confidence: must be 0-100');
   }
-  if (!binding.boundAt || binding.boundAt.trim() === '') {
-    errors.push('boundAt: required');
+  if (!binding.bound_at || binding.bound_at.trim() === '') {
+    errors.push('bound_at: required');
   }
-  if (!BOUND_BY_OPTIONS.includes(binding.boundBy)) {
-    errors.push(`boundBy: must be one of: ${BOUND_BY_OPTIONS.join(', ')}`);
+  if (!BOUND_BY_OPTIONS.includes(binding.bound_by)) {
+    errors.push(`bound_by: must be one of: ${BOUND_BY_OPTIONS.join(', ')}`);
   }
   if (typeof binding.active !== 'boolean') {
     errors.push('active: must be a boolean');

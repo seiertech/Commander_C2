@@ -10,10 +10,10 @@ import { thesisAssets, thesisConnectors, thesisCloudSecurityPosture } from '../.
  * Route: /som/cloud-security | Nav Group: SOM
  */
 export default function SomCloudSecurityPage() {
-  const cloudAssets = thesisAssets.filter((a) => a.platform?.cloudProvider);
-  const cloudProviders = cloudAssets.reduce((acc, a) => { const p = a.platform!.cloudProvider!; acc[p] = (acc[p] || 0) + 1; return acc; }, {} as Record<string, number>);
-  const cloudConnectors = thesisConnectors.filter((c) => c.sourceType.includes('aws') || c.sourceType.includes('azure') || c.sourceType.includes('gcp'));
-  const avgAdherence = thesisCloudSecurityPosture.length ? Math.round(thesisCloudSecurityPosture.reduce((s, p) => s + p.adherenceScore, 0) / thesisCloudSecurityPosture.length) : 0;
+  const cloudAssets = thesisAssets.filter((a) => a.platform?.cloud_provider);
+  const cloudProviders = cloudAssets.reduce((acc, a) => { const p = a.platform!.cloud_provider!; acc[p] = (acc[p] || 0) + 1; return acc; }, {} as Record<string, number>);
+  const cloudConnectors = thesisConnectors.filter((c) => c.source_type.includes('aws') || c.source_type.includes('azure') || c.source_type.includes('gcp'));
+  const avgAdherence = thesisCloudSecurityPosture.length ? Math.round(thesisCloudSecurityPosture.reduce((s, p) => s + p.adherence_score, 0) / thesisCloudSecurityPosture.length) : 0;
   const totalDrift = thesisCloudSecurityPosture.reduce((s, p) => s + p.driftCount, 0);
   const totalCritical = thesisCloudSecurityPosture.reduce((s, p) => s + p.criticalFindings, 0);
 
@@ -31,11 +31,11 @@ export default function SomCloudSecurityPage() {
         <div key={posture.id} className="card mb-3">
           <div className="card-header">
             <h3 className="card-title" style={{ display: 'flex', alignItems: 'center', gap: primitiveSpacing[2] }}>
-              <span style={{ textTransform: 'uppercase', fontWeight: primitiveFontWeight.bold }}>{posture.cloudProvider}</span>
+              <span style={{ textTransform: 'uppercase', fontWeight: primitiveFontWeight.bold }}>{posture.cloud_provider}</span>
               <span style={{ fontSize: primitiveTypeScale.micro, color: 'var(--tblr-secondary)', fontFamily: primitiveFonts.mono }}>{posture.accountId} · {posture.region}</span>
             </h3>
             <div className="card-actions">
-              <span style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.bold, color: posture.adherenceScore >= 85 ? primitiveSignal.success : posture.adherenceScore >= 70 ? primitiveSignal.warning : primitiveSignal.critical }}>{posture.adherenceScore}% compliant</span>
+              <span style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.bold, color: posture.adherence_score >= 85 ? primitiveSignal.success : posture.adherence_score >= 70 ? primitiveSignal.warning : primitiveSignal.critical }}>{posture.adherence_score}% compliant</span>
             </div>
           </div>
           <div className="card-body">

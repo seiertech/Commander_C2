@@ -65,7 +65,7 @@ export default function AssetsClassificationPage() {
               </thead>
               <tbody>
                 {classifications.map(([cls, assets]) => {
-                  const ext = assets.filter((a) => a.surfaceAttribution === 'external_attack_surface').length;
+                  const ext = assets.filter((a) => a.surface_attribution === 'external_attack_surface').length;
                   const int_ = assets.length - ext;
                   const avgCrit = (assets.reduce((s, a) => s + a.criticality, 0) / assets.length).toFixed(1);
                   return (
@@ -103,8 +103,8 @@ export default function AssetsClassificationPage() {
                     <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{a.assetDataClassification ?? 'unclassified'}</td>
                     <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{a.environment}</td>
                     <td>
-                      <span className={`badge ${a.surfaceAttribution === 'external_attack_surface' ? 'bg-azure-lt' : 'bg-purple-lt'}`}>
-                        {a.surfaceAttribution === 'external_attack_surface' ? 'External' : 'Internal'}
+                      <span className={`badge ${a.surface_attribution === 'external_attack_surface' ? 'bg-azure-lt' : 'bg-purple-lt'}`}>
+                        {a.surface_attribution === 'external_attack_surface' ? 'External' : 'Internal'}
                       </span>
                     </td>
                     <td className="text-end">{a.criticality}</td>

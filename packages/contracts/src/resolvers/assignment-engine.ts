@@ -39,8 +39,8 @@ export type AnalystRank = 'junior' | 'mid' | 'senior' | 'lead';
 /** Routing strategy configuration shape (D4-extended) */
 export interface RoutingStrategyConfig {
   teamAffinity: Record<string, string>;
-  escalationPath: string[];
-  workloadMax: number;
+  escalation_path: string[];
+  workload_max: number;
   antiHoardingCap: number;
   escalationTimeoutHours: number;
   rankWeighting: Record<AnalystRank, number>;
@@ -56,16 +56,16 @@ export interface AssignmentResult {
   assignedOwnerId: string | null;
   assignedTeam: string | null;
   routingRationale: string;
-  escalationPath: string[];
-  sourcePolicy: { id: string; version: string };
+  escalation_path: string[];
+  source_policy: { id: string; version: string };
   auditEvent: AssignmentAuditEvent;
 }
 
 /** Audit event emitted on every assignment or reassignment */
 export interface AssignmentAuditEvent {
   type: 'assignment' | 'reassignment';
-  caseId: string;
-  caseType: string;
+  case_id: string;
+  case_type: string;
   assignedOwner: string | null;
   assignedOwnerId: string | null;
   assignedTeam: string | null;
@@ -73,7 +73,7 @@ export interface AssignmentAuditEvent {
   previousOwnerId: string | null;
   reason: string;
   timestamp: string;
-  policyRef: { id: string; version: string };
+  policy_ref: { id: string; version: string };
 }
 
 /** Reassignment reason types */
@@ -81,8 +81,8 @@ export type ReassignmentReason = 'workload-rebalance' | 'escalation-timeout';
 
 /** Reassignment request — system-driven only */
 export interface ReassignmentRequest {
-  caseId: string;
-  caseType: CaseTypeExtended;
+  case_id: string;
+  case_type: CaseTypeExtended;
   currentOwnerId: string;
   currentOwner: string;
   reason: ReassignmentReason;
@@ -95,7 +95,7 @@ export interface ReassignmentRequest {
  * All thresholds consumed from strategy.
  */
 export interface WorkloadSnapshot {
-  analystId: string;
+  analyst_id: string;
   activeCaseCount: number;
   casesByType: Record<string, number>;
 }
@@ -106,7 +106,7 @@ export interface WorkloadSnapshot {
  */
 export function hasCapacity(
   snapshot: WorkloadSnapshot,
-  workloadMax: number,
+  workload_max: number,
 ): boolean {
   return snapshot.activeCaseCount < workloadMax;
 }
@@ -117,7 +117,7 @@ export function hasCapacity(
  */
 export function loadFactor(
   snapshot: WorkloadSnapshot,
-  workloadMax: number,
+  workload_max: number,
 ): number {
   if (workloadMax <= 0) return 1;
   return snapshot.activeCaseCount / workloadMax;
@@ -131,7 +131,7 @@ export function loadFactor(
  */
 export function matchesSpecialism(
   analystProfile: AnalystProfile,
-  caseType: string,
+  case_type: string,
 ): boolean {
   return analystProfile.specialisms.includes(caseType);
 }
@@ -141,7 +141,7 @@ export function matchesSpecialism(
  */
 export function filterBySpecialism(
   analysts: Record<string, AnalystProfile>,
-  caseType: string,
+  case_type: string,
 ): string[] {
   return Object.entries(analysts)
     .filter(([_, profile]) => matchesSpecialism(profile, caseType))
@@ -157,7 +157,7 @@ export function filterBySpecialism(
  */
 export function passesAntiHoarding(
   snapshot: WorkloadSnapshot,
-  caseType: string,
+  case_type: string,
   antiHoardingCap: number,
 ): boolean {
   const currentCount = snapshot.casesByType[caseType] ?? 0;
@@ -175,7 +175,7 @@ export function passesAntiHoarding(
 export function assignmentScore(
   snapshot: WorkloadSnapshot,
   analystProfile: AnalystProfile,
-  workloadMax: number,
+  workload_max: number,
   rankWeighting: Record<AnalystRank, number>,
 ): number {
   const load = loadFactor(snapshot, workloadMax);
@@ -197,7 +197,7 @@ export function extractRoutingConfig(strategies: StrategyPolicy[]): {
   policy: StrategyPolicy;
 } {
   const routingPolicy = strategies.find(
-    (s) => s.surfaceType === 'routing' && s.status === 'active',
+    (s) => s.surface_type === 'routing' && s.status === 'active',
   );
 
   if (!routingPolicy) {
@@ -244,13 +244,13 @@ export function extractRoutingConfig(strategies: StrategyPolicy[]): {
  * 8. If no candidate found, escalate
  */
 export function assignCase(
-  caseId: string,
-  caseType: CaseTypeExtended,
+  case_id: string,
+  case_type: CaseTypeExtended,
   workloadSnapshots: WorkloadSnapshot[],
   strategies: StrategyPolicy[],
 ): AssignmentResult {
   const { config, policy } = extractRoutingConfig(strategies);
-  const policyRef = { id: policy.id, version: policy.policyVersion };
+  const policyRef = { id: policy.id, version: policy.policy_version };
   const timestamp = new Date().toISOString();
 
   // 1. Resolve team affinity
@@ -261,21 +261,21 @@ export function assignCase(
       assignedOwner: null,
       assignedOwnerId: null,
       assignedTeam: null,
-      routingRationale: `No team affinity configured for case type "${caseType}"`,
-      escalationPath: config.escalationPath,
-      sourcePolicy: policyRef,
+      routingRationale: `No team affinity configured for case type "${case_type}"`,
+      escalation_path: config.escalation_path,
+      source_policy: policyRef,
       auditEvent: {
         type: 'assignment',
-        caseId,
-        caseType: caseType as string,
+        case_id,
+        case_type: caseType as string,
         assignedOwner: null,
         assignedOwnerId: null,
         assignedTeam: null,
         previousOwner: null,
         previousOwnerId: null,
-        reason: `No team affinity for case type "${caseType}" — escalation required`,
+        reason: `No team affinity for case type "${case_type}" — escalation required`,
         timestamp,
-        policyRef,
+        policy_ref,
       },
     };
     return result;
@@ -291,24 +291,24 @@ export function assignCase(
 
   // 4. Filter by workload capacity
   const withCapacity = specialismMatched.filter(([analystId]) => {
-    const snapshot = workloadSnapshots.find((s) => s.analystId === analystId);
+    const snapshot = workloadSnapshots.find((s) => s.analyst_id === analystId);
     if (!snapshot) return true; // No snapshot = no active cases = has capacity
-    return hasCapacity(snapshot, config.workloadMax);
+    return hasCapacity(snapshot, config.workload_max);
   });
 
   // 5. Filter by anti-hoarding
   const passesHoarding = withCapacity.filter(([analystId]) => {
-    const snapshot = workloadSnapshots.find((s) => s.analystId === analystId);
+    const snapshot = workloadSnapshots.find((s) => s.analyst_id === analystId);
     if (!snapshot) return true; // No snapshot = no cases of this type
     return passesAntiHoarding(snapshot, caseType as string, config.antiHoardingCap);
   });
 
   // 6. Rank by assignment score
   const scored = passesHoarding.map(([analystId, profile]) => {
-    const snapshot = workloadSnapshots.find((s) => s.analystId === analystId)
-      ?? { analystId, activeCaseCount: 0, casesByType: {} };
-    const score = assignmentScore(snapshot, profile, config.workloadMax, config.rankWeighting);
-    return { analystId, profile, score };
+    const snapshot = workloadSnapshots.find((s) => s.analyst_id === analystId)
+      ?? { analyst_id, activeCaseCount: 0, casesByType: {} };
+    const score = assignmentScore(snapshot, profile, config.workload_max, config.rankWeighting);
+    return { analyst_id, profile, score };
   });
 
   scored.sort((a, b) => a.score - b.score);
@@ -317,36 +317,36 @@ export function assignCase(
   if (scored.length > 0) {
     const winner = scored[0];
     const rationale = `Assigned to "${winner.profile.name}" (${winner.profile.rank}) in team "${targetTeam}" — ` +
-      `specialism match for "${caseType}", load score ${winner.score.toFixed(3)}, ` +
-      `within workload max (${config.workloadMax}) and anti-hoarding cap (${config.antiHoardingCap})`;
+      `specialism match for "${case_type}", load score ${winner.score.toFixed(3)}, ` +
+      `within workload max (${config.workload_max}) and anti-hoarding cap (${config.antiHoardingCap})`;
 
     return {
       success: true,
       assignedOwner: winner.profile.name,
-      assignedOwnerId: winner.analystId,
+      assignedOwnerId: winner.analyst_id,
       assignedTeam: targetTeam,
       routingRationale: rationale,
-      escalationPath: config.escalationPath,
-      sourcePolicy: policyRef,
+      escalation_path: config.escalation_path,
+      source_policy: policyRef,
       auditEvent: {
         type: 'assignment',
-        caseId,
-        caseType: caseType as string,
+        case_id,
+        case_type: caseType as string,
         assignedOwner: winner.profile.name,
-        assignedOwnerId: winner.analystId,
+        assignedOwnerId: winner.analyst_id,
         assignedTeam: targetTeam,
         previousOwner: null,
         previousOwnerId: null,
         reason: rationale,
         timestamp,
-        policyRef,
+        policy_ref,
       },
     };
   }
 
   // 8. No candidate — escalation required
-  const escalationRationale = `No eligible analyst in team "${targetTeam}" for case type "${caseType}" — ` +
-    `all candidates either at workload max (${config.workloadMax}), ` +
+  const escalationRationale = `No eligible analyst in team "${targetTeam}" for case type "${case_type}" — ` +
+    `all candidates either at workload max (${config.workload_max}), ` +
     `anti-hoarding cap (${config.antiHoardingCap}), or lack specialism. Escalation required.`;
 
   return {
@@ -355,12 +355,12 @@ export function assignCase(
     assignedOwnerId: null,
     assignedTeam: targetTeam,
     routingRationale: escalationRationale,
-    escalationPath: config.escalationPath,
-    sourcePolicy: policyRef,
+    escalation_path: config.escalation_path,
+    source_policy: policyRef,
     auditEvent: {
       type: 'assignment',
-      caseId,
-      caseType: caseType as string,
+      case_id,
+      case_type: caseType as string,
       assignedOwner: null,
       assignedOwnerId: null,
       assignedTeam: targetTeam,
@@ -368,7 +368,7 @@ export function assignCase(
       previousOwnerId: null,
       reason: escalationRationale,
       timestamp,
-      policyRef,
+      policy_ref,
     },
   };
 }
@@ -387,31 +387,31 @@ export function reassignCase(
   strategies: StrategyPolicy[],
 ): AssignmentResult {
   const { config, policy } = extractRoutingConfig(strategies);
-  const policyRef = { id: policy.id, version: policy.policyVersion };
+  const policyRef = { id: policy.id, version: policy.policy_version };
   const timestamp = new Date().toISOString();
 
-  const targetTeam = config.teamAffinity[request.caseType as string];
+  const targetTeam = config.teamAffinity[request.case_type as string];
   if (!targetTeam) {
     return {
       success: false,
       assignedOwner: null,
       assignedOwnerId: null,
       assignedTeam: null,
-      routingRationale: `Reassignment failed: no team affinity for case type "${request.caseType}"`,
-      escalationPath: config.escalationPath,
-      sourcePolicy: policyRef,
+      routingRationale: `Reassignment failed: no team affinity for case type "${request.case_type}"`,
+      escalation_path: config.escalation_path,
+      source_policy: policyRef,
       auditEvent: {
         type: 'reassignment',
-        caseId: request.caseId,
-        caseType: request.caseType as string,
+        case_id: request.case_id,
+        case_type: request.case_type as string,
         assignedOwner: null,
         assignedOwnerId: null,
         assignedTeam: null,
         previousOwner: request.currentOwner,
         previousOwnerId: request.currentOwnerId,
-        reason: `Reassignment (${request.reason}): no team affinity for "${request.caseType}"`,
+        reason: `Reassignment (${request.reason}): no team affinity for "${request.case_type}"`,
         timestamp,
-        policyRef,
+        policy_ref,
       },
     };
   }
@@ -421,23 +421,23 @@ export function reassignCase(
     .filter(([id, profile]) =>
       id !== request.currentOwnerId &&
       profile.team === targetTeam &&
-      matchesSpecialism(profile, request.caseType as string),
+      matchesSpecialism(profile, request.case_type as string),
     );
 
   // Filter by capacity and anti-hoarding
   const eligible = candidates.filter(([analystId]) => {
-    const snapshot = workloadSnapshots.find((s) => s.analystId === analystId);
+    const snapshot = workloadSnapshots.find((s) => s.analyst_id === analystId);
     if (!snapshot) return true;
-    return hasCapacity(snapshot, config.workloadMax) &&
-      passesAntiHoarding(snapshot, request.caseType as string, config.antiHoardingCap);
+    return hasCapacity(snapshot, config.workload_max) &&
+      passesAntiHoarding(snapshot, request.case_type as string, config.antiHoardingCap);
   });
 
   // Rank by score
   const scored = eligible.map(([analystId, profile]) => {
-    const snapshot = workloadSnapshots.find((s) => s.analystId === analystId)
-      ?? { analystId, activeCaseCount: 0, casesByType: {} };
-    const score = assignmentScore(snapshot, profile, config.workloadMax, config.rankWeighting);
-    return { analystId, profile, score };
+    const snapshot = workloadSnapshots.find((s) => s.analyst_id === analystId)
+      ?? { analyst_id, activeCaseCount: 0, casesByType: {} };
+    const score = assignmentScore(snapshot, profile, config.workload_max, config.rankWeighting);
+    return { analyst_id, profile, score };
   });
 
   scored.sort((a, b) => a.score - b.score);
@@ -450,30 +450,30 @@ export function reassignCase(
     return {
       success: true,
       assignedOwner: winner.profile.name,
-      assignedOwnerId: winner.analystId,
+      assignedOwnerId: winner.analyst_id,
       assignedTeam: targetTeam,
       routingRationale: rationale,
-      escalationPath: config.escalationPath,
-      sourcePolicy: policyRef,
+      escalation_path: config.escalation_path,
+      source_policy: policyRef,
       auditEvent: {
         type: 'reassignment',
-        caseId: request.caseId,
-        caseType: request.caseType as string,
+        case_id: request.case_id,
+        case_type: request.case_type as string,
         assignedOwner: winner.profile.name,
-        assignedOwnerId: winner.analystId,
+        assignedOwnerId: winner.analyst_id,
         assignedTeam: targetTeam,
         previousOwner: request.currentOwner,
         previousOwnerId: request.currentOwnerId,
         reason: rationale,
         timestamp,
-        policyRef,
+        policy_ref,
       },
     };
   }
 
   // No eligible candidate — escalation
   const escalationRationale = `Reassignment (${request.reason}) failed: no eligible analyst in "${targetTeam}" ` +
-    `excluding current owner "${request.currentOwner}". Escalation required via path: ${config.escalationPath.join(' → ')}`;
+    `excluding current owner "${request.currentOwner}". Escalation required via path: ${config.escalation_path.join(' → ')}`;
 
   return {
     success: false,
@@ -481,12 +481,12 @@ export function reassignCase(
     assignedOwnerId: null,
     assignedTeam: targetTeam,
     routingRationale: escalationRationale,
-    escalationPath: config.escalationPath,
-    sourcePolicy: policyRef,
+    escalation_path: config.escalation_path,
+    source_policy: policyRef,
     auditEvent: {
       type: 'reassignment',
-      caseId: request.caseId,
-      caseType: request.caseType as string,
+      case_id: request.case_id,
+      case_type: request.case_type as string,
       assignedOwner: null,
       assignedOwnerId: null,
       assignedTeam: targetTeam,
@@ -494,7 +494,7 @@ export function reassignCase(
       previousOwnerId: request.currentOwnerId,
       reason: escalationRationale,
       timestamp,
-      policyRef,
+      policy_ref,
     },
   };
 }

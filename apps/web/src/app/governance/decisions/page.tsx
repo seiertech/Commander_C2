@@ -23,8 +23,8 @@ export default function GovernanceDecisionsPage() {
   const { tokens } = useMode();
   const [filter, setFilter] = useState<string>('all');
 
-  const types = Array.from(new Set(thesisDecisionRecords.map((d) => d.decisionType)));
-  const filtered = filter === 'all' ? thesisDecisionRecords : thesisDecisionRecords.filter((d) => d.decisionType === filter);
+  const types = Array.from(new Set(thesisDecisionRecords.map((d) => d.decision_type)));
+  const filtered = filter === 'all' ? thesisDecisionRecords : thesisDecisionRecords.filter((d) => d.decision_type === filter);
 
   const confidenceColor = (c: number) =>
     c >= 80 ? primitiveSignal.success : c >= 50 ? primitiveSignal.warning : primitiveSignal.critical;
@@ -57,18 +57,18 @@ export default function GovernanceDecisionsPage() {
             <div key={d.id} style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: primitiveSpacing[2] }}>
                 <div>
-                  <span style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>{d.decisionType.replace(/_/g, ' ')}</span>
+                  <span style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>{d.decision_type.replace(/_/g, ' ')}</span>
                   <h4 style={{ fontSize: primitiveTypeScale.h4, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: `${primitiveSpacing[1]} 0 0` }}>{d.outputAction}</h4>
                 </div>
                 <span style={{ fontSize: primitiveTypeScale.kpiValue, fontFamily: primitiveFonts.mono, fontWeight: primitiveFontWeight.bold, color: confidenceColor(d.confidence) }}>{d.confidence}%</span>
               </div>
               <p style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.secondary, margin: `0 0 ${primitiveSpacing[2]}` }}>{explanation.summary}</p>
               <div style={{ display: 'flex', gap: primitiveSpacing[4], flexWrap: 'wrap', fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>
-                <span>Case: {d.caseRef}</span>
-                {d.ruleRef && <span>Rule: {d.ruleRef}</span>}
-                {d.engineRef && <span>Engine: {d.engineRef}</span>}
-                <span>By: {d.decidedBy}</span>
-                <span>{new Date(d.decidedAt).toLocaleString()}</span>
+                <span>Case: {d.case_ref}</span>
+                {d.rule_ref && <span>Rule: {d.rule_ref}</span>}
+                {d.engine_ref && <span>Engine: {d.engine_ref}</span>}
+                <span>By: {d.decided_by}</span>
+                <span>{new Date(d.decided_at).toLocaleString()}</span>
                 {d.overridden && <span style={{ color: primitiveSignal.warning }}>⚠ OVERRIDDEN</span>}
               </div>
               {explanation.factors.length > 0 && (

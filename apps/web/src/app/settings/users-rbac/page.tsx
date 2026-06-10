@@ -33,7 +33,7 @@ export default function SettingsUsersRbacPage() {
       <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
         <Kpi tokens={tokens} label="Total Users" value={String(totalUsers)} />
         <Kpi tokens={tokens} label="Roles Defined" value={String(totalRoles)} />
-        <Kpi tokens={tokens} label="Tenant" value={thesisTenant.tenantName.split(' ')[0]} />
+        <Kpi tokens={tokens} label="Tenant" value={thesisTenant.tenant_name.split(' ')[0]} />
         <Kpi tokens={tokens} label="MFA Status" value="Enforced" accent={primitiveSignal.success} />
       </section>
       <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>

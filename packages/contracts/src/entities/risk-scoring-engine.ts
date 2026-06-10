@@ -51,7 +51,7 @@ export type ScoredEntityType = typeof SCORED_ENTITY_TYPES[number];
 // ─── Risk Score Entity ───────────────────────────────────────────────────────
 
 export interface RiskScore extends CommonFields {
-  entityType: 'risk-score';
+  entity_type: 'risk-score';
   /** Unique scoring identifier */
   scoringId: string;
   /** Kind of entity that was scored (was `entityType` in spec — renamed to avoid discriminant clash) */
@@ -59,11 +59,11 @@ export interface RiskScore extends CommonFields {
   /** Canonical reference to the scored entity (was `entityRef` in spec) */
   scoredEntityRef: string;
   /** Computed risk score (0–100) */
-  riskScore: number;
+  risk_score: number;
   /** Weighted factors that produced the score */
   factors: RiskFactor[];
   /** When the score was computed */
-  computedAt: string;
+  computed_at: string;
   /** Model identifier used to compute the score */
   model: string;
   /** Model version */
@@ -86,8 +86,8 @@ export function validateRiskScore(score: RiskScore): RiskScoreValidation {
   if (!score.id || score.id.trim() === '') {
     errors.push('id: required');
   }
-  if (!score.tenant || !score.tenant.tenantId || score.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!score.tenant || !score.tenant.tenant_id || score.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
   if (!score.scoringId || score.scoringId.trim() === '') {
     errors.push('scoringId: required');
@@ -98,8 +98,8 @@ export function validateRiskScore(score: RiskScore): RiskScoreValidation {
   if (!score.scoredEntityRef || score.scoredEntityRef.trim() === '') {
     errors.push('scoredEntityRef: required');
   }
-  if (typeof score.riskScore !== 'number' || score.riskScore < 0 || score.riskScore > 100) {
-    errors.push('riskScore: must be a number between 0 and 100');
+  if (typeof score.risk_score !== 'number' || score.risk_score < 0 || score.risk_score > 100) {
+    errors.push('risk_score: must be a number between 0 and 100');
   }
   if (!Array.isArray(score.factors)) {
     errors.push('factors: must be an array');
@@ -122,8 +122,8 @@ export function validateRiskScore(score: RiskScore): RiskScoreValidation {
       errors.push('factors[].contribution: total contribution must not exceed 100');
     }
   }
-  if (!score.computedAt || score.computedAt.trim() === '') {
-    errors.push('computedAt: required');
+  if (!score.computed_at || score.computed_at.trim() === '') {
+    errors.push('computed_at: required');
   }
   if (!score.model || score.model.trim() === '') {
     errors.push('model: required');

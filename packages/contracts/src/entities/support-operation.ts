@@ -22,17 +22,17 @@ export const SUPPORT_CATEGORIES = ['platform_issue', 'configuration', 'onboardin
 export type SupportCategory = typeof SUPPORT_CATEGORIES[number];
 
 export interface SupportOperation extends CommonFields {
-  entityType: 'support-operation';
-  customerId: string;
-  tenantId: string;
+  entity_type: 'support-operation';
+  customer_id: string;
+  tenant_id: string;
   title: string;
   description: string;
   category: SupportCategory;
   priority: SupportPriority;
   status: SupportOperationStatus;
-  assignedTo: string;
+  assigned_to: string;
   openedAt: string;
-  resolvedAt: string | null;
+  resolved_at: string | null;
   resolutionNotes: string | null;
 }
 
@@ -41,8 +41,8 @@ export interface SupportOperationValidation { valid: boolean; errors: string[]; 
 export function validateSupportOperation(s: SupportOperation): SupportOperationValidation {
   const errors: string[] = [];
   if (!s.id || s.id.trim() === '') errors.push('id: required');
-  if (!s.tenant?.tenantId) errors.push('tenant.tenantId: required');
-  if (!s.customerId || s.customerId.trim() === '') errors.push('customerId: required');
+  if (!s.tenant?.tenant_id) errors.push('tenant.tenant_id: required');
+  if (!s.customer_id || s.customer_id.trim() === '') errors.push('customer_id: required');
   if (!s.title || s.title.trim() === '') errors.push('title: required');
   if (!SUPPORT_OPERATION_STATUSES.includes(s.status)) errors.push(`status: must be one of: ${SUPPORT_OPERATION_STATUSES.join(', ')}`);
   if (!SUPPORT_PRIORITIES.includes(s.priority)) errors.push(`priority: must be one of: ${SUPPORT_PRIORITIES.join(', ')}`);

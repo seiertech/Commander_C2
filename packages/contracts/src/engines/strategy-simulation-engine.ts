@@ -10,17 +10,17 @@ import type { StrategyPolicy, StrategySurfaceType } from '../entities/strategy';
 // ─── Types ───────────────────────────────────────────────────────────────────
 
 export interface SimulationResult {
-  simulationId: string;
-  policyId: string;
-  surfaceType: StrategySurfaceType;
-  blastRadius: BlastRadiusResult;
+  simulation_id: string;
+  policy_id: string;
+  surface_type: StrategySurfaceType;
+  blast_radius: BlastRadiusResult;
   effectiveState: EffectiveStatePreview;
   conflicts: PolicyConflict[];
-  riskAssessment: SimulationRiskAssessment;
+  risk_assessment: SimulationRiskAssessment;
 }
 
 export interface BlastRadiusResult {
-  affectedEntityCount: number;
+  affected_entity_count: number;
   affectedEntityTypes: string[];
   affectedCaseCount: number;
   affectedBindingEvents: string[];
@@ -28,7 +28,7 @@ export interface BlastRadiusResult {
 }
 
 export interface EffectiveStatePreview {
-  surfaceType: StrategySurfaceType;
+  surface_type: StrategySurfaceType;
   currentConfig: Record<string, unknown>;
   proposedConfig: Record<string, unknown>;
   delta: string[];
@@ -56,7 +56,7 @@ export interface SimulationRiskAssessment {
 export function simulatePolicyChange(
   proposedPolicy: StrategyPolicy,
   existingPolicies: StrategyPolicy[],
-  affectedEntityCount: number
+  affected_entity_count: number
 ): SimulationResult {
   const conflicts = detectConflicts(proposedPolicy, existingPolicies);
   const blastRadius = computeBlastRadius(proposedPolicy, affectedEntityCount);
@@ -76,13 +76,13 @@ export function simulatePolicyChange(
         : 'low';
 
   return {
-    simulationId: `sim-${proposedPolicy.id}-${Date.now()}`,
-    policyId: proposedPolicy.id,
-    surfaceType: proposedPolicy.surfaceType,
-    blastRadius,
+    simulation_id: `sim-${proposedPolicy.id}-${Date.now()}`,
+    policy_id: proposedPolicy.id,
+    surface_type: proposedPolicy.surface_type,
+    blast_radius,
     effectiveState,
     conflicts,
-    riskAssessment: {
+    risk_assessment: {
       overallRisk,
       factors: riskFactors,
       recommendation: overallRisk === 'critical' || overallRisk === 'high'
@@ -97,7 +97,7 @@ export function simulatePolicyChange(
  */
 export function computeBlastRadius(
   policy: StrategyPolicy,
-  affectedEntityCount: number
+  affected_entity_count: number
 ): BlastRadiusResult {
   // Determine scope based on surface type
   const tenantWideSurfaces: StrategySurfaceType[] = [
@@ -107,14 +107,14 @@ export function computeBlastRadius(
     'posture', 'domain-specific', 'threshold',
   ];
 
-  const scope: BlastRadiusResult['scope'] = tenantWideSurfaces.includes(policy.surfaceType)
+  const scope: BlastRadiusResult['scope'] = tenantWideSurfaces.includes(policy.surface_type)
     ? 'tenant-wide'
-    : domainScopedSurfaces.includes(policy.surfaceType)
+    : domainScopedSurfaces.includes(policy.surface_type)
       ? 'domain-scoped'
       : 'entity-scoped';
 
   return {
-    affectedEntityCount,
+    affected_entity_count,
     affectedEntityTypes: ['case', 'risk-object'],
     affectedCaseCount: Math.ceil(affectedEntityCount * 0.6),
     affectedBindingEvents: scope === 'tenant-wide'
@@ -132,7 +132,7 @@ export function previewEffectiveState(
   existingPolicies: StrategyPolicy[]
 ): EffectiveStatePreview {
   const currentActive = existingPolicies.find(
-    (p) => p.surfaceType === proposedPolicy.surfaceType && p.status === 'active'
+    (p) => p.surface_type === proposedPolicy.surface_type && p.status === 'active'
   );
 
   const currentConfig = currentActive?.configuration ?? {};
@@ -147,7 +147,7 @@ export function previewEffectiveState(
   }
 
   return {
-    surfaceType: proposedPolicy.surfaceType,
+    surface_type: proposedPolicy.surface_type,
     currentConfig,
     proposedConfig,
     delta,
@@ -165,13 +165,13 @@ function detectConflicts(
 
   // Check for active policy on same surface (supersession conflict)
   const sameActiveSurface = existingPolicies.filter(
-    (p) => p.surfaceType === proposedPolicy.surfaceType && p.status === 'active' && p.id !== proposedPolicy.id
+    (p) => p.surface_type === proposedPolicy.surface_type && p.status === 'active' && p.id !== proposedPolicy.id
   );
 
   for (const existing of sameActiveSurface) {
     conflicts.push({
       conflictingPolicyId: existing.id,
-      conflictingSurface: existing.surfaceType,
+      conflictingSurface: existing.surface_type,
       reason: `Active policy ${existing.id} on same surface will be superseded.`,
       severity: 'warning',
     });
@@ -179,13 +179,13 @@ function detectConflicts(
 
   // Check for pending-approval policies on same surface
   const samePendingSurface = existingPolicies.filter(
-    (p) => p.surfaceType === proposedPolicy.surfaceType && p.status === 'pending-approval' && p.id !== proposedPolicy.id
+    (p) => p.surface_type === proposedPolicy.surface_type && p.status === 'pending-approval' && p.id !== proposedPolicy.id
   );
 
   for (const pending of samePendingSurface) {
     conflicts.push({
       conflictingPolicyId: pending.id,
-      conflictingSurface: pending.surfaceType,
+      conflictingSurface: pending.surface_type,
       reason: `Pending policy ${pending.id} on same surface — concurrent approval conflict.`,
       severity: 'blocking',
     });

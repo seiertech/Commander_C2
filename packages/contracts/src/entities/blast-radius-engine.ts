@@ -32,11 +32,11 @@ export type BlastAffectedEntityType = typeof BLAST_AFFECTED_ENTITY_TYPES[number]
 
 export interface AffectedEntity {
   /** Canonical reference to the affected entity */
-  entityRef: string;
+  entity_ref: string;
   /** Kind of affected entity */
-  entityType: BlastAffectedEntityType;
+  entity_type: BlastAffectedEntityType;
   /** Per-entity impact contribution (0–100) */
-  impactScore: number;
+  impact_score: number;
   /** Traversal distance from the origin (origin = 0) */
   distance: number;
   /** Relationship through which the impact propagated */
@@ -46,7 +46,7 @@ export interface AffectedEntity {
 // ─── Blast Radius Entity ─────────────────────────────────────────────────────
 
 export interface BlastRadius extends CommonFields {
-  entityType: 'blast-radius';
+  entity_type: 'blast-radius';
   /** Unique computation identifier */
   computationId: string;
   /** Canonical reference to the origin entity */
@@ -54,13 +54,13 @@ export interface BlastRadius extends CommonFields {
   /** Kind of origin entity */
   originEntityType: BlastAffectedEntityType;
   /** Entities affected by changes at the origin */
-  affectedEntities: AffectedEntity[];
+  affected_entities: AffectedEntity[];
   /** Aggregate impact score across affected entities (0–100) */
-  totalImpactScore: number;
+  total_impact_score: number;
   /** Maximum traversal depth explored */
   depth: number;
   /** When the computation ran */
-  computedAt: string;
+  computed_at: string;
 }
 
 // ─── Validation ──────────────────────────────────────────────────────────────
@@ -79,8 +79,8 @@ export function validateBlastRadius(blast: BlastRadius): BlastRadiusValidation {
   if (!blast.id || blast.id.trim() === '') {
     errors.push('id: required');
   }
-  if (!blast.tenant || !blast.tenant.tenantId || blast.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!blast.tenant || !blast.tenant.tenant_id || blast.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
   if (!blast.computationId || blast.computationId.trim() === '') {
     errors.push('computationId: required');
@@ -91,32 +91,32 @@ export function validateBlastRadius(blast: BlastRadius): BlastRadiusValidation {
   if (!BLAST_AFFECTED_ENTITY_TYPES.includes(blast.originEntityType)) {
     errors.push(`originEntityType: must be one of: ${BLAST_AFFECTED_ENTITY_TYPES.join(', ')}`);
   }
-  if (!Array.isArray(blast.affectedEntities)) {
-    errors.push('affectedEntities: must be an array');
+  if (!Array.isArray(blast.affected_entities)) {
+    errors.push('affected_entities: must be an array');
   } else {
-    for (const affected of blast.affectedEntities) {
-      if (!affected.entityRef || affected.entityRef.trim() === '') {
-        errors.push('affectedEntities[].entityRef: required');
+    for (const affected of blast.affected_entities) {
+      if (!affected.entity_ref || affected.entity_ref.trim() === '') {
+        errors.push('affectedEntities[].entity_ref: required');
       }
-      if (!BLAST_AFFECTED_ENTITY_TYPES.includes(affected.entityType)) {
-        errors.push(`affectedEntities[].entityType: must be one of: ${BLAST_AFFECTED_ENTITY_TYPES.join(', ')}`);
+      if (!BLAST_AFFECTED_ENTITY_TYPES.includes(affected.entity_type)) {
+        errors.push(`affectedEntities[].entity_type: must be one of: ${BLAST_AFFECTED_ENTITY_TYPES.join(', ')}`);
       }
-      if (typeof affected.impactScore !== 'number' || affected.impactScore < 0 || affected.impactScore > 100) {
-        errors.push('affectedEntities[].impactScore: must be a number between 0 and 100');
+      if (typeof affected.impact_score !== 'number' || affected.impact_score < 0 || affected.impact_score > 100) {
+        errors.push('affectedEntities[].impact_score: must be a number between 0 and 100');
       }
       if (typeof affected.distance !== 'number' || affected.distance < 0) {
         errors.push('affectedEntities[].distance: must be a non-negative number');
       }
     }
   }
-  if (typeof blast.totalImpactScore !== 'number' || blast.totalImpactScore < 0 || blast.totalImpactScore > 100) {
-    errors.push('totalImpactScore: must be a number between 0 and 100');
+  if (typeof blast.total_impact_score !== 'number' || blast.total_impact_score < 0 || blast.total_impact_score > 100) {
+    errors.push('total_impact_score: must be a number between 0 and 100');
   }
   if (typeof blast.depth !== 'number' || blast.depth < 0) {
     errors.push('depth: must be a non-negative number');
   }
-  if (!blast.computedAt || blast.computedAt.trim() === '') {
-    errors.push('computedAt: required');
+  if (!blast.computed_at || blast.computed_at.trim() === '') {
+    errors.push('computed_at: required');
   }
 
   return { valid: errors.length === 0, errors };

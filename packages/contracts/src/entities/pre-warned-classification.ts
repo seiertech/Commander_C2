@@ -28,9 +28,9 @@ export type ClassificationStatus = typeof CLASSIFICATION_STATUSES[number];
 // ─── Pre-Warned Classification Entity ────────────────────────────────────────
 
 export interface PreWarnedClassification extends CommonFields {
-  entityType: 'pre-warned-classification';
+  entity_type: 'pre-warned-classification';
   /** Unique classification identifier */
-  classificationId: string;
+  classification_id: string;
   /** References to engine outputs that triggered this classification (drift, identity, arch, vuln, exposure) */
   triggerSources: string[];
   /** Computed classification level */
@@ -40,7 +40,7 @@ export interface PreWarnedClassification extends CommonFields {
   /** Entity references affected by this classification */
   affectedEntityRefs: string[];
   /** When this classification was computed */
-  computedAt: string;
+  computed_at: string;
   /** When this classification was acknowledged by an operator */
   acknowledgedAt: string | null;
   /** Recommended actions based on classification */
@@ -59,13 +59,13 @@ export interface PreWarnedClassificationValidation {
 export function validatePreWarnedClassification(c: PreWarnedClassification): PreWarnedClassificationValidation {
   const errors: string[] = [];
   if (!c.id || c.id.trim() === '') errors.push('id: required');
-  if (!c.tenant?.tenantId) errors.push('tenant.tenantId: required');
-  if (!c.classificationId || c.classificationId.trim() === '') errors.push('classificationId: required');
+  if (!c.tenant?.tenant_id) errors.push('tenant.tenant_id: required');
+  if (!c.classification_id || c.classification_id.trim() === '') errors.push('classification_id: required');
   if (!Array.isArray(c.triggerSources) || c.triggerSources.length === 0) errors.push('triggerSources: must contain at least one source');
   if (!CLASSIFICATION_LEVELS.includes(c.classificationLevel)) errors.push(`classificationLevel: must be one of: ${CLASSIFICATION_LEVELS.join(', ')}`);
   if (typeof c.confidence !== 'number' || c.confidence < 0 || c.confidence > 100) errors.push('confidence: must be 0-100');
   if (!Array.isArray(c.affectedEntityRefs) || c.affectedEntityRefs.length === 0) errors.push('affectedEntityRefs: must contain at least one ref');
-  if (!c.computedAt || c.computedAt.trim() === '') errors.push('computedAt: required');
+  if (!c.computed_at || c.computed_at.trim() === '') errors.push('computed_at: required');
   if (!Array.isArray(c.recommendedActions)) errors.push('recommendedActions: must be an array');
   if (!CLASSIFICATION_STATUSES.includes(c.status)) errors.push(`status: must be one of: ${CLASSIFICATION_STATUSES.join(', ')}`);
   return { valid: errors.length === 0, errors };

@@ -22,8 +22,8 @@ import {
 export default function ReportingCisoPackPage() {
   const { tokens } = useMode();
 
-  const cisoReports = thesisReports.filter((r) => r.reportType === 'ciso-pack' || r.audience.includes('CISO'));
-  const latestCisoPack = thesisReports.find((r) => r.reportType === 'ciso-pack' && r.status === 'completed');
+  const cisoReports = thesisReports.filter((r) => r.report_type === 'ciso-pack' || r.audience.includes('CISO'));
+  const latestCisoPack = thesisReports.find((r) => r.report_type === 'ciso-pack' && r.status === 'completed');
 
   return (
     <PageContainer pretitle="Reporting › CISO Pack" title="CISO Briefing Pack">
@@ -37,7 +37,7 @@ export default function ReportingCisoPackPage() {
               <p style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.secondary, margin: `${primitiveSpacing[2]} 0` }}>{latestCisoPack.description}</p>
               <div style={{ display: 'flex', gap: primitiveSpacing[3], fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>
                 <span>Period: {new Date(latestCisoPack.periodStart).toLocaleDateString()} – {new Date(latestCisoPack.periodEnd).toLocaleDateString()}</span>
-                <span>Generated: {latestCisoPack.lastGeneratedAt ? new Date(latestCisoPack.lastGeneratedAt).toLocaleString() : '—'}</span>
+                <span>Generated: {latestCisoPack.last_generated_at ? new Date(latestCisoPack.last_generated_at).toLocaleString() : '—'}</span>
               </div>
               <div style={{ marginTop: primitiveSpacing[3] }}>
                 <span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', color: '#fff', background: primitiveSignal.success }}>completed</span>
@@ -77,7 +77,7 @@ export default function ReportingCisoPackPage() {
                 return (
                   <tr key={r.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                     <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{r.title}</td>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{r.reportType.replace(/-/g, ' ')}</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{r.report_type.replace(/-/g, ' ')}</td>
                     <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{r.cadence}</td>
                     <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', color: '#fff', background: statusBg }}>{r.status}</span></td>
                     <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono, textTransform: 'uppercase' }}>{r.format}</td>

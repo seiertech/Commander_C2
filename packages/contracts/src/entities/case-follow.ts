@@ -26,13 +26,13 @@ export type FollowEventType = typeof FOLLOW_EVENT_TYPES[number];
 // ─── Case Follow Entity ──────────────────────────────────────────────────────
 
 export interface CaseFollow extends CommonFields {
-  entityType: 'case-follow';
+  entity_type: 'case-follow';
   /** Subscribing user */
-  userId: string;
+  user_id: string;
   /** Followed case reference */
-  caseRef: string;
+  case_ref: string;
   /** When the subscription started */
-  followedAt: string;
+  followed_at: string;
   /** When unfollowed (null if active) */
   unfollowedAt: string | null;
   /** Event types to notify on */
@@ -50,10 +50,10 @@ export function validateCaseFollow(record: CaseFollow): CaseFollowValidation {
   const errors: string[] = [];
 
   if (!record.id || record.id.trim() === '') errors.push('id: required');
-  if (!record.tenant || !record.tenant.tenantId) errors.push('tenant.tenantId: required');
-  if (!record.userId || record.userId.trim() === '') errors.push('userId: required');
-  if (!record.caseRef || record.caseRef.trim() === '') errors.push('caseRef: required');
-  if (!record.followedAt || record.followedAt.trim() === '') errors.push('followedAt: required');
+  if (!record.tenant || !record.tenant.tenant_id) errors.push('tenant.tenant_id: required');
+  if (!record.user_id || record.user_id.trim() === '') errors.push('user_id: required');
+  if (!record.case_ref || record.case_ref.trim() === '') errors.push('case_ref: required');
+  if (!record.followed_at || record.followed_at.trim() === '') errors.push('followed_at: required');
   if (!Array.isArray(record.notifyOn) || record.notifyOn.length === 0) errors.push('notifyOn: must be non-empty');
   if (Array.isArray(record.notifyOn)) {
     for (const e of record.notifyOn) {

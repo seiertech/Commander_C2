@@ -80,11 +80,11 @@ export const LICENCE_STATUSES: LicenceStatus[] = [
  * tenant-custom or tenant-uploaded frameworks.
  */
 export interface ControlFramework extends CommonFields {
-  entityType: 'control_framework';
+  entity_type: 'control_framework';
   /** Short code identifier (e.g. 'iso-27001', 'nist-csf-2.0', 'cis-v8') */
-  frameworkId: string;
+  framework_id: string;
   /** Full display name */
-  frameworkName: string;
+  framework_name: string;
   /** Framework version string */
   version: string;
   /** Framework category */
@@ -92,17 +92,17 @@ export interface ControlFramework extends CommonFields {
   /** Publisher/owner of the framework */
   publisher: string;
   /** Total control count in this framework version */
-  totalControls: number;
+  total_controls: number;
   /** Prebuilt (Commander-shipped) or custom (tenant-provided) */
   origin: 'prebuilt' | 'custom';
   /** Active/enabled for this tenant */
   active: boolean;
   /** Licence/use status governing content storage */
-  licenceStatus: LicenceStatus;
+  licence_status: LicenceStatus;
   /** Source reference URL or document identifier */
-  sourceRef: string;
+  source_ref: string;
   /** Mapping completeness (0-100): what % of controls have at least one mapping */
-  mappingCompleteness: number;
+  mapping_completeness: number;
   /** Last reviewed date (ISO 8601) */
   lastReviewedAt: string;
   /** Notes on licence constraints (free text) */
@@ -129,11 +129,11 @@ export const CONTROL_TIERS: ControlTier[] = [
  * a short internal summary — not reproduced standard text.
  */
 export interface FrameworkControl extends CommonFields {
-  entityType: 'framework_control';
+  entity_type: 'framework_control';
   /** Parent framework ID */
-  frameworkId: string;
+  framework_id: string;
   /** Control identifier within the framework (e.g. 'A.8.1', 'PR.AC-1', '1.1') */
-  controlId: string;
+  control_id: string;
   /** Control display name */
   controlName: string;
   /** Domain/category within the framework (e.g. 'Access Control', 'Protect') */
@@ -190,13 +190,13 @@ export const REQUIREMENT_TARGET_TYPES: RequirementTargetType[] = [
  * and concrete, measurable conditions in the Commander data model.
  */
 export interface ControlRequirement extends CommonFields {
-  entityType: 'control_requirement';
+  entity_type: 'control_requirement';
   /** Parent framework ID */
-  frameworkId: string;
+  framework_id: string;
   /** Parent control ID */
-  controlId: string;
+  control_id: string;
   /** Requirement identifier (scoped within the control) */
-  requirementId: string;
+  requirement_id: string;
   /** Human-readable description of what is required */
   description: string;
   /** What entity type this requirement evaluates */
@@ -280,26 +280,26 @@ export const ADHERENCE_VERDICTS: AdherenceVerdict[] = [
  * from the owning Risk Object (if one exists for non-adherence).
  */
 export interface ControlEvaluation extends CommonFields {
-  entityType: 'control_evaluation';
+  entity_type: 'control_evaluation';
   /** Framework being evaluated */
-  frameworkId: string;
+  framework_id: string;
   /** Control being evaluated */
-  controlId: string;
+  control_id: string;
   /** Requirement being evaluated */
-  requirementId: string;
+  requirement_id: string;
   /** Entity being evaluated */
   evaluatedEntityType: RequirementTargetType;
   evaluatedEntityId: string;
   /** Evaluation verdict */
   verdict: AdherenceVerdict;
   /** Evidence supporting the verdict (reference to evidence entity or inline) */
-  evidenceRef?: string;
+  evidence_ref?: string;
   /** If non-compliant, reference to the created/linked Risk Object */
   riskObjectRef?: string;
   /** Exception state (accepted risk, compensating control, waiver) */
-  exceptionState?: ExceptionState;
+  exception_state?: ExceptionState;
   /** When this evaluation was performed */
-  evaluatedAt: string;
+  evaluated_at: string;
   /** When the next evaluation is due */
   nextEvaluationDue?: string;
   /** Evaluation confidence (0-100) */
@@ -377,11 +377,11 @@ export const COVERAGE_CONTRIBUTIONS: CoverageContribution[] = [
  * the system of record, with framework mapping as an overlay.
  */
 export interface ControlMapping extends CommonFields {
-  entityType: 'control_mapping';
+  entity_type: 'control_mapping';
   /** Target framework */
-  frameworkId: string;
+  framework_id: string;
   /** Target control within the framework */
-  controlId: string;
+  control_id: string;
   /** Commander entity being mapped */
   mappedEntityType: MappedEntityType;
   mappedEntityId: string;
@@ -408,22 +408,22 @@ export interface ControlFrameworkValidation {
 /** Validate a ControlFramework entity. */
 export function validateControlFramework(fw: ControlFramework): ControlFrameworkValidation {
   const errors: string[] = [];
-  if (!fw.frameworkId || fw.frameworkId.trim() === '') errors.push('frameworkId is required.');
-  if (!fw.frameworkName || fw.frameworkName.trim() === '') errors.push('frameworkName is required.');
+  if (!fw.framework_id || fw.framework_id.trim() === '') errors.push('frameworkId is required.');
+  if (!fw.framework_name || fw.framework_name.trim() === '') errors.push('frameworkName is required.');
   if (!fw.version || fw.version.trim() === '') errors.push('version is required.');
   if (!FRAMEWORK_CATEGORIES.includes(fw.category)) errors.push(`Invalid category: ${String(fw.category)}.`);
   if (!fw.publisher || fw.publisher.trim() === '') errors.push('publisher is required.');
-  if (fw.totalControls < 0) errors.push(`totalControls must be >= 0: ${fw.totalControls}.`);
-  if (!LICENCE_STATUSES.includes(fw.licenceStatus)) errors.push(`Invalid licenceStatus: ${String(fw.licenceStatus)}.`);
-  if (fw.mappingCompleteness < 0 || fw.mappingCompleteness > 100) errors.push(`mappingCompleteness must be 0-100: ${fw.mappingCompleteness}.`);
+  if (fw.total_controls < 0) errors.push(`totalControls must be >= 0: ${fw.total_controls}.`);
+  if (!LICENCE_STATUSES.includes(fw.licence_status)) errors.push(`Invalid licence_status: ${String(fw.licence_status)}.`);
+  if (fw.mapping_completeness < 0 || fw.mapping_completeness > 100) errors.push(`mappingCompleteness must be 0-100: ${fw.mapping_completeness}.`);
   return { valid: errors.length === 0, errors };
 }
 
 /** Validate a FrameworkControl entity. */
 export function validateFrameworkControl(ctrl: FrameworkControl): ControlFrameworkValidation {
   const errors: string[] = [];
-  if (!ctrl.frameworkId || ctrl.frameworkId.trim() === '') errors.push('frameworkId is required.');
-  if (!ctrl.controlId || ctrl.controlId.trim() === '') errors.push('controlId is required.');
+  if (!ctrl.framework_id || ctrl.framework_id.trim() === '') errors.push('frameworkId is required.');
+  if (!ctrl.control_id || ctrl.control_id.trim() === '') errors.push('controlId is required.');
   if (!ctrl.controlName || ctrl.controlName.trim() === '') errors.push('controlName is required.');
   if (!ctrl.domain || ctrl.domain.trim() === '') errors.push('domain is required.');
   if (!ctrl.objective || ctrl.objective.trim() === '') errors.push('objective is required.');
@@ -434,9 +434,9 @@ export function validateFrameworkControl(ctrl: FrameworkControl): ControlFramewo
 /** Validate a ControlRequirement entity. */
 export function validateControlRequirement(req: ControlRequirement): ControlFrameworkValidation {
   const errors: string[] = [];
-  if (!req.frameworkId || req.frameworkId.trim() === '') errors.push('frameworkId is required.');
-  if (!req.controlId || req.controlId.trim() === '') errors.push('controlId is required.');
-  if (!req.requirementId || req.requirementId.trim() === '') errors.push('requirementId is required.');
+  if (!req.framework_id || req.framework_id.trim() === '') errors.push('frameworkId is required.');
+  if (!req.control_id || req.control_id.trim() === '') errors.push('controlId is required.');
+  if (!req.requirement_id || req.requirement_id.trim() === '') errors.push('requirementId is required.');
   if (!req.description || req.description.trim() === '') errors.push('description is required.');
   if (!REQUIREMENT_TARGET_TYPES.includes(req.targetType)) errors.push(`Invalid targetType: ${String(req.targetType)}.`);
   if (!req.evaluationRule) errors.push('evaluationRule is required.');
@@ -450,23 +450,23 @@ export function validateControlRequirement(req: ControlRequirement): ControlFram
 /** Validate a ControlEvaluation entity. */
 export function validateControlEvaluation(ev: ControlEvaluation): ControlFrameworkValidation {
   const errors: string[] = [];
-  if (!ev.frameworkId || ev.frameworkId.trim() === '') errors.push('frameworkId is required.');
-  if (!ev.controlId || ev.controlId.trim() === '') errors.push('controlId is required.');
-  if (!ev.requirementId || ev.requirementId.trim() === '') errors.push('requirementId is required.');
+  if (!ev.framework_id || ev.framework_id.trim() === '') errors.push('frameworkId is required.');
+  if (!ev.control_id || ev.control_id.trim() === '') errors.push('controlId is required.');
+  if (!ev.requirement_id || ev.requirement_id.trim() === '') errors.push('requirementId is required.');
   if (!REQUIREMENT_TARGET_TYPES.includes(ev.evaluatedEntityType)) errors.push(`Invalid evaluatedEntityType: ${String(ev.evaluatedEntityType)}.`);
   if (!ev.evaluatedEntityId || ev.evaluatedEntityId.trim() === '') errors.push('evaluatedEntityId is required.');
   if (!ADHERENCE_VERDICTS.includes(ev.verdict)) errors.push(`Invalid verdict: ${String(ev.verdict)}.`);
-  if (!ev.evaluatedAt || ev.evaluatedAt.trim() === '') errors.push('evaluatedAt is required.');
+  if (!ev.evaluated_at || ev.evaluated_at.trim() === '') errors.push('evaluatedAt is required.');
   if (ev.confidence < 0 || ev.confidence > 100) errors.push(`confidence must be 0-100: ${ev.confidence}.`);
-  if (ev.exceptionState && !EXCEPTION_STATES.includes(ev.exceptionState)) errors.push(`Invalid exceptionState: ${String(ev.exceptionState)}.`);
+  if (ev.exception_state && !EXCEPTION_STATES.includes(ev.exception_state)) errors.push(`Invalid exception_state: ${String(ev.exception_state)}.`);
   return { valid: errors.length === 0, errors };
 }
 
 /** Validate a ControlMapping entity. */
 export function validateControlMapping(m: ControlMapping): ControlFrameworkValidation {
   const errors: string[] = [];
-  if (!m.frameworkId || m.frameworkId.trim() === '') errors.push('frameworkId is required.');
-  if (!m.controlId || m.controlId.trim() === '') errors.push('controlId is required.');
+  if (!m.framework_id || m.framework_id.trim() === '') errors.push('frameworkId is required.');
+  if (!m.control_id || m.control_id.trim() === '') errors.push('controlId is required.');
   if (!MAPPED_ENTITY_TYPES.includes(m.mappedEntityType)) errors.push(`Invalid mappedEntityType: ${String(m.mappedEntityType)}.`);
   if (!m.mappedEntityId || m.mappedEntityId.trim() === '') errors.push('mappedEntityId is required.');
   if (m.confidence < 0 || m.confidence > 100) errors.push(`confidence must be 0-100: ${m.confidence}.`);

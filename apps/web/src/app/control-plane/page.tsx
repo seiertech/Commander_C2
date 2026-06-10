@@ -24,7 +24,7 @@ export default function ControlPlaneOverviewPage() {
     { label: 'Total Customers', value: totalCustomers },
     { label: 'Active Trials', value: activeTrials },
     { label: 'Entitlement Exceptions', value: entitlementExceptions },
-    { label: 'Connector Health', value: `${activeConnectors}/${totalConnectors}` },
+    { label: 'Connector Health', value: `${active_connectors}/${totalConnectors}` },
     { label: 'Deployment Rings', value: deploymentRings },
   ];
 

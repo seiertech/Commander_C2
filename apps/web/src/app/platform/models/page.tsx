@@ -28,7 +28,7 @@ export default function PlatformModelsPage() {
 
   const activeModels = thesisModels.filter((m) => m.status === 'active').length;
   const avgAccuracy = Math.round(thesisModels.reduce((acc, m) => acc + m.accuracy, 0) / thesisModels.length);
-  const avgFPR = (thesisModels.reduce((acc, m) => acc + m.falsePositiveRate, 0) / thesisModels.length).toFixed(1);
+  const avgFPR = (thesisModels.reduce((acc, m) => acc + m.false_positive_rate, 0) / thesisModels.length).toFixed(1);
 
   const statusColor = (status: string) => {
     switch (status) {
@@ -55,7 +55,7 @@ export default function PlatformModelsPage() {
 
   const chartSeries = [
     { name: 'Accuracy %', data: thesisModels.map((m) => m.accuracy) },
-    { name: 'False Positive %', data: thesisModels.map((m) => m.falsePositiveRate) },
+    { name: 'False Positive %', data: thesisModels.map((m) => m.false_positive_rate) },
   ];
 
   return (
@@ -90,13 +90,13 @@ export default function PlatformModelsPage() {
               {thesisModels.map((m) => (
                 <tr key={m.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{m.name}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{m.modelType}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{m.model_type}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', color: '#fff', background: statusColor(m.status) }}>{m.status}</span></td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{m.domain}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: m.accuracy >= 90 ? primitiveSignal.success : primitiveSignal.warning, fontFamily: primitiveFonts.mono }}>{m.accuracy}%</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: m.falsePositiveRate > 5 ? primitiveSignal.warning : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{m.falsePositiveRate}%</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: m.false_positive_rate > 5 ? primitiveSignal.warning : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{m.false_positive_rate}%</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono }}>{m.version}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{new Date(m.lastEvaluatedAt).toLocaleDateString()}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{new Date(m.last_evaluated_at).toLocaleDateString()}</td>
                 </tr>
               ))}
             </tbody>

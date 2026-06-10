@@ -8,20 +8,20 @@
 
 /** Tenant context — required on every record */
 export interface TenantContext {
-  tenantId: string;
-  tenantName: string;
+  tenant_id: string;
+  tenant_name: string;
 }
 
 /** Source metadata — provenance tracking */
 export interface SourceMetadata {
   /** Connector that produced this record */
-  connectorId: string;
+  connector_id: string;
   /** Import run identifier */
-  importRunId: string;
+  import_run_id: string;
   /** Source system identifier */
-  sourceSystem: string;
+  source_system: string;
   /** Timestamp of source extraction */
-  sourceTimestamp: string;
+  source_timestamp: string;
 }
 
 /** Common fields present on all canonical entities */
@@ -29,13 +29,13 @@ export interface CommonFields {
   /** Deterministic unique identifier */
   id: string;
   /** Canonical entity type discriminator */
-  entityType: string;
+  entity_type: string;
   /** Tenant scope — required, never ambiguous */
   tenant: TenantContext;
   /** When this record was created in Commander */
-  createdAt: string;
+  created_at: string;
   /** When this record was last updated */
-  updatedAt: string;
+  updated_at: string;
   /** Source provenance */
   source: SourceMetadata;
 }

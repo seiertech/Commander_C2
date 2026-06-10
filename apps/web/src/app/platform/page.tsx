@@ -17,13 +17,13 @@ export default function PlatformOverviewPage() {
   const { tokens } = useMode();
   const activeConnectors = thesisConnectors.filter((c) => c.state === 'active').length;
   const activeFrameworks = thesisControlFrameworks.filter((f) => f.active).length;
-  const kevCount = thesisVulnerabilityIntelligence.filter((v) => v.cisaKevStatus).length;
+  const kevCount = thesisVulnerabilityIntelligence.filter((v) => v.cisa_kev_status).length;
   const activeRules = thesisRules.filter((r) => r.status === 'active').length;
 
   return (
     <PageContainer pretitle="Platform" title="Platform Overview">
       <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
-        <Kpi tokens={tokens} label="Connectors Active" value={`${activeConnectors}/${thesisConnectors.length}`} accent={primitiveSignal.success} />
+        <Kpi tokens={tokens} label="Connectors Active" value={`${active_connectors}/${thesisConnectors.length}`} accent={primitiveSignal.success} />
         <Kpi tokens={tokens} label="Frameworks" value={String(activeFrameworks)} />
         <Kpi tokens={tokens} label="KEV Advisories" value={String(kevCount)} accent={kevCount > 0 ? primitiveSignal.critical : undefined} />
         <Kpi tokens={tokens} label="Detection Rules" value={String(activeRules)} />

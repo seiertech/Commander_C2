@@ -33,10 +33,10 @@ function titleCase(s: string): string {
 export default function P0WarRoomPage() {
   useMode(); // consumed; this surface forces Mission chrome per DS-1.0 §9.3.
 
-  const now = Math.max(...thesisCases.map((c) => new Date(c.updatedAt).getTime()));
+  const now = Math.max(...thesisCases.map((c) => new Date(c.updated_at).getTime()));
   const p0Cases = thesisCases.filter((c) => c.priority === 'P0');
   const p0Ids = new Set(p0Cases.map((c) => c.id));
-  const boundSubActions = thesisSubActions.filter((s) => p0Ids.has(s.caseId));
+  const boundSubActions = thesisSubActions.filter((s) => p0Ids.has(s.case_id));
 
   return (
     <div style={{ background: HUD.bg, minHeight: '100%', color: HUD.text }}>
@@ -62,8 +62,8 @@ export default function P0WarRoomPage() {
         {/* Bound P0 cases — REAL data + resolved strategies */}
         {p0Cases.map((c) => {
           const strat = resolveAllStrategies(c, thesisStrategies);
-          const slaHours = strat.sla.status === 'resolved' ? strat.sla.responseHours : c.sla.targetResolutionHours;
-          const ageHours = (now - new Date(c.createdAt).getTime()) / MS_PER_HOUR;
+          const slaHours = strat.sla.status === 'resolved' ? strat.sla.response_hours : c.sla.target_resolution_hours;
+          const ageHours = (now - new Date(c.created_at).getTime()) / MS_PER_HOUR;
           const remaining = (slaHours ?? 0) - ageHours;
           const breached = c.sla.breached || remaining <= 0;
           return (
@@ -76,8 +76,8 @@ export default function P0WarRoomPage() {
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: primitiveSpacing[2] }}>
                     <span style={{ color: primitiveSignal.critical, fontWeight: primitiveFontWeight.bold }}>{primitivePriority.p0.shape} {primitivePriority.p0.label}</span>
-                    <span style={{ color: HUD.textSecondary, fontSize: primitiveTypeScale.caption, fontFamily: primitiveFonts.mono }}>{c.caseRef}</span>
-                    <span style={{ fontSize: primitiveTypeScale.micro, padding: '1px 6px', border: `1px solid ${primitiveSignal.info}`, color: primitiveSignal.info }}>{c.surfaceAttribution === 'external_attack_surface' ? 'External' : 'Internal'}</span>
+                    <span style={{ color: HUD.textSecondary, fontSize: primitiveTypeScale.caption, fontFamily: primitiveFonts.mono }}>{c.case_ref}</span>
+                    <span style={{ fontSize: primitiveTypeScale.micro, padding: '1px 6px', border: `1px solid ${primitiveSignal.info}`, color: primitiveSignal.info }}>{c.surface_attribution === 'external_attack_surface' ? 'External' : 'Internal'}</span>
                   </div>
                   <h2 style={{ margin: `${primitiveSpacing[2]} 0 0`, fontSize: primitiveTypeScale.h3, fontWeight: primitiveFontWeight.bold, color: HUD.text }}>{c.title}</h2>
                 </div>
@@ -96,7 +96,7 @@ export default function P0WarRoomPage() {
 
               {strat.routing.status === 'resolved' && (
                 <div style={{ marginTop: primitiveSpacing[2], fontSize: primitiveTypeScale.micro, color: HUD.textMuted }}>
-                  Escalation: {(strat.routing.escalationPath ?? []).join(' → ') || '—'}
+                  Escalation: {(strat.routing.escalation_path ?? []).join(' → ') || '—'}
                 </div>
               )}
 
@@ -124,14 +124,14 @@ export default function P0WarRoomPage() {
                 <th key={h} style={{ textAlign: 'left', padding: `${primitiveSpacing[1]} ${primitiveSpacing[2]}`, borderBottom: `1px solid ${HUD.line}`, color: HUD.textMuted, fontSize: primitiveTypeScale.micro, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>{h}</th>
               ))}</tr></thead>
               <tbody>
-                {boundSubActions.sort((a, b) => a.sequenceOrder - b.sequenceOrder).map((s) => (
+                {boundSubActions.sort((a, b) => a.sequence_order - b.sequence_order).map((s) => (
                   <tr key={s.id} style={{ borderBottom: `1px solid ${HUD.lineSubtle}` }}>
-                    <td style={{ padding: primitiveSpacing[2], fontFamily: primitiveFonts.mono, color: HUD.textMuted }}>{s.sequenceOrder}</td>
+                    <td style={{ padding: primitiveSpacing[2], fontFamily: primitiveFonts.mono, color: HUD.textMuted }}>{s.sequence_order}</td>
                     <td style={{ padding: primitiveSpacing[2], color: HUD.text }}>{s.executionMethod}</td>
-                    <td style={{ padding: primitiveSpacing[2] }}><span style={{ fontSize: primitiveTypeScale.micro, padding: '1px 6px', background: primitiveSignal.info, color: '#fff', textTransform: 'uppercase' }}>{s.tacticType}</span></td>
+                    <td style={{ padding: primitiveSpacing[2] }}><span style={{ fontSize: primitiveTypeScale.micro, padding: '1px 6px', background: primitiveSignal.info, color: '#fff', textTransform: 'uppercase' }}>{s.tactic_type}</span></td>
                     <td style={{ padding: primitiveSpacing[2], color: HUD.textSecondary }}>{s.owner}</td>
                     <td style={{ padding: primitiveSpacing[2], color: HUD.textSecondary }}>{titleCase(s.outcomeClassification)}</td>
-                    <td style={{ padding: primitiveSpacing[2], fontFamily: primitiveFonts.mono, color: HUD.textMuted }}>{s.actualEffortHours}/{s.estimatedEffortHours}h</td>
+                    <td style={{ padding: primitiveSpacing[2], fontFamily: primitiveFonts.mono, color: HUD.textMuted }}>{s.actual_effort_hours}/{s.estimated_effort_hours}h</td>
                   </tr>
                 ))}
               </tbody>
@@ -148,8 +148,8 @@ export default function P0WarRoomPage() {
               ))}</tr></thead>
               <tbody>
                 {wr.membership.map((m) => (
-                  <tr key={m.userId} style={{ borderBottom: `1px solid ${HUD.lineSubtle}` }}>
-                    <td style={{ padding: primitiveSpacing[2], color: HUD.text }}>{m.userId}</td>
+                  <tr key={m.user_id} style={{ borderBottom: `1px solid ${HUD.lineSubtle}` }}>
+                    <td style={{ padding: primitiveSpacing[2], color: HUD.text }}>{m.user_id}</td>
                     <td style={{ padding: primitiveSpacing[2] }}><span style={{ fontSize: primitiveTypeScale.micro, padding: '1px 6px', background: m.role === 'senior_owner' ? primitiveSignal.critical : primitiveSignal.info, color: '#fff', textTransform: 'uppercase' }}>{m.role}</span></td>
                     <td style={{ padding: primitiveSpacing[2], fontFamily: primitiveFonts.mono, color: HUD.textMuted, fontSize: primitiveTypeScale.micro }}>{new Date(m.joinedAt).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' })}</td>
                     <td style={{ padding: primitiveSpacing[2], fontFamily: primitiveFonts.mono, color: HUD.textMuted, fontSize: primitiveTypeScale.micro }}>{m.acknowledgedAt ? new Date(m.acknowledgedAt).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' }) : '—'}</td>
@@ -172,7 +172,7 @@ export default function P0WarRoomPage() {
               <tbody>
                 {thesisTeamsDecisionEvents.slice(0, 5).map((d) => (
                   <tr key={d.id} style={{ borderBottom: `1px solid ${HUD.lineSubtle}` }}>
-                    <td style={{ padding: primitiveSpacing[2], color: HUD.text, fontFamily: primitiveFonts.mono }}>{d.caseId}</td>
+                    <td style={{ padding: primitiveSpacing[2], color: HUD.text, fontFamily: primitiveFonts.mono }}>{d.case_id}</td>
                     <td style={{ padding: primitiveSpacing[2] }}><span style={{ fontSize: primitiveTypeScale.micro, padding: '1px 6px', border: `1px solid ${HUD.line}`, color: HUD.textSecondary }}>{d.requestType}</span></td>
                     <td style={{ padding: primitiveSpacing[2] }}><span style={{ fontSize: primitiveTypeScale.micro, padding: '1px 6px', background: d.decision === 'approved' || d.decision === 'confirmed' ? primitiveSignal.success : d.decision === 'denied' ? primitiveSignal.critical : primitiveSignal.warning, color: '#fff', textTransform: 'uppercase' }}>{d.decision ?? 'pending'}</span></td>
                     <td style={{ padding: primitiveSpacing[2], color: HUD.textSecondary }}>{d.respondedBy ?? '—'}</td>
@@ -188,10 +188,10 @@ export default function P0WarRoomPage() {
         {thesisWarRooms.filter((wr) => wr.status === 'activated').map((wr) => (
           <Panel key={`comm-${wr.id}`} title="Communication Cadence & Bridge Posts" subtitle={`Subscribers: ${wr.subscribers.length} · Cadence profile active`}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: primitiveSpacing[3], marginBottom: primitiveSpacing[3] }}>
-              <div><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: HUD.textMuted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>Activated</span><span style={{ fontSize: primitiveTypeScale.caption, fontFamily: primitiveFonts.mono, color: HUD.text }}>{wr.communicationCadence.activatedCadenceMinutes}min</span></div>
-              <div><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: HUD.textMuted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>Monitoring</span><span style={{ fontSize: primitiveTypeScale.caption, fontFamily: primitiveFonts.mono, color: HUD.text }}>{wr.communicationCadence.monitoringCadenceMinutes}min</span></div>
-              <div><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: HUD.textMuted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>Winding Down</span><span style={{ fontSize: primitiveTypeScale.caption, fontFamily: primitiveFonts.mono, color: HUD.text }}>{wr.communicationCadence.windingDownCadenceMinutes}min</span></div>
-              <div><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: HUD.textMuted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>Exec Update</span><span style={{ fontSize: primitiveTypeScale.caption, fontFamily: primitiveFonts.mono, color: HUD.text }}>{wr.communicationCadence.execUpdateCadenceMinutes}min</span></div>
+              <div><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: HUD.textMuted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>Activated</span><span style={{ fontSize: primitiveTypeScale.caption, fontFamily: primitiveFonts.mono, color: HUD.text }}>{wr.communication_cadence.activatedCadenceMinutes}min</span></div>
+              <div><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: HUD.textMuted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>Monitoring</span><span style={{ fontSize: primitiveTypeScale.caption, fontFamily: primitiveFonts.mono, color: HUD.text }}>{wr.communication_cadence.monitoringCadenceMinutes}min</span></div>
+              <div><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: HUD.textMuted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>Winding Down</span><span style={{ fontSize: primitiveTypeScale.caption, fontFamily: primitiveFonts.mono, color: HUD.text }}>{wr.communication_cadence.windingDownCadenceMinutes}min</span></div>
+              <div><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: HUD.textMuted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>Exec Update</span><span style={{ fontSize: primitiveTypeScale.caption, fontFamily: primitiveFonts.mono, color: HUD.text }}>{wr.communication_cadence.execUpdateCadenceMinutes}min</span></div>
             </div>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
               <thead><tr>{['Subscriber', 'Channels', 'Cadence'].map((h) => (
@@ -199,8 +199,8 @@ export default function P0WarRoomPage() {
               ))}</tr></thead>
               <tbody>
                 {wr.subscribers.map((s) => (
-                  <tr key={s.userId} style={{ borderBottom: `1px solid ${HUD.lineSubtle}` }}>
-                    <td style={{ padding: primitiveSpacing[2], color: HUD.text }}>{s.userId}</td>
+                  <tr key={s.user_id} style={{ borderBottom: `1px solid ${HUD.lineSubtle}` }}>
+                    <td style={{ padding: primitiveSpacing[2], color: HUD.text }}>{s.user_id}</td>
                     <td style={{ padding: primitiveSpacing[2], color: HUD.textSecondary }}>{s.channels.join(', ')}</td>
                     <td style={{ padding: primitiveSpacing[2] }}><span style={{ fontSize: primitiveTypeScale.micro, padding: '1px 6px', border: `1px solid ${HUD.line}`, color: HUD.textSecondary }}>{s.cadence}</span></td>
                   </tr>

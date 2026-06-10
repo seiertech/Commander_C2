@@ -14,13 +14,13 @@ import { thesisStrategies } from '../../../../../packages/contracts/src/fixtures
  */
 
 interface StrategyConfigViewProps {
-  surfaceType: StrategySurfaceType;
+  surface_type: StrategySurfaceType;
   pretitle: string;
   title: string;
 }
 
-export function StrategyConfigView({ surfaceType, pretitle, title }: StrategyConfigViewProps) {
-  const policy = thesisStrategies.find((s) => s.surfaceType === surfaceType);
+export function StrategyConfigView({ surface_type, pretitle, title }: StrategyConfigViewProps) {
+  const policy = thesisStrategies.find((s) => s.surface_type === surfaceType);
 
   if (!policy) {
     return (
@@ -52,7 +52,7 @@ export function StrategyConfigView({ surfaceType, pretitle, title }: StrategyCon
             </div>
             <div className="col-sm-6 col-lg-3">
               <div className="subheader">Version</div>
-              <div style={{ fontSize: primitiveTypeScale.body }}>{policy.policyVersion}</div>
+              <div style={{ fontSize: primitiveTypeScale.body }}>{policy.policy_version}</div>
             </div>
             <div className="col-sm-6 col-lg-3">
               <div className="subheader">Status</div>
@@ -60,15 +60,15 @@ export function StrategyConfigView({ surfaceType, pretitle, title }: StrategyCon
             </div>
             <div className="col-sm-6 col-lg-3">
               <div className="subheader">Effective From</div>
-              <div style={{ fontSize: primitiveTypeScale.caption }}>{policy.effectiveFrom ? new Date(policy.effectiveFrom).toLocaleDateString() : '—'}</div>
+              <div style={{ fontSize: primitiveTypeScale.caption }}>{policy.effective_from ? new Date(policy.effective_from).toLocaleDateString() : '—'}</div>
             </div>
             <div className="col-sm-6 col-lg-3">
               <div className="subheader">Proposed By</div>
-              <div style={{ fontSize: primitiveTypeScale.caption }}>{policy.proposedBy}</div>
+              <div style={{ fontSize: primitiveTypeScale.caption }}>{policy.proposed_by}</div>
             </div>
             <div className="col-sm-6 col-lg-3">
               <div className="subheader">Approved By</div>
-              <div style={{ fontSize: primitiveTypeScale.caption }}>{policy.approval?.approvedBy ?? '—'}</div>
+              <div style={{ fontSize: primitiveTypeScale.caption }}>{policy.approval?.approved_by ?? '—'}</div>
             </div>
             <div className="col-sm-6 col-lg-3">
               <div className="subheader">Rationale</div>
@@ -76,7 +76,7 @@ export function StrategyConfigView({ surfaceType, pretitle, title }: StrategyCon
             </div>
             <div className="col-sm-6 col-lg-3">
               <div className="subheader">Simulation</div>
-              <div style={{ fontSize: primitiveTypeScale.caption }}>{policy.simulationRef ?? 'None'}</div>
+              <div style={{ fontSize: primitiveTypeScale.caption }}>{policy.simulation_ref ?? 'None'}</div>
             </div>
           </div>
         </div>

@@ -20,11 +20,11 @@ export const RULE_STATUSES: RuleStatus[] = ['active', 'draft', 'disabled', 'depr
 export const RULE_TYPES: RuleType[] = ['detection', 'drift', 'correlation', 'suppression', 'custom'];
 
 export interface RuleDefinition extends CommonFields {
-  entityType: 'rule-definition';
+  entity_type: 'rule-definition';
   /** Rule display name */
   name: string;
   /** Rule type */
-  ruleType: RuleType;
+  rule_type: RuleType;
   /** Current status */
   status: RuleStatus;
   /** Rule version */
@@ -36,9 +36,9 @@ export interface RuleDefinition extends CommonFields {
   /** Whether this is a platform-managed or tenant-custom rule */
   origin: 'platform' | 'tenant-custom';
   /** Last triggered timestamp (null if never) */
-  lastTriggeredAt: string | null;
+  last_triggered_at: string | null;
   /** Total trigger count */
-  triggerCount: number;
+  trigger_count: number;
   /** Description */
   description: string;
   // ─── Version lifecycle (Spec 34 — promote/rollback governance) ─────────────
@@ -47,9 +47,9 @@ export interface RuleDefinition extends CommonFields {
   /** When this version becomes/became effective */
   effectiveDate?: string;
   /** Who approved this version for activation */
-  approvedBy?: string;
+  approved_by?: string;
   /** Reference to the blast-radius simulation that backed activation */
-  simulationRef?: string;
+  simulation_ref?: string;
   /** Version to roll back to if this version is reverted */
   rollbackTarget?: string;
 }
@@ -63,11 +63,11 @@ export const MODEL_STATUSES: ModelStatus[] = ['active', 'training', 'retired', '
 export const MODEL_TYPES: ModelType[] = ['detection', 'anomaly', 'risk-scoring', 'classification', 'correlation'];
 
 export interface ModelDefinition extends CommonFields {
-  entityType: 'model-definition';
+  entity_type: 'model-definition';
   /** Model display name */
   name: string;
   /** Model type */
-  modelType: ModelType;
+  model_type: ModelType;
   /** Current status */
   status: ModelStatus;
   /** Model version */
@@ -77,9 +77,9 @@ export interface ModelDefinition extends CommonFields {
   /** Accuracy/confidence metric (0-100) */
   accuracy: number;
   /** False positive rate (0-100) */
-  falsePositiveRate: number;
+  false_positive_rate: number;
   /** Last evaluated timestamp */
-  lastEvaluatedAt: string;
+  last_evaluated_at: string;
   /** Description */
   description: string;
 }
@@ -93,7 +93,7 @@ export const AUTOMATION_STATUSES: AutomationStatus[] = ['active', 'paused', 'dra
 export const AUTOMATION_TRIGGERS: AutomationTrigger[] = ['case-created', 'sla-breach', 'priority-change', 'validation-fail', 'connector-error', 'scheduled'];
 
 export interface AutomationRule extends CommonFields {
-  entityType: 'automation-rule';
+  entity_type: 'automation-rule';
   /** Rule name */
   name: string;
   /** Trigger condition */
@@ -103,11 +103,11 @@ export interface AutomationRule extends CommonFields {
   /** Action to perform */
   action: string;
   /** Times executed */
-  executionCount: number;
+  execution_count: number;
   /** Last executed timestamp */
-  lastExecutedAt: string | null;
+  last_executed_at: string | null;
   /** Whether approval is required before execution */
-  requiresApproval: boolean;
+  requires_approval: boolean;
   /** Description */
   description: string;
 }
@@ -119,17 +119,17 @@ export type FeatureState = 'enabled' | 'disabled' | 'entitled' | 'not-entitled' 
 export const FEATURE_STATES: FeatureState[] = ['enabled', 'disabled', 'entitled', 'not-entitled', 'feature-flag-off'];
 
 export interface FeatureRegistryEntry extends CommonFields {
-  entityType: 'feature-registry-entry';
+  entity_type: 'feature-registry-entry';
   /** Feature flag key */
-  featureKey: string;
+  feature_key: string;
   /** Display name */
-  displayName: string;
+  display_name: string;
   /** Current effective state */
   state: FeatureState;
   /** Module this feature belongs to */
   module: string;
   /** Control scope (who can toggle) */
-  controlScope: 'platform' | 'tenant-admin' | 'operator';
+  control_scope: 'platform' | 'tenant-admin' | 'operator';
   /** Description */
   description: string;
 }

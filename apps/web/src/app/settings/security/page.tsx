@@ -130,11 +130,11 @@ export default function SettingsSecurityPage() {
               <tbody>
                 {thesisAuthSessions.map((s) => (
                   <tr key={s.id}>
-                    <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{s.userId}</td>
+                    <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{s.user_id}</td>
                     <td className="text-muted">{s.ipAddress}</td>
                     <td>{s.mfaVerified ? <span className="badge bg-green-lt">Verified</span> : <span className="badge bg-red-lt">No MFA</span>}</td>
                     <td>{statusBadge(s.status)}</td>
-                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{new Date(s.createdAt).toLocaleString()}</td>
+                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{new Date(s.created_at).toLocaleString()}</td>
                     <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{new Date(s.expiresAt).toLocaleString()}</td>
                   </tr>
                 ))}

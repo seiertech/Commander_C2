@@ -13,7 +13,7 @@
  *
  * Ownership model:
  * - Source-owned (immutable after write): analyticId, analyticName, analyticType, version
- * - Commander-owned (mutable): state, falsePositiveRate, attacks[]
+ * - Commander-owned (mutable): state, false_positive_rate, attacks[]
  * - Storage: separate reference table; referenced from Risk Object/Verdict by analyticId + analyticType
  *
  * OCSF influence: analytic.json object (type_id: Rule/Behavioral/Statistical/ML)
@@ -78,7 +78,7 @@ export const ANALYTIC_STATES: AnalyticState[] = [
  * reference key pair for deduplication.
  */
 export interface Analytic extends CommonFields {
-  entityType: 'analytic';
+  entity_type: 'analytic';
 
   // ─── Source-owned fields (immutable after write) ─────────────────────────
 
@@ -103,7 +103,7 @@ export interface Analytic extends CommonFields {
    * False positive rate (0-100). Optional.
    * Source may provide an initial estimate; Commander tracks and updates.
    */
-  falsePositiveRate?: number;
+  false_positive_rate?: number;
 
   /**
    * ATT&CK bindings for this analytic (optional, bounded array).
@@ -179,13 +179,13 @@ export function validateAnalytic(analytic: Analytic): AnalyticValidation {
   }
 
   // falsePositiveRate, if present, must be 0-100
-  if (analytic.falsePositiveRate !== undefined) {
+  if (analytic.false_positive_rate !== undefined) {
     if (
-      analytic.falsePositiveRate < MIN_FALSE_POSITIVE_RATE ||
-      analytic.falsePositiveRate > MAX_FALSE_POSITIVE_RATE
+      analytic.false_positive_rate < MIN_FALSE_POSITIVE_RATE ||
+      analytic.false_positive_rate > MAX_FALSE_POSITIVE_RATE
     ) {
       errors.push(
-        `falsePositiveRate: must be between ${MIN_FALSE_POSITIVE_RATE} and ${MAX_FALSE_POSITIVE_RATE}, got ${analytic.falsePositiveRate}`,
+        `false_positive_rate: must be between ${MIN_FALSE_POSITIVE_RATE} and ${MAX_FALSE_POSITIVE_RATE}, got ${analytic.false_positive_rate}`,
       );
     }
   }

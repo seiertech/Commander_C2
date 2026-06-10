@@ -23,8 +23,8 @@ export default function PlatformAutomationPage() {
   const { tokens } = useMode();
 
   const activeRules = thesisAutomationRules.filter((r) => r.status === 'active').length;
-  const totalExecutions = thesisAutomationRules.reduce((acc, r) => acc + r.executionCount, 0);
-  const requiresApproval = thesisAutomationRules.filter((r) => r.requiresApproval).length;
+  const totalExecutions = thesisAutomationRules.reduce((acc, r) => acc + r.execution_count, 0);
+  const requiresApproval = thesisAutomationRules.filter((r) => r.requires_approval).length;
 
   const statusColor = (status: string) => {
     switch (status) {
@@ -65,9 +65,9 @@ export default function PlatformAutomationPage() {
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{r.trigger.replace(/-/g, ' ')}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{r.action.replace(/-/g, ' ')}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', color: '#fff', background: statusColor(r.status) }}>{r.status}</span></td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{r.executionCount}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{r.lastExecutedAt ? new Date(r.lastExecutedAt).toLocaleString() : '—'}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}>{r.requiresApproval ? <span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', color: '#fff', background: primitiveSignal.warning }}>required</span> : <span style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>auto</span>}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{r.execution_count}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{r.last_executed_at ? new Date(r.last_executed_at).toLocaleString() : '—'}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}>{r.requires_approval ? <span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', color: '#fff', background: primitiveSignal.warning }}>required</span> : <span style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>auto</span>}</td>
                 </tr>
               ))}
             </tbody>

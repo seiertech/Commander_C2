@@ -56,7 +56,7 @@ export default function SettingsMissionsPage() {
                         <span className="badge bg-blue-lt">{bindings.length} bound</span>
                       </td>
                       <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>
-                        {mission.bindingRules.map((r) => `${r.ruleType}:${r.pattern}`).join(', ') || 'None'}
+                        {mission.bindingRules.map((r) => `${r.rule_type}:${r.pattern}`).join(', ') || 'None'}
                       </td>
                       <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>
                         {mission.reviewedBy ? `${mission.reviewedBy} (${new Date(mission.reviewedAt!).toLocaleDateString()})` : 'Pending'}
@@ -96,7 +96,7 @@ export default function SettingsMissionsPage() {
                     <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.caption }}>{binding.bindingId}</td>
                     <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{binding.missionId}</td>
                     <td><span className="badge bg-secondary">{binding.boundEntityType}</span></td>
-                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{binding.entityRef}</td>
+                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{binding.entity_ref}</td>
                     <td><span className="badge bg-blue-lt">{binding.bindingMethod.replace(/_/g, ' ')}</span></td>
                     <td>{binding.confidence}%</td>
                     <td className="text-muted">{binding.boundBy}</td>

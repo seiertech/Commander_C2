@@ -21,7 +21,7 @@ export interface FullStrategyResolution {
   routing: RoutingResolution;
   priority: PriorityResolution;
   validation: ValidationResolution;
-  closureGates: ClosureGateResolution;
+  closure_gates: ClosureGateResolution;
   reopening: ReopeningResolution;
 }
 
@@ -38,7 +38,7 @@ export function resolveAllStrategies(
     routing: resolveRouting(caseRecord, strategies),
     priority: resolvePriority(strategies),
     validation: resolveValidationWindow(strategies),
-    closureGates: resolveClosureGates(strategies),
+    closure_gates: resolveClosureGates(strategies),
     reopening: resolveReopeningTriggers(strategies),
   };
 }

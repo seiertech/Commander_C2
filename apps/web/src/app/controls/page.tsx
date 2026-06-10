@@ -22,9 +22,9 @@ export default function ControlsPage() {
   const evaluations = thesisControlEvaluations;
 
   const activeCount = frameworks.filter((f) => f.active).length;
-  const totalControls = frameworks.reduce((sum, f) => sum + f.totalControls, 0);
+  const totalControls = frameworks.reduce((sum, f) => sum + f.total_controls, 0);
   const avgCompleteness = frameworks.length > 0
-    ? Math.round(frameworks.reduce((sum, f) => sum + f.mappingCompleteness, 0) / frameworks.length)
+    ? Math.round(frameworks.reduce((sum, f) => sum + f.mapping_completeness, 0) / frameworks.length)
     : 0;
 
   return (
@@ -47,7 +47,7 @@ export default function ControlsPage() {
           <div className="card">
             <div className="card-body">
               <div className="subheader">Total Controls</div>
-              <div className="h1 mb-0">{totalControls}</div>
+              <div className="h1 mb-0">{total_controls}</div>
             </div>
           </div>
         </div>
@@ -91,25 +91,25 @@ export default function ControlsPage() {
               <tbody>
                 {frameworks.map((f) => (
                   <tr key={f.id}>
-                    <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{f.frameworkName}</td>
+                    <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{f.framework_name}</td>
                     <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{f.version}</td>
                     <td>
                       <span className={`badge ${f.category === 'regulatory' ? 'bg-purple-lt' : f.category === 'industry' ? 'bg-blue-lt' : 'bg-secondary'}`}>
                         {f.category}
                       </span>
                     </td>
-                    <td>{f.totalControls}</td>
+                    <td>{f.total_controls}</td>
                     <td>
                       <div className="d-flex align-items-center gap-2">
                         <div className="progress" style={{ width: '60px', height: '6px' }}>
-                          <div className="progress-bar bg-primary" style={{ width: `${f.mappingCompleteness}%` }} />
+                          <div className="progress-bar bg-primary" style={{ width: `${f.mapping_completeness}%` }} />
                         </div>
-                        <span style={{ fontSize: primitiveTypeScale.caption }}>{f.mappingCompleteness}%</span>
+                        <span style={{ fontSize: primitiveTypeScale.caption }}>{f.mapping_completeness}%</span>
                       </div>
                     </td>
                     <td>
-                      <span className={`badge ${f.licenceStatus === 'open' ? 'bg-green-lt' : f.licenceStatus === 'restricted' ? 'bg-orange-lt' : 'bg-secondary'}`}>
-                        {f.licenceStatus}
+                      <span className={`badge ${f.licence_status === 'open' ? 'bg-green-lt' : f.licence_status === 'restricted' ? 'bg-orange-lt' : 'bg-secondary'}`}>
+                        {f.licence_status}
                       </span>
                     </td>
                     <td>

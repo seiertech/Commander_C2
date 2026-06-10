@@ -70,12 +70,12 @@ export default function PlatformModelLifecyclePage() {
                 {models.map((m) => (
                   <tr key={m.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                     <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{m.name}</td>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{m.modelType}</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{m.model_type}</td>
                     <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono }}>{m.version}</td>
                     <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{m.domain}</td>
                     <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: m.accuracy >= 90 ? primitiveSignal.success : primitiveSignal.warning, fontFamily: primitiveFonts.mono }}>{m.accuracy}%</td>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: m.falsePositiveRate <= 5 ? primitiveSignal.success : primitiveSignal.warning, fontFamily: primitiveFonts.mono }}>{m.falsePositiveRate}%</td>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontSize: primitiveTypeScale.micro }}>{new Date(m.lastEvaluatedAt).toLocaleDateString()}</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: m.false_positive_rate <= 5 ? primitiveSignal.success : primitiveSignal.warning, fontFamily: primitiveFonts.mono }}>{m.false_positive_rate}%</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontSize: primitiveTypeScale.micro }}>{new Date(m.last_evaluated_at).toLocaleDateString()}</td>
                   </tr>
                 ))}
               </tbody>
