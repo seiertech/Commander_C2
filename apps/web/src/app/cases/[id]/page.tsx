@@ -98,7 +98,7 @@ export default function CaseDetailPage({ params }: { params: Promise<{ id: strin
     (r) => r.affected_entity_id === caseRecord.case_id || (r.affected_entities ?? []).includes(caseRecord.case_id),
   );
   const evidence = thesisEvidence.filter((e) => e.case_id === caseRecord.case_id);
-  const relatedAssets = thesisAssets.filter((a) => caseRecord.related_entities.includes(a.id));
+  const relatedAssets = thesisAssets.filter((a) => caseRecord.related_entities.includes(a.asset_id));
   const relatedCases = thesisCases.filter(
     (c) => c.case_id !== caseRecord.case_id && c.related_entities.some((e: any) => caseRecord.related_entities.includes(e)),
   );
