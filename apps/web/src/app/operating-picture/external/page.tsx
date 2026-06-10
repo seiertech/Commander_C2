@@ -8,29 +8,20 @@ import { seedCases } from '../../../../../../packages/contracts/src/fixtures/see
 import { seedRiskObjects } from '../../../../../../packages/contracts/src/fixtures/seed-risk-objects';
 import { seedConnectors } from '../../../../../../packages/contracts/src/fixtures/seed-connectors';
 import { seedAttackClassificationAudits } from '../../../../../../packages/contracts/src/fixtures/seed-attack-classification-audits';
+import { thesisSignals, thesisIntelligenceAssessments } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
 import { STREAM_LABELS, CLASS_TO_STREAM } from '../../../../../../packages/contracts/src/engines/intelligence-layer';
 
 /**
- * External Operating Picture — Unit 20 (Surface Layer)
+ * External Operating Picture — Thesis §7 (Event & Intelligence Layer)
  *
- * Source: Spec #65 External Operating Picture, #60 Internal/External Attack Surface Framework;
- *         Route Registry (path: /operating-picture/external).
+ * Use Case: UC-INTEL-001 — View Intelligence Confidence Grading
+ * Use Case: UC-INTEL-002 — View Normalised Signals
+ * Entities: Signal, Intelligence_Assessment, Finding_Event (L3)
+ * Standards: OCSF 1.3, NATO/Admiralty
  *
- * SCOPE (Unit 20):
- *   1. External attack surface inventory (external_attack_surface assets/identities)
- *   2. External Attack Intelligence stream visualisation (Class A connector observations)
- *   3. External attack surface case queue (cases with surfaceAttribution: external_attack_surface)
- *   4. External attack surface risk objects
- *   5. Drill paths to cases, assets, identities, threat intel
- *
- * Doctrinal constraints:
- *   - Surface attribution preserved — this view shows ONLY external_attack_surface records (Assertion 10).
- *   - Consumes canonical seed fixtures + Unit 14 stream taxonomy; invents no entities.
- *   - SOC boundary: read-only signal display (Assertion 8).
- *   - No manual case creation (Assertion 1).
- *
- * Boundary: Operational App. Status: BUILD.
+ * NEW in thesis: Intelligence confidence grading section showing
+ * source_reliability (A-F) and information_credibility (1-6) per signal.
  */
 
 const EXTERNAL = 'external_attack_surface';
@@ -282,6 +273,55 @@ export default function ExternalOperatingPicturePage() {
                     {seedAttackClassificationAudits.length === 0 && (
                       <tr><td colSpan={6} className="text-muted text-center" style={{ fontSize: primitiveTypeScale.caption }}>No classifications recorded</td></tr>
                     )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Intelligence Confidence Grading (Thesis §7 — NATO/Admiralty) ── */}
+      <div className="row row-deck row-cards mb-3">
+        <div className="col-12">
+          <div className="card">
+            <div className="card-header">
+              <h3 className="card-title">Intelligence Confidence Grading (NATO/Admiralty)</h3>
+              <div className="card-actions">
+                <span className="badge bg-blue-lt">Source Reliability A-F | Information Credibility 1-6</span>
+              </div>
+            </div>
+            <div className="card-body p-0">
+              <div className="table-responsive">
+                <table className="table table-vcenter card-table">
+                  <thead>
+                    <tr>
+                      <th>Signal</th>
+                      <th>Source</th>
+                      <th>Reliability</th>
+                      <th>Credibility</th>
+                      <th>Combined</th>
+                      <th>Graded By</th>
+                      <th>Time</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {thesisIntelligenceAssessments.map((ia) => {
+                      const signal = thesisSignals.find((s) => s.signal_id === ia.signal_id);
+                      const relColor = ia.source_reliability <= 'B' ? primitiveSignal.success : ia.source_reliability <= 'D' ? primitiveSignal.warning : primitiveSignal.critical;
+                      const credColor = ia.information_credibility <= 2 ? primitiveSignal.success : ia.information_credibility <= 4 ? primitiveSignal.warning : primitiveSignal.critical;
+                      return (
+                        <tr key={ia.intelligence_assessment_id}>
+                          <td style={{ fontSize: primitiveTypeScale.caption }}>{signal?.ocsf_class ?? ia.signal_id}</td>
+                          <td style={{ fontSize: primitiveTypeScale.caption }}>{signal?.source_system ?? 'unknown'}</td>
+                          <td><span className="badge" style={{ background: relColor, color: '#fff' }}>{ia.source_reliability}</span></td>
+                          <td><span className="badge" style={{ background: credColor, color: '#fff' }}>{ia.information_credibility}</span></td>
+                          <td style={{ fontWeight: 600 }}>{ia.combined_rating}</td>
+                          <td style={{ fontSize: primitiveTypeScale.caption }} className="text-muted">{ia.graded_by}</td>
+                          <td style={{ fontSize: primitiveTypeScale.caption }} className="text-muted">{new Date(ia.graded_time).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
