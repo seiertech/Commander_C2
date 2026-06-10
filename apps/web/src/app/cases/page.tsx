@@ -12,7 +12,7 @@ import {
 } from '../../../../../packages/ui/src/tokens/primitives';
 import { PageContainer } from '@/components/page-container';
 import { CaseCard } from '@/components/case-card';
-import type { Case } from '../../../../../packages/contracts/src/entities/case';
+
 import {
   FLOW_LANES, laneOf, isClosed, isNew, slaState, riskScore, ageLabel,
   momentum, PRIORITIES, type FlowLane,
@@ -134,7 +134,7 @@ export default function CaseHandlingPage() {
 
   // Lane grouping for board
   const lanes = useMemo(() => {
-    const g: Record<FlowLane, Case[]> = { new: [], triage: [], in_progress: [], validation: [], closure: [], closed: [] };
+    const g: Record<FlowLane, any[]> = { new: [], triage: [], in_progress: [], validation: [], closure: [], closed: [] };
     filtered.forEach((c) => g[laneOf(c)].push(c));
     (Object.keys(g) as FlowLane[]).forEach((k) => g[k].sort((a, b) => riskScore(b, now) - riskScore(a, now)));
     return g;
@@ -250,7 +250,7 @@ export default function CaseHandlingPage() {
 }
 
 // ── Board ──
-function BoardView({ lanes, visibleLanes, now }: { lanes: Record<FlowLane, Case[]>; visibleLanes: typeof FLOW_LANES; now: number }) {
+function BoardView({ lanes, visibleLanes, now }: { lanes: Record<FlowLane, any[]>; visibleLanes: typeof FLOW_LANES; now: number }) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: `repeat(${visibleLanes.length}, minmax(210px, 1fr))`, gap: primitiveSpacing[2], alignItems: 'start', overflowX: 'auto' }}>
       {visibleLanes.map((lane) => {
@@ -265,7 +265,7 @@ function BoardView({ lanes, visibleLanes, now }: { lanes: Record<FlowLane, Case[
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: primitiveSpacing[2] }}>
-              {cards.map((c) => <CaseCard key={c.id} caseRecord={c} now={now} hud />)}
+              {cards.map((c) => <CaseCard key={c.case_id} caseRecord={c} now={now} hud />)}
               {cards.length === 0 && <div style={{ padding: primitiveSpacing[3], border: `1px dashed ${HUD.lineSubtle}`, textAlign: 'center', color: HUD.textMuted, fontSize: primitiveTypeScale.micro }}>—</div>}
             </div>
           </div>
@@ -276,13 +276,13 @@ function BoardView({ lanes, visibleLanes, now }: { lanes: Record<FlowLane, Case[
 }
 
 // ── Table ──
-function TableView({ cases, now, router }: { cases: Case[]; now: number; router: ReturnType<typeof useRouter> }) {
+function TableView({ cases, now, router }: { cases: any[]; now: number; router: ReturnType<typeof useRouter> }) {
   const sorted = [...cases].sort((a, b) => riskScore(b, now) - riskScore(a, now));
   return (
     <div style={{ background: HUD.elevated, border: `1px solid ${HUD.line}`, overflowX: 'auto' }}>
       <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
         <thead>
-          <tr>{['Priority', 'Risk', 'Case Ref', 'Title', 'Type', 'Status', 'Owner', 'SLA', 'Age', 'Surface'].map((h) => (
+          <tr>{['Priority', 'Risk', 'Case Ref', 'Title', 'Type', 'Status', 'ITIL', 'OODA', 'Owner', 'SLA', 'Age', 'Surface'].map((h) => (
             <th key={h} style={{ textAlign: 'left', padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, borderBottom: `2px solid ${HUD.line}`, color: HUD.textSecondary, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, fontSize: primitiveTypeScale.micro, whiteSpace: 'nowrap' }}>{h}</th>
           ))}</tr>
         </thead>
@@ -293,13 +293,15 @@ function TableView({ cases, now, router }: { cases: Case[]; now: number; router:
             const risk = riskScore(c, now);
             const toneColor = sla.tone === 'critical' ? primitiveSignal.critical : sla.tone === 'warning' ? primitiveSignal.warning : primitiveSignal.success;
             return (
-              <tr key={c.id} onClick={() => router.push(`/cases/${c.id}`)} style={{ cursor: 'pointer', borderBottom: `1px solid ${HUD.lineSubtle}` }}>
+              <tr key={c.case_id} onClick={() => router.push(`/cases/${c.case_id}`)} style={{ cursor: 'pointer', borderBottom: `1px solid ${HUD.lineSubtle}` }}>
                 <td style={tdHud}><span style={{ color: pr.color, fontWeight: primitiveFontWeight.semibold }}>{pr.shape} {pr.label}</span></td>
                 <td style={{ ...tdHud, fontFamily: primitiveFonts.mono, fontWeight: primitiveFontWeight.bold, color: risk >= 75 ? primitiveSignal.critical : risk >= 50 ? primitiveSignal.warning : HUD.textSecondary }}>{risk}</td>
                 <td style={{ ...tdHud, fontFamily: primitiveFonts.mono }}>{c.case_ref}</td>
                 <td style={{ ...tdHud, maxWidth: 320, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: HUD.text }} title={c.title}>{c.title}</td>
                 <td style={tdHud}>{titleCase(c.case_type)}</td>
                 <td style={{ ...tdHud, whiteSpace: 'nowrap' }}>{STATUS_LABEL[c.status] ?? c.status}</td>
+                <td style={{ ...tdHud, fontSize: primitiveTypeScale.micro, whiteSpace: 'nowrap' }}>{c.itil_stage}</td>
+                <td style={{ ...tdHud, fontSize: primitiveTypeScale.micro, whiteSpace: 'nowrap' }}>{c.ooda_state}</td>
                 <td style={tdHud}>{c.owner}</td>
                 <td style={tdHud}><span style={{ padding: `2px ${primitiveSpacing[2]}`, background: toneColor, color: '#fff', fontSize: primitiveTypeScale.micro, whiteSpace: 'nowrap' }}>{sla.label}</span></td>
                 <td style={{ ...tdHud, fontFamily: primitiveFonts.mono, whiteSpace: 'nowrap' }}>{ageLabel(c, now)}</td>
@@ -307,7 +309,7 @@ function TableView({ cases, now, router }: { cases: Case[]; now: number; router:
               </tr>
             );
           })}
-          {sorted.length === 0 && <tr><td colSpan={10} style={{ ...tdHud, textAlign: 'center', color: HUD.textMuted, padding: primitiveSpacing[6] }}>No cases match the current filters.</td></tr>}
+          {sorted.length === 0 && <tr><td colSpan={12} style={{ ...tdHud, textAlign: 'center', color: HUD.textMuted, padding: primitiveSpacing[6] }}>No cases match the current filters.</td></tr>}
         </tbody>
       </table>
     </div>
