@@ -5,15 +5,13 @@
  * Merges: Commander C2 Standards Evidence Model + full SDR entity catalogue.
  */
 
-// ─── Layer 1: Standards Evidence Model (Commander C2 native) ─────────────────
+// ─── Layer 1: Standards Declaration (Thesis §5 — Schema_Compliance) ──────────
 export type {
-  StandardsDeclaration,
-  StandardsCategory,
+  SchemaCompliance,
   ConformanceLevel,
-  DeclarationStatus,
-  StandardsDeclarationValidation,
+  SchemaComplianceValidation,
 } from './standards-declaration';
-export { validateStandardsDeclaration } from './standards-declaration';
+export { CONFORMANCE_LEVELS, validate_schema_compliance } from './standards-declaration';
 
 export type {
   StandardsFieldMapping,
