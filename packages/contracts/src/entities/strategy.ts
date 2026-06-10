@@ -116,33 +116,33 @@ export type StrategyPolicyStatus =
 
 /** Strategy policy — a versioned configuration for a strategy surface */
 export interface StrategyPolicy extends CommonFields {
-  entityType: 'strategy-policy';
+  entity_type: 'strategy-policy';
   /** Which strategy surface this policy belongs to */
-  surfaceType: StrategySurfaceType;
+  surface_type: StrategySurfaceType;
   /** Policy version (semantic) */
-  policyVersion: string;
+  policy_version: string;
   /** Current status */
   status: StrategyPolicyStatus;
   /** Policy configuration (JSON — shape varies by surface type) */
   configuration: Record<string, unknown>;
   /** Who proposed this policy */
-  proposedBy: string;
+  proposed_by: string;
   /** When it was proposed */
-  proposedAt: string;
+  proposed_at: string;
   /** Approval metadata (null if not yet approved) */
   approval: StrategyApproval | null;
   /** Effective from (null if not yet active) */
-  effectiveFrom: string | null;
+  effective_from: string | null;
   /** Effective until (null if still active) */
-  effectiveUntil: string | null;
+  effective_until: string | null;
   /** Simulation result reference (null if not simulated) */
-  simulationRef: string | null;
+  simulation_ref: string | null;
 }
 
 /** Approval record for a strategy policy */
 export interface StrategyApproval {
-  approvedBy: string;
-  approvedAt: string;
+  approved_by: string;
+  approved_at: string;
   condition: string;
   rationale: string;
 }
@@ -173,7 +173,7 @@ export interface RuntimeBindingTrigger {
   /** Which strategy surface caused the trigger */
   sourceSurface: StrategySurfaceType;
   /** Policy ID that was applied */
-  policyId: string;
+  policy_id: string;
   /** Affected entity scope (e.g., case IDs, risk object IDs) */
   affectedScope: string[];
   /** Timestamp of trigger */

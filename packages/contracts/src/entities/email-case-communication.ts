@@ -31,15 +31,15 @@ export type CommunicationStatus = typeof COMMUNICATION_STATUSES[number];
 // ─── Email Case Communication Entity ─────────────────────────────────────────
 
 export interface EmailCaseCommunication extends CommonFields {
-  entityType: 'email-case-communication';
+  entity_type: 'email-case-communication';
   /** Unique communication identifier */
   communicationId: string;
   /** Reference to the bound case */
-  caseRef: string;
+  case_ref: string;
   /** Direction of the communication */
   direction: CommunicationDirection;
   /** Sender email address */
-  senderAddress: string;
+  sender_address: string;
   /** Recipient email addresses */
   recipientAddresses: string[];
   /** Email subject line */
@@ -47,15 +47,15 @@ export interface EmailCaseCommunication extends CommonFields {
   /** Preview of the email body (truncated) */
   bodyPreview: string;
   /** When the email was received */
-  receivedAt: string;
+  received_at: string;
   /** When the email was processed by Commander */
-  processedAt: string;
+  processed_at: string;
   /** Confidence score for case binding (0-1) */
   bindingConfidence: number;
   /** Current processing status */
   status: CommunicationStatus;
   /** Email thread identifier (null if standalone) */
-  threadId: string | null;
+  thread_id: string | null;
   /** Number of attachments */
   attachmentCount: number;
 }
@@ -76,20 +76,20 @@ export function validateEmailCaseCommunication(record: EmailCaseCommunication): 
   if (!record.id || record.id.trim() === '') {
     errors.push('id: required');
   }
-  if (!record.tenant || !record.tenant.tenantId || record.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!record.tenant || !record.tenant.tenant_id || record.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
   if (!record.communicationId || record.communicationId.trim() === '') {
     errors.push('communicationId: required');
   }
-  if (!record.caseRef || record.caseRef.trim() === '') {
-    errors.push('caseRef: required');
+  if (!record.case_ref || record.case_ref.trim() === '') {
+    errors.push('case_ref: required');
   }
   if (!record.direction || !COMMUNICATION_DIRECTIONS.includes(record.direction)) {
     errors.push(`direction: must be one of: ${COMMUNICATION_DIRECTIONS.join(', ')}`);
   }
-  if (!record.senderAddress || record.senderAddress.trim() === '') {
-    errors.push('senderAddress: required');
+  if (!record.sender_address || record.sender_address.trim() === '') {
+    errors.push('sender_address: required');
   }
   if (!Array.isArray(record.recipientAddresses) || record.recipientAddresses.length === 0) {
     errors.push('recipientAddresses: must be a non-empty array');
@@ -100,11 +100,11 @@ export function validateEmailCaseCommunication(record: EmailCaseCommunication): 
   if (!record.bodyPreview || record.bodyPreview.trim() === '') {
     errors.push('bodyPreview: required');
   }
-  if (!record.receivedAt || record.receivedAt.trim() === '') {
-    errors.push('receivedAt: required');
+  if (!record.received_at || record.received_at.trim() === '') {
+    errors.push('received_at: required');
   }
-  if (!record.processedAt || record.processedAt.trim() === '') {
-    errors.push('processedAt: required');
+  if (!record.processed_at || record.processed_at.trim() === '') {
+    errors.push('processed_at: required');
   }
   if (typeof record.bindingConfidence !== 'number' || record.bindingConfidence < 0 || record.bindingConfidence > 1) {
     errors.push('bindingConfidence: must be 0-1');

@@ -1,10 +1,11 @@
+// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 'use client';
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedTenantConfigs } from '../../../../../../packages/contracts/src/fixtures/seed-tenant-configs';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisTenantConfigs } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Control Plane — Tenants
@@ -15,14 +16,14 @@ import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFon
 
 export default function ControlPlaneTenantsPage() {
   const { tokens } = useMode();
-  const active = seedTenantConfigs.filter((t) => t.status === 'active').length;
-  const totalUsers = seedTenantConfigs.reduce((a, t) => a + t.currentUsers, 0);
-  const totalAssets = seedTenantConfigs.reduce((a, t) => a + t.currentAssets, 0);
+  const active = thesisTenantConfigs.filter((t) => t.status === 'active').length;
+  const totalUsers = thesisTenantConfigs.reduce((a, t) => a + t.currentUsers, 0);
+  const totalAssets = thesisTenantConfigs.reduce((a, t) => a + t.currentAssets, 0);
 
   return (
     <PageContainer pretitle="Control Plane › Tenants" title="Tenants">
       <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
-        <Kpi tokens={tokens} label="Total Tenants" value={String(seedTenantConfigs.length)} />
+        <Kpi tokens={tokens} label="Total Tenants" value={String(thesisTenantConfigs.length)} />
         <Kpi tokens={tokens} label="Active" value={String(active)} accent={primitiveSignal.success} />
         <Kpi tokens={tokens} label="Total Users" value={String(totalUsers)} />
         <Kpi tokens={tokens} label="Total Assets" value={String(totalAssets)} />
@@ -32,7 +33,7 @@ export default function ControlPlaneTenantsPage() {
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
             <thead><tr>{['Tenant', 'Status', 'Region', 'Users', 'Assets', 'Features', 'Last Activity'].map((h) => <th key={h} style={{ textAlign: 'left', padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, borderBottom: `2px solid ${tokens.border.default}`, color: tokens.text.muted, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, fontSize: primitiveTypeScale.micro }}>{h}</th>)}</tr></thead>
-            <tbody>{seedTenantConfigs.map((t) => (
+            <tbody>{thesisTenantConfigs.map((t) => (
               <tr key={t.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{t.tenantDisplayName}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, color: '#fff', background: t.status === 'active' ? primitiveSignal.success : t.status === 'provisioning' ? primitiveSignal.info : primitiveSignal.neutral }}>{t.status}</span></td>

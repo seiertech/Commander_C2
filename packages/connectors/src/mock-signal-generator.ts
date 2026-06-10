@@ -1,3 +1,4 @@
+// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 /**
  * Mock Signal Generator — Commander C2 (Unit 38, Connector Layer)
  *

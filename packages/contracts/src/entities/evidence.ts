@@ -10,8 +10,8 @@
  * It informs but never governs lifecycle, priority, routing, validation or closure.
  *
  * Ownership model:
- * - Source-owned (immutable after write): evidenceType, source, collectedAt, contentRef, immutabilityHash
- * - Commander-owned (mutable): confidence, expiresAt, freshnessStatus
+ * - Source-owned (immutable after write): evidenceType, source, collected_at, contentRef, immutabilityHash
+ * - Commander-owned (mutable): confidence, expires_at, freshnessStatus
  * - Immutable bindings: caseId, subActionId, validationDecisionId, riskObjectId
  *
  * Evidence content is stored in object store (S3/equivalent); this entity holds
@@ -92,18 +92,18 @@ export const FRESHNESS_STATUSES: FreshnessStatus[] = [
  * Content is stored externally (object store); this entity holds metadata only.
  */
 export interface Evidence extends CommonFields {
-  entityType: 'evidence';
+  entity_type: 'evidence';
 
   // ─── Source-owned fields (immutable after write) ─────────────────────────
 
   /** Evidence type classification */
-  evidenceType: EvidenceType;
+  evidence_type: EvidenceType;
 
   /** Evidence source — who/what collected this evidence */
   evidenceSource: EvidenceSource;
 
   /** When this evidence was collected (source timestamp, immutable) */
-  collectedAt: string;
+  collected_at: string;
 
   /** Pointer to evidence content in object store (S3 URI or equivalent) */
   contentRef: string;
@@ -117,7 +117,7 @@ export interface Evidence extends CommonFields {
   confidence: number;
 
   /** When this evidence becomes stale (computed from collectedAt + freshness policy). Optional. */
-  expiresAt?: string;
+  expires_at?: string;
 
   /** Freshness evaluation — computed at evaluation time. */
   freshnessStatus: FreshnessStatus;
@@ -125,7 +125,7 @@ export interface Evidence extends CommonFields {
   // ─── Immutable bindings ──────────────────────────────────────────────────
 
   /** Bound case (required). Immutable after write. */
-  caseId: string;
+  case_id: string;
 
   /** Bound sub-action (optional). Immutable after write. */
   subActionId?: string;
@@ -134,7 +134,7 @@ export interface Evidence extends CommonFields {
   validationDecisionId?: string;
 
   /** Bound risk object (optional). Immutable after write. */
-  riskObjectId?: string;
+  risk_object_id?: string;
 }
 
 // ─── Validation ──────────────────────────────────────────────────────────────
@@ -163,8 +163,8 @@ export function validateEvidence(evidence: Evidence): EvidenceValidation {
   const errors: string[] = [];
 
   // evidenceType must be a known type
-  if (!EVIDENCE_TYPES.includes(evidence.evidenceType)) {
-    errors.push(`evidenceType: unknown type "${evidence.evidenceType}". Must be one of: ${EVIDENCE_TYPES.join(', ')}`);
+  if (!EVIDENCE_TYPES.includes(evidence.evidence_type)) {
+    errors.push(`evidence_type: unknown type "${evidence.evidence_type}". Must be one of: ${EVIDENCE_TYPES.join(', ')}`);
   }
 
   // evidenceSource must be a known source
@@ -178,8 +178,8 @@ export function validateEvidence(evidence: Evidence): EvidenceValidation {
   }
 
   // collectedAt must be a non-empty string (ISO 8601)
-  if (!evidence.collectedAt || evidence.collectedAt.trim() === '') {
-    errors.push('collectedAt: required, must be a non-empty ISO 8601 timestamp');
+  if (!evidence.collected_at || evidence.collected_at.trim() === '') {
+    errors.push('collected_at: required, must be a non-empty ISO 8601 timestamp');
   }
 
   // contentRef must be a non-empty string
@@ -193,8 +193,8 @@ export function validateEvidence(evidence: Evidence): EvidenceValidation {
   }
 
   // caseId must be a non-empty string (required binding)
-  if (!evidence.caseId || evidence.caseId.trim() === '') {
-    errors.push('caseId: required binding, must be a non-empty string');
+  if (!evidence.case_id || evidence.case_id.trim() === '') {
+    errors.push('case_id: required binding, must be a non-empty string');
   }
 
   // freshnessStatus must be a known status
@@ -203,11 +203,11 @@ export function validateEvidence(evidence: Evidence): EvidenceValidation {
   }
 
   // expiresAt, if present, must be after collectedAt
-  if (evidence.expiresAt && evidence.collectedAt) {
-    const expiresDate = new Date(evidence.expiresAt).getTime();
-    const collectedDate = new Date(evidence.collectedAt).getTime();
+  if (evidence.expires_at && evidence.collected_at) {
+    const expiresDate = new Date(evidence.expires_at).getTime();
+    const collectedDate = new Date(evidence.collected_at).getTime();
     if (!isNaN(expiresDate) && !isNaN(collectedDate) && expiresDate <= collectedDate) {
-      errors.push('expiresAt: must be after collectedAt');
+      errors.push('expires_at: must be after collectedAt');
     }
   }
 

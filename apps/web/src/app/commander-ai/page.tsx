@@ -48,7 +48,7 @@ export default function CommanderAiPage() {
         {/* Modes */}
         <div className="col-lg-6">
           <div className="card">
-            <div className="card-header"><h3 className="card-title">Commander Modes (Thesis
+            <div className="card-header"><h3 className="card-title">Commander Modes (Thesis §19)</h3></div>
             <div className="card-body p-0">
               <div className="table-responsive">
                 <table className="table table-vcenter card-table">

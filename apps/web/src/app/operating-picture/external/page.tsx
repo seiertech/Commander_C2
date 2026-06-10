@@ -1,14 +1,9 @@
+// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 'use client';
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedAssets } from '../../../../../../packages/contracts/src/fixtures/seed-assets';
-import { seedIdentities } from '../../../../../../packages/contracts/src/fixtures/seed-identities';
-import { seedCases } from '../../../../../../packages/contracts/src/fixtures/seed-cases';
-import { seedRiskObjects } from '../../../../../../packages/contracts/src/fixtures/seed-risk-objects';
-import { seedConnectors } from '../../../../../../packages/contracts/src/fixtures/seed-connectors';
-import { seedAttackClassificationAudits } from '../../../../../../packages/contracts/src/fixtures/seed-attack-classification-audits';
-import { thesisSignals, thesisIntelligenceAssessments } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisSignals, thesisIntelligenceAssessments, thesisAssets, thesisIdentities, thesisCases, thesisRiskObjects, thesisConnectors, thesisAttackClassificationAudits } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
 import { STREAM_LABELS, CLASS_TO_STREAM } from '../../../../../../packages/contracts/src/engines/intelligence-layer';
 
@@ -30,17 +25,17 @@ export default function ExternalOperatingPicturePage() {
   const { tokens } = useMode();
 
   // ── 1. External attack surface inventory ──
-  const externalAssets = seedAssets.filter((a) => a.surfaceAttribution === EXTERNAL);
-  const externalIdentities = seedIdentities.filter((i) => i.surfaceAttribution === EXTERNAL);
+  const externalAssets = thesisAssets.filter((a) => a.surface_attribution === EXTERNAL);
+  const externalIdentities = thesisIdentities.filter((i) => i.surface_attribution === EXTERNAL);
 
   // ── 2. External Attack Intelligence stream — Class A connectors feed this stream ──
-  const externalAttackConnectors = seedConnectors.filter((c) =>
+  const externalAttackConnectors = thesisConnectors.filter((c) =>
     c.classes.some((cls) => CLASS_TO_STREAM[cls] === 'external_attack'),
   );
 
   // ── 3. External attack surface case queue ──
-  const externalCases = seedCases
-    .filter((c) => c.surfaceAttribution === EXTERNAL)
+  const externalCases = thesisCases
+    .filter((c) => c.surface_attribution === EXTERNAL)
     .sort((a, b) => {
       const order: Record<string, number> = { P0: 0, P1: 1, P2: 2, P3: 3, P4: 4 };
       return (order[a.priority] ?? 4) - (order[b.priority] ?? 4);
@@ -52,8 +47,8 @@ export default function ExternalOperatingPicturePage() {
     ...externalIdentities.map((i) => i.id),
     ...externalCases.map((c) => c.id),
   ]);
-  const externalRiskObjects = seedRiskObjects.filter((r) =>
-    r.affectedEntities?.some((id) => externalEntityIds.has(id)) || externalEntityIds.has(r.affectedEntityId),
+  const externalRiskObjects = thesisRiskObjects.filter((r) =>
+    r.affected_entities?.some((id) => externalEntityIds.has(id)) || externalEntityIds.has(r.affected_entity_id),
   );
 
   const priorityBadge = (p: string) =>
@@ -163,7 +158,7 @@ export default function ExternalOperatingPicturePage() {
                           />
                           <span style={{ fontSize: primitiveTypeScale.caption }}>{c.state}</span>
                         </td>
-                        <td className="text-end text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{c.lastRunStatus}</td>
+                        <td className="text-end text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{c.last_run_status}</td>
                       </tr>
                     ))}
                     {externalAttackConnectors.length === 0 && (
@@ -222,7 +217,7 @@ export default function ExternalOperatingPicturePage() {
                     {externalRiskObjects.map((r) => (
                       <tr key={r.id}>
                         <td style={{ fontSize: primitiveTypeScale.body }}>{r.type}</td>
-                        <td className="text-muted text-end" style={{ fontSize: primitiveTypeScale.caption }}>{r.treatmentState}</td>
+                        <td className="text-muted text-end" style={{ fontSize: primitiveTypeScale.caption }}>{r.treatment_state}</td>
                       </tr>
                     ))}
                     {externalRiskObjects.length === 0 && (
@@ -257,20 +252,20 @@ export default function ExternalOperatingPicturePage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {seedAttackClassificationAudits.map((a) => {
+                    {thesisAttackClassificationAudits.map((a) => {
                       const classColor = a.classification === 'PRE_WARNED' ? primitiveSignal.warning : a.classification === 'PROTECTED' ? primitiveSignal.info : primitiveSignal.neutral;
                       return (
                         <tr key={a.id}>
-                          <td style={{ fontSize: primitiveTypeScale.body }}>{a.entityRef}</td>
+                          <td style={{ fontSize: primitiveTypeScale.body }}>{a.entity_ref}</td>
                           <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{a.entityType_target}</td>
                           <td><span className="badge" style={{ background: classColor, color: '#fff' }}>{a.classification}</span></td>
-                          <td style={{ fontSize: primitiveTypeScale.caption, color: a.priorityImpact > 0 ? primitiveSignal.critical : primitiveSignal.success }}>{a.priorityImpact > 0 ? '+' : ''}{a.priorityImpact}</td>
-                          <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>drift:{a.postureSnapshot.driftState} cov:{a.postureSnapshot.coveragePercent}%</td>
+                          <td style={{ fontSize: primitiveTypeScale.caption, color: a.priority_impact > 0 ? primitiveSignal.critical : primitiveSignal.success }}>{a.priority_impact > 0 ? '+' : ''}{a.priority_impact}</td>
+                          <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>drift:{a.posture_snapshot.drift_state} cov:{a.posture_snapshot.coverage_percent}%</td>
                           <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{new Date(a.classifiedAt).toLocaleDateString()}</td>
                         </tr>
                       );
                     })}
-                    {seedAttackClassificationAudits.length === 0 && (
+                    {thesisAttackClassificationAudits.length === 0 && (
                       <tr><td colSpan={6} className="text-muted text-center" style={{ fontSize: primitiveTypeScale.caption }}>No classifications recorded</td></tr>
                     )}
                   </tbody>

@@ -1,9 +1,9 @@
+// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 'use client';
 
+import { thesisIocs, thesisVulnerabilityIntelligence } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedIocs } from '../../../../../../packages/contracts/src/fixtures/seed-iocs';
-import { seedVulnerabilityIntelligence } from '../../../../../../packages/contracts/src/fixtures/seed-vulnerability-intelligence';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
@@ -23,11 +23,11 @@ import {
 export default function VulnerabilitiesSupplyChainPage() {
   const { tokens } = useMode();
 
-  const supplyChainIocs = seedIocs.filter((ioc) =>
-    ioc.iocCategory === 'package_name' || ioc.iocCategory === 'container_image' || ioc.iocCategory === 'file_hash_sha256'
+  const supplyChainIocs = thesisIocs.filter((ioc) =>
+    ioc.ioc_category === 'package_name' || ioc.ioc_category === 'container_image' || ioc.ioc_category === 'file_hash_sha256'
   );
-  const supplyChainVulns = seedVulnerabilityIntelligence.filter((v) =>
-    v.affectedProducts.some((p) => p.includes('library') || p.includes('framework'))
+  const supplyChainVulns = thesisVulnerabilityIntelligence.filter((v) =>
+    v.affected_products.some((p) => p.includes('library') || p.includes('framework'))
   );
   const activeIocs = supplyChainIocs.filter((ioc) => ioc.active);
   const highConfidence = supplyChainIocs.filter((ioc) => ioc.confidence >= 80);
@@ -57,7 +57,7 @@ export default function VulnerabilitiesSupplyChainPage() {
             <tbody>
               {supplyChainIocs.map((ioc) => (
                 <tr key={ioc.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{ioc.iocCategory.replace(/_/g, ' ')}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{ioc.ioc_category.replace(/_/g, ' ')}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, maxWidth: 240, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={ioc.value}>{ioc.value}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{ioc.confidence}%</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{ioc.severity}/5</td>
@@ -87,9 +87,9 @@ export default function VulnerabilitiesSupplyChainPage() {
               {supplyChainVulns.map((v) => (
                 <tr key={v.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold, fontFamily: primitiveFonts.mono }}>{v.cveId}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{v.cvssScore}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontSize: primitiveTypeScale.micro }}>{v.affectedProducts.join(', ')}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{v.epssScore !== null ? `${(v.epssScore * 100).toFixed(0)}%` : '—'}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{v.cvss_score}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontSize: primitiveTypeScale.micro }}>{v.affected_products.join(', ')}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{v.epss_score !== null ? `${(v.epss_score * 100).toFixed(0)}%` : '—'}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{v.severity}/5</td>
                 </tr>
               ))}

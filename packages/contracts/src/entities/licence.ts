@@ -20,16 +20,16 @@ export const LICENCE_TYPES = ['enterprise', 'professional', 'starter', 'trial', 
 export type LicenceType = typeof LICENCE_TYPES[number];
 
 export interface Licence extends CommonFields {
-  entityType: 'licence';
-  customerId: string;
-  tenantId: string;
-  licenceType: LicenceType;
+  entity_type: 'licence';
+  customer_id: string;
+  tenant_id: string;
+  licence_type: LicenceType;
   status: LicenceStatus;
   startDate: string;
   endDate: string;
-  maxUsers: number;
-  maxAssets: number;
-  currentUsage: { users: number; assets: number; connectors: number };
+  max_users: number;
+  max_assets: number;
+  current_usage: { users: number; assets: number; connectors: number };
   features: string[];
   billingCycle: 'monthly' | 'annual';
   renewalDate: string | null;
@@ -40,10 +40,10 @@ export interface LicenceValidation { valid: boolean; errors: string[]; }
 export function validateLicence(l: Licence): LicenceValidation {
   const errors: string[] = [];
   if (!l.id || l.id.trim() === '') errors.push('id: required');
-  if (!l.tenant?.tenantId) errors.push('tenant.tenantId: required');
-  if (!l.customerId || l.customerId.trim() === '') errors.push('customerId: required');
+  if (!l.tenant?.tenant_id) errors.push('tenant.tenant_id: required');
+  if (!l.customer_id || l.customer_id.trim() === '') errors.push('customer_id: required');
   if (!LICENCE_STATUSES.includes(l.status)) errors.push(`status: must be one of: ${LICENCE_STATUSES.join(', ')}`);
-  if (!LICENCE_TYPES.includes(l.licenceType)) errors.push(`licenceType: must be one of: ${LICENCE_TYPES.join(', ')}`);
+  if (!LICENCE_TYPES.includes(l.licence_type)) errors.push(`licence_type: must be one of: ${LICENCE_TYPES.join(', ')}`);
   if (!l.startDate) errors.push('startDate: required');
   if (!l.endDate) errors.push('endDate: required');
   return { valid: errors.length === 0, errors };

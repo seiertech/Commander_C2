@@ -1,8 +1,8 @@
 'use client';
 
+import { thesisReports } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedReports } from '../../../../../../packages/contracts/src/fixtures/seed-reports';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
@@ -22,8 +22,8 @@ import {
 export default function ReportingExportsPage() {
   const { tokens } = useMode();
 
-  const completedReports = seedReports.filter((r) => r.status === 'completed');
-  const formats = Array.from(new Set(seedReports.map((r) => r.format)));
+  const completedReports = thesisReports.filter((r) => r.status === 'completed');
+  const formats = Array.from(new Set(thesisReports.map((r) => r.format)));
 
   return (
     <PageContainer pretitle="Reporting › Exports" title="Report Exports">
@@ -31,7 +31,7 @@ export default function ReportingExportsPage() {
       <section style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
         <KpiCard tokens={tokens} label="Available Exports" value={String(completedReports.length)} />
         <KpiCard tokens={tokens} label="Formats" value={formats.join(', ').toUpperCase()} />
-        <KpiCard tokens={tokens} label="Total Reports" value={String(seedReports.length)} />
+        <KpiCard tokens={tokens} label="Total Reports" value={String(thesisReports.length)} />
       </section>
 
       {/* Exports table */}
@@ -53,10 +53,10 @@ export default function ReportingExportsPage() {
                 completedReports.map((r) => (
                   <tr key={r.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                     <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{r.title}</td>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{r.reportType.replace(/-/g, ' ')}</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{r.report_type.replace(/-/g, ' ')}</td>
                     <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', color: '#fff', background: primitiveSignal.info }}>{r.format}</span></td>
                     <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{new Date(r.periodStart).toLocaleDateString()} – {new Date(r.periodEnd).toLocaleDateString()}</td>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{r.lastGeneratedAt ? new Date(r.lastGeneratedAt).toLocaleString() : '—'}</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{r.last_generated_at ? new Date(r.last_generated_at).toLocaleString() : '—'}</td>
                     <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{r.audience.join(', ')}</td>
                   </tr>
                 ))

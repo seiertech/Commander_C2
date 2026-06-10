@@ -85,7 +85,7 @@ describe('Case Queue — Strategy Consumption (Constraint 9)', () => {
 
   it('SLA hours come from strategy resolution (not hardcoded)', () => {
     expect(combinedContent).toContain("strategy.sla.status === 'resolved'");
-    expect(combinedContent).toContain('strategy.sla.responseHours');
+    expect(combinedContent).toContain('strategy.sla.response_hours');
   });
 });
 

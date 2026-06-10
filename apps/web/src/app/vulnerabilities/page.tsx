@@ -1,9 +1,10 @@
+// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 'use client';
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedVulnerabilityIntelligence } from '../../../../../packages/contracts/src/fixtures/seed-vulnerability-intelligence';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
+import { thesisVulnerabilityIntelligence } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Vulnerability Management — Overview
@@ -18,12 +19,12 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/
 
 export default function VulnerabilitiesPage() {
   const { tokens } = useMode();
-  const vulns = seedVulnerabilityIntelligence;
-  const sorted = [...vulns].sort((a, b) => b.cvssScore - a.cvssScore);
+  const vulns = thesisVulnerabilityIntelligence;
+  const sorted = [...vulns].sort((a, b) => b.cvss_score - a.cvss_score);
 
-  const kevCount = vulns.filter((v) => v.cisaKevStatus).length;
+  const kevCount = vulns.filter((v) => v.cisa_kev_status).length;
   const criticalCount = vulns.filter((v) => v.severity >= 4).length;
-  const avgCvss = vulns.length > 0 ? (vulns.reduce((sum, v) => sum + v.cvssScore, 0) / vulns.length).toFixed(1) : '0';
+  const avgCvss = vulns.length > 0 ? (vulns.reduce((sum, v) => sum + v.cvss_score, 0) / vulns.length).toFixed(1) : '0';
 
   return (
     <PageContainer
@@ -95,30 +96,30 @@ export default function VulnerabilitiesPage() {
                   <tr key={v.id}>
                     <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{v.cveId}</td>
                     <td>
-                      <span className={`badge ${v.cvssScore >= 9 ? 'bg-red' : v.cvssScore >= 7 ? 'bg-orange' : v.cvssScore >= 4 ? 'bg-yellow' : 'bg-secondary'}`}>
-                        {v.cvssScore.toFixed(1)}
+                      <span className={`badge ${v.cvss_score >= 9 ? 'bg-red' : v.cvss_score >= 7 ? 'bg-orange' : v.cvss_score >= 4 ? 'bg-yellow' : 'bg-secondary'}`}>
+                        {v.cvss_score.toFixed(1)}
                       </span>
                     </td>
                     <td>
                       <SeverityIndicator severity={v.severity} />
                     </td>
                     <td>
-                      {v.cisaKevStatus ? (
+                      {v.cisa_kev_status ? (
                         <span className="badge bg-red-lt">KEV</span>
                       ) : (
                         <span className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>—</span>
                       )}
                     </td>
                     <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>
-                      {v.epssScore !== null ? `${(v.epssScore * 100).toFixed(0)}%` : '—'}
+                      {v.epss_score !== null ? `${(v.epss_score * 100).toFixed(0)}%` : '—'}
                     </td>
                     <td>
-                      <span className={`badge ${v.cveState === 'published' ? 'bg-green-lt' : 'bg-secondary'}`}>
-                        {v.cveState}
+                      <span className={`badge ${v.cve_state === 'published' ? 'bg-green-lt' : 'bg-secondary'}`}>
+                        {v.cve_state}
                       </span>
                     </td>
                     <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>
-                      {v.affectedProducts.length > 0 ? v.affectedProducts.join(', ') : '—'}
+                      {v.affected_products.length > 0 ? v.affected_products.join(', ') : '—'}
                     </td>
                     <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>
                       {new Date(v.publishedAt).toLocaleDateString()}

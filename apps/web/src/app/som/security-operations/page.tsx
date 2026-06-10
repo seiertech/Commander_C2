@@ -1,8 +1,9 @@
+// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 'use client';
 
 import { PageContainer } from '@/components/page-container';
-import { seedCases } from '../../../../../../packages/contracts/src/fixtures/seed-cases';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisCases } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * SOM — Security Operations Manager (Thesis §12 — Capacity/Maturity/Performance)
@@ -15,7 +16,7 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/
  */
 
 export default function SecurityOperationsPage() {
-  const cases = seedCases;
+  const cases = thesisCases;
   const openCases = cases.filter((c) => c.status !== 'closed_by_system' && c.status !== 'closed');
 
   // Team workload

@@ -2,8 +2,8 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedEvents } from '../../../../../../packages/contracts/src/fixtures/seed-events';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisEvents } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Platform — Audit & Logs
@@ -19,7 +19,7 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/
 
 export default function PlatformAuditPage() {
   const { tokens } = useMode();
-  const events = [...seedEvents].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+  const events = [...thesisEvents].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
   const criticalCount = events.filter((e) => e.severity === 'critical').length;
   const warningCount = events.filter((e) => e.severity === 'warning').length;
@@ -92,8 +92,8 @@ export default function PlatformAuditPage() {
                       <SeverityBadge severity={e.severity} />
                     </td>
                     <td style={{ fontSize: primitiveTypeScale.body }}>{e.message}</td>
-                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{e.entityRef}</td>
-                    <td><span className="badge bg-secondary">{e.entityType}</span></td>
+                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{e.entity_ref}</td>
+                    <td><span className="badge bg-secondary">{e.entity_type}</span></td>
                   </tr>
                 ))}
               </tbody>

@@ -9,8 +9,8 @@
  * and may contain IOCs.
  *
  * Ownership model:
- * - Source-owned (immutable): advisoryId, vendor, title, publishedAt, lastModifiedAt,
- *   severity, affectedProducts, remediationGuidance, relatedCveIds
+ * - Source-owned (immutable): advisoryId, vendor, title, published_at, lastModifiedAt,
+ *   severity, affected_products, remediationGuidance, relatedCveIds
  * - Commander-owned (mutable): containedIocIds (IOCs extracted/normalised as first-class)
  */
 
@@ -20,19 +20,19 @@ import type { CommonFields } from './common';
 
 export interface VendorAdvisory extends CommonFields {
   /** Vendor-assigned advisory identifier — non-empty (Req 5.4) */
-  advisoryId: string;
+  advisory_id: string;
   /** Vendor name — non-empty (Req 5.4) */
   vendor: string;
   /** Advisory title */
   title: string;
   /** When published at source */
-  publishedAt: string;
+  published_at: string;
   /** When last modified at source */
   lastModifiedAt: string;
   /** Severity (SourceSeverity model: 1–5) */
   severity: number;
   /** Affected product identifiers */
-  affectedProducts: string[];
+  affected_products: string[];
   /** Remediation guidance text */
   remediationGuidance: string;
   /** Related CVE IDs (one-to-many to CVE, Req 5.2, 18.1) */
@@ -57,8 +57,8 @@ export function validateVendorAdvisory(
 ): VendorAdvisoryValidation {
   const errors: string[] = [];
 
-  if (!advisory.advisoryId || advisory.advisoryId.trim() === '') {
-    errors.push('advisoryId: required, must be a non-empty string');
+  if (!advisory.advisory_id || advisory.advisory_id.trim() === '') {
+    errors.push('advisory_id: required, must be a non-empty string');
   }
 
   if (!advisory.vendor || advisory.vendor.trim() === '') {
@@ -81,8 +81,8 @@ export function validateVendorAdvisory(
     errors.push('id: required');
   }
 
-  if (!advisory.tenant || !advisory.tenant.tenantId || advisory.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!advisory.tenant || !advisory.tenant.tenant_id || advisory.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
 
   return { valid: errors.length === 0, errors };

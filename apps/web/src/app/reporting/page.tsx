@@ -1,8 +1,8 @@
 'use client';
 
+import { thesisReports } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedReports } from '../../../../../packages/contracts/src/fixtures/seed-reports';
 import { componentTokens } from '../../../../../packages/ui/src/tokens/components';
 import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
@@ -22,9 +22,9 @@ import {
 export default function ReportingPage() {
   const { tokens } = useMode();
 
-  const totalReports = seedReports.length;
-  const completed = seedReports.filter((r) => r.status === 'completed').length;
-  const scheduled = seedReports.filter((r) => r.status === 'scheduled').length;
+  const totalReports = thesisReports.length;
+  const completed = thesisReports.filter((r) => r.status === 'completed').length;
+  const scheduled = thesisReports.filter((r) => r.status === 'scheduled').length;
 
   const statusColor = (status: string) => {
     switch (status) {
@@ -58,15 +58,15 @@ export default function ReportingPage() {
               </tr>
             </thead>
             <tbody>
-              {seedReports.map((r) => (
+              {thesisReports.map((r) => (
                 <tr key={r.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{r.title}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{r.reportType.replace(/-/g, ' ')}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{r.report_type.replace(/-/g, ' ')}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{r.cadence}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', color: '#fff', background: statusColor(r.status) }}>{r.status}</span></td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono, textTransform: 'uppercase' }}>{r.format}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{r.audience.join(', ')}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{r.lastGeneratedAt ? new Date(r.lastGeneratedAt).toLocaleDateString() : '—'}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{r.last_generated_at ? new Date(r.last_generated_at).toLocaleDateString() : '—'}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{r.nextScheduledAt ? new Date(r.nextScheduledAt).toLocaleDateString() : '—'}</td>
                 </tr>
               ))}

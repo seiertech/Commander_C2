@@ -31,12 +31,12 @@ describe('Schema conformance — Platform Intelligence', () => {
     // Every pgTable definition should have tenantId text column
     const tableMatches = catalogueSchema.match(/pgTable\(/g);
     expect(tableMatches).not.toBeNull();
-    expect(catalogueSchema).toContain("tenantId: text('tenant_id').notNull()");
+    expect(catalogueSchema).toContain("tenant_id: text('tenant_id').notNull()");
   });
 
   it('IOC dedup unique index exists on (tenant_id, ioc_category, normalised_value)', () => {
     expect(catalogueSchema).toContain('ioc_dedup_idx');
-    expect(catalogueSchema).toContain('table.tenantId, table.iocCategory, table.normalisedValue');
+    expect(catalogueSchema).toContain('table.tenant_id, table.ioc_category, table.normalisedValue');
   });
 
   it('no cross-workload foreign keys between catalogue and evaluation planes', () => {
@@ -45,7 +45,7 @@ describe('Schema conformance — Platform Intelligence', () => {
     expect(tenantSchema).toContain("sourceId: text('source_id').notNull()"); // no .references()
     expect(tenantSchema).toContain("platformRecordId: text('platform_record_id').notNull()"); // no .references()
     expect(tenantSchema).toContain("iocId: text('ioc_id').notNull()"); // no .references()
-    expect(tenantSchema).toContain("caseId: text('case_id').notNull()"); // no .references()
+    expect(tenantSchema).toContain("case_id: text('case_id').notNull()"); // no .references()
 
     // Verify no references() to catalogue tables in cross-plane columns
     const crossPlaneRefs = tenantSchema.match(/(?:sourceId|platformRecordId|iocId|caseId).*\.references\(\)/g);

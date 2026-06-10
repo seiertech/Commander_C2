@@ -36,15 +36,15 @@ export const BINDING_OUTCOMES: readonly BindingOutcome[] = [
 /** Request to bind a risk object to a case */
 export interface BindingRequest {
   /** Risk object ID to bind */
-  riskObjectId: string;
+  risk_object_id: string;
   /** Risk object type */
   riskObjectType: RiskObjectType;
   /** Tenant ID for scoping */
-  tenantId: string;
+  tenant_id: string;
   /** Affected entity ID */
-  affectedEntityId: string;
+  affected_entity_id: string;
   /** Affected entity type */
-  affectedEntityType: string;
+  affected_entity_type: string;
   /** Whether an existing open case covers this risk object */
   existingCaseId?: string;
   /** Whether a suppression policy applies */
@@ -60,9 +60,9 @@ export interface BindingResult {
   /** The binding outcome */
   outcome: BindingOutcome;
   /** Case ID (new or existing) if bound/linked */
-  caseId: string | null;
+  case_id: string | null;
   /** Risk object ID that was processed */
-  riskObjectId: string;
+  risk_object_id: string;
   /** Error message if allocation_error */
   error: string | null;
   /** Timestamp of binding */
@@ -83,12 +83,12 @@ export function bindRiskObject(request: BindingRequest): BindingResult {
   const timestamp = new Date().toISOString();
 
   // Validate required fields
-  if (!request.riskObjectId || !request.riskObjectType || !request.tenantId) {
+  if (!request.risk_object_id || !request.riskObjectType || !request.tenant_id) {
     return {
       success: false,
       outcome: 'allocation_error',
-      caseId: null,
-      riskObjectId: request.riskObjectId || '',
+      case_id: null,
+      risk_object_id: request.risk_object_id || '',
       error: 'Missing required fields: riskObjectId, riskObjectType, and tenantId are mandatory.',
       timestamp,
     };
@@ -99,8 +99,8 @@ export function bindRiskObject(request: BindingRequest): BindingResult {
     return {
       success: true,
       outcome: 'suppressed_approved',
-      caseId: null,
-      riskObjectId: request.riskObjectId,
+      case_id: null,
+      risk_object_id: request.risk_object_id,
       error: null,
       timestamp,
     };
@@ -111,8 +111,8 @@ export function bindRiskObject(request: BindingRequest): BindingResult {
     return {
       success: true,
       outcome: 'residual_risk_accepted',
-      caseId: null,
-      riskObjectId: request.riskObjectId,
+      case_id: null,
+      risk_object_id: request.risk_object_id,
       error: null,
       timestamp,
     };
@@ -123,21 +123,21 @@ export function bindRiskObject(request: BindingRequest): BindingResult {
     return {
       success: true,
       outcome: 'linked_existing_case',
-      caseId: request.existingCaseId,
-      riskObjectId: request.riskObjectId,
+      case_id: request.existingCaseId,
+      risk_object_id: request.risk_object_id,
       error: null,
       timestamp,
     };
   }
 
   // 4. Bind to new case
-  if (request.affectedEntityId && request.affectedEntityType) {
-    const newCaseId = `case-${request.tenantId}-${request.riskObjectId}-${Date.now()}`;
+  if (request.affected_entity_id && request.affected_entity_type) {
+    const newCaseId = `case-${request.tenant_id}-${request.risk_object_id}-${Date.now()}`;
     return {
       success: true,
       outcome: 'bound_new_case',
-      caseId: newCaseId,
-      riskObjectId: request.riskObjectId,
+      case_id: newCaseId,
+      risk_object_id: request.risk_object_id,
       error: null,
       timestamp,
     };
@@ -147,8 +147,8 @@ export function bindRiskObject(request: BindingRequest): BindingResult {
   return {
     success: false,
     outcome: 'allocation_error',
-    caseId: null,
-    riskObjectId: request.riskObjectId,
+    case_id: null,
+    risk_object_id: request.risk_object_id,
     error: 'Cannot bind risk object: missing affectedEntityId or affectedEntityType for new case creation.',
     timestamp,
   };

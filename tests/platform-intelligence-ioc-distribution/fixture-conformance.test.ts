@@ -25,15 +25,15 @@ describe('Fixture conformance — Platform Intelligence Sources', () => {
     for (const source of seedPlatformIntelligenceSources) {
       expect(source.id).toBeDefined();
       expect(source.tenant).toBeDefined();
-      expect(source.tenant.tenantId).toBeDefined();
-      expect(source.createdAt).toBeDefined();
-      expect(source.updatedAt).toBeDefined();
+      expect(source.tenant.tenant_id).toBeDefined();
+      expect(source.created_at).toBeDefined();
+      expect(source.updated_at).toBeDefined();
       expect(source.source).toBeDefined();
     }
   });
 
   it('all 8 source types are covered', () => {
-    const types = seedPlatformIntelligenceSources.map(s => s.sourceType);
+    const types = seedPlatformIntelligenceSources.map(s => s.source_type);
     for (const st of PLATFORM_INTELLIGENCE_SOURCE_TYPES) {
       expect(types).toContain(st);
     }
@@ -50,7 +50,7 @@ describe('Fixture conformance — Indicators of Compromise', () => {
   it('all IOC fixtures pass validation', () => {
     for (const ioc of seedIocs) {
       const result = validateIndicatorOfCompromise(ioc);
-      expect(result.valid, `IOC ${ioc.id} (${ioc.iocCategory}): ${result.errors.join(', ')}`).toBe(true);
+      expect(result.valid, `IOC ${ioc.id} (${ioc.ioc_category}): ${result.errors.join(', ')}`).toBe(true);
     }
   });
 
@@ -58,20 +58,20 @@ describe('Fixture conformance — Indicators of Compromise', () => {
     for (const ioc of seedIocs) {
       expect(ioc.id).toBeDefined();
       expect(ioc.tenant).toBeDefined();
-      expect(ioc.tenant.tenantId).toBeDefined();
-      expect(ioc.tenant.tenantName).toBeDefined();
-      expect(ioc.createdAt).toBeDefined();
-      expect(ioc.updatedAt).toBeDefined();
+      expect(ioc.tenant.tenant_id).toBeDefined();
+      expect(ioc.tenant.tenant_name).toBeDefined();
+      expect(ioc.created_at).toBeDefined();
+      expect(ioc.updated_at).toBeDefined();
       expect(ioc.source).toBeDefined();
-      expect(ioc.source.connectorId).toBeDefined();
-      expect(ioc.source.importRunId).toBeDefined();
-      expect(ioc.source.sourceSystem).toBeDefined();
-      expect(ioc.source.sourceTimestamp).toBeDefined();
+      expect(ioc.source.connector_id).toBeDefined();
+      expect(ioc.source.import_run_id).toBeDefined();
+      expect(ioc.source.source_system).toBeDefined();
+      expect(ioc.source.source_timestamp).toBeDefined();
     }
   });
 
   it('all 26 IOC categories are covered', () => {
-    const categories = seedIocs.map(i => i.iocCategory);
+    const categories = seedIocs.map(i => i.ioc_category);
     for (const cat of IOC_CATEGORIES) {
       expect(categories).toContain(cat);
     }

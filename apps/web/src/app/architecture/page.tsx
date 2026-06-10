@@ -2,9 +2,9 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { ARCHITECTURE_CLASSIFICATION_FIXTURES, TOPOLOGY_NODE_FIXTURES } from '../../../../../packages/contracts/src/fixtures/seed-architecture';
 import { componentTokens } from '../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
+import { thesisArchitectureClassifications, thesisTopologyNodes } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Architecture — Overview (Thesis §6 — Architecture Classification & Topology)
@@ -18,8 +18,8 @@ import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFon
 
 export default function ArchitectureOverviewPage() {
   const { tokens } = useMode();
-  const classifications = ARCHITECTURE_CLASSIFICATION_FIXTURES;
-  const nodes = TOPOLOGY_NODE_FIXTURES;
+  const classifications = thesisArchitectureClassifications;
+  const nodes = thesisTopologyNodes;
   const byDomain = { business: 0, data: 0, application: 0, technology: 0 };
   classifications.forEach((c) => { byDomain[c.togaf_domain]++; });
   const totalNodes = nodes.length;

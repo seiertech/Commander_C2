@@ -27,7 +27,7 @@ export interface ParsedEmailIoc {
 
 export interface InboundEmailSubmission extends CommonFields {
   /** Sender email address */
-  senderAddress: string;
+  sender_address: string;
   /** Source organisation */
   sourceOrganisation: string;
   /** When the email was received */
@@ -54,8 +54,8 @@ export function validateInboundEmailSubmission(
 ): InboundEmailSubmissionValidation {
   const errors: string[] = [];
 
-  if (!submission.senderAddress || submission.senderAddress.trim() === '') {
-    errors.push('senderAddress: required');
+  if (!submission.sender_address || submission.sender_address.trim() === '') {
+    errors.push('sender_address: required');
   }
 
   if (!submission.sourceOrganisation || submission.sourceOrganisation.trim() === '') {
@@ -74,8 +74,8 @@ export function validateInboundEmailSubmission(
     errors.push('id: required');
   }
 
-  if (!submission.tenant || !submission.tenant.tenantId || submission.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!submission.tenant || !submission.tenant.tenant_id || submission.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
 
   return { valid: errors.length === 0, errors };

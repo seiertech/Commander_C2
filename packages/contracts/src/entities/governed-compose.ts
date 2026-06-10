@@ -28,9 +28,9 @@ export type ApprovalStatus = typeof APPROVAL_STATUSES[number];
 // ─── Governed Compose Entity ─────────────────────────────────────────────────
 
 export interface GovernedCompose extends CommonFields {
-  entityType: 'governed-compose';
+  entity_type: 'governed-compose';
   /** Bound case reference */
-  caseRef: string;
+  case_ref: string;
   /** Draft subject line */
   draftSubject: string;
   /** Draft body content */
@@ -44,9 +44,9 @@ export interface GovernedCompose extends CommonFields {
   /** Approver user reference */
   approverRef: string;
   /** When approval was granted (null if pending/rejected/expired) */
-  approvedAt: string | null;
+  approved_at: string | null;
   /** When this approval expires */
-  expiresAt: string;
+  expires_at: string;
   /** Communication playbook reference (null if ad-hoc) */
   playbookRef: string | null;
 }
@@ -62,15 +62,15 @@ export function validateGovernedCompose(record: GovernedCompose): GovernedCompos
   const errors: string[] = [];
 
   if (!record.id || record.id.trim() === '') errors.push('id: required');
-  if (!record.tenant || !record.tenant.tenantId) errors.push('tenant.tenantId: required');
-  if (!record.caseRef || record.caseRef.trim() === '') errors.push('caseRef: required');
+  if (!record.tenant || !record.tenant.tenant_id) errors.push('tenant.tenant_id: required');
+  if (!record.case_ref || record.case_ref.trim() === '') errors.push('case_ref: required');
   if (!record.draftSubject || record.draftSubject.trim() === '') errors.push('draftSubject: required');
   if (!record.draftBody || record.draftBody.trim() === '') errors.push('draftBody: required');
   if (!Array.isArray(record.recipients) || record.recipients.length === 0) errors.push('recipients: must be non-empty');
   if (!record.channel || !COMPOSE_CHANNELS.includes(record.channel)) errors.push(`channel: must be one of: ${COMPOSE_CHANNELS.join(', ')}`);
   if (!record.approvalStatus || !APPROVAL_STATUSES.includes(record.approvalStatus)) errors.push(`approvalStatus: must be one of: ${APPROVAL_STATUSES.join(', ')}`);
   if (!record.approverRef || record.approverRef.trim() === '') errors.push('approverRef: required');
-  if (!record.expiresAt || record.expiresAt.trim() === '') errors.push('expiresAt: required');
+  if (!record.expires_at || record.expires_at.trim() === '') errors.push('expires_at: required');
 
   return { valid: errors.length === 0, errors };
 }

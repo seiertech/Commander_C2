@@ -2,8 +2,8 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedIdentities } from '../../../../../../packages/contracts/src/fixtures/seed-identities';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisIdentities } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Identity & Access — Privileged Access
@@ -18,16 +18,16 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/
 export default function PrivilegedAccessPage() {
   const { tokens } = useMode();
 
-  const privileged = seedIdentities.filter(
-    (i) => i.privilegeLevel === 'privileged' || i.privilegeLevel === 'super-privileged'
+  const privileged = thesisIdentities.filter(
+    (i) => i.privilege_level === 'privileged' || i.privilege_level === 'super-privileged'
   );
-  const elevated = seedIdentities.filter((i) => i.privilegeLevel === 'elevated');
-  const allPriv = [...privileged, ...elevated].sort((a, b) => b.riskScore - a.riskScore);
+  const elevated = thesisIdentities.filter((i) => i.privilege_level === 'elevated');
+  const allPriv = [...privileged, ...elevated].sort((a, b) => b.risk_score - a.risk_score);
 
-  const superPrivCount = seedIdentities.filter((i) => i.privilegeLevel === 'super-privileged').length;
-  const privCount = seedIdentities.filter((i) => i.privilegeLevel === 'privileged').length;
+  const superPrivCount = thesisIdentities.filter((i) => i.privilege_level === 'super-privileged').length;
+  const privCount = thesisIdentities.filter((i) => i.privilege_level === 'privileged').length;
   const elevCount = elevated.length;
-  const highRiskPriv = allPriv.filter((i) => i.riskScore >= 60).length;
+  const highRiskPriv = allPriv.filter((i) => i.risk_score >= 60).length;
 
   return (
     <PageContainer
@@ -97,13 +97,13 @@ export default function PrivilegedAccessPage() {
                   <tr key={i.id}>
                     <td>
                       <a href={`/identity?id=${i.id}`} style={{ color: tokens.action.primary, fontSize: primitiveTypeScale.body }}>
-                        {i.displayName}
+                        {i.display_name}
                       </a>
                       <div className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{i.email}</div>
                     </td>
                     <td>
-                      <span className={`badge ${i.privilegeLevel === 'super-privileged' ? 'bg-red-lt' : i.privilegeLevel === 'privileged' ? 'bg-orange-lt' : 'bg-yellow-lt'}`}>
-                        {i.privilegeLevel}
+                      <span className={`badge ${i.privilege_level === 'super-privileged' ? 'bg-red-lt' : i.privilege_level === 'privileged' ? 'bg-orange-lt' : 'bg-yellow-lt'}`}>
+                        {i.privilege_level}
                       </span>
                     </td>
                     <td>
@@ -117,8 +117,8 @@ export default function PrivilegedAccessPage() {
                         {i.status}
                       </span>
                     </td>
-                    <td className="text-end" style={{ color: i.riskScore >= 60 ? primitiveSignal.critical : i.riskScore >= 40 ? primitiveSignal.warning : tokens.text.muted }}>
-                      {i.riskScore}
+                    <td className="text-end" style={{ color: i.risk_score >= 60 ? primitiveSignal.critical : i.risk_score >= 40 ? primitiveSignal.warning : tokens.text.muted }}>
+                      {i.risk_score}
                     </td>
                   </tr>
                 ))}

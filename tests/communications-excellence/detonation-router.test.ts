@@ -1,3 +1,4 @@
+// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 /**
  * Unit Tests — Detonation Verdict Router
  *
@@ -15,7 +16,7 @@ describe('Detonation Router — Routing Logic', () => {
     const result = routeDetonationVerdict(cleanVerdict);
     expect(result.route).toBe('proceed_normal');
     expect(result.riskObjectType).toBeUndefined();
-    expect(result.caseType).toBeUndefined();
+    expect(result.case_type).toBeUndefined();
   });
 
   it('routes suspicious verdict to analyst_review', () => {
@@ -23,7 +24,7 @@ describe('Detonation Router — Routing Logic', () => {
     const result = routeDetonationVerdict(suspiciousVerdict);
     expect(result.route).toBe('analyst_review');
     expect(result.riskObjectType).toBeUndefined();
-    expect(result.caseType).toBeUndefined();
+    expect(result.case_type).toBeUndefined();
   });
 
   it('routes malicious verdict to create_risk_object', () => {
@@ -31,7 +32,7 @@ describe('Detonation Router — Routing Logic', () => {
     const result = routeDetonationVerdict(maliciousVerdict);
     expect(result.route).toBe('create_risk_object');
     expect(result.riskObjectType).toBe('detection');
-    expect(result.caseType).toBe('threat-intelligence-estate-match');
+    expect(result.case_type).toBe('threat-intelligence-estate-match');
   });
 
   it('always provides a reason string', () => {

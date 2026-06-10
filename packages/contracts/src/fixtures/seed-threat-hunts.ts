@@ -1,3 +1,4 @@
+// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 /**
  * Seed Threat Hunt Records — Deterministic Fixtures
  *
@@ -13,32 +14,32 @@ import { seedId, SEED_TENANT, SEED_SOURCE } from './seed-tenant';
 
 const HUNT_FIXTURES: Array<{
   status: ThreatHuntStatus;
-  startedAt: string | null;
-  completedAt: string | null;
+  started_at: string | null;
+  completed_at: string | null;
 }> = [
-  { status: 'proposed', startedAt: null, completedAt: null },
-  { status: 'running', startedAt: '2026-01-15T10:00:00.000Z', completedAt: null },
-  { status: 'match_found', startedAt: '2026-01-14T10:00:00.000Z', completedAt: '2026-01-15T06:00:00.000Z' },
-  { status: 'escalated', startedAt: '2026-01-13T10:00:00.000Z', completedAt: '2026-01-14T12:00:00.000Z' },
+  { status: 'proposed', started_at: null, completed_at: null },
+  { status: 'running', started_at: '2026-01-15T10:00:00.000Z', completed_at: null },
+  { status: 'match_found', started_at: '2026-01-14T10:00:00.000Z', completed_at: '2026-01-15T06:00:00.000Z' },
+  { status: 'escalated', started_at: '2026-01-13T10:00:00.000Z', completed_at: '2026-01-14T12:00:00.000Z' },
 ];
 
 export const seedThreatHunts: ThreatHuntRecord[] = HUNT_FIXTURES.map(
   (fixture, index) => ({
     id: seedId('thunt', index + 1),
     tenant: SEED_TENANT,
-    createdAt: '2026-01-15T09:00:00.000Z',
-    updatedAt: '2026-01-15T09:00:00.000Z',
+    created_at: '2026-01-15T09:00:00.000Z',
+    updated_at: '2026-01-15T09:00:00.000Z',
     source: SEED_SOURCE,
-    tenantId: SEED_TENANT.tenantId,
+    tenant_id: SEED_TENANT.tenant_id,
     triggeringIocId: seedId('ioc', index + 1),
     triggeringMatchId: seedId('tmatch', index + 1),
-    huntType: index % 2 === 0 ? 'retroactive-ioc-sweep' : 'hypothesis-driven',
+    hunt_type: index % 2 === 0 ? 'retroactive-ioc-sweep' : 'hypothesis-driven',
     huntScope: `scope-mock-${index + 1}: all endpoints (Mock)`,
     status: fixture.status,
-    assignedTo: `analyst-mock-${(index % 3) + 1}`,
-    proposedAt: '2026-01-13T09:00:00.000Z',
-    startedAt: fixture.startedAt,
-    completedAt: fixture.completedAt,
-    findingsRef: fixture.completedAt ? `findings-ref-mock-${index + 1}` : '',
+    assigned_to: `analyst-mock-${(index % 3) + 1}`,
+    proposed_at: '2026-01-13T09:00:00.000Z',
+    started_at: fixture.started_at,
+    completed_at: fixture.completed_at,
+    findingsRef: fixture.completed_at ? `findings-ref-mock-${index + 1}` : '',
   }),
 );

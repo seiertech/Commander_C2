@@ -41,11 +41,11 @@ export type DriftState = typeof DRIFT_STATES[number];
 // ─── Architecture Component Entity ──────────────────────────────────────────
 
 export interface ArchitectureComponent extends CommonFields {
-  entityType: 'architecture-component';
+  entity_type: 'architecture-component';
   /** Component display name */
   name: string;
   /** Type of infrastructure component */
-  componentType: ArchitectureComponentType;
+  component_type: ArchitectureComponentType;
   /** Deployment environment */
   environment: ArchitectureEnvironment;
   /** Owning team or role */
@@ -57,7 +57,7 @@ export interface ArchitectureComponent extends CommonFields {
   /** Currently observed version/configuration */
   currentVersion: string;
   /** Drift state relative to baseline */
-  driftState: DriftState;
+  drift_state: DriftState;
   /** When this component was last scanned/assessed */
   lastScannedAt: string;
   /** Component IDs this depends on */
@@ -84,14 +84,14 @@ export function validateArchitectureComponent(component: ArchitectureComponent):
   if (!component.id || component.id.trim() === '') {
     errors.push('id: required');
   }
-  if (!component.tenant || !component.tenant.tenantId || component.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!component.tenant || !component.tenant.tenant_id || component.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
   if (!component.name || component.name.trim() === '') {
     errors.push('name: required');
   }
-  if (!component.componentType || !ARCHITECTURE_COMPONENT_TYPES.includes(component.componentType)) {
-    errors.push(`componentType: must be one of: ${ARCHITECTURE_COMPONENT_TYPES.join(', ')}`);
+  if (!component.component_type || !ARCHITECTURE_COMPONENT_TYPES.includes(component.component_type)) {
+    errors.push(`component_type: must be one of: ${ARCHITECTURE_COMPONENT_TYPES.join(', ')}`);
   }
   if (!component.environment || !ARCHITECTURE_ENVIRONMENTS.includes(component.environment)) {
     errors.push(`environment: must be one of: ${ARCHITECTURE_ENVIRONMENTS.join(', ')}`);
@@ -108,8 +108,8 @@ export function validateArchitectureComponent(component: ArchitectureComponent):
   if (!component.currentVersion || component.currentVersion.trim() === '') {
     errors.push('currentVersion: required');
   }
-  if (!component.driftState || !DRIFT_STATES.includes(component.driftState)) {
-    errors.push(`driftState: must be one of: ${DRIFT_STATES.join(', ')}`);
+  if (!component.drift_state || !DRIFT_STATES.includes(component.drift_state)) {
+    errors.push(`drift_state: must be one of: ${DRIFT_STATES.join(', ')}`);
   }
   if (!component.lastScannedAt || component.lastScannedAt.trim() === '') {
     errors.push('lastScannedAt: required');

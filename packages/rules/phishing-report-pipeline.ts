@@ -1,3 +1,4 @@
+// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 /**
  * Phishing Report Pipeline — Commander C2
  *

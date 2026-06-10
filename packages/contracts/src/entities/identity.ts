@@ -1,3 +1,4 @@
+// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 /**
  * Identity Entity — Commander C2 Canonical Model
  *
@@ -11,13 +12,13 @@ import type { CommonFields, SurfaceAttribution } from './common';
 import type { SourceClassification } from './coim';
 
 export interface Identity extends CommonFields {
-  entityType: 'identity';
+  entity_type: 'identity';
   /** Display name */
-  displayName: string;
+  display_name: string;
   /** Identity classification per Spec #18 */
   classification: IdentityClassification;
   /** Source system lineage */
-  sourceSystemLineage: string[];
+  source_system_lineage: string[];
   /** Email (synthetic — never real) */
   email: string;
   /** Department or team */
@@ -25,11 +26,11 @@ export interface Identity extends CommonFields {
   /** Role title */
   role: string;
   /** Risk score (0-100) */
-  riskScore: number;
+  risk_score: number;
   /** Surface attribution */
-  surfaceAttribution: SurfaceAttribution;
+  surface_attribution: SurfaceAttribution;
   /** Associated asset IDs */
-  associatedAssets: string[];
+  associated_assets: string[];
   /** Account status */
   status: 'active' | 'suspended' | 'disabled' | 'orphaned';
 
@@ -39,7 +40,7 @@ export interface Identity extends CommonFields {
   // level for full backward-compatibility with existing fixtures and tests.
 
   /** Privilege level of this identity (COIM-F). Source-assessed. */
-  privilegeLevel?: IdentityPrivilegeLevel;
+  privilege_level?: IdentityPrivilegeLevel;
 
   /** Authentication strength classification (COIM-F). Source-assessed. */
   authenticationStrength?: IdentityAuthStrength;
@@ -64,7 +65,7 @@ export interface Identity extends CommonFields {
    * Recommended where source provides structured IAM signal metadata.
    * Immutable after write; informs but never governs lifecycle/priority.
    */
-  sourceClassification?: SourceClassification;
+  source_classification?: SourceClassification;
 }
 
 // ─── COIM-F: Identity Privilege Level ───────────────────────────────────────

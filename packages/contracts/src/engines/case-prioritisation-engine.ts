@@ -31,7 +31,7 @@ import type { StrategyPolicy } from '../entities/strategy';
 export interface CaseEvidenceScores {
   severity: number;         // 0-100
   exploitability: number;   // 0-100
-  blastRadius: number;      // 0-100
+  blast_radius: number;      // 0-100
   identityExposure: number; // 0-100
   businessContext: number;  // 0-100
   coverageScore: number;    // 0-100
@@ -85,8 +85,8 @@ export interface AutomationConfig {
 
 /** Full prioritisation request */
 export interface PrioritisationRequest {
-  caseId: string;
-  caseType: string;
+  case_id: string;
+  case_type: string;
   evidence: CaseEvidenceScores;
   missionFactors: MissionFactors;
 }
@@ -99,7 +99,7 @@ export interface PrioritisationResult {
   nbaList: NextBestAction[];
   pushPreference: PushPreference | null;
   rationale: string;
-  sourcePolicy: { id: string; version: string } | null;
+  source_policy: { id: string; version: string } | null;
   error: string | null;
 }
 
@@ -117,7 +117,7 @@ export function calculateCRS(
   const evidenceMap: Record<string, number> = {
     severity: evidence.severity,
     exploitability: evidence.exploitability,
-    blastRadius: evidence.blastRadius,
+    blast_radius: evidence.blast_radius,
     identityExposure: evidence.identityExposure,
     businessContext: evidence.businessContext,
     coverageScore: evidence.coverageScore,
@@ -188,7 +188,7 @@ export function determinePriority(
  */
 export function generateNBA(
   priority: Priority,
-  caseType: string,
+  case_type: string,
   scores: PrioritisationScores,
 ): NextBestAction[] {
   const actions: NextBestAction[] = [];
@@ -196,7 +196,7 @@ export function generateNBA(
   switch (priority) {
     case 'P0':
       actions.push({
-        action: `Immediate escalation for ${caseType} case`,
+        action: `Immediate escalation for ${case_type} case`,
         priority: 'immediate',
         rationale: `WCS ${scores.wcs.toFixed(1)} exceeds P0 threshold — immediate response required`,
       });
@@ -214,7 +214,7 @@ export function generateNBA(
 
     case 'P1':
       actions.push({
-        action: `Assign senior analyst for ${caseType} investigation`,
+        action: `Assign senior analyst for ${case_type} investigation`,
         priority: 'immediate',
         rationale: `WCS ${scores.wcs.toFixed(1)} indicates high-priority case requiring experienced handling`,
       });
@@ -227,7 +227,7 @@ export function generateNBA(
 
     case 'P2':
       actions.push({
-        action: `Schedule ${caseType} investigation`,
+        action: `Schedule ${case_type} investigation`,
         priority: 'scheduled',
         rationale: `WCS ${scores.wcs.toFixed(1)} — medium priority, schedule within SLA`,
       });
@@ -240,7 +240,7 @@ export function generateNBA(
 
     case 'P3':
       actions.push({
-        action: `Queue ${caseType} for standard processing`,
+        action: `Queue ${case_type} for standard processing`,
         priority: 'deferred',
         rationale: `WCS ${scores.wcs.toFixed(1)} — standard priority, process in queue order`,
       });
@@ -248,7 +248,7 @@ export function generateNBA(
 
     case 'P4':
       actions.push({
-        action: `Monitor ${caseType} — low priority`,
+        action: `Monitor ${case_type} — low priority`,
         priority: 'deferred',
         rationale: `WCS ${scores.wcs.toFixed(1)} — low priority, monitor for escalation triggers`,
       });
@@ -310,7 +310,7 @@ function extractWeights(strategies: StrategyPolicy[]): {
   policy: StrategyPolicy;
 } {
   const policy = strategies.find(
-    (s) => s.surfaceType === 'prioritisation-weight' && s.status === 'active',
+    (s) => s.surface_type === 'prioritisation-weight' && s.status === 'active',
   );
 
   if (!policy) {
@@ -341,7 +341,7 @@ function extractThresholds(strategies: StrategyPolicy[]): {
   policy: StrategyPolicy;
 } {
   const policy = strategies.find(
-    (s) => s.surfaceType === 'threshold' && s.status === 'active',
+    (s) => s.surface_type === 'threshold' && s.status === 'active',
   );
 
   if (!policy) {
@@ -372,7 +372,7 @@ function extractAutomationConfig(strategies: StrategyPolicy[]): {
   policy: StrategyPolicy;
 } {
   const policy = strategies.find(
-    (s) => s.surfaceType === 'automation-boundary' && s.status === 'active',
+    (s) => s.surface_type === 'automation-boundary' && s.status === 'active',
   );
 
   if (!policy) {
@@ -438,7 +438,7 @@ export function prioritiseCase(
       nbaList: [],
       pushPreference: null,
       rationale: '',
-      sourcePolicy: null,
+      source_policy: null,
       error: (err as Error).message,
     };
   }
@@ -454,7 +454,7 @@ export function prioritiseCase(
       nbaList: [],
       pushPreference: null,
       rationale: '',
-      sourcePolicy: { id: weightPolicy.id, version: weightPolicy.policyVersion },
+      source_policy: { id: weightPolicy.id, version: weightPolicy.policy_version },
       error: (err as Error).message,
     };
   }
@@ -470,7 +470,7 @@ export function prioritiseCase(
       nbaList: [],
       pushPreference: null,
       rationale: '',
-      sourcePolicy: { id: weightPolicy.id, version: weightPolicy.policyVersion },
+      source_policy: { id: weightPolicy.id, version: weightPolicy.policy_version },
       error: (err as Error).message,
     };
   }
@@ -486,14 +486,14 @@ export function prioritiseCase(
   const priority = determinePriority(wcs, thresholds);
 
   // Generate NBA
-  const nbaList = generateNBA(priority, request.caseType, scores);
+  const nbaList = generateNBA(priority, request.case_type, scores);
 
   // Determine push preference
   const pushPreference = determinePushPreference(scores, automationConfig);
 
   // Build rationale
   const rationale =
-    `Case ${request.caseId} (${request.caseType}) prioritised as ${priority}. ` +
+    `Case ${request.case_id} (${request.case_type}) prioritised as ${priority}. ` +
     `CRS=${crs.toFixed(1)}, MS=${ms.toFixed(1)}, WCS=${wcs.toFixed(1)}. ` +
     `Thresholds: P0≥${thresholds.p0}, P1≥${thresholds.p1}, P2≥${thresholds.p2}, P3≥${thresholds.p3}. ` +
     `Push preference: ${pushPreference}.`;
@@ -505,7 +505,7 @@ export function prioritiseCase(
     nbaList,
     pushPreference,
     rationale,
-    sourcePolicy: { id: weightPolicy.id, version: weightPolicy.policyVersion },
+    source_policy: { id: weightPolicy.id, version: weightPolicy.policy_version },
     error: null,
   };
 }
