@@ -7,6 +7,10 @@
  *
  * Pattern: SDR fixture → thesis-shaped export
  * Convention: snake_case fields, standard_marker present
+ *
+ * Phase 3 Extension: Re-export all seeds that are ALREADY in canonical shape
+ * under thesis naming convention. Entities that needed transformation (missions,
+ * assets, cases) get mapped adapters. Everything else is a passthrough re-export.
  */
 
 import { seedMissions } from './seed-missions';
@@ -153,3 +157,202 @@ export const thesisPostures: AssetSecurityPosture[] = seedAssets.slice(0, 10).ma
   governance_status: 'governed' as const,
   standard_marker: 'NIST CSF 2.0',
 }));
+
+
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// PHASE 3 EXTENSION: Passthrough Re-exports for Already-Canonical Entities
+// ═══════════════════════════════════════════════════════════════════════════════
+// These seeds are ALREADY in thesis-canonical shape (snake_case, standard entity
+// structure). They are re-exported here so all UI pages import from one source:
+// thesis-adapters.ts — the single authority for fixture data.
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// ─── Connector (L2 — Ingestion & Normalisation) ──────────────────────────────
+export { seedConnectors as thesisConnectors } from './seed-connectors';
+
+// ─── Identity (L6 — Identity Intelligence) ───────────────────────────────────
+export { seedIdentities as thesisIdentities } from './seed-identities';
+
+// ─── Strategy Policy (L10 — Strategy & Governance) ───────────────────────────
+export { seedStrategies as thesisStrategies } from './seed-strategies';
+
+// ─── Risk Object (L5 — Risk & Exposure) ──────────────────────────────────────
+export { seedRiskObjects as thesisRiskObjects } from './seed-risk-objects';
+
+// ─── Event / Activity (L3 — Signal Pipeline) ─────────────────────────────────
+export { seedEvents as thesisEvents } from './seed-events';
+
+// ─── Exposure (L5 — Attack Surface) ──────────────────────────────────────────
+export { seedExposures as thesisExposures } from './seed-exposures';
+
+// ─── Pulse (L8 — Operational Health) ─────────────────────────────────────────
+export { seedTeamPulse as thesisTeamPulse } from './seed-pulse';
+export { seedDomainPulse as thesisDomainPulse } from './seed-pulse';
+export { seedSystemPulse as thesisSystemPulse } from './seed-pulse';
+
+// ─── Platform Management (L11 — Platform & Automation) ───────────────────────
+export { seedRules as thesisRules } from './seed-platform';
+export { seedModels as thesisModels } from './seed-platform';
+export { seedAutomationRules as thesisAutomationRules } from './seed-platform';
+export { seedFeatureRegistry as thesisFeatureRegistry } from './seed-platform';
+
+// ─── Action / Sub-Action (L7 — Remediation) ──────────────────────────────────
+export { seedActions as thesisActions, seedSubActions as thesisSubActions } from './seed-actions';
+
+// ─── Control Framework (L10 — Governance & Adherence) ────────────────────────
+export { seedControlFrameworks as thesisControlFrameworks } from './seed-control-frameworks';
+export { seedFrameworkControls as thesisFrameworkControls } from './seed-control-frameworks';
+export { seedControlRequirements as thesisControlRequirements } from './seed-control-frameworks';
+export { seedControlEvaluations as thesisControlEvaluations } from './seed-control-frameworks';
+export { seedControlMappings as thesisControlMappings } from './seed-control-frameworks';
+
+// ─── Topology (L4 — Architecture) ───────────────────────────────────────────
+export { seedTopology as thesisTopology } from './seed-topology';
+
+// ─── Architecture Components (L4 — Architecture Intelligence) ────────────────
+export { seedArchitectureComponents as thesisArchitectureComponents } from './seed-architecture';
+export { ARCHITECTURE_CLASSIFICATION_FIXTURES as thesisArchitectureClassifications } from './seed-architecture';
+export { TOPOLOGY_NODE_FIXTURES as thesisTopologyNodes } from './seed-architecture';
+export { TOPOLOGY_EDGE_FIXTURES as thesisTopologyEdges } from './seed-architecture';
+
+// ─── Vulnerability Intelligence (L3 — Threat Intelligence) ───────────────────
+export { seedVulnerabilityIntelligence as thesisVulnerabilityIntelligence } from './seed-vulnerability-intelligence';
+
+// ─── Report (L8 — Reporting & Communication) ─────────────────────────────────
+export { seedReports as thesisReports } from './seed-reports';
+
+// ─── Decision Records (L10 — Strategy & Governance) ──────────────────────────
+export { seedDecisionRecords as thesisDecisionRecords } from './seed-decision-records';
+
+// ─── Simulation Results (L10 — Strategy Simulation) ──────────────────────────
+export { seedSimulationResults as thesisSimulationResults } from './seed-simulation-results';
+
+// ─── Mission (L9 — raw seed re-export for pages needing original shape) ──────
+export { seedMissions as thesisMissionSeeds } from './seed-missions';
+
+// ─── Evidence (L7 — Case & Remediation) ──────────────────────────────────────
+export { seedEvidence as thesisEvidence } from './seed-evidence';
+
+// ─── War Room (L1 — Command & Control) ───────────────────────────────────────
+export { seedWarRooms as thesisWarRooms } from './seed-war-rooms';
+
+// ─── Customer (L11 — Control Plane) ──────────────────────────────────────────
+export { seedCustomers as thesisCustomers } from './seed-customers';
+
+// ─── Deployment (L11 — Control Plane) ────────────────────────────────────────
+export { seedDeployments as thesisDeployments } from './seed-deployments';
+
+// ─── Licence (L11 — Commercial Control Plane) ────────────────────────────────
+export { seedLicences as thesisLicences } from './seed-licences';
+
+// ─── Entitlement (L11 — Commercial Control Plane) ────────────────────────────
+export { seedEntitlements as thesisEntitlements } from './seed-entitlements';
+
+// ─── Tenant Config (L11 — Platform Administration) ───────────────────────────
+export { seedTenantConfigs as thesisTenantConfigs } from './seed-tenant-configs';
+
+// ─── Support Operations (L11 — Control Plane) ────────────────────────────────
+export { seedSupportOperations as thesisSupportOperations } from './seed-support-operations';
+
+// ─── Posture Metrics (L5 — Posture Aggregate) ────────────────────────────────
+export { seedPostureMetrics as thesisPostureMetrics } from './seed-posture-metrics';
+
+// ─── Posture Accountability (L5 — Dual-Model Posture) ────────────────────────
+export { seedPostureAccountability as thesisPostureAccountability } from './seed-posture-accountability';
+
+// ─── CISO Summary (L1 — Executive Surface) ───────────────────────────────────
+export { seedCisoSummary as thesisCisoSummary } from './seed-ciso';
+
+// ─── Mission Bindings (L9 — Mission Binding) ─────────────────────────────────
+export { seedMissionBindings as thesisMissionBindings } from './seed-mission-bindings';
+
+// ─── Notifications (L8 — Operational Communication) ──────────────────────────
+export { seedNotifications as thesisNotifications } from './seed-notifications';
+
+// ─── Auth Sessions (L6 — Identity & Access) ──────────────────────────────────
+export { seedAuthSessions as thesisAuthSessions } from './seed-auth-sessions';
+
+// ─── RBAC Policies (L6 — Access Control) ─────────────────────────────────────
+export { seedRbacPolicies as thesisRbacPolicies } from './seed-rbac-policies';
+
+// ─── Case Follows (L7 — Case Communication) ──────────────────────────────────
+export { seedCaseFollows as thesisCaseFollows } from './seed-case-follows';
+
+// ─── Case Transition Audits (L7 — Case Audit Trail) ──────────────────────────
+export { seedCaseTransitionAudits as thesisCaseTransitionAudits } from './seed-case-transition-audits';
+
+// ─── Case Strategy Bindings (L7/L10 — Strategy Binding) ──────────────────────
+export { seedCaseStrategyBindings as thesisCaseStrategyBindings } from './seed-case-strategy-bindings';
+
+// ─── Communication Threads (L7 — Case Communication) ─────────────────────────
+export { seedCommunicationThreads as thesisCommunicationThreads } from './seed-communication-threads';
+
+// ─── Communication Playbooks (L7 — Communication Excellence) ─────────────────
+export { seedCommunicationPlaybooks as thesisCommunicationPlaybooks } from './seed-communication-playbooks';
+
+// ─── Email Communications (L7 — Case Communication) ──────────────────────────
+export { seedEmailCommunications as thesisEmailCommunications } from './seed-email-communications';
+
+// ─── Teams Decision Events (L10 — Governance) ────────────────────────────────
+export { seedTeamsDecisionEvents as thesisTeamsDecisionEvents } from './seed-teams-decision-events';
+
+// ─── Cloud Security Posture (L5 — Cloud Posture) ─────────────────────────────
+export { seedCloudSecurityPosture as thesisCloudSecurityPosture } from './seed-cloud-security-posture';
+
+// ─── Findings (L3 — Detection Output) ────────────────────────────────────────
+export { seedFindings as thesisFindings } from './seed-findings';
+
+// ─── Risk Scores (L5 — Risk Scoring) ─────────────────────────────────────────
+export { seedRiskScores as thesisRiskScores } from './seed-risk-scores';
+
+// ─── Blast Radius (L5 — Impact Assessment) ───────────────────────────────────
+export { seedBlastRadius as thesisBlastRadius } from './seed-blast-radius';
+
+// ─── Search Config (L11 — Platform) ──────────────────────────────────────────
+export { seedSearchConfigs as thesisSearchConfigs } from './seed-search-config';
+
+// ─── Break Glass (L6 — Emergency Access) ─────────────────────────────────────
+export { seedBreakGlassRequests as thesisBreakGlass } from './seed-break-glass';
+
+// ─── Governed Compose (L7 — Outbound Communication) ──────────────────────────
+export { seedGovernedCompose as thesisGovernedCompose } from './seed-governed-compose';
+
+// ─── IOC / Threat Intelligence (L3 — Threat Intel) ───────────────────────────
+export { seedIocs as thesisIocs } from './seed-iocs';
+
+// ─── Architecture Intelligence (L4) ──────────────────────────────────────────
+export { seedArchitectureIntelligence as thesisArchitectureIntelligence } from './seed-architecture-intelligence';
+
+// ─── Security Tool Intelligence (L2 — Connector Intelligence) ────────────────
+export { seedSecurityToolIntelligence as thesisSecurityToolIntelligence } from './seed-security-tool-intelligence';
+
+// ─── Drift Detection (L4 — Configuration Drift) ──────────────────────────────
+export { seedDriftDetections as thesisDriftDetection } from './seed-drift-detection';
+
+// ─── Identity Intelligence (L6 — Identity Behaviour) ─────────────────────────
+export { seedIdentityIntelligence as thesisIdentityIntelligence } from './seed-identity-intelligence';
+
+// ─── Event Intelligence (L3 — Signal Enrichment) ─────────────────────────────
+export { SIGNAL_FIXTURES as thesisEventIntelligence } from './seed-event-intelligence';
+
+// ─── Exposure Engine (L5 — Exposure Computation) ─────────────────────────────
+export { seedExposureComputations as thesisExposureEngine } from './seed-exposure-engine';
+
+// ─── Vulnerability Engine (L5 — Vulnerability Computation) ───────────────────
+export { seedVulnerabilityCorrelations as thesisVulnerabilityEngine } from './seed-vulnerability-engine';
+
+// ─── Direction Boards (L10 — Strategic Direction) ────────────────────────────
+export { seedDirectionBoards as thesisDirectionBoards } from './seed-direction-boards';
+
+// ─── Push Governance (L11 — Governed Push) ───────────────────────────────────
+export { seedPushGovernanceRuns as thesisPushGovernance } from './seed-push-governance';
+
+// ─── Tenant (L11 — Tenant Context) ──────────────────────────────────────────
+export { SEED_TENANT as thesisTenant, seedId as thesisSeedId } from './seed-tenant';
+
+// ─── Standards Declarations (L10 — Governance) ───────────────────────────────
+export { STANDARDS_DECLARATIONS as thesisStandardsDeclarations } from './seed-standards-declarations';
+
+// ─── Asset Authority (L4 — thesis-wrapped assets) ────────────────────────────
+export { ASSET_THESIS_FIXTURES as thesisAssetAuthority } from './seed-asset-authority';
