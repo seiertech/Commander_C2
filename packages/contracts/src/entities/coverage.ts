@@ -40,7 +40,7 @@ export type CoverageGapReason = typeof COVERAGE_GAP_REASONS[number];
 
 export interface CoverageGapEntry {
   /** Reference to the asset missing coverage */
-  assetRef: string;
+  asset_ref: string;
   /** Reason for the coverage gap */
   reason: CoverageGapReason;
   /** Number of days since last valid data (for agent_stale) */
@@ -50,7 +50,7 @@ export interface CoverageGapEntry {
 // ─── Coverage Entity ─────────────────────────────────────────────────────────
 
 export interface Coverage extends CommonFields {
-  entityType: 'coverage';
+  entity_type: 'coverage';
   /** Type of coverage tool/capability */
   coverageType: CoverageType;
   /** Domain this coverage applies to */
@@ -60,11 +60,11 @@ export interface Coverage extends CommonFields {
   /** Assets with active coverage */
   coveredAssets: number;
   /** Coverage percentage (0-100) */
-  coveragePercent: number;
+  coverage_percent: number;
   /** Identified coverage gaps */
   gaps: CoverageGapEntry[];
   /** When coverage was last assessed */
-  lastAssessedAt: string;
+  last_assessed_at: string;
   /** Coverage trend direction */
   trend: CoverageTrend;
 }
@@ -85,8 +85,8 @@ export function validateCoverage(coverage: Coverage): CoverageValidation {
   if (!coverage.id || coverage.id.trim() === '') {
     errors.push('id: required');
   }
-  if (!coverage.tenant || !coverage.tenant.tenantId || coverage.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!coverage.tenant || !coverage.tenant.tenant_id || coverage.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
   if (!coverage.coverageType || !COVERAGE_TYPES.includes(coverage.coverageType)) {
     errors.push(`coverageType: must be one of: ${COVERAGE_TYPES.join(', ')}`);
@@ -100,23 +100,23 @@ export function validateCoverage(coverage: Coverage): CoverageValidation {
   if (typeof coverage.coveredAssets !== 'number' || coverage.coveredAssets < 0) {
     errors.push('coveredAssets: must be >= 0');
   }
-  if (typeof coverage.coveragePercent !== 'number' || coverage.coveragePercent < 0 || coverage.coveragePercent > 100) {
-    errors.push('coveragePercent: must be 0-100');
+  if (typeof coverage.coverage_percent !== 'number' || coverage.coverage_percent < 0 || coverage.coverage_percent > 100) {
+    errors.push('coverage_percent: must be 0-100');
   }
   if (!Array.isArray(coverage.gaps)) {
     errors.push('gaps: must be an array');
   } else {
     for (const gap of coverage.gaps) {
-      if (!gap.assetRef || gap.assetRef.trim() === '') {
-        errors.push('gaps[].assetRef: required');
+      if (!gap.asset_ref || gap.asset_ref.trim() === '') {
+        errors.push('gaps[].asset_ref: required');
       }
       if (!COVERAGE_GAP_REASONS.includes(gap.reason)) {
         errors.push(`gaps[].reason: must be one of: ${COVERAGE_GAP_REASONS.join(', ')}`);
       }
     }
   }
-  if (!coverage.lastAssessedAt || coverage.lastAssessedAt.trim() === '') {
-    errors.push('lastAssessedAt: required');
+  if (!coverage.last_assessed_at || coverage.last_assessed_at.trim() === '') {
+    errors.push('last_assessed_at: required');
   }
   if (!coverage.trend || !COVERAGE_TRENDS.includes(coverage.trend)) {
     errors.push(`trend: must be one of: ${COVERAGE_TRENDS.join(', ')}`);

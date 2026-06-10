@@ -34,11 +34,11 @@ export interface PhishingReport extends CommonFields {
   /** Report identifier */
   reportId: string;
   /** Tenant scope */
-  tenantId: string;
+  tenant_id: string;
   /** Employee who reported (ID or email) */
-  reportedBy: string;
+  reported_by: string;
   /** When the report was submitted */
-  reportedAt: string;
+  reported_at: string;
   /** Reference to the original email */
   originalEmailRef: string;
   /** Reference to associated DetonationVerdict (null if not yet available) */
@@ -48,9 +48,9 @@ export interface PhishingReport extends CommonFields {
   /** Observable IDs emitted from this report */
   observablesEmitted: string[];
   /** Risk Object ID (if malicious and risk object created) */
-  riskObjectId: string | null;
+  risk_object_id: string | null;
   /** Case ID (if case was created) */
-  caseId: string | null;
+  case_id: string | null;
   /** Employee notification status */
   employeeNotificationStatus: PhishingNotificationStatus;
   /** Current report lifecycle status */
@@ -75,20 +75,20 @@ export function validatePhishingReport(
   if (!report.id || report.id.trim() === '') {
     errors.push('id: required');
   }
-  if (!report.tenant || !report.tenant.tenantId || report.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!report.tenant || !report.tenant.tenant_id || report.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
   if (!report.reportId || report.reportId.trim() === '') {
     errors.push('reportId: required');
   }
-  if (!report.tenantId || report.tenantId.trim() === '') {
-    errors.push('tenantId: required');
+  if (!report.tenant_id || report.tenant_id.trim() === '') {
+    errors.push('tenant_id: required');
   }
-  if (!report.reportedBy || report.reportedBy.trim() === '') {
-    errors.push('reportedBy: required');
+  if (!report.reported_by || report.reported_by.trim() === '') {
+    errors.push('reported_by: required');
   }
-  if (!report.reportedAt || report.reportedAt.trim() === '') {
-    errors.push('reportedAt: required');
+  if (!report.reported_at || report.reported_at.trim() === '') {
+    errors.push('reported_at: required');
   }
   if (!report.originalEmailRef || report.originalEmailRef.trim() === '') {
     errors.push('originalEmailRef: required');

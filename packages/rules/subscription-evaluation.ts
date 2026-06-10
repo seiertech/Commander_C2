@@ -31,7 +31,7 @@ export interface SubscriptionEvaluationResult {
 
 export interface TenantEvaluationInput {
   /** Tenant ID from the subscription */
-  tenantId: string;
+  tenant_id: string;
   /** Subscription ID that matched */
   subscriptionId: string;
   /** Platform record ID being evaluated */
@@ -43,7 +43,7 @@ export interface TenantEvaluationInput {
 // ─── Filter Shapes ───────────────────────────────────────────────────────────
 
 interface SourceTypeFilter {
-  sourceType?: PlatformIntelligenceSourceType;
+  source_type?: PlatformIntelligenceSourceType;
 }
 
 interface IocCategoryInclusionFilter {
@@ -78,13 +78,13 @@ type ApplicabilityFilter =
 
 interface EvaluableRecord extends PlatformIntelligenceRecord {
   /** IOC category if this is an IOC-related record */
-  iocCategory?: IocCategory;
+  ioc_category?: IocCategory;
   /** TLP marking if present */
   tlpMarking?: TlpMarking;
   /** Affected products (from Vulnerability or Advisory records) */
   affectedProducts?: string[];
   /** Source type from the originating Platform_Intelligence_Source */
-  sourceType?: PlatformIntelligenceSourceType;
+  source_type?: PlatformIntelligenceSourceType;
 }
 
 // ─── TLP Ordering ────────────────────────────────────────────────────────────
@@ -136,12 +136,12 @@ export function evaluateSubscription(
     const f = filter as Record<string, unknown>;
 
     // Source type match
-    if ('sourceType' in f && f.sourceType) {
-      const requiredSource = f.sourceType as PlatformIntelligenceSourceType;
-      if (platformRecord.sourceType && platformRecord.sourceType !== requiredSource) {
+    if ('source_type' in f && f.source_type) {
+      const requiredSource = f.source_type as PlatformIntelligenceSourceType;
+      if (platformRecord.source_type && platformRecord.source_type !== requiredSource) {
         return {
           relevant: false,
-          reasons: [`sourceType filter: record sourceType '${platformRecord.sourceType}' does not match required '${requiredSource}'`],
+          reasons: [`sourceType filter: record sourceType '${platformRecord.source_type}' does not match required '${requiredSource}'`],
         };
       }
       reasons.push(`sourceType filter: matched '${requiredSource}'`);
@@ -150,14 +150,14 @@ export function evaluateSubscription(
     // IOC category inclusion
     if ('iocCategoryInclusion' in f && Array.isArray(f.iocCategoryInclusion)) {
       const included = f.iocCategoryInclusion as IocCategory[];
-      if (platformRecord.iocCategory) {
-        if (!included.includes(platformRecord.iocCategory)) {
+      if (platformRecord.ioc_category) {
+        if (!included.includes(platformRecord.ioc_category)) {
           return {
             relevant: false,
-            reasons: [`iocCategoryInclusion filter: record category '${platformRecord.iocCategory}' not in inclusion list`],
+            reasons: [`iocCategoryInclusion filter: record category '${platformRecord.ioc_category}' not in inclusion list`],
           };
         }
-        reasons.push(`iocCategoryInclusion filter: category '${platformRecord.iocCategory}' is included`);
+        reasons.push(`iocCategoryInclusion filter: category '${platformRecord.ioc_category}' is included`);
       }
       // No iocCategory on record = skip this filter (permissive)
     }
@@ -165,14 +165,14 @@ export function evaluateSubscription(
     // IOC category exclusion
     if ('iocCategoryExclusion' in f && Array.isArray(f.iocCategoryExclusion)) {
       const excluded = f.iocCategoryExclusion as IocCategory[];
-      if (platformRecord.iocCategory) {
-        if (excluded.includes(platformRecord.iocCategory)) {
+      if (platformRecord.ioc_category) {
+        if (excluded.includes(platformRecord.ioc_category)) {
           return {
             relevant: false,
-            reasons: [`iocCategoryExclusion filter: record category '${platformRecord.iocCategory}' is in exclusion list`],
+            reasons: [`iocCategoryExclusion filter: record category '${platformRecord.ioc_category}' is in exclusion list`],
           };
         }
-        reasons.push(`iocCategoryExclusion filter: category '${platformRecord.iocCategory}' is not excluded`);
+        reasons.push(`iocCategoryExclusion filter: category '${platformRecord.ioc_category}' is not excluded`);
       }
     }
 
@@ -246,7 +246,7 @@ export function distributeToTenants(
 
     if (evaluation.relevant) {
       results.push({
-        tenantId: sub.tenantId,
+        tenant_id: sub.tenant_id,
         subscriptionId: sub.id,
         platformRecordId: platformRecord.id,
         reasons: evaluation.reasons,

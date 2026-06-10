@@ -54,9 +54,9 @@ export interface CaseEffectivenessResult {
   /** Overall case effectiveness score 0-100 */
   overallScore: number;
   /** Individual thread scores */
-  threadScores: Array<{ threadId: string; score: number }>;
+  threadScores: Array<{ thread_id: string; score: number }>;
   /** Worst-performing thread */
-  worstPerforming: { threadId: string; score: number } | null;
+  worstPerforming: { thread_id: string; score: number } | null;
 }
 
 /** Aggregation bucket for roll-up metrics */
@@ -107,7 +107,7 @@ export function computeCaseEffectiveness(
 
   const threadScores = threads.map((thread) => {
     const result = computeThreadEffectiveness(thread, thread.communicationSla);
-    return { threadId: thread.threadId, score: result.score };
+    return { thread_id: thread.thread_id, score: result.score };
   });
 
   const overallScore = Math.round(
@@ -187,7 +187,7 @@ function computeResponseTimeSignal(thread: CaseCommunicationThread, sla: Communi
     return thread.communicationSla.breached ? 0 : 50;
   }
 
-  const sentTime = new Date(thread.sentAt).getTime();
+  const sentTime = new Date(thread.sent_at).getTime();
   const responseTime = new Date(thread.lastResponseAt).getTime();
   const responseHours = (responseTime - sentTime) / (1000 * 60 * 60);
   const targetHours = sla.targetResponseHours;
@@ -203,9 +203,9 @@ function computeResponseTimeSignal(thread: CaseCommunicationThread, sla: Communi
 function computeResolutionSpeedSignal(thread: CaseCommunicationThread): number {
   // Closed threads with low message count = efficient resolution
   if (thread.status === 'closed') {
-    if (thread.messageCount <= 3) return 100;
-    if (thread.messageCount <= 5) return 80;
-    if (thread.messageCount <= 10) return 60;
+    if (thread.message_count <= 3) return 100;
+    if (thread.message_count <= 5) return 80;
+    if (thread.message_count <= 10) return 60;
     return 40;
   }
   // Still open — partial credit based on status
@@ -224,7 +224,7 @@ function computeEscalationRateSignal(thread: CaseCommunicationThread): number {
 function computeStakeholderEngagementSignal(thread: CaseCommunicationThread): number {
   // More participants engaged and messages = higher engagement
   const participantScore = Math.min(thread.participants.length * 25, 100);
-  const messageScore = Math.min(thread.messageCount * 15, 100);
+  const messageScore = Math.min(thread.message_count * 15, 100);
   return clamp(Math.round((participantScore + messageScore) / 2), 0, 100);
 }
 

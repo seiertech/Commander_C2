@@ -44,12 +44,12 @@ import type { ConnectorClass } from '../../packages/contracts/src/entities/commo
 function sig(overrides: Partial<StreamSignal> = {}): StreamSignal {
   return {
     stream: 'external_threat',
-    connectorClass: 'D',
-    sourceConnectorId: 'conn-test-001',
+    connector_class: 'D',
+    source_connector_id: 'conn-test-001',
     boundEntityId: 'asset-0001',
     boundEntityType: 'asset',
-    observedAt: '2026-01-18T06:00:00.000Z',
-    surfaceAttribution: 'external_attack_surface',
+    observed_at: '2026-01-18T06:00:00.000Z',
+    surface_attribution: 'external_attack_surface',
     payload: {},
     ...overrides,
   };
@@ -126,9 +126,9 @@ describe('Unit 14 — Estate Intelligence Picture (EIP)', () => {
 
   it('counts signals per stream correctly', () => {
     const signals = [
-      sig({ stream: 'external_threat', connectorClass: 'D' }),
-      sig({ stream: 'external_threat', connectorClass: 'D' }),
-      sig({ stream: 'posture', connectorClass: 'C' }),
+      sig({ stream: 'external_threat', connector_class: 'D' }),
+      sig({ stream: 'external_threat', connector_class: 'D' }),
+      sig({ stream: 'posture', connector_class: 'C' }),
     ];
     const eip = composeEstateIntelligencePicture(signals, ts);
     const et = eip.streams.find((s) => s.stream === 'external_threat')!;
@@ -164,8 +164,8 @@ describe('Unit 14 — Estate Intelligence Picture (EIP)', () => {
 
   it('lastSignalAt tracks freshest signal per stream', () => {
     const signals = [
-      sig({ stream: 'external_threat', connectorClass: 'D', observedAt: '2026-01-17T10:00:00.000Z' }),
-      sig({ stream: 'external_threat', connectorClass: 'D', observedAt: '2026-01-18T05:00:00.000Z' }),
+      sig({ stream: 'external_threat', connector_class: 'D', observed_at: '2026-01-17T10:00:00.000Z' }),
+      sig({ stream: 'external_threat', connector_class: 'D', observed_at: '2026-01-18T05:00:00.000Z' }),
     ];
     const eip = composeEstateIntelligencePicture(signals, ts);
     const et = eip.streams.find((s) => s.stream === 'external_threat')!;
@@ -212,8 +212,8 @@ describe('Unit 14 — Pre-Warned Classification (§6.1)', () => {
 describe('Unit 14 — Verdict Disagreement Detection (§6.2)', () => {
   it('detects disagreement when block + allow coexist', () => {
     const verdicts: ToolVerdict[] = [
-      { sourceConnectorId: 'tool-a', polarity: 'block', entityId: 'asset-001', issuedAt: '2026-01-18T06:00:00.000Z' },
-      { sourceConnectorId: 'tool-b', polarity: 'allow', entityId: 'asset-001', issuedAt: '2026-01-18T06:05:00.000Z' },
+      { source_connector_id: 'tool-a', polarity: 'block', entity_id: 'asset-001', issuedAt: '2026-01-18T06:00:00.000Z' },
+      { source_connector_id: 'tool-b', polarity: 'allow', entity_id: 'asset-001', issuedAt: '2026-01-18T06:05:00.000Z' },
     ];
     const r = detectVerdictDisagreement(verdicts);
     expect(r.disagreement).toBe(true);
@@ -223,8 +223,8 @@ describe('Unit 14 — Verdict Disagreement Detection (§6.2)', () => {
 
   it('detects disagreement when restrict + allow coexist', () => {
     const verdicts: ToolVerdict[] = [
-      { sourceConnectorId: 'tool-a', polarity: 'restrict', entityId: 'asset-001', issuedAt: '2026-01-18T06:00:00.000Z' },
-      { sourceConnectorId: 'tool-b', polarity: 'allow', entityId: 'asset-001', issuedAt: '2026-01-18T06:05:00.000Z' },
+      { source_connector_id: 'tool-a', polarity: 'restrict', entity_id: 'asset-001', issuedAt: '2026-01-18T06:00:00.000Z' },
+      { source_connector_id: 'tool-b', polarity: 'allow', entity_id: 'asset-001', issuedAt: '2026-01-18T06:05:00.000Z' },
     ];
     const r = detectVerdictDisagreement(verdicts);
     expect(r.disagreement).toBe(true);
@@ -232,8 +232,8 @@ describe('Unit 14 — Verdict Disagreement Detection (§6.2)', () => {
 
   it('no disagreement when all same polarity', () => {
     const verdicts: ToolVerdict[] = [
-      { sourceConnectorId: 'tool-a', polarity: 'block', entityId: 'asset-001', issuedAt: '2026-01-18T06:00:00.000Z' },
-      { sourceConnectorId: 'tool-b', polarity: 'block', entityId: 'asset-001', issuedAt: '2026-01-18T06:05:00.000Z' },
+      { source_connector_id: 'tool-a', polarity: 'block', entity_id: 'asset-001', issuedAt: '2026-01-18T06:00:00.000Z' },
+      { source_connector_id: 'tool-b', polarity: 'block', entity_id: 'asset-001', issuedAt: '2026-01-18T06:05:00.000Z' },
     ];
     const r = detectVerdictDisagreement(verdicts);
     expect(r.disagreement).toBe(false);
@@ -241,7 +241,7 @@ describe('Unit 14 — Verdict Disagreement Detection (§6.2)', () => {
 
   it('returns rationale in all cases', () => {
     const r = detectVerdictDisagreement([
-      { sourceConnectorId: 'tool-a', polarity: 'monitor', entityId: 'asset-001', issuedAt: '2026-01-18T06:00:00.000Z' },
+      { source_connector_id: 'tool-a', polarity: 'monitor', entity_id: 'asset-001', issuedAt: '2026-01-18T06:00:00.000Z' },
     ]);
     expect(r.rationale.length).toBeGreaterThan(0);
   });
@@ -251,18 +251,18 @@ describe('Unit 14 — Verdict Disagreement Detection (§6.2)', () => {
 
 describe('Unit 14 — Inverse Discovery (§6.3)', () => {
   it('triggers on unbound signal from external_threat', () => {
-    const r = evaluateInverseDiscovery(sig({ stream: 'external_threat', connectorClass: 'D', boundEntityId: null }));
+    const r = evaluateInverseDiscovery(sig({ stream: 'external_threat', connector_class: 'D', boundEntityId: null }));
     expect(r.triggered).toBe(true);
     expect(r.rootCause).toBe('discovery_gap');
   });
 
   it('triggers on unbound signal from external_attack', () => {
-    const r = evaluateInverseDiscovery(sig({ stream: 'external_attack', connectorClass: 'A', boundEntityId: null }));
+    const r = evaluateInverseDiscovery(sig({ stream: 'external_attack', connector_class: 'A', boundEntityId: null }));
     expect(r.triggered).toBe(true);
   });
 
   it('does NOT trigger on posture stream (internally generated)', () => {
-    const r = evaluateInverseDiscovery(sig({ stream: 'posture', connectorClass: 'C', boundEntityId: null }));
+    const r = evaluateInverseDiscovery(sig({ stream: 'posture', connector_class: 'C', boundEntityId: null }));
     expect(r.triggered).toBe(false);
   });
 
@@ -273,7 +273,7 @@ describe('Unit 14 — Inverse Discovery (§6.3)', () => {
 
   it('accepts a root-cause hint', () => {
     const r = evaluateInverseDiscovery(
-      sig({ stream: 'internal_behavioural', connectorClass: 'B', boundEntityId: null }),
+      sig({ stream: 'internal_behavioural', connector_class: 'B', boundEntityId: null }),
       'shadow_it',
     );
     expect(r.triggered).toBe(true);
@@ -286,7 +286,7 @@ describe('Unit 14 — Inverse Discovery (§6.3)', () => {
 describe('Unit 14 — Behavioural Anomaly Detection (§6.4)', () => {
   it('flags anomaly when zScore exceeds sensitivity', () => {
     const profile: BehaviouralProfile = {
-      identityId: 'identity-001',
+      identity_id: 'identity-001',
       verdictDensity: 50,
       peerBaselineMean: 10,
       peerBaselineStdDev: 5,
@@ -298,7 +298,7 @@ describe('Unit 14 — Behavioural Anomaly Detection (§6.4)', () => {
 
   it('does not flag when within sensitivity', () => {
     const profile: BehaviouralProfile = {
-      identityId: 'identity-002',
+      identity_id: 'identity-002',
       verdictDensity: 12,
       peerBaselineMean: 10,
       peerBaselineStdDev: 5,
@@ -310,7 +310,7 @@ describe('Unit 14 — Behavioural Anomaly Detection (§6.4)', () => {
 
   it('handles zero-variance peer baseline (edge case)', () => {
     const profile: BehaviouralProfile = {
-      identityId: 'identity-003',
+      identity_id: 'identity-003',
       verdictDensity: 15,
       peerBaselineMean: 10,
       peerBaselineStdDev: 0,
@@ -322,7 +322,7 @@ describe('Unit 14 — Behavioural Anomaly Detection (§6.4)', () => {
 
   it('no anomaly when density matches uniform peer baseline', () => {
     const profile: BehaviouralProfile = {
-      identityId: 'identity-004',
+      identity_id: 'identity-004',
       verdictDensity: 10,
       peerBaselineMean: 10,
       peerBaselineStdDev: 0,
@@ -334,7 +334,7 @@ describe('Unit 14 — Behavioural Anomaly Detection (§6.4)', () => {
 
   it('sensitivity is configurable (no hardcoded threshold)', () => {
     const profile: BehaviouralProfile = {
-      identityId: 'identity-005',
+      identity_id: 'identity-005',
       verdictDensity: 25,
       peerBaselineMean: 10,
       peerBaselineStdDev: 5,
@@ -421,9 +421,9 @@ describe('Unit 14 — Threat Relevance Scoring (§6.5)', () => {
 describe('Unit 14 — Silent Defence Aggregation (§6.6)', () => {
   it('counts actions by type', () => {
     const actions: DefensiveAction[] = [
-      { sourceConnectorId: 'tool-a', action: 'block', occurredAt: '2026-01-18T06:00:00.000Z' },
-      { sourceConnectorId: 'tool-a', action: 'block', occurredAt: '2026-01-18T06:01:00.000Z' },
-      { sourceConnectorId: 'tool-b', action: 'quarantine', occurredAt: '2026-01-18T06:02:00.000Z' },
+      { source_connector_id: 'tool-a', action: 'block', occurredAt: '2026-01-18T06:00:00.000Z' },
+      { source_connector_id: 'tool-a', action: 'block', occurredAt: '2026-01-18T06:01:00.000Z' },
+      { source_connector_id: 'tool-b', action: 'quarantine', occurredAt: '2026-01-18T06:02:00.000Z' },
     ];
     const r = aggregateSilentDefence(actions);
     expect(r.totalActions).toBe(3);
@@ -433,8 +433,8 @@ describe('Unit 14 — Silent Defence Aggregation (§6.6)', () => {
 
   it('tracks contributing tools', () => {
     const actions: DefensiveAction[] = [
-      { sourceConnectorId: 'tool-a', action: 'block', occurredAt: '2026-01-18T06:00:00.000Z' },
-      { sourceConnectorId: 'tool-b', action: 'coach', occurredAt: '2026-01-18T06:05:00.000Z' },
+      { source_connector_id: 'tool-a', action: 'block', occurredAt: '2026-01-18T06:00:00.000Z' },
+      { source_connector_id: 'tool-b', action: 'coach', occurredAt: '2026-01-18T06:05:00.000Z' },
     ];
     const r = aggregateSilentDefence(actions);
     expect(r.contributingTools.sort()).toEqual(['tool-a', 'tool-b']);
@@ -442,8 +442,8 @@ describe('Unit 14 — Silent Defence Aggregation (§6.6)', () => {
 
   it('tracks time window', () => {
     const actions: DefensiveAction[] = [
-      { sourceConnectorId: 'tool-a', action: 'block', occurredAt: '2026-01-18T06:00:00.000Z' },
-      { sourceConnectorId: 'tool-a', action: 'block', occurredAt: '2026-01-18T09:00:00.000Z' },
+      { source_connector_id: 'tool-a', action: 'block', occurredAt: '2026-01-18T06:00:00.000Z' },
+      { source_connector_id: 'tool-a', action: 'block', occurredAt: '2026-01-18T09:00:00.000Z' },
     ];
     const r = aggregateSilentDefence(actions);
     expect(r.windowStart).toBe('2026-01-18T06:00:00.000Z');
@@ -460,7 +460,7 @@ describe('Unit 14 — Silent Defence Aggregation (§6.6)', () => {
 
   it('rationale mentions aggregate-only (no cases generated)', () => {
     const r = aggregateSilentDefence([
-      { sourceConnectorId: 'tool-a', action: 'allow', occurredAt: '2026-01-18T06:00:00.000Z' },
+      { source_connector_id: 'tool-a', action: 'allow', occurredAt: '2026-01-18T06:00:00.000Z' },
     ]);
     expect(r.rationale).toContain('no cases generated');
   });

@@ -19,21 +19,21 @@ import { IOC_CATEGORIES, ALLOW_BLOCK_LIST_TYPES } from './intelligence-common';
 
 export interface TenantIocAllowBlockEntry extends CommonFields {
   /** Customer tenant ID (Req 23.5) */
-  tenantId: string;
+  tenant_id: string;
   /** IOC category from taxonomy (Req 23.5) */
-  iocCategory: IocCategory;
+  ioc_category: IocCategory;
   /** Indicator value (Req 23.5) */
   value: string;
   /** List type: allow or block (Req 23.5) */
   listType: AllowBlockListType;
   /** Who added this entry (Req 23.5) */
-  addedBy: string;
+  added_by: string;
   /** When this entry was added (Req 23.5) */
-  addedAt: string;
+  added_at: string;
   /** Reason for adding (Req 23.5) */
   reason: string;
   /** Optional expiry (Req 23.5) */
-  expiresAt: string | null;
+  expires_at: string | null;
 }
 
 // ─── Validation ──────────────────────────────────────────────────────────────
@@ -51,12 +51,12 @@ export function validateTenantIocAllowBlockEntry(
 ): TenantIocAllowBlockEntryValidation {
   const errors: string[] = [];
 
-  if (!entry.tenantId || entry.tenantId.trim() === '') {
-    errors.push('tenantId: required');
+  if (!entry.tenant_id || entry.tenant_id.trim() === '') {
+    errors.push('tenant_id: required');
   }
 
-  if (!entry.iocCategory || !IOC_CATEGORIES.includes(entry.iocCategory)) {
-    errors.push('iocCategory: must be a known taxonomy value');
+  if (!entry.ioc_category || !IOC_CATEGORIES.includes(entry.ioc_category)) {
+    errors.push('ioc_category: must be a known taxonomy value');
   }
 
   if (!entry.value || entry.value.trim() === '') {
@@ -67,16 +67,16 @@ export function validateTenantIocAllowBlockEntry(
     errors.push(`listType: must be one of: ${ALLOW_BLOCK_LIST_TYPES.join(', ')}`);
   }
 
-  if (!entry.addedBy || entry.addedBy.trim() === '') {
-    errors.push('addedBy: required');
+  if (!entry.added_by || entry.added_by.trim() === '') {
+    errors.push('added_by: required');
   }
 
   if (!entry.id || entry.id.trim() === '') {
     errors.push('id: required');
   }
 
-  if (!entry.tenant || !entry.tenant.tenantId || entry.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!entry.tenant || !entry.tenant.tenant_id || entry.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
 
   return { valid: errors.length === 0, errors };

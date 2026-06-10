@@ -25,8 +25,8 @@ export interface DeferralRef {
 }
 
 export interface TenantProfile {
-  tenantId: string;
-  tenantName: string;
+  tenant_id: string;
+  tenant_name: string;
   residency: 'UK' | 'US' | 'EU';
   environment: string;
   status: 'active' | 'trial' | 'suspended';
@@ -34,7 +34,7 @@ export interface TenantProfile {
 
 export interface TenantUser {
   id: string;
-  displayName: string;
+  display_name: string;
   email: string;
   roles: string[];
   authorityOverlays: string[];
@@ -72,7 +72,7 @@ export interface SsoConfig {
 }
 
 export interface TenantConnectorSetting {
-  connectorId: string;
+  connector_id: string;
   name: string;
   classes: string[];
   state: 'active' | 'paused' | 'error';
@@ -82,19 +82,19 @@ export interface TenantConnectorSetting {
 
 /** The full mock tenant-admin configuration. */
 export const MOCK_TENANT_PROFILE: TenantProfile = {
-  tenantId: 'tenant-001-acme-corp',
-  tenantName: 'Acme Corporation (Demo)',
+  tenant_id: 'tenant-001-acme-corp',
+  tenant_name: 'Acme Corporation (Demo)',
   residency: 'UK',
   environment: 'production',
   status: 'active',
 };
 
 export const MOCK_TENANT_USERS: TenantUser[] = [
-  { id: 'tu-001', displayName: 'Johann de Winnaar', email: 'johann.ciso@acme-demo.example', roles: ['CISO'], authorityOverlays: ['Administrative', 'Reporting'], authStrength: 'phishing-resistant-mfa', status: 'active' },
-  { id: 'tu-002', displayName: 'Security Operations Manager', email: 'som@acme-demo.example', roles: ['SOM'], authorityOverlays: ['Approval'], authStrength: 'mfa-enabled', status: 'active' },
-  { id: 'tu-003', displayName: 'Carlos Identity-Analyst', email: 'carlos.identity@acme-demo.example', roles: ['Identity/Access Specialist'], authorityOverlays: ['Internal Risk (scoped)'], authStrength: 'mfa-enabled', status: 'active' },
-  { id: 'tu-004', displayName: 'Jack Tenant-Admin', email: 'jack.admin@acme-demo.example', roles: ['Tenant Admin'], authorityOverlays: ['Administrative'], authStrength: 'mfa-enabled', status: 'active' },
-  { id: 'tu-005', displayName: 'Irene Adherence-Analyst', email: 'irene.adherence@acme-demo.example', roles: ['Risk/Adherence/Audit'], authorityOverlays: ['Reporting'], authStrength: 'password-only', status: 'invited' },
+  { id: 'tu-001', display_name: 'Johann de Winnaar', email: 'johann.ciso@acme-demo.example', roles: ['CISO'], authorityOverlays: ['Administrative', 'Reporting'], authStrength: 'phishing-resistant-mfa', status: 'active' },
+  { id: 'tu-002', display_name: 'Security Operations Manager', email: 'som@acme-demo.example', roles: ['SOM'], authorityOverlays: ['Approval'], authStrength: 'mfa-enabled', status: 'active' },
+  { id: 'tu-003', display_name: 'Carlos Identity-Analyst', email: 'carlos.identity@acme-demo.example', roles: ['Identity/Access Specialist'], authorityOverlays: ['Internal Risk (scoped)'], authStrength: 'mfa-enabled', status: 'active' },
+  { id: 'tu-004', display_name: 'Jack Tenant-Admin', email: 'jack.admin@acme-demo.example', roles: ['Tenant Admin'], authorityOverlays: ['Administrative'], authStrength: 'mfa-enabled', status: 'active' },
+  { id: 'tu-005', display_name: 'Irene Adherence-Analyst', email: 'irene.adherence@acme-demo.example', roles: ['Risk/Adherence/Audit'], authorityOverlays: ['Reporting'], authStrength: 'password-only', status: 'invited' },
 ];
 
 export const MOCK_TENANT_ROLES: TenantRole[] = [
@@ -128,10 +128,10 @@ export const MOCK_SSO_CONFIG: SsoConfig = {
 };
 
 export const MOCK_TENANT_CONNECTOR_SETTINGS: TenantConnectorSetting[] = [
-  { connectorId: 'mock-connector-0001', name: 'Mock SIEM (Splunk-style)', classes: ['A'], state: 'active', mutationEnforced: false },
-  { connectorId: 'mock-connector-0002', name: 'Mock XDR (CrowdStrike-style)', classes: ['A', 'B'], state: 'active', mutationEnforced: false },
-  { connectorId: 'mock-connector-0009', name: 'Mock Cloud Config (AWS Config-style)', classes: ['C'], state: 'active', mutationEnforced: false },
-  { connectorId: 'mock-connector-0012', name: 'Mock CVE Feed (NVD-style)', classes: ['D'], state: 'paused', mutationEnforced: false },
+  { connector_id: 'mock-connector-0001', name: 'Mock SIEM (Splunk-style)', classes: ['A'], state: 'active', mutationEnforced: false },
+  { connector_id: 'mock-connector-0002', name: 'Mock XDR (CrowdStrike-style)', classes: ['A', 'B'], state: 'active', mutationEnforced: false },
+  { connector_id: 'mock-connector-0009', name: 'Mock Cloud Config (AWS Config-style)', classes: ['C'], state: 'active', mutationEnforced: false },
+  { connector_id: 'mock-connector-0012', name: 'Mock CVE Feed (NVD-style)', classes: ['D'], state: 'paused', mutationEnforced: false },
 ];
 
 /**

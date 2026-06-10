@@ -1,8 +1,8 @@
 'use client';
 
+import { thesisVulnerabilityIntelligence } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedVulnerabilityIntelligence } from '../../../../../../packages/contracts/src/fixtures/seed-vulnerability-intelligence';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
@@ -22,10 +22,10 @@ import {
 export default function VulnerabilitiesPatchesPage() {
   const { tokens } = useMode();
 
-  const published = seedVulnerabilityIntelligence.filter((v) => v.cveState === 'published');
-  const withEpss = published.filter((v) => v.epssScore !== null);
-  const highEpss = withEpss.filter((v) => (v.epssScore ?? 0) >= 0.7);
-  const patchUrgent = published.filter((v) => v.cisaKevStatus || (v.epssScore ?? 0) >= 0.7 || v.cvssScore >= 9);
+  const published = thesisVulnerabilityIntelligence.filter((v) => v.cve_state === 'published');
+  const withEpss = published.filter((v) => v.epss_score !== null);
+  const highEpss = withEpss.filter((v) => (v.epss_score ?? 0) >= 0.7);
+  const patchUrgent = published.filter((v) => v.cisa_kev_status || (v.epss_score ?? 0) >= 0.7 || v.cvss_score >= 9);
 
   return (
     <PageContainer pretitle="Vulnerabilities › Patch Intelligence" title="Patch Priority">
@@ -50,18 +50,18 @@ export default function VulnerabilitiesPatchesPage() {
               </tr>
             </thead>
             <tbody>
-              {[...published].sort((a, b) => (b.epssScore ?? 0) - (a.epssScore ?? 0)).map((v) => {
-                const priority = v.cisaKevStatus || (v.epssScore ?? 0) >= 0.7 || v.cvssScore >= 9 ? 'URGENT' : v.cvssScore >= 7 ? 'HIGH' : 'NORMAL';
+              {[...published].sort((a, b) => (b.epss_score ?? 0) - (a.epss_score ?? 0)).map((v) => {
+                const priority = v.cisa_kev_status || (v.epss_score ?? 0) >= 0.7 || v.cvss_score >= 9 ? 'URGENT' : v.cvss_score >= 7 ? 'HIGH' : 'NORMAL';
                 const prColor = priority === 'URGENT' ? primitiveSignal.critical : priority === 'HIGH' ? primitiveSignal.warning : primitiveSignal.success;
                 return (
                   <tr key={v.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold, fontFamily: primitiveFonts.mono }}>{v.cveId}</td>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{v.cvssScore}</td>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{v.epssScore !== null ? `${(v.epssScore * 100).toFixed(0)}%` : '—'}</td>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}>{v.cisaKevStatus ? <span style={{ padding: '2px 6px', fontSize: primitiveTypeScale.micro, color: '#fff', background: primitiveSignal.critical }}>KEV</span> : '—'}</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold, fontFamily: primitiveFonts.mono }}>{v.cve_id}</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{v.cvss_score}</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{v.epss_score !== null ? `${(v.epss_score * 100).toFixed(0)}%` : '—'}</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}>{v.cisa_kev_status ? <span style={{ padding: '2px 6px', fontSize: primitiveTypeScale.micro, color: '#fff', background: primitiveSignal.critical }}>KEV</span> : '—'}</td>
                     <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, color: '#fff', background: prColor }}>{priority}</span></td>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontSize: primitiveTypeScale.micro }}>{v.affectedProducts.join(', ') || '—'}</td>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{new Date(v.publishedAt).toLocaleDateString()}</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontSize: primitiveTypeScale.micro }}>{v.affected_products.join(', ') || '—'}</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{new Date(v.published_at).toLocaleDateString()}</td>
                   </tr>
                 );
               })}

@@ -53,13 +53,13 @@ const mockNotificationService: NotificationService = {
 // ---------------------------------------------------------------------------
 
 interface UserProfile {
-  displayName: string;
+  display_name: string;
   role?: string;
   avatarUrl?: string;
 }
 
 const MOCK_USER: UserProfile = {
-  displayName: 'Johann Seier',
+  display_name: 'Johann Seier',
   role: 'Platform Admin',
 };
 
@@ -284,13 +284,13 @@ function NotificationBell({ service = mockNotificationService }: { service?: Not
 // UserProfileBlock — unchanged logic, Issue 7: breathing room on right
 // ---------------------------------------------------------------------------
 
-function deriveInitials(displayName: string): string {
-  return displayName.split(' ').filter(Boolean).map((w) => w[0]).join('').slice(0, 3).toUpperCase();
+function deriveInitials(display_name: string): string {
+  return display_name.split(' ').filter(Boolean).map((w) => w[0]).join('').slice(0, 3).toUpperCase();
 }
 
 function UserProfileBlock({ user = MOCK_USER }: { user?: UserProfile }) {
-  const displayName = user.displayName.length > 30 ? user.displayName.slice(0, 30) + '…' : user.displayName;
-  const initials = deriveInitials(user.displayName);
+  const displayName = user.display_name.length > 30 ? user.display_name.slice(0, 30) + '…' : user.display_name;
+  const initials = deriveInitials(user.display_name);
 
   return (
     <div

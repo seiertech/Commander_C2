@@ -43,19 +43,19 @@ export interface PlaybookExecution extends CommonFields {
   /** Execution identifier */
   executionId: string;
   /** Playbook being executed */
-  playbookId: string;
+  playbook_id: string;
   /** Case this execution is bound to */
-  caseId: string;
+  case_id: string;
   /** Tenant scope */
-  tenantId: string;
+  tenant_id: string;
   /** Current step number being executed */
   currentStep: number;
   /** Per-step execution statuses */
   stepStatuses: StepExecutionStatus[];
   /** When execution started */
-  startedAt: string;
+  started_at: string;
   /** When execution completed (null if still running) */
-  completedAt: string | null;
+  completed_at: string | null;
   /** Overall execution status */
   status: PlaybookExecutionStatus;
 }
@@ -78,20 +78,20 @@ export function validatePlaybookExecution(
   if (!execution.id || execution.id.trim() === '') {
     errors.push('id: required');
   }
-  if (!execution.tenant || !execution.tenant.tenantId || execution.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!execution.tenant || !execution.tenant.tenant_id || execution.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
   if (!execution.executionId || execution.executionId.trim() === '') {
     errors.push('executionId: required');
   }
-  if (!execution.playbookId || execution.playbookId.trim() === '') {
-    errors.push('playbookId: required');
+  if (!execution.playbook_id || execution.playbook_id.trim() === '') {
+    errors.push('playbook_id: required');
   }
-  if (!execution.caseId || execution.caseId.trim() === '') {
-    errors.push('caseId: required');
+  if (!execution.case_id || execution.case_id.trim() === '') {
+    errors.push('case_id: required');
   }
-  if (!execution.tenantId || execution.tenantId.trim() === '') {
-    errors.push('tenantId: required');
+  if (!execution.tenant_id || execution.tenant_id.trim() === '') {
+    errors.push('tenant_id: required');
   }
   if (typeof execution.currentStep !== 'number' || execution.currentStep < 0) {
     errors.push('currentStep: must be a non-negative number');
@@ -105,8 +105,8 @@ export function validatePlaybookExecution(
       }
     }
   }
-  if (!execution.startedAt || execution.startedAt.trim() === '') {
-    errors.push('startedAt: required');
+  if (!execution.started_at || execution.started_at.trim() === '') {
+    errors.push('started_at: required');
   }
   if (!execution.status || !PLAYBOOK_EXECUTION_STATUSES.includes(execution.status)) {
     errors.push(`status: must be one of: ${PLAYBOOK_EXECUTION_STATUSES.join(', ')}`);

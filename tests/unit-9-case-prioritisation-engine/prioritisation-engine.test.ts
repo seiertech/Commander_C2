@@ -40,7 +40,7 @@ import type { StrategyPolicy } from '../../packages/contracts/src/entities/strat
 const seedWeights: Record<string, number> = {
   severity: 0.2,
   exploitability: 0.15,
-  blastRadius: 0.15,
+  blast_radius: 0.15,
   identityExposure: 0.1,
   businessContext: 0.15,
   coverageScore: 0.1,
@@ -67,7 +67,7 @@ const seedAutomationConfig: AutomationConfig = {
 const maxEvidence: CaseEvidenceScores = {
   severity: 100,
   exploitability: 100,
-  blastRadius: 100,
+  blast_radius: 100,
   identityExposure: 100,
   businessContext: 100,
   coverageScore: 100,
@@ -79,7 +79,7 @@ const maxEvidence: CaseEvidenceScores = {
 const minEvidence: CaseEvidenceScores = {
   severity: 0,
   exploitability: 0,
-  blastRadius: 0,
+  blast_radius: 0,
   identityExposure: 0,
   businessContext: 0,
   coverageScore: 0,
@@ -91,7 +91,7 @@ const minEvidence: CaseEvidenceScores = {
 const mixedEvidence: CaseEvidenceScores = {
   severity: 90,
   exploitability: 80,
-  blastRadius: 70,
+  blast_radius: 70,
   identityExposure: 60,
   businessContext: 50,
   coverageScore: 40,
@@ -136,7 +136,7 @@ describe('calculateCRS — Case Risk Score', () => {
     const altWeights: Record<string, number> = {
       severity: 0.5,
       exploitability: 0.1,
-      blastRadius: 0.1,
+      blast_radius: 0.1,
       identityExposure: 0.1,
       businessContext: 0.05,
       coverageScore: 0.05,
@@ -377,8 +377,8 @@ describe('determinePushPreference — push vs manual decision', () => {
 
 describe('prioritiseCase — full flow with seed strategies', () => {
   const baseRequest: PrioritisationRequest = {
-    caseId: 'case-001',
-    caseType: 'vulnerability',
+    case_id: 'case-001',
+    case_type: 'vulnerability',
     evidence: mixedEvidence,
     missionFactors: highMission,
   };
@@ -395,7 +395,7 @@ describe('prioritiseCase — full flow with seed strategies', () => {
     expect(result.nbaList.length).toBeGreaterThan(0);
     expect(result.pushPreference).not.toBeNull();
     expect(result.rationale).toContain('case-001');
-    expect(result.sourcePolicy).not.toBeNull();
+    expect(result.source_policy).not.toBeNull();
     expect(result.error).toBeNull();
   });
 
@@ -418,8 +418,8 @@ describe('prioritiseCase — full flow with seed strategies', () => {
 
   it('assigns P0 for maximum evidence and mission', () => {
     const p0Request: PrioritisationRequest = {
-      caseId: 'case-p0',
-      caseType: 'vulnerability',
+      case_id: 'case-p0',
+      case_type: 'vulnerability',
       evidence: maxEvidence,
       missionFactors: { missionObjectiveAlignment: 100, operationalTempoImpact: 100, strategicRelevance: 100 },
     };
@@ -430,8 +430,8 @@ describe('prioritiseCase — full flow with seed strategies', () => {
 
   it('assigns P4 for minimum evidence and mission', () => {
     const p4Request: PrioritisationRequest = {
-      caseId: 'case-p4',
-      caseType: 'tool-health',
+      case_id: 'case-p4',
+      case_type: 'tool-health',
       evidence: minEvidence,
       missionFactors: { missionObjectiveAlignment: 0, operationalTempoImpact: 0, strategicRelevance: 0 },
     };
@@ -443,10 +443,10 @@ describe('prioritiseCase — full flow with seed strategies', () => {
   it('includes source policy reference from prioritisation-weight strategy', () => {
     const result = prioritiseCase(baseRequest, seedStrategies);
     const weightPolicy = seedStrategies.find(
-      (s) => s.surfaceType === 'prioritisation-weight' && s.status === 'active',
+      (s) => s.surface_type === 'prioritisation-weight' && s.status === 'active',
     )!;
-    expect(result.sourcePolicy!.id).toBe(weightPolicy.id);
-    expect(result.sourcePolicy!.version).toBe(weightPolicy.policyVersion);
+    expect(result.source_policy!.id).toBe(weightPolicy.id);
+    expect(result.source_policy!.version).toBe(weightPolicy.policy_version);
   });
 });
 
@@ -454,8 +454,8 @@ describe('prioritiseCase — full flow with seed strategies', () => {
 
 describe('prioritiseCase — error handling when strategy is missing', () => {
   const baseRequest: PrioritisationRequest = {
-    caseId: 'case-err',
-    caseType: 'drift',
+    case_id: 'case-err',
+    case_type: 'drift',
     evidence: mixedEvidence,
     missionFactors: highMission,
   };
@@ -470,7 +470,7 @@ describe('prioritiseCase — error handling when strategy is missing', () => {
 
   it('returns error when prioritisation-weight strategy is missing', () => {
     const withoutWeight = seedStrategies.filter(
-      (s) => s.surfaceType !== 'prioritisation-weight',
+      (s) => s.surface_type !== 'prioritisation-weight',
     );
     const result = prioritiseCase(baseRequest, withoutWeight);
     expect(result.success).toBe(false);
@@ -479,7 +479,7 @@ describe('prioritiseCase — error handling when strategy is missing', () => {
 
   it('returns error when threshold strategy is missing', () => {
     const withoutThreshold = seedStrategies.filter(
-      (s) => s.surfaceType !== 'threshold',
+      (s) => s.surface_type !== 'threshold',
     );
     const result = prioritiseCase(baseRequest, withoutThreshold);
     expect(result.success).toBe(false);
@@ -488,7 +488,7 @@ describe('prioritiseCase — error handling when strategy is missing', () => {
 
   it('returns error when automation-boundary strategy is missing', () => {
     const withoutAutomation = seedStrategies.filter(
-      (s) => s.surfaceType !== 'automation-boundary',
+      (s) => s.surface_type !== 'automation-boundary',
     );
     const result = prioritiseCase(baseRequest, withoutAutomation);
     expect(result.success).toBe(false);
@@ -497,7 +497,7 @@ describe('prioritiseCase — error handling when strategy is missing', () => {
 
   it('returns error when prioritisation-weight strategy has empty weights', () => {
     const emptyWeightStrategies: StrategyPolicy[] = seedStrategies.map((s) => {
-      if (s.surfaceType === 'prioritisation-weight') {
+      if (s.surface_type === 'prioritisation-weight') {
         return { ...s, configuration: { weights: {} } };
       }
       return s;
@@ -509,7 +509,7 @@ describe('prioritiseCase — error handling when strategy is missing', () => {
 
   it('returns error when threshold strategy has no priorityThresholds', () => {
     const noThresholdStrategies: StrategyPolicy[] = seedStrategies.map((s) => {
-      if (s.surfaceType === 'threshold') {
+      if (s.surface_type === 'threshold') {
         return { ...s, configuration: {} };
       }
       return s;
@@ -524,8 +524,8 @@ describe('prioritiseCase — error handling when strategy is missing', () => {
 
 describe('prioritiseCase — proof that values come from strategy', () => {
   const baseRequest: PrioritisationRequest = {
-    caseId: 'case-proof',
-    caseType: 'vulnerability',
+    case_id: 'case-proof',
+    case_type: 'vulnerability',
     evidence: mixedEvidence,
     missionFactors: highMission,
   };
@@ -536,14 +536,14 @@ describe('prioritiseCase — proof that values come from strategy', () => {
 
     // Create modified strategies with severity weight = 0.8 (heavily favour severity=90)
     const modifiedStrategies: StrategyPolicy[] = seedStrategies.map((s) => {
-      if (s.surfaceType === 'prioritisation-weight') {
+      if (s.surface_type === 'prioritisation-weight') {
         return {
           ...s,
           configuration: {
             weights: {
               severity: 0.8,
               exploitability: 0.025,
-              blastRadius: 0.025,
+              blast_radius: 0.025,
               identityExposure: 0.025,
               businessContext: 0.025,
               coverageScore: 0.025,
@@ -570,7 +570,7 @@ describe('prioritiseCase — proof that values come from strategy', () => {
 
     // Lower thresholds so WCS=70.4 becomes P1
     const modifiedStrategies: StrategyPolicy[] = seedStrategies.map((s) => {
-      if (s.surfaceType === 'threshold') {
+      if (s.surface_type === 'threshold') {
         return {
           ...s,
           configuration: {
@@ -591,7 +591,7 @@ describe('prioritiseCase — proof that values come from strategy', () => {
   it('only active strategies are consumed — inactive strategies are ignored', () => {
     // Make the prioritisation-weight strategy inactive
     const inactiveStrategies: StrategyPolicy[] = seedStrategies.map((s) => {
-      if (s.surfaceType === 'prioritisation-weight') {
+      if (s.surface_type === 'prioritisation-weight') {
         return { ...s, status: 'superseded' as const };
       }
       return s;
@@ -622,7 +622,7 @@ describe('Engine source — no hardcoded priority values', () => {
     const w2: Record<string, number> = { attackContext: 1.0 };
 
     const evidence: CaseEvidenceScores = {
-      severity: 100, exploitability: 0, blastRadius: 0,
+      severity: 100, exploitability: 0, blast_radius: 0,
       identityExposure: 0, businessContext: 0, coverageScore: 0,
       threatRelevance: 0, attackContext: 50,
     };

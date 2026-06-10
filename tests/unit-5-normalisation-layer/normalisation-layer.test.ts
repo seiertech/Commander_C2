@@ -41,22 +41,22 @@ function hoursBefore(base: string, hours: number): string {
   return hoursAfter(base, -hours);
 }
 
-function makeCandidate(overrides: Partial<EntityMatchCandidate> & { entityId: string }): EntityMatchCandidate {
+function makeCandidate(overrides: Partial<EntityMatchCandidate> & { entity_id: string }): EntityMatchCandidate {
   return {
-    entityType: 'asset',
-    sourceConnectorId: 'connector-001',
-    connectorClass: 'B',
+    entity_type: 'asset',
+    source_connector_id: 'connector-001',
+    connector_class: 'B',
     attributes: {},
     confidence: 80,
-    lastSeenAt: BASE_TIME,
+    last_seen_at: BASE_TIME,
     ...overrides,
   };
 }
 
-function makeClaim(overrides: Partial<AuthorityClaim> & { sourceConnectorId: string }): AuthorityClaim {
+function makeClaim(overrides: Partial<AuthorityClaim> & { source_connector_id: string }): AuthorityClaim {
   return {
-    entityId: 'entity-001',
-    connectorClass: 'B',
+    entity_id: 'entity-001',
+    connector_class: 'B',
     claimedAttributes: { hostname: 'server-01' },
     confidence: 80,
     lastUpdatedAt: BASE_TIME,
@@ -66,13 +66,13 @@ function makeClaim(overrides: Partial<AuthorityClaim> & { sourceConnectorId: str
 
 function makeVerdict(overrides: Partial<VerdictRecord> & { id: string }): VerdictRecord {
   return {
-    entityId: 'entity-001',
-    sourceConnectorId: 'connector-001',
+    entity_id: 'entity-001',
+    source_connector_id: 'connector-001',
     disposition: 'MONITOR',
     confidence: 80,
-    policyRef: 'POL-001',
+    policy_ref: 'POL-001',
     issuedAt: BASE_TIME,
-    expiresAt: null,
+    expires_at: null,
     timeBound: false,
     ...overrides,
   };
@@ -83,17 +83,17 @@ function makeThreatIndicator(overrides: Partial<ThreatIndicator> & { id: string 
     type: 'ip',
     value: '10.0.0.1',
     severity: 'high',
-    sourceConnectorId: 'threat-feed-001',
-    firstSeenAt: BASE_TIME,
+    source_connector_id: 'threat-feed-001',
+    first_seen_at: BASE_TIME,
     ...overrides,
   };
 }
 
-function makeEstateEntity(overrides: Partial<EstateEntity> & { entityId: string }): EstateEntity {
+function makeEstateEntity(overrides: Partial<EstateEntity> & { entity_id: string }): EstateEntity {
   return {
-    entityType: 'asset',
+    entity_type: 'asset',
     attributes: {},
-    surfaceAttribution: 'internal_attack_surface',
+    surface_attribution: 'internal_attack_surface',
     ...overrides,
   };
 }
@@ -112,7 +112,7 @@ describe('Entity Matching Engine', () => {
 
     it('returns no match for a single candidate (no cross-source matching possible)', () => {
       const candidate = makeCandidate({
-        entityId: 'asset-001',
+        entity_id: 'asset-001',
         attributes: { hostname: 'web-server-01' },
       });
       const result = matchEntities([candidate]);
@@ -125,14 +125,14 @@ describe('Entity Matching Engine', () => {
 
     it('exact match by shared attribute value (same key, same value)', () => {
       const a = makeCandidate({
-        entityId: 'asset-001',
-        sourceConnectorId: 'crowdstrike-001',
+        entity_id: 'asset-001',
+        source_connector_id: 'crowdstrike-001',
         attributes: { hostname: 'web-server-01', ip: '192.168.1.10' },
         confidence: 90,
       });
       const b = makeCandidate({
-        entityId: 'asset-002',
-        sourceConnectorId: 'intune-001',
+        entity_id: 'asset-002',
+        source_connector_id: 'intune-001',
         attributes: { hostname: 'web-server-01', os: 'linux' },
         confidence: 85,
       });
@@ -146,14 +146,14 @@ describe('Entity Matching Engine', () => {
 
     it('fuzzy match by partial attribute overlap (case-insensitive)', () => {
       const a = makeCandidate({
-        entityId: 'asset-001',
-        sourceConnectorId: 'source-a',
+        entity_id: 'asset-001',
+        source_connector_id: 'source-a',
         attributes: { hostname: 'WEB-SERVER-01' },
         confidence: 70,
       });
       const b = makeCandidate({
-        entityId: 'asset-002',
-        sourceConnectorId: 'source-b',
+        entity_id: 'asset-002',
+        source_connector_id: 'source-b',
         attributes: { hostname: 'web-server-01' },
         confidence: 80,
       });
@@ -166,14 +166,14 @@ describe('Entity Matching Engine', () => {
 
     it('composite match with 2+ partial attribute overlaps', () => {
       const a = makeCandidate({
-        entityId: 'asset-001',
-        sourceConnectorId: 'source-a',
+        entity_id: 'asset-001',
+        source_connector_id: 'source-a',
         attributes: { hostname: 'WEB-SERVER-01', domain: 'CORP.LOCAL' },
         confidence: 75,
       });
       const b = makeCandidate({
-        entityId: 'asset-002',
-        sourceConnectorId: 'source-b',
+        entity_id: 'asset-002',
+        source_connector_id: 'source-b',
         attributes: { hostname: 'web-server-01', domain: 'corp.local' },
         confidence: 80,
       });
@@ -185,13 +185,13 @@ describe('Entity Matching Engine', () => {
 
     it('no match when candidates have different entity types', () => {
       const a = makeCandidate({
-        entityId: 'asset-001',
-        entityType: 'asset',
+        entity_id: 'asset-001',
+        entity_type: 'asset',
         attributes: { hostname: 'web-server-01' },
       });
       const b = makeCandidate({
-        entityId: 'identity-001',
-        entityType: 'identity',
+        entity_id: 'identity-001',
+        entity_type: 'identity',
         attributes: { hostname: 'web-server-01' },
       });
       const result = matchEntities([a, b]);
@@ -202,11 +202,11 @@ describe('Entity Matching Engine', () => {
 
     it('no match when candidates share no attribute keys', () => {
       const a = makeCandidate({
-        entityId: 'asset-001',
+        entity_id: 'asset-001',
         attributes: { hostname: 'web-server-01' },
       });
       const b = makeCandidate({
-        entityId: 'asset-002',
+        entity_id: 'asset-002',
         attributes: { ip: '10.0.0.5' },
       });
       const result = matchEntities([a, b]);
@@ -216,11 +216,11 @@ describe('Entity Matching Engine', () => {
 
     it('no match when candidates share keys but values differ completely', () => {
       const a = makeCandidate({
-        entityId: 'asset-001',
+        entity_id: 'asset-001',
         attributes: { hostname: 'alpha-server' },
       });
       const b = makeCandidate({
-        entityId: 'asset-002',
+        entity_id: 'asset-002',
         attributes: { hostname: 'beta-server' },
       });
       const result = matchEntities([a, b]);
@@ -230,20 +230,20 @@ describe('Entity Matching Engine', () => {
 
     it('multiple candidates scored correctly — best pair wins', () => {
       const a = makeCandidate({
-        entityId: 'asset-001',
-        sourceConnectorId: 'source-a',
+        entity_id: 'asset-001',
+        source_connector_id: 'source-a',
         attributes: { hostname: 'alpha' },
         confidence: 60,
       });
       const b = makeCandidate({
-        entityId: 'asset-002',
-        sourceConnectorId: 'source-b',
+        entity_id: 'asset-002',
+        source_connector_id: 'source-b',
         attributes: { hostname: 'beta' },
         confidence: 70,
       });
       const c = makeCandidate({
-        entityId: 'asset-003',
-        sourceConnectorId: 'source-c',
+        entity_id: 'asset-003',
+        source_connector_id: 'source-c',
         attributes: { hostname: 'alpha' }, // exact match with a
         confidence: 90,
       });
@@ -256,12 +256,12 @@ describe('Entity Matching Engine', () => {
 
     it('fuzzy match via substring containment', () => {
       const a = makeCandidate({
-        entityId: 'asset-001',
+        entity_id: 'asset-001',
         attributes: { fqdn: 'web-server-01.corp.local' },
         confidence: 85,
       });
       const b = makeCandidate({
-        entityId: 'asset-002',
+        entity_id: 'asset-002',
         attributes: { fqdn: 'web-server-01' },
         confidence: 80,
       });
@@ -284,8 +284,8 @@ describe('Authority Resolution', () => {
 
     it('single claim resolves to that source without conflict', () => {
       const claim = makeClaim({
-        sourceConnectorId: 'intune-001',
-        connectorClass: 'C',
+        source_connector_id: 'intune-001',
+        connector_class: 'C',
         claimedAttributes: { os: 'Windows 11', adherence: 'true' },
         confidence: 95,
       });
@@ -298,77 +298,77 @@ describe('Authority Resolution', () => {
 
     it('connector class priority: C > B > A > D', () => {
       const classD = makeClaim({
-        sourceConnectorId: 'threat-intel-001',
-        connectorClass: 'D',
+        source_connector_id: 'threat-intel-001',
+        connector_class: 'D',
         confidence: 99,
       });
       const classC = makeClaim({
-        sourceConnectorId: 'intune-001',
-        connectorClass: 'C',
+        source_connector_id: 'intune-001',
+        connector_class: 'C',
         confidence: 50, // lower confidence but higher class
       });
       const result = resolveAuthority([classD, classC]);
-      expect(result.winningClaim.sourceConnectorId).toBe('intune-001');
+      expect(result.winningClaim.source_connector_id).toBe('intune-001');
       expect(result.rationale).toContain('Connector class priority');
     });
 
     it('same class — higher confidence wins', () => {
       const low = makeClaim({
-        sourceConnectorId: 'source-low',
-        connectorClass: 'B',
+        source_connector_id: 'source-low',
+        connector_class: 'B',
         confidence: 60,
         lastUpdatedAt: hoursAfter(BASE_TIME, 1), // more recent but lower confidence
       });
       const high = makeClaim({
-        sourceConnectorId: 'source-high',
-        connectorClass: 'B',
+        source_connector_id: 'source-high',
+        connector_class: 'B',
         confidence: 95,
         lastUpdatedAt: BASE_TIME,
       });
       const result = resolveAuthority([low, high]);
-      expect(result.winningClaim.sourceConnectorId).toBe('source-high');
+      expect(result.winningClaim.source_connector_id).toBe('source-high');
       expect(result.rationale).toContain('Confidence tiebreak');
     });
 
     it('same class, same confidence — most recent wins (freshness tiebreak)', () => {
       const older = makeClaim({
-        sourceConnectorId: 'source-older',
-        connectorClass: 'A',
+        source_connector_id: 'source-older',
+        connector_class: 'A',
         confidence: 80,
         lastUpdatedAt: hoursBefore(BASE_TIME, 24),
       });
       const newer = makeClaim({
-        sourceConnectorId: 'source-newer',
-        connectorClass: 'A',
+        source_connector_id: 'source-newer',
+        connector_class: 'A',
         confidence: 80,
         lastUpdatedAt: BASE_TIME,
       });
       const result = resolveAuthority([older, newer]);
-      expect(result.winningClaim.sourceConnectorId).toBe('source-newer');
+      expect(result.winningClaim.source_connector_id).toBe('source-newer');
       expect(result.rationale).toContain('Freshness tiebreak');
     });
 
     it('multiple claims resolved by full priority chain', () => {
       const claims = [
-        makeClaim({ sourceConnectorId: 'soc-telemetry', connectorClass: 'A', confidence: 90 }),
-        makeClaim({ sourceConnectorId: 'config-state', connectorClass: 'C', confidence: 70 }),
-        makeClaim({ sourceConnectorId: 'verdict-tool', connectorClass: 'B', confidence: 85 }),
-        makeClaim({ sourceConnectorId: 'threat-intel', connectorClass: 'D', confidence: 99 }),
+        makeClaim({ source_connector_id: 'soc-telemetry', connector_class: 'A', confidence: 90 }),
+        makeClaim({ source_connector_id: 'config-state', connector_class: 'C', confidence: 70 }),
+        makeClaim({ source_connector_id: 'verdict-tool', connector_class: 'B', confidence: 85 }),
+        makeClaim({ source_connector_id: 'threat-intel', connector_class: 'D', confidence: 99 }),
       ];
       const result = resolveAuthority(claims);
       // C has highest class priority
-      expect(result.winningClaim.sourceConnectorId).toBe('config-state');
+      expect(result.winningClaim.source_connector_id).toBe('config-state');
     });
 
     it('resolved attributes come from the winning claim', () => {
       const loser = makeClaim({
-        sourceConnectorId: 'loser',
-        connectorClass: 'D',
+        source_connector_id: 'loser',
+        connector_class: 'D',
         claimedAttributes: { hostname: 'wrong-name', os: 'linux' },
       });
       const winner = makeClaim({
-        sourceConnectorId: 'winner',
-        connectorClass: 'C',
+        source_connector_id: 'winner',
+        connector_class: 'C',
         claimedAttributes: { hostname: 'correct-name', os: 'windows' },
       });
       const result = resolveAuthority([loser, winner]);
@@ -397,7 +397,7 @@ describe('Verdict Semantics Processing', () => {
       it(`processes ${disposition} correctly (actionRequired: ${actionRequired})`, () => {
         const verdict = makeVerdict({ id: `verdict-${disposition}`, disposition });
         const result = processVerdict(verdict, BASE_TIME);
-        expect(result.effectiveDisposition).toBe(disposition);
+        expect(result.effective_disposition).toBe(disposition);
         expect(result.isExpired).toBe(false);
         expect(result.actionRequired).toBe(actionRequired);
         expect(result.rationale).toContain(disposition);
@@ -411,10 +411,10 @@ describe('Verdict Semantics Processing', () => {
         id: 'verdict-expired',
         disposition: 'BLOCK',
         timeBound: true,
-        expiresAt: hoursBefore(BASE_TIME, 1), // expired 1 hour ago
+        expires_at: hoursBefore(BASE_TIME, 1), // expired 1 hour ago
       });
       const result = processVerdict(verdict, BASE_TIME);
-      expect(result.effectiveDisposition).toBe('ALLOW');
+      expect(result.effective_disposition).toBe('ALLOW');
       expect(result.isExpired).toBe(true);
       expect(result.confidenceWeighted).toBe(0);
       expect(result.actionRequired).toBe(false);
@@ -425,11 +425,11 @@ describe('Verdict Semantics Processing', () => {
         id: 'verdict-active',
         disposition: 'QUARANTINE',
         timeBound: true,
-        expiresAt: hoursAfter(BASE_TIME, 24), // expires in 24 hours
+        expires_at: hoursAfter(BASE_TIME, 24), // expires in 24 hours
         confidence: 90,
       });
       const result = processVerdict(verdict, BASE_TIME);
-      expect(result.effectiveDisposition).toBe('QUARANTINE');
+      expect(result.effective_disposition).toBe('QUARANTINE');
       expect(result.isExpired).toBe(false);
       expect(result.actionRequired).toBe(true);
     });
@@ -439,10 +439,10 @@ describe('Verdict Semantics Processing', () => {
         id: 'verdict-permanent',
         disposition: 'MONITOR',
         timeBound: false,
-        expiresAt: null,
+        expires_at: null,
       });
       const result = processVerdict(verdict, hoursAfter(BASE_TIME, 8760)); // 1 year later
-      expect(result.effectiveDisposition).toBe('MONITOR');
+      expect(result.effective_disposition).toBe('MONITOR');
       expect(result.isExpired).toBe(false);
     });
 
@@ -451,10 +451,10 @@ describe('Verdict Semantics Processing', () => {
         id: 'verdict-timebound-null',
         disposition: 'COACH',
         timeBound: true,
-        expiresAt: null,
+        expires_at: null,
       });
       const result = processVerdict(verdict, BASE_TIME);
-      expect(result.effectiveDisposition).toBe('COACH');
+      expect(result.effective_disposition).toBe('COACH');
       expect(result.isExpired).toBe(false);
     });
   });
@@ -481,7 +481,7 @@ describe('Verdict Semantics Processing', () => {
   describe('resolveVerdictConflict', () => {
     it('no verdicts defaults to ALLOW', () => {
       const result = resolveVerdictConflict([], BASE_TIME);
-      expect(result.effectiveDisposition).toBe('ALLOW');
+      expect(result.effective_disposition).toBe('ALLOW');
       expect(result.actionRequired).toBe(false);
     });
 
@@ -491,17 +491,17 @@ describe('Verdict Semantics Processing', () => {
           id: 'v1',
           disposition: 'BLOCK',
           timeBound: true,
-          expiresAt: hoursBefore(BASE_TIME, 2),
+          expires_at: hoursBefore(BASE_TIME, 2),
         }),
         makeVerdict({
           id: 'v2',
           disposition: 'QUARANTINE',
           timeBound: true,
-          expiresAt: hoursBefore(BASE_TIME, 1),
+          expires_at: hoursBefore(BASE_TIME, 1),
         }),
       ];
       const result = resolveVerdictConflict(verdicts, BASE_TIME);
-      expect(result.effectiveDisposition).toBe('ALLOW');
+      expect(result.effective_disposition).toBe('ALLOW');
       expect(result.isExpired).toBe(true);
     });
 
@@ -513,7 +513,7 @@ describe('Verdict Semantics Processing', () => {
         makeVerdict({ id: 'v-coach', disposition: 'COACH' }),
       ];
       const result = resolveVerdictConflict(verdicts, BASE_TIME);
-      expect(result.effectiveDisposition).toBe('BLOCK');
+      expect(result.effective_disposition).toBe('BLOCK');
       expect(result.actionRequired).toBe(true);
     });
 
@@ -523,19 +523,19 @@ describe('Verdict Semantics Processing', () => {
           id: 'v-block-expired',
           disposition: 'BLOCK',
           timeBound: true,
-          expiresAt: hoursBefore(BASE_TIME, 1),
+          expires_at: hoursBefore(BASE_TIME, 1),
         }),
         makeVerdict({ id: 'v-monitor-active', disposition: 'MONITOR' }),
       ];
       const result = resolveVerdictConflict(verdicts, BASE_TIME);
-      expect(result.effectiveDisposition).toBe('MONITOR');
+      expect(result.effective_disposition).toBe('MONITOR');
       expect(result.actionRequired).toBe(false);
     });
 
     it('single active verdict wins by default', () => {
       const verdicts = [makeVerdict({ id: 'v-only', disposition: 'REQUIRE_MFA' })];
       const result = resolveVerdictConflict(verdicts, BASE_TIME);
-      expect(result.effectiveDisposition).toBe('REQUIRE_MFA');
+      expect(result.effective_disposition).toBe('REQUIRE_MFA');
       expect(result.actionRequired).toBe(true);
     });
 
@@ -559,7 +559,7 @@ describe('Inverse Discovery Routing', () => {
   describe('routeInverseDiscovery', () => {
     it('returns empty array when no indicators provided', () => {
       const estate: EstateEntity[] = [
-        makeEstateEntity({ entityId: 'asset-001', attributes: { ips: ['10.0.0.1'] } }),
+        makeEstateEntity({ entity_id: 'asset-001', attributes: { ips: ['10.0.0.1'] } }),
       ];
       const result = routeInverseDiscovery([], estate);
       expect(result).toEqual([]);
@@ -579,9 +579,9 @@ describe('Inverse Discovery Routing', () => {
       ];
       const estate: EstateEntity[] = [
         makeEstateEntity({
-          entityId: 'asset-web-01',
+          entity_id: 'asset-web-01',
           attributes: { ips: ['192.168.1.100', '10.0.0.5'] },
-          surfaceAttribution: 'external_attack_surface',
+          surface_attribution: 'external_attack_surface',
         }),
       ];
       const result = routeInverseDiscovery(indicators, estate);
@@ -591,7 +591,7 @@ describe('Inverse Discovery Routing', () => {
       expect(result[0].matchedAttribute).toBe('ips');
       expect(result[0].matchedValue).toBe('192.168.1.100');
       expect(result[0].severity).toBe('critical');
-      expect(result[0].surfaceAttribution).toBe('external_attack_surface');
+      expect(result[0].surface_attribution).toBe('external_attack_surface');
     });
 
     it('no match when indicator value does not exist in estate', () => {
@@ -599,7 +599,7 @@ describe('Inverse Discovery Routing', () => {
         makeThreatIndicator({ id: 'ti-001', type: 'ip', value: '203.0.113.50' }),
       ];
       const estate: EstateEntity[] = [
-        makeEstateEntity({ entityId: 'asset-001', attributes: { ips: ['10.0.0.1', '10.0.0.2'] } }),
+        makeEstateEntity({ entity_id: 'asset-001', attributes: { ips: ['10.0.0.1', '10.0.0.2'] } }),
       ];
       const result = routeInverseDiscovery(indicators, estate);
       expect(result).toHaveLength(0);
@@ -611,7 +611,7 @@ describe('Inverse Discovery Routing', () => {
       ];
       const estate: EstateEntity[] = [
         makeEstateEntity({
-          entityId: 'asset-dns',
+          entity_id: 'asset-dns',
           attributes: { domains: ['malicious.example.com', 'safe.internal.local'] },
         }),
       ];
@@ -627,7 +627,7 @@ describe('Inverse Discovery Routing', () => {
       ];
       const estate: EstateEntity[] = [
         makeEstateEntity({
-          entityId: 'asset-endpoint',
+          entity_id: 'asset-endpoint',
           attributes: { hashes: ['abc123def456', 'xyz789'] },
         }),
       ];
@@ -642,8 +642,8 @@ describe('Inverse Discovery Routing', () => {
       ];
       const estate: EstateEntity[] = [
         makeEstateEntity({
-          entityId: 'identity-001',
-          entityType: 'identity',
+          entity_id: 'identity-001',
+          entity_type: 'identity',
           attributes: { emails: ['attacker@evil.com'] },
         }),
       ];
@@ -658,7 +658,7 @@ describe('Inverse Discovery Routing', () => {
       ];
       const estate: EstateEntity[] = [
         makeEstateEntity({
-          entityId: 'asset-vuln',
+          entity_id: 'asset-vuln',
           attributes: { cves: ['CVE-2024-1234', 'CVE-2023-5678'] },
         }),
       ];
@@ -673,7 +673,7 @@ describe('Inverse Discovery Routing', () => {
       ];
       const estate: EstateEntity[] = [
         makeEstateEntity({
-          entityId: 'asset-proxy',
+          entity_id: 'asset-proxy',
           attributes: { urls: ['https://phishing.example.com/login'] },
         }),
       ];
@@ -688,7 +688,7 @@ describe('Inverse Discovery Routing', () => {
       ];
       const estate: EstateEntity[] = [
         makeEstateEntity({
-          entityId: 'asset-001',
+          entity_id: 'asset-001',
           attributes: { domains: ['malware.example.com'] },
         }),
       ];
@@ -701,8 +701,8 @@ describe('Inverse Discovery Routing', () => {
         makeThreatIndicator({ id: 'ti-shared-ip', type: 'ip', value: '10.0.0.99' }),
       ];
       const estate: EstateEntity[] = [
-        makeEstateEntity({ entityId: 'asset-a', attributes: { ips: ['10.0.0.99'] } }),
-        makeEstateEntity({ entityId: 'asset-b', attributes: { ips: ['10.0.0.99', '10.0.0.100'] } }),
+        makeEstateEntity({ entity_id: 'asset-a', attributes: { ips: ['10.0.0.99'] } }),
+        makeEstateEntity({ entity_id: 'asset-b', attributes: { ips: ['10.0.0.99', '10.0.0.100'] } }),
       ];
       const result = routeInverseDiscovery(indicators, estate);
       expect(result).toHaveLength(2);
@@ -715,8 +715,8 @@ describe('Inverse Discovery Routing', () => {
         makeThreatIndicator({ id: 'ti-domain', type: 'domain', value: 'bad.example.com' }),
       ];
       const estate: EstateEntity[] = [
-        makeEstateEntity({ entityId: 'asset-ip', attributes: { ips: ['10.0.0.1'] } }),
-        makeEstateEntity({ entityId: 'asset-domain', attributes: { domains: ['bad.example.com'] } }),
+        makeEstateEntity({ entity_id: 'asset-ip', attributes: { ips: ['10.0.0.1'] } }),
+        makeEstateEntity({ entity_id: 'asset-domain', attributes: { domains: ['bad.example.com'] } }),
       ];
       const result = routeInverseDiscovery(indicators, estate);
       expect(result).toHaveLength(2);
@@ -730,7 +730,7 @@ describe('Inverse Discovery Routing', () => {
       ];
       const estate: EstateEntity[] = [
         makeEstateEntity({
-          entityId: 'asset-alt',
+          entity_id: 'asset-alt',
           attributes: { ip_addresses: ['172.16.0.1'] },
         }),
       ];
@@ -744,7 +744,7 @@ describe('Inverse Discovery Routing', () => {
         makeThreatIndicator({ id: 'ti-rationale', type: 'ip', value: '10.10.10.10', severity: 'high' }),
       ];
       const estate: EstateEntity[] = [
-        makeEstateEntity({ entityId: 'asset-target', attributes: { ips: ['10.10.10.10'] } }),
+        makeEstateEntity({ entity_id: 'asset-target', attributes: { ips: ['10.10.10.10'] } }),
       ];
       const result = routeInverseDiscovery(indicators, estate);
       expect(result[0].rationale).toContain('ti-rationale');
@@ -761,8 +761,8 @@ describe('Surface Attribution', () => {
   describe('assignSurfaceAttribution', () => {
     it('externally accessible entity gets external_attack_surface', () => {
       const input: SurfaceAttributionInput = {
-        entityId: 'asset-web',
-        entityType: 'asset',
+        entity_id: 'asset-web',
+        entity_type: 'asset',
         isExternallyAccessible: true,
         hasExternalExposure: false,
         networkZone: 'internal', // even internal zone, if externally accessible → external
@@ -773,8 +773,8 @@ describe('Surface Attribution', () => {
 
     it('DMZ entity gets external_attack_surface', () => {
       const input: SurfaceAttributionInput = {
-        entityId: 'asset-dmz',
-        entityType: 'asset',
+        entity_id: 'asset-dmz',
+        entity_type: 'asset',
         isExternallyAccessible: false,
         hasExternalExposure: false,
         networkZone: 'dmz',
@@ -785,8 +785,8 @@ describe('Surface Attribution', () => {
 
     it('cloud-public entity gets external_attack_surface', () => {
       const input: SurfaceAttributionInput = {
-        entityId: 'asset-cloud-pub',
-        entityType: 'asset',
+        entity_id: 'asset-cloud-pub',
+        entity_type: 'asset',
         isExternallyAccessible: false,
         hasExternalExposure: false,
         networkZone: 'cloud-public',
@@ -797,8 +797,8 @@ describe('Surface Attribution', () => {
 
     it('internal network zone entity gets internal_attack_surface', () => {
       const input: SurfaceAttributionInput = {
-        entityId: 'asset-internal',
-        entityType: 'asset',
+        entity_id: 'asset-internal',
+        entity_type: 'asset',
         isExternallyAccessible: false,
         hasExternalExposure: false,
         networkZone: 'internal',
@@ -809,8 +809,8 @@ describe('Surface Attribution', () => {
 
     it('cloud-private entity gets internal_attack_surface', () => {
       const input: SurfaceAttributionInput = {
-        entityId: 'asset-cloud-priv',
-        entityType: 'asset',
+        entity_id: 'asset-cloud-priv',
+        entity_type: 'asset',
         isExternallyAccessible: false,
         hasExternalExposure: false,
         networkZone: 'cloud-private',
@@ -821,8 +821,8 @@ describe('Surface Attribution', () => {
 
     it('unknown zone with external exposure gets external_attack_surface', () => {
       const input: SurfaceAttributionInput = {
-        entityId: 'asset-unknown-exposed',
-        entityType: 'asset',
+        entity_id: 'asset-unknown-exposed',
+        entity_type: 'asset',
         isExternallyAccessible: false,
         hasExternalExposure: true,
         networkZone: 'unknown',
@@ -833,8 +833,8 @@ describe('Surface Attribution', () => {
 
     it('unknown zone without external exposure gets internal_attack_surface', () => {
       const input: SurfaceAttributionInput = {
-        entityId: 'asset-unknown-internal',
-        entityType: 'asset',
+        entity_id: 'asset-unknown-internal',
+        entity_type: 'asset',
         isExternallyAccessible: false,
         hasExternalExposure: false,
         networkZone: 'unknown',
@@ -845,8 +845,8 @@ describe('Surface Attribution', () => {
 
     it('identity entity type follows same rules', () => {
       const input: SurfaceAttributionInput = {
-        entityId: 'identity-external',
-        entityType: 'identity',
+        entity_id: 'identity-external',
+        entity_type: 'identity',
         isExternallyAccessible: true,
         hasExternalExposure: true,
         networkZone: 'unknown',
@@ -858,8 +858,8 @@ describe('Surface Attribution', () => {
     it('isExternallyAccessible takes precedence over network zone', () => {
       // Even cloud-private, if externally accessible → external
       const input: SurfaceAttributionInput = {
-        entityId: 'asset-override',
-        entityType: 'asset',
+        entity_id: 'asset-override',
+        entity_type: 'asset',
         isExternallyAccessible: true,
         hasExternalExposure: false,
         networkZone: 'cloud-private',

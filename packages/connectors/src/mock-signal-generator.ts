@@ -19,7 +19,7 @@ import { resolveSignalPurposes } from '../../contracts/src/resolvers/connector-p
 export interface MockSignal {
   /** Stable id: <connectorId>:<runId>:<index> */
   id: string;
-  connectorId: string;
+  connector_id: string;
   runId: string;
   /** One of the eight canonical signal purposes (Spec #61 §3). */
   purpose: SignalPurpose;
@@ -54,10 +54,10 @@ export function generateMockSignals(connector: Connector, runId: string): MockSi
   const purposes = resolveSignalPurposes(connector);
   return purposes.map((purpose, index) => ({
     id: `${connector.id}:${runId}:${index}`,
-    connectorId: connector.id,
+    connector_id: connector.id,
     runId,
     purpose,
-    payloadRef: `mock-payload/${connector.sourceType}/${purpose}/${index}`,
+    payloadRef: `mock-payload/${connector.source_type}/${purpose}/${index}`,
     // 1 minute apart per index — deterministic, no wall-clock.
     emittedAt: new Date(RUN_BASE_MS + index * 60_000).toISOString(),
   }));

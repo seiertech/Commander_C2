@@ -31,7 +31,7 @@ export interface RuleSpec {
   /** Rule display name */
   name: string;
   /** Rule type (detection | drift | correlation | suppression | custom) */
-  ruleType: string;
+  rule_type: string;
   /** Tenant scope — a tenant id, list of tenant ids, or 'all' (platform-wide) */
   tenantScope: string | string[];
   /** Declarative conditions */
@@ -106,8 +106,8 @@ export function validateRuleSchema(rule: RuleSpec): RuleValidationResult {
   if (!rule.name || rule.name.trim() === '') {
     errors.push('name: required');
   }
-  if (!rule.ruleType || !VALID_RULE_TYPES.includes(rule.ruleType)) {
-    errors.push(`ruleType: must be one of: ${VALID_RULE_TYPES.join(', ')}`);
+  if (!rule.rule_type || !VALID_RULE_TYPES.includes(rule.rule_type)) {
+    errors.push(`rule_type: must be one of: ${VALID_RULE_TYPES.join(', ')}`);
   }
   if (typeof rule.severity !== 'number' || rule.severity < 1 || rule.severity > 5) {
     errors.push('severity: must be a number between 1 and 5');

@@ -2,9 +2,8 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedIdentities } from '../../../../../../packages/contracts/src/fixtures/seed-identities';
-import { seedRiskObjects } from '../../../../../../packages/contracts/src/fixtures/seed-risk-objects';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisIdentities, thesisRiskObjects } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Identity & Access — Access Drift
@@ -19,12 +18,12 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/
 export default function IdentityDriftPage() {
   const { tokens } = useMode();
 
-  const identityRiskObjects = seedRiskObjects.filter((r) => r.type === 'identity_risk');
+  const identityRiskObjects = thesisRiskObjects.filter((r) => r.type === 'identity_risk');
   const affectedIdentityIds = new Set(
-    identityRiskObjects.flatMap((r) => [r.affectedEntityId, ...(r.affectedEntities || [])])
+    identityRiskObjects.flatMap((r) => [r.affected_entity_id, ...(r.affected_entities || [])])
   );
-  const driftedIdentities = seedIdentities.filter((i) => affectedIdentityIds.has(i.id));
-  const sorted = [...driftedIdentities].sort((a, b) => b.riskScore - a.riskScore);
+  const driftedIdentities = thesisIdentities.filter((i) => affectedIdentityIds.has(i.id));
+  const sorted = [...driftedIdentities].sort((a, b) => b.risk_score - a.risk_score);
 
   return (
     <PageContainer
@@ -55,7 +54,7 @@ export default function IdentityDriftPage() {
             <div className="card-body">
               <div className="subheader">Open (Untreated)</div>
               <div className="h1 mb-0" style={{ color: primitiveSignal.critical }}>
-                {identityRiskObjects.filter((r) => r.treatmentState === 'open').length}
+                {identityRiskObjects.filter((r) => r.treatment_state === 'open').length}
               </div>
             </div>
           </div>
@@ -65,7 +64,7 @@ export default function IdentityDriftPage() {
             <div className="card-body">
               <div className="subheader">Mitigated</div>
               <div className="h1 mb-0" style={{ color: '#2fb344' }}>
-                {identityRiskObjects.filter((r) => r.treatmentState === 'mitigated').length}
+                {identityRiskObjects.filter((r) => r.treatment_state === 'mitigated').length}
               </div>
             </div>
           </div>
@@ -90,10 +89,10 @@ export default function IdentityDriftPage() {
                 {identityRiskObjects.map((r) => (
                   <tr key={r.id}>
                     <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{r.type}</td>
-                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{r.affectedEntityId}</td>
+                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{r.affected_entity_id}</td>
                     <td>
-                      <span className={`badge ${r.treatmentState === 'open' ? 'bg-red-lt' : r.treatmentState === 'mitigated' ? 'bg-green-lt' : 'bg-secondary'}`}>
-                        {r.treatmentState}
+                      <span className={`badge ${r.treatment_state === 'open' ? 'bg-red-lt' : r.treatment_state === 'mitigated' ? 'bg-green-lt' : 'bg-secondary'}`}>
+                        {r.treatment_state}
                       </span>
                     </td>
                     <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{r.justification}</td>
@@ -121,10 +120,10 @@ export default function IdentityDriftPage() {
                 <tbody>
                   {sorted.map((i) => (
                     <tr key={i.id}>
-                      <td><a href={`/identity?id=${i.id}`} style={{ color: tokens.action.primary }}>{i.displayName}</a></td>
-                      <td><span className="badge bg-orange-lt">{i.privilegeLevel ?? 'standard'}</span></td>
+                      <td><a href={`/identity?id=${i.id}`} style={{ color: tokens.action.primary }}>{i.display_name}</a></td>
+                      <td><span className="badge bg-orange-lt">{i.privilege_level ?? 'standard'}</span></td>
                       <td><span className={`badge ${i.status === 'active' ? 'bg-green-lt' : 'bg-red-lt'}`}>{i.status}</span></td>
-                      <td className="text-end" style={{ color: i.riskScore >= 60 ? primitiveSignal.critical : tokens.text.muted }}>{i.riskScore}</td>
+                      <td className="text-end" style={{ color: i.risk_score >= 60 ? primitiveSignal.critical : tokens.text.muted }}>{i.risk_score}</td>
                     </tr>
                   ))}
                 </tbody>

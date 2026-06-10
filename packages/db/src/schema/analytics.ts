@@ -43,7 +43,7 @@ export const analyticStateEnum = pgEnum('analytic_state', [
 
 export const analytics = pgTable('analytics', {
   id: text('id').primaryKey(),
-  tenantId: text('tenant_id').notNull().references(() => tenants.id),
+  tenant_id: text('tenant_id').notNull().references(() => tenants.id),
   dataClassification: dataClassificationEnum('data_classification').notNull().default('configuration'),
 
   // ─── Source-owned fields (immutable after write) ─────────────────────────
@@ -66,7 +66,7 @@ export const analytics = pgTable('analytics', {
   state: analyticStateEnum('state').notNull().default('active'),
 
   /** False positive rate (0-100). Commander-tracked. Optional. */
-  falsePositiveRate: integer('false_positive_rate'),
+  false_positive_rate: integer('false_positive_rate'),
 
   /** ATT&CK bindings (JSONB, bounded max 20). Analytic-to-ATT&CK mapping. */
   attacks: jsonb('attacks').default('[]'),
@@ -74,25 +74,25 @@ export const analytics = pgTable('analytics', {
   // ─── Source provenance ───────────────────────────────────────────────────
 
   /** Connector that produced this analytic record */
-  sourceConnectorId: text('source_connector_id').notNull(),
+  source_connector_id: text('source_connector_id').notNull(),
   /** Import run identifier */
   sourceImportRunId: text('source_import_run_id').notNull(),
   /** Source system identifier */
-  sourceSystem: text('source_system').notNull(),
+  source_system: text('source_system').notNull(),
   /** Timestamp of source extraction */
-  sourceTimestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
+  source_timestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
 
   // ─── Timestamps ──────────────────────────────────────────────────────────
 
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updated_at: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 }, (table) => ({
   /** Deduplication index: same analyticId within a tenant is one analytic record */
-  deduplicationIdx: uniqueIndex('analytics_dedup_idx').on(table.tenantId, table.analyticId),
+  deduplicationIdx: uniqueIndex('analytics_dedup_idx').on(table.tenant_id, table.analyticId),
   /** Filter index: by analytic type */
   typeIdx: index('analytics_type_idx').on(table.analyticType),
   /** Filter index: by analytic state */
   stateIdx: index('analytics_state_idx').on(table.state),
   /** Tenant scope index */
-  tenantIdx: index('analytics_tenant_idx').on(table.tenantId),
+  tenantIdx: index('analytics_tenant_idx').on(table.tenant_id),
 }));

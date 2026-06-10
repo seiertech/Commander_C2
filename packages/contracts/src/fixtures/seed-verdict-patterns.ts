@@ -9,15 +9,15 @@
 import type { VerdictPatternCase } from '../entities/verdict-pattern-case';
 import { SEED_TENANT, SEED_SOURCE, seedId } from './seed-tenant';
 
-const VP_SOURCE = { ...SEED_SOURCE, sourceSystem: 'commander-identity-intelligence' };
+const VP_SOURCE = { ...SEED_SOURCE, source_system: 'commander-identity-intelligence' };
 
 export const seedVerdictPatterns: VerdictPatternCase[] = [
   {
     id: seedId('verdict-pattern', 1),
-    entityType: 'verdict-pattern-case',
+    entity_type: 'verdict-pattern-case',
     tenant: SEED_TENANT,
-    createdAt: '2026-02-08T08:00:00.000Z',
-    updatedAt: '2026-02-08T08:00:00.000Z',
+    created_at: '2026-02-08T08:00:00.000Z',
+    updated_at: '2026-02-08T08:00:00.000Z',
     source: VP_SOURCE,
     patternId: 'vp-0001',
     identityRef: 'identity-svc-prod-01',
@@ -31,10 +31,10 @@ export const seedVerdictPatterns: VerdictPatternCase[] = [
   },
   {
     id: seedId('verdict-pattern', 2),
-    entityType: 'verdict-pattern-case',
+    entity_type: 'verdict-pattern-case',
     tenant: SEED_TENANT,
-    createdAt: '2026-02-08T09:30:00.000Z',
-    updatedAt: '2026-02-08T11:00:00.000Z',
+    created_at: '2026-02-08T09:30:00.000Z',
+    updated_at: '2026-02-08T11:00:00.000Z',
     source: VP_SOURCE,
     patternId: 'vp-0002',
     identityRef: 'identity-analyst-03',
@@ -50,10 +50,10 @@ export const seedVerdictPatterns: VerdictPatternCase[] = [
   },
   {
     id: seedId('verdict-pattern', 3),
-    entityType: 'verdict-pattern-case',
+    entity_type: 'verdict-pattern-case',
     tenant: SEED_TENANT,
-    createdAt: '2026-02-06T14:00:00.000Z',
-    updatedAt: '2026-02-08T16:00:00.000Z',
+    created_at: '2026-02-06T14:00:00.000Z',
+    updated_at: '2026-02-08T16:00:00.000Z',
     source: VP_SOURCE,
     patternId: 'vp-0003',
     identityRef: 'identity-contractor-07',
@@ -71,10 +71,10 @@ export const seedVerdictPatterns: VerdictPatternCase[] = [
   },
   {
     id: seedId('verdict-pattern', 4),
-    entityType: 'verdict-pattern-case',
+    entity_type: 'verdict-pattern-case',
     tenant: SEED_TENANT,
-    createdAt: '2026-01-25T10:00:00.000Z',
-    updatedAt: '2026-02-05T14:00:00.000Z',
+    created_at: '2026-01-25T10:00:00.000Z',
+    updated_at: '2026-02-05T14:00:00.000Z',
     source: VP_SOURCE,
     patternId: 'vp-0004',
     identityRef: 'identity-admin-01',
@@ -87,7 +87,7 @@ export const seedVerdictPatterns: VerdictPatternCase[] = [
     routedAt: '2026-01-26T09:00:00.000Z',
     handedOffAt: '2026-01-26T10:00:00.000Z',
     outcomeRecordedAt: '2026-02-03T15:00:00.000Z',
-    closedAt: '2026-02-05T14:00:00.000Z',
+    closed_at: '2026-02-05T14:00:00.000Z',
     outcomeCategory: 'no_issue',
     handoffRecipient: 'customer-adherence-team',
     evidenceGrade: 'investigation',

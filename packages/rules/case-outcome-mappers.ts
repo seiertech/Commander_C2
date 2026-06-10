@@ -25,7 +25,7 @@ export const ACTION_FOLLOW_UPS = [
 export type ActionFollowUp = typeof ACTION_FOLLOW_UPS[number];
 
 export interface ActionRecommendation {
-  actionType: string;
+  action_type: string;
   followUps: ActionFollowUp[];
   d3fendAlignment?: string;
 }
@@ -36,28 +36,28 @@ export interface ActionRecommendation {
  */
 export function buildIocCaseLink(params: {
   id: string;
-  tenantId: string;
+  tenant_id: string;
   iocMatchId: string;
-  caseId: string;
+  case_id: string;
   linkType: IocCaseLinkType;
-  linkedAt: string;
+  linked_at: string;
 }): IocCaseLink {
   return {
     id: params.id,
-    tenant: { tenantId: params.tenantId, tenantName: `Tenant ${params.tenantId}` },
-    createdAt: params.linkedAt,
-    updatedAt: params.linkedAt,
+    tenant: { tenant_id: params.tenant_id, tenant_name: `Tenant ${params.tenant_id}` },
+    created_at: params.linked_at,
+    updated_at: params.linked_at,
     source: {
-      connectorId: 'case-mapper',
-      importRunId: `link-run-${params.id}`,
-      sourceSystem: 'intelligence-case-binding',
-      sourceTimestamp: params.linkedAt,
+      connector_id: 'case-mapper',
+      import_run_id: `link-run-${params.id}`,
+      source_system: 'intelligence-case-binding',
+      source_timestamp: params.linked_at,
     },
-    tenantId: params.tenantId,
+    tenant_id: params.tenant_id,
     iocMatchId: params.iocMatchId,
-    caseId: params.caseId,
+    case_id: params.case_id,
     linkType: params.linkType,
-    linkedAt: params.linkedAt,
+    linked_at: params.linked_at,
     status: 'active',
   };
 }
@@ -68,27 +68,27 @@ export function buildIocCaseLink(params: {
  */
 export function buildVulnerabilityCaseLink(params: {
   id: string;
-  tenantId: string;
-  evaluationId: string;
-  caseId: string;
-  linkedAt: string;
+  tenant_id: string;
+  evaluation_id: string;
+  case_id: string;
+  linked_at: string;
 }): VulnerabilityCaseLink {
   return {
     id: params.id,
-    tenant: { tenantId: params.tenantId, tenantName: `Tenant ${params.tenantId}` },
-    createdAt: params.linkedAt,
-    updatedAt: params.linkedAt,
+    tenant: { tenant_id: params.tenant_id, tenant_name: `Tenant ${params.tenant_id}` },
+    created_at: params.linked_at,
+    updated_at: params.linked_at,
     source: {
-      connectorId: 'case-mapper',
-      importRunId: `link-run-${params.id}`,
-      sourceSystem: 'vulnerability-case-binding',
-      sourceTimestamp: params.linkedAt,
+      connector_id: 'case-mapper',
+      import_run_id: `link-run-${params.id}`,
+      source_system: 'vulnerability-case-binding',
+      source_timestamp: params.linked_at,
     },
-    tenantId: params.tenantId,
-    evaluationId: params.evaluationId,
-    caseId: params.caseId,
+    tenant_id: params.tenant_id,
+    evaluation_id: params.evaluation_id,
+    case_id: params.case_id,
     linkType: 'vulnerability',
-    linkedAt: params.linkedAt,
+    linked_at: params.linked_at,
     status: 'active',
   };
 }
@@ -98,24 +98,24 @@ export function buildVulnerabilityCaseLink(params: {
  * Includes D3FEND alignment where applicable (Req 16.2).
  */
 export function generateActionRecommendation(params: {
-  actionType: 'block' | 'alert' | 'quarantine' | 'investigate';
+  action_type: 'block' | 'alert' | 'quarantine' | 'investigate';
 }): ActionRecommendation {
   const followUps: ActionFollowUp[] = ['capture_evidence'];
 
-  switch (params.actionType) {
+  switch (params.action_type) {
     case 'block':
       followUps.unshift('validate_block', 'verify_no_business_impact', 'monitor_for_recurrence');
-      return { actionType: params.actionType, followUps, d3fendAlignment: 'D3-NI (Network Isolation)' };
+      return { action_type: params.action_type, followUps, d3fendAlignment: 'D3-NI (Network Isolation)' };
     case 'quarantine':
       followUps.unshift('validate_block', 'rescan_requery');
-      return { actionType: params.actionType, followUps, d3fendAlignment: 'D3-FE (File Encryption / Quarantine)' };
+      return { action_type: params.action_type, followUps, d3fendAlignment: 'D3-FE (File Encryption / Quarantine)' };
     case 'alert':
       followUps.unshift('rescan_requery', 'monitor_for_recurrence');
-      return { actionType: params.actionType, followUps, d3fendAlignment: 'D3-DA (Dynamic Analysis)' };
+      return { action_type: params.action_type, followUps, d3fendAlignment: 'D3-DA (Dynamic Analysis)' };
     case 'investigate':
       followUps.unshift('rescan_requery', 'monitor_for_recurrence', 'close_or_reopen_case');
-      return { actionType: params.actionType, followUps };
+      return { action_type: params.action_type, followUps };
     default:
-      return { actionType: params.actionType, followUps };
+      return { action_type: params.action_type, followUps };
   }
 }

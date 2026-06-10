@@ -2,9 +2,9 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedTopology } from '../../../../../../packages/contracts/src/fixtures/seed-topology';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisTopology } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Fusion Map — P0 Overlay
@@ -15,10 +15,10 @@ import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFon
 
 export default function FusionMapP0Page() {
   const { tokens } = useMode();
-  const { nodes, edges, blastRadiusResults } = seedTopology;
-  const caseNodes = nodes.filter((n) => n.entityType === 'case');
+  const { nodes, edges, blastRadiusResults } = thesisTopology;
+  const caseNodes = nodes.filter((n) => n.entity_type === 'case');
   const criticalNodes = nodes.filter((n) => n.criticality === 1);
-  const p0Edges = edges.filter((e) => caseNodes.some((c) => c.nodeId === e.sourceNodeId || c.nodeId === e.targetNodeId));
+  const p0Edges = edges.filter((e) => caseNodes.some((c) => c.node_id === e.source_node_id || c.node_id === e.target_node_id));
 
   return (
     <PageContainer pretitle="Fusion Map › P0 Overlay" title="P0 / Critical Overlay">
@@ -34,7 +34,7 @@ export default function FusionMapP0Page() {
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
             <thead><tr>{['Label', 'Domain', 'Criticality'].map((h) => <th key={h} style={{ textAlign: 'left', padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, borderBottom: `2px solid ${tokens.border.default}`, color: tokens.text.muted, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, fontSize: primitiveTypeScale.micro }}>{h}</th>)}</tr></thead>
             <tbody>{caseNodes.map((n) => (
-              <tr key={n.nodeId} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
+              <tr key={n.node_id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{n.label}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{n.domain}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono, color: primitiveSignal.critical }}>{n.criticality}</td>
@@ -47,9 +47,9 @@ export default function FusionMapP0Page() {
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
             <thead><tr>{['Label', 'Type', 'Domain'].map((h) => <th key={h} style={{ textAlign: 'left', padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, borderBottom: `2px solid ${tokens.border.default}`, color: tokens.text.muted, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, fontSize: primitiveTypeScale.micro }}>{h}</th>)}</tr></thead>
             <tbody>{criticalNodes.map((n) => (
-              <tr key={n.nodeId} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
+              <tr key={n.node_id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary }}>{n.label}</td>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{n.entityType}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{n.entity_type}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted }}>{n.domain}</td>
               </tr>
             ))}</tbody>

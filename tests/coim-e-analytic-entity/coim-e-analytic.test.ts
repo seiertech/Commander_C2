@@ -30,24 +30,24 @@ import { seedAnalytics } from '../../packages/contracts/src/fixtures/seed-analyt
 function makeValidAnalytic(): Analytic {
   return {
     id: 'analytic-test-001',
-    entityType: 'analytic',
-    tenant: { tenantId: 'tenant-test-001', tenantName: 'Test Tenant' },
-    createdAt: '2026-01-18T06:00:00.000Z',
-    updatedAt: '2026-01-18T06:00:00.000Z',
+    entity_type: 'analytic',
+    tenant: { tenant_id: 'tenant-test-001', tenant_name: 'Test Tenant' },
+    created_at: '2026-01-18T06:00:00.000Z',
+    updated_at: '2026-01-18T06:00:00.000Z',
     source: {
-      connectorId: 'connector-test-001',
-      importRunId: 'run-test-001',
-      sourceSystem: 'test-system',
-      sourceTimestamp: '2026-01-18T05:55:00.000Z',
+      connector_id: 'connector-test-001',
+      import_run_id: 'run-test-001',
+      source_system: 'test-system',
+      source_timestamp: '2026-01-18T05:55:00.000Z',
     },
     analyticId: 'RULE-TEST-BruteForce-v1',
     analyticName: 'Test Brute Force Detection Rule',
     analyticType: 'detection_rule',
     version: '1.0.0',
     state: 'active',
-    falsePositiveRate: 10,
+    false_positive_rate: 10,
     attacks: [
-      { tactic: 'Credential Access', technique: 'T1110', techniqueName: 'Brute Force', version: 'v14.1' },
+      { tactic: 'Credential Access', technique: 'T1110', technique_name: 'Brute Force', version: 'v14.1' },
     ],
   };
 }
@@ -171,33 +171,33 @@ describe('COIM-E — validateAnalytic', () => {
 
   it('rejects falsePositiveRate below 0', () => {
     const a = makeValidAnalytic();
-    a.falsePositiveRate = -1;
+    a.false_positive_rate = -1;
     const result = validateAnalytic(a);
     expect(result.valid).toBe(false);
-    expect(result.errors.join(' ')).toContain('falsePositiveRate');
+    expect(result.errors.join(' ')).toContain('false_positive_rate');
   });
 
   it('rejects falsePositiveRate above 100', () => {
     const a = makeValidAnalytic();
-    a.falsePositiveRate = 101;
+    a.false_positive_rate = 101;
     const result = validateAnalytic(a);
     expect(result.valid).toBe(false);
-    expect(result.errors.join(' ')).toContain('falsePositiveRate');
+    expect(result.errors.join(' ')).toContain('false_positive_rate');
   });
 
   it('accepts falsePositiveRate at boundaries (0 and 100)', () => {
     const a0 = makeValidAnalytic();
-    a0.falsePositiveRate = 0;
+    a0.false_positive_rate = 0;
     expect(validateAnalytic(a0).valid).toBe(true);
 
     const a100 = makeValidAnalytic();
-    a100.falsePositiveRate = 100;
+    a100.false_positive_rate = 100;
     expect(validateAnalytic(a100).valid).toBe(true);
   });
 
   it('accepts analytic without falsePositiveRate (not yet scored)', () => {
     const a = makeValidAnalytic();
-    a.falsePositiveRate = undefined;
+    a.false_positive_rate = undefined;
     const result = validateAnalytic(a);
     expect(result.valid).toBe(true);
   });
@@ -221,7 +221,7 @@ describe('COIM-E — validateAnalytic', () => {
     a.attacks = Array.from({ length: 21 }, (_, i) => ({
       tactic: 'Tactic',
       technique: `T${1000 + i}`,
-      techniqueName: `Technique ${i}`,
+      technique_name: `Technique ${i}`,
       version: 'v14.1',
     }));
     const result = validateAnalytic(a);
@@ -234,7 +234,7 @@ describe('COIM-E — validateAnalytic', () => {
     a.attacks = Array.from({ length: 20 }, (_, i) => ({
       tactic: 'Tactic',
       technique: `T${1000 + i}`,
-      techniqueName: `Technique ${i}`,
+      technique_name: `Technique ${i}`,
       version: 'v14.1',
     }));
     const result = validateAnalytic(a);
@@ -246,7 +246,7 @@ describe('COIM-E — validateAnalytic', () => {
     a.analyticId = '';
     a.analyticName = '';
     a.version = '';
-    a.falsePositiveRate = 200;
+    a.false_positive_rate = 200;
     const result = validateAnalytic(a);
     expect(result.valid).toBe(false);
     expect(result.errors.length).toBeGreaterThanOrEqual(4);
@@ -260,7 +260,7 @@ describe('COIM-E — seed fixture conformance', () => {
 
   it('every seed analytic has entityType "analytic"', () => {
     for (const a of seedAnalytics) {
-      expect(a.entityType).toBe('analytic');
+      expect(a.entity_type).toBe('analytic');
     }
   });
 
@@ -307,16 +307,16 @@ describe('COIM-E — seed fixture conformance', () => {
 
   it('all false positive rates are in valid range (0-100)', () => {
     for (const a of seedAnalytics) {
-      if (a.falsePositiveRate !== undefined) {
-        expect(a.falsePositiveRate).toBeGreaterThanOrEqual(0);
-        expect(a.falsePositiveRate).toBeLessThanOrEqual(100);
+      if (a.false_positive_rate !== undefined) {
+        expect(a.false_positive_rate).toBeGreaterThanOrEqual(0);
+        expect(a.false_positive_rate).toBeLessThanOrEqual(100);
       }
     }
   });
 
   it('seed analytics include both scored and unscored false positive rates', () => {
-    const scored = seedAnalytics.filter(a => a.falsePositiveRate !== undefined);
-    const unscored = seedAnalytics.filter(a => a.falsePositiveRate === undefined);
+    const scored = seedAnalytics.filter(a => a.false_positive_rate !== undefined);
+    const unscored = seedAnalytics.filter(a => a.false_positive_rate === undefined);
     expect(scored.length).toBeGreaterThanOrEqual(1);
     expect(unscored.length).toBeGreaterThanOrEqual(1);
   });
@@ -346,7 +346,7 @@ describe('COIM-E — seed fixture conformance', () => {
 describe('COIM-E — ownership model assertions', () => {
   it('analytic entity has entityType discriminator', () => {
     const a = makeValidAnalytic();
-    expect(a.entityType).toBe('analytic');
+    expect(a.entity_type).toBe('analytic');
   });
 
   it('source-owned fields are present and typed (immutable after write)', () => {
@@ -367,11 +367,11 @@ describe('COIM-E — ownership model assertions', () => {
     const a = makeValidAnalytic();
     expect(typeof a.id).toBe('string');
     expect(a.tenant).toBeDefined();
-    expect(typeof a.tenant.tenantId).toBe('string');
-    expect(typeof a.createdAt).toBe('string');
-    expect(typeof a.updatedAt).toBe('string');
+    expect(typeof a.tenant.tenant_id).toBe('string');
+    expect(typeof a.created_at).toBe('string');
+    expect(typeof a.updated_at).toBe('string');
     expect(a.source).toBeDefined();
-    expect(typeof a.source.connectorId).toBe('string');
+    expect(typeof a.source.connector_id).toBe('string');
   });
 
   it('AnalyticRef is the lightweight reference shape (analyticId + analyticType)', () => {

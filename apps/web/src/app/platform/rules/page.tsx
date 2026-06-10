@@ -1,9 +1,9 @@
 'use client';
 
+import { thesisRules } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { useState } from 'react';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedRules } from '../../../../../../packages/contracts/src/fixtures/seed-platform';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
@@ -24,12 +24,12 @@ export default function PlatformRulesPage() {
   const { tokens } = useMode();
   const [filter, setFilter] = useState<string>('all');
 
-  const ruleTypes = Array.from(new Set(seedRules.map((r) => r.ruleType)));
-  const filtered = filter === 'all' ? seedRules : seedRules.filter((r) => r.ruleType === filter);
+  const ruleTypes = Array.from(new Set(thesisRules.map((r) => r.rule_type)));
+  const filtered = filter === 'all' ? thesisRules : thesisRules.filter((r) => r.rule_type === filter);
 
-  const activeRules = seedRules.filter((r) => r.status === 'active').length;
-  const totalTriggers = seedRules.reduce((acc, r) => acc + r.triggerCount, 0);
-  const customRules = seedRules.filter((r) => r.origin === 'tenant-custom').length;
+  const activeRules = thesisRules.filter((r) => r.status === 'active').length;
+  const totalTriggers = thesisRules.reduce((acc, r) => acc + r.trigger_count, 0);
+  const customRules = thesisRules.filter((r) => r.origin === 'tenant-custom').length;
 
   const statusColor = (status: string) => {
     switch (status) {
@@ -45,7 +45,7 @@ export default function PlatformRulesPage() {
     <PageContainer pretitle="Platform › Rule Engine" title="Rule Engine">
       {/* KPI strip */}
       <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
-        <KpiCard tokens={tokens} label="Total Rules" value={String(seedRules.length)} />
+        <KpiCard tokens={tokens} label="Total Rules" value={String(thesisRules.length)} />
         <KpiCard tokens={tokens} label="Active" value={String(activeRules)} accent={primitiveSignal.success} />
         <KpiCard tokens={tokens} label="Total Triggers" value={String(totalTriggers)} />
         <KpiCard tokens={tokens} label="Custom Rules" value={String(customRules)} />
@@ -77,12 +77,12 @@ export default function PlatformRulesPage() {
               {filtered.map((r) => (
                 <tr key={r.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{r.name}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{r.ruleType}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{r.rule_type}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', color: '#fff', background: statusColor(r.status) }}>{r.status}</span></td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{r.domain}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: r.severity >= 4 ? primitiveSignal.critical : r.severity >= 3 ? primitiveSignal.warning : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{r.severity}/5</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{r.origin}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{r.triggerCount}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{r.trigger_count}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono }}>{r.version}</td>
                 </tr>
               ))}

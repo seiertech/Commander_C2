@@ -39,29 +39,29 @@ export const lastRunStatusEnum = pgEnum('last_run_status', [
 
 export const connectors = pgTable('connectors', {
   id: text('id').primaryKey(),
-  tenantId: text('tenant_id').notNull().references(() => tenants.id),
+  tenant_id: text('tenant_id').notNull().references(() => tenants.id),
   dataClassification: dataClassificationEnum('data_classification').notNull().default('configuration'),
   name: text('name').notNull(),
   /** Connector classes — A/B/C/D only (Spec #61) */
   classes: jsonb('classes').$type<('A' | 'B' | 'C' | 'D')[]>().notNull(),
-  sourceType: text('source_type').notNull(),
+  source_type: text('source_type').notNull(),
   tier: text('tier').notNull().default('core'),
   state: connectorStateEnum('state').notNull().default('pending-approval'),
-  lastRunAt: timestamp('last_run_at', { withTimezone: true }),
-  lastRunStatus: lastRunStatusEnum('last_run_status').default('never-run'),
-  mappingPackVersion: text('mapping_pack_version').notNull(),
+  last_run_at: timestamp('last_run_at', { withTimezone: true }),
+  last_run_status: lastRunStatusEnum('last_run_status').default('never-run'),
+  mapping_pack_version: text('mapping_pack_version').notNull(),
   /** Per-class conformance tracking (JSON array of ClassConformance) */
   classConformance: jsonb('class_conformance').$type<{
     class: 'A' | 'B' | 'C' | 'D';
     tier: 'certified' | 'full' | 'baseline' | 'planned';
     certifiedAt: string | null;
-    lastAssessedAt: string;
+    last_assessed_at: string;
   }[]>(),
   /** Source provenance */
-  sourceConnectorId: text('source_connector_id').notNull(),
+  source_connector_id: text('source_connector_id').notNull(),
   sourceImportRunId: text('source_import_run_id').notNull(),
-  sourceSystem: text('source_system').notNull(),
-  sourceTimestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  source_system: text('source_system').notNull(),
+  source_timestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
+  created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updated_at: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 });

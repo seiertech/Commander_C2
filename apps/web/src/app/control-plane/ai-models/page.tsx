@@ -2,9 +2,9 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedModels } from '../../../../../../packages/contracts/src/fixtures/seed-platform';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisModels } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Control Plane — AI & Model Control
@@ -15,14 +15,14 @@ import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFon
 
 export default function ControlPlaneAiModelsPage() {
   const { tokens } = useMode();
-  const active = seedModels.filter((m) => m.status === 'active').length;
-  const avgAccuracy = Math.round(seedModels.reduce((a, m) => a + m.accuracy, 0) / seedModels.length);
-  const candidate = seedModels.filter((m) => m.status === 'candidate').length;
+  const active = thesisModels.filter((m) => m.status === 'active').length;
+  const avgAccuracy = Math.round(thesisModels.reduce((a, m) => a + m.accuracy, 0) / thesisModels.length);
+  const candidate = thesisModels.filter((m) => m.status === 'candidate').length;
 
   return (
     <PageContainer pretitle="Control Plane › AI & Models" title="AI & Model Control">
       <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
-        <Kpi tokens={tokens} label="Total Models" value={String(seedModels.length)} />
+        <Kpi tokens={tokens} label="Total Models" value={String(thesisModels.length)} />
         <Kpi tokens={tokens} label="Active" value={String(active)} accent={primitiveSignal.success} />
         <Kpi tokens={tokens} label="Candidates" value={String(candidate)} accent={primitiveSignal.info} />
         <Kpi tokens={tokens} label="Avg Accuracy" value={`${avgAccuracy}%`} />
@@ -32,14 +32,14 @@ export default function ControlPlaneAiModelsPage() {
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
             <thead><tr>{['Model', 'Type', 'Status', 'Domain', 'Accuracy', 'FP Rate', 'Version'].map((h) => <th key={h} style={{ textAlign: 'left', padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, borderBottom: `2px solid ${tokens.border.default}`, color: tokens.text.muted, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, fontSize: primitiveTypeScale.micro }}>{h}</th>)}</tr></thead>
-            <tbody>{seedModels.map((m) => (
+            <tbody>{thesisModels.map((m) => (
               <tr key={m.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{m.name}</td>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{m.modelType}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{m.model_type}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, color: '#fff', background: m.status === 'active' ? primitiveSignal.success : m.status === 'candidate' ? primitiveSignal.warning : primitiveSignal.neutral }}>{m.status}</span></td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{m.domain}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono, color: m.accuracy >= 90 ? primitiveSignal.success : primitiveSignal.warning }}>{m.accuracy}%</td>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{m.falsePositiveRate}%</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{m.false_positive_rate}%</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono }}>{m.version}</td>
               </tr>
             ))}</tbody>

@@ -14,16 +14,16 @@ import { tenants } from './tenants';
 
 /** Strategy policy reference shape (stored as JSONB per surface) */
 type StrategyPolicyRefJson = {
-  surfaceType: string;
-  policyId: string;
-  policyVersion: string;
-  evaluatedAt: string;
+  surface_type: string;
+  policy_id: string;
+  policy_version: string;
+  evaluated_at: string;
 };
 
 export const caseStrategyBindings = pgTable('case_strategy_bindings', {
   /** Case ID — primary key (one binding row per case) */
-  caseId: text('case_id').primaryKey(),
-  tenantId: text('tenant_id').notNull().references(() => tenants.id),
+  case_id: text('case_id').primaryKey(),
+  tenant_id: text('tenant_id').notNull().references(() => tenants.id),
   dataClassification: dataClassificationEnum('data_classification').notNull().default('configuration'),
   /** Routing strategy — determines owner/team */
   routingStrategy: jsonb('routing_strategy').$type<StrategyPolicyRefJson>().notNull(),
@@ -37,6 +37,6 @@ export const caseStrategyBindings = pgTable('case_strategy_bindings', {
   reopeningTriggerStrategy: jsonb('reopening_trigger_strategy').$type<StrategyPolicyRefJson>().notNull(),
   /** Validation window strategy — determines validation freshness */
   validationWindowStrategy: jsonb('validation_window_strategy').$type<StrategyPolicyRefJson>().notNull(),
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updated_at: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 });

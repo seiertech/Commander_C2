@@ -2,9 +2,9 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedWarRooms } from '../../../../../../packages/contracts/src/fixtures/seed-war-rooms';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisWarRooms } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Tenant Admin — P0 / Zero-Day Configuration
@@ -15,8 +15,8 @@ import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFon
 
 export default function SettingsP0ZeroDayPage() {
   const { tokens } = useMode();
-  const totalWarRooms = seedWarRooms.length;
-  const activeWarRooms = seedWarRooms.filter((w) => w.status === 'activated' || w.status === 'monitoring').length;
+  const totalWarRooms = thesisWarRooms.length;
+  const activeWarRooms = thesisWarRooms.filter((w) => w.status === 'activated' || w.status === 'monitoring').length;
 
   return (
     <PageContainer pretitle="Settings › P0 / Zero-Day" title="P0 / Zero-Day Configuration">
@@ -57,7 +57,7 @@ export default function SettingsP0ZeroDayPage() {
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
             <thead><tr>{['Ref', 'Status', 'Reason', 'Bound Cases', 'Source'].map((h) => <th key={h} style={{ textAlign: 'left', padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, borderBottom: `2px solid ${tokens.border.default}`, color: tokens.text.muted, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, fontSize: primitiveTypeScale.micro }}>{h}</th>)}</tr></thead>
-            <tbody>{seedWarRooms.map((w) => {
+            <tbody>{thesisWarRooms.map((w) => {
               const sc = w.status === 'activated' ? primitiveSignal.critical : w.status === 'monitoring' ? primitiveSignal.warning : primitiveSignal.success;
               return (
                 <tr key={w.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>

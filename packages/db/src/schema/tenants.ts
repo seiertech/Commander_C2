@@ -17,6 +17,6 @@ export const tenants = pgTable('tenants', {
   residency: dataResidencyEnum('residency').notNull().default('uk'),
   /** Whether tenant is active */
   active: boolean('active').notNull().default(true),
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updated_at: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 });

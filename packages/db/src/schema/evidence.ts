@@ -51,19 +51,19 @@ export const freshnessStatusEnum = pgEnum('freshness_status', [
 
 export const evidence = pgTable('evidence', {
   id: text('id').primaryKey(),
-  tenantId: text('tenant_id').notNull().references(() => tenants.id),
+  tenant_id: text('tenant_id').notNull().references(() => tenants.id),
   dataClassification: dataClassificationEnum('data_classification').notNull().default('case'),
 
   // ─── Source-owned fields (immutable after write) ─────────────────────────
 
   /** Evidence type classification */
-  evidenceType: evidenceTypeEnum('evidence_type').notNull(),
+  evidence_type: evidenceTypeEnum('evidence_type').notNull(),
 
   /** Evidence source — connector/analyst/system */
   evidenceSource: evidenceSourceEnum('evidence_source').notNull(),
 
   /** When this evidence was collected (source timestamp, immutable) */
-  collectedAt: timestamp('collected_at', { withTimezone: true }).notNull(),
+  collected_at: timestamp('collected_at', { withTimezone: true }).notNull(),
 
   /** Pointer to evidence content in object store (S3 URI or equivalent) */
   contentRef: text('content_ref').notNull(),
@@ -77,7 +77,7 @@ export const evidence = pgTable('evidence', {
   confidence: integer('confidence').notNull(),
 
   /** When this evidence becomes stale (computed from collectedAt + freshness policy) */
-  expiresAt: timestamp('expires_at', { withTimezone: true }),
+  expires_at: timestamp('expires_at', { withTimezone: true }),
 
   /** Freshness evaluation — computed at evaluation time */
   freshnessStatus: freshnessStatusEnum('freshness_status').notNull().default('fresh'),
@@ -85,7 +85,7 @@ export const evidence = pgTable('evidence', {
   // ─── Immutable bindings ──────────────────────────────────────────────────
 
   /** Bound case (required). Immutable after write. */
-  caseId: text('case_id').notNull().references(() => cases.id),
+  case_id: text('case_id').notNull().references(() => cases.id),
 
   /** Bound sub-action (optional). Immutable after write. */
   subActionId: text('sub_action_id'),
@@ -94,21 +94,21 @@ export const evidence = pgTable('evidence', {
   validationDecisionId: text('validation_decision_id'),
 
   /** Bound risk object (optional). Immutable after write. */
-  riskObjectId: text('risk_object_id'),
+  risk_object_id: text('risk_object_id'),
 
   // ─── Source provenance ───────────────────────────────────────────────────
 
   /** Connector that produced this evidence */
-  sourceConnectorId: text('source_connector_id').notNull(),
+  source_connector_id: text('source_connector_id').notNull(),
   /** Import run identifier */
   sourceImportRunId: text('source_import_run_id').notNull(),
   /** Source system identifier */
-  sourceSystem: text('source_system').notNull(),
+  source_system: text('source_system').notNull(),
   /** Timestamp of source extraction */
-  sourceTimestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
+  source_timestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
 
   // ─── Timestamps ──────────────────────────────────────────────────────────
 
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updated_at: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 });

@@ -78,7 +78,7 @@ describe('STIX Bundle Parser — mapStixToCommander', () => {
     const result = parseStixBundle(VALID_BUNDLE);
     const mappings = mapStixToCommander(result.objects);
     expect(mappings.attackPatterns.length).toBe(1);
-    expect(mappings.attackPatterns[0].techniqueId).toBe('T1566.001');
+    expect(mappings.attackPatterns[0].technique_id).toBe('T1566.001');
   });
 
   it('maps malware to IOCs', () => {

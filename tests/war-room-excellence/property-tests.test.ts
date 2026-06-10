@@ -108,7 +108,7 @@ describe('Property: Cadence computation is monotonic', () => {
 
           const warRoomBase: WarRoom = {
             ...seedWarRooms[0],
-            communicationCadence: {
+            communication_cadence: {
               activatedCadenceMinutes: activated,
               monitoringCadenceMinutes: sortedMonitoring,
               windingDownCadenceMinutes: sortedWindingDown,

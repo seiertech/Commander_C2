@@ -14,11 +14,11 @@ import type { CommonFields, SurfaceAttribution } from './common';
 import type { AttackMapping } from './coim';
 
 export interface Case extends CommonFields {
-  entityType: 'case';
+  entity_type: 'case';
   /** Case reference number */
-  caseRef: string;
+  case_ref: string;
   /** Case type (supports canonical 12 + legacy aliases for seed data) */
-  caseType: CaseTypeExtended;
+  case_type: CaseTypeExtended;
   /** Case title */
   title: string;
   /** Current lifecycle state — system-owned transitions only */
@@ -31,13 +31,13 @@ export interface Case extends CommonFields {
   team: string;
   /** SLA target */
   sla: {
-    targetResolutionHours: number;
+    target_resolution_hours: number;
     breached: boolean;
   };
   /** Surface attribution */
-  surfaceAttribution: SurfaceAttribution;
+  surface_attribution: SurfaceAttribution;
   /** Related entity IDs */
-  relatedEntities: string[];
+  related_entities: string[];
   /** Audit trail reference */
   auditTrailRef: string;
   /** Routing rationale (from routing engine) */
@@ -60,7 +60,7 @@ export interface Case extends CommonFields {
    * Count of distinct affected entities across bound Risk Objects (COIM-G).
    * Enables blast-radius quantification.
    */
-  affectedEntityCount?: number;
+  affected_entity_count?: number;
 
   /**
    * Blast radius score (0-100) — computed from affectedEntityCount,

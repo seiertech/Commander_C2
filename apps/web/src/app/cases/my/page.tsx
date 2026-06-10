@@ -4,26 +4,18 @@ import { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { useMode } from '@/context/mode-context';
-import { seedCases } from '../../../../../../packages/contracts/src/fixtures/seed-cases';
-import { seedEvents } from '../../../../../../packages/contracts/src/fixtures/seed-events';
-import { seedActions, seedSubActions } from '../../../../../../packages/contracts/src/fixtures/seed-actions';
-import { seedRiskObjects } from '../../../../../../packages/contracts/src/fixtures/seed-risk-objects';
-import { seedEvidence } from '../../../../../../packages/contracts/src/fixtures/seed-evidence';
-import { seedStrategies } from '../../../../../../packages/contracts/src/fixtures/seed-strategies';
 import { resolveAllStrategies } from '../../../../../../packages/contracts/src/resolvers/case-strategy-resolver';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import {
   primitiveBrand, primitiveFonts, primitiveTypeScale, primitiveLetterSpacing,
   primitiveSignal, primitiveSpacing, primitiveFontWeight, primitivePriority, primitiveData,
 } from '../../../../../../packages/ui/src/tokens/primitives';
-import { seedNotifications } from '../../../../../../packages/contracts/src/fixtures/seed-notifications';
-import { seedCaseFollows } from '../../../../../../packages/contracts/src/fixtures/seed-case-follows';
-import { seedDecisionRecords } from '../../../../../../packages/contracts/src/fixtures/seed-decision-records';
 import { PageContainer } from '@/components/page-container';
 import { CaseCard } from '@/components/case-card';
 import type { Case } from '../../../../../../packages/contracts/src/entities/case';
 import type { ApexOptions } from 'apexcharts';
 import { slaState, riskScore, isClosed, PRIORITIES } from '../case-metrics';
+import { thesisCases, thesisEvents, thesisActions, thesisSubActions, thesisRiskObjects, thesisEvidence, thesisStrategies, thesisNotifications, thesisCaseFollows, thesisDecisionRecords } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -69,10 +61,10 @@ function slaRisk(c: Case, now: number): number {
 export default function MyCasesPage() {
   const { mode, tokens } = useMode();
   const router = useRouter();
-  const now = useMemo(() => Math.max(...seedCases.map((c) => new Date(c.updatedAt).getTime())), []);
+  const now = useMemo(() => Math.max(...thesisCases.map((c) => new Date(c.updated_at).getTime())), []);
 
   // ── Real caseload ──
-  const myCases = useMemo(() => seedCases.filter((c) => c.owner === CURRENT_USER), []);
+  const myCases = useMemo(() => thesisCases.filter((c) => c.owner === CURRENT_USER), []);
   const open = myCases.filter((c) => !isClosed(c));
   const myIds = useMemo(() => new Set(myCases.map((c) => c.id)), [myCases]);
 
@@ -82,14 +74,14 @@ export default function MyCasesPage() {
     if (r !== 0) return r;
     const p = PRIORITIES.indexOf(a.priority) - PRIORITIES.indexOf(b.priority);
     if (p !== 0) return p;
-    return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+    return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
   }), [open, now]);
 
   // ── Linked real work artefacts across her cases ──
-  const myActions = seedActions.filter((a) => myIds.has(a.caseId));
-  const mySubActions = seedSubActions.filter((s) => myIds.has(s.caseId));
-  const myRiskObjects = seedRiskObjects.filter((r) => myIds.has(r.affectedEntityId) || (r.affectedEntities ?? []).some((e) => myIds.has(e)));
-  const myEvidence = seedEvidence.filter((e) => myIds.has(e.caseId));
+  const myActions = thesisActions.filter((a) => myIds.has(a.case_id));
+  const mySubActions = thesisSubActions.filter((s) => myIds.has(s.case_id));
+  const myRiskObjects = thesisRiskObjects.filter((r) => myIds.has(r.affected_entity_id) || (r.affected_entities ?? []).some((e) => myIds.has(e)));
+  const myEvidence = thesisEvidence.filter((e) => myIds.has(e.case_id));
 
   // ── KPIs (real) ──
   const slaAtRisk = open.filter((c) => slaState(c, now).tone !== 'success').length;
@@ -99,13 +91,13 @@ export default function MyCasesPage() {
   const avgRisk = open.length ? Math.round(open.reduce((a, c) => a + riskScore(c, now), 0) / open.length) : 0;
 
   // ── Activity stream (real seed-events for her cases) ──
-  const myEvents = useMemo(() => seedEvents
-    .filter((e) => e.entityType === 'case' && myIds.has(e.entityRef))
+  const myEvents = useMemo(() => thesisEvents
+    .filter((e) => e.entity_type === 'case' && myIds.has(e.entity_ref))
     .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()), [myIds]);
 
   // ── Caseload analytics (real) ──
   const byType: Record<string, number> = {};
-  open.forEach((c) => { byType[c.caseType] = (byType[c.caseType] || 0) + 1; });
+  open.forEach((c) => { byType[c.case_type] = (byType[c.case_type] || 0) + 1; });
   const byPriority = PRIORITIES.map((p) => open.filter((c) => c.priority === p).length);
   const byStatus: Record<string, number> = {};
   open.forEach((c) => { const l = STATUS_LABEL[c.status] ?? c.status; byStatus[l] = (byStatus[l] || 0) + 1; });
@@ -203,15 +195,15 @@ export default function MyCasesPage() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: primitiveSpacing[2] }}>
                 {myRiskObjects.map((r) => (
                   <Artefact key={r.id} tokens={tokens} kind="Risk Object" title={titleCase(r.type)} detail={r.justification}
-                    onClick={() => router.push(`/cases/${typeof r.affectedEntityId === 'string' && r.affectedEntityId.startsWith('case') ? r.affectedEntityId : ''}`)} />
+                    onClick={() => router.push(`/cases/${typeof r.affected_entity_id === 'string' && r.affected_entity_id.startsWith('case') ? r.affected_entity_id : ''}`)} />
                 ))}
                 {myActions.map((a) => (
-                  <Artefact key={a.id} tokens={tokens} kind="Action" title={a.title} detail={`${titleCase(a.status)} · ${a.actualEffortHours}/${a.estimatedEffortHours}h · ${a.owner}`}
-                    onClick={() => router.push(`/cases/${a.caseId}`)} />
+                  <Artefact key={a.id} tokens={tokens} kind="Action" title={a.title} detail={`${titleCase(a.status)} · ${a.actual_effort_hours}/${a.estimated_effort_hours}h · ${a.owner}`}
+                    onClick={() => router.push(`/cases/${a.case_id}`)} />
                 ))}
                 {myEvidence.map((e) => (
-                  <Artefact key={e.id} tokens={tokens} kind="Evidence" title={titleCase(e.evidenceType)} detail={`${e.confidence}% confidence · ${titleCase(e.freshnessStatus)} · ${e.source.sourceSystem}`}
-                    onClick={() => router.push(`/cases/${e.caseId}`)} />
+                  <Artefact key={e.id} tokens={tokens} kind="Evidence" title={titleCase(e.evidence_type)} detail={`${e.confidence}% confidence · ${titleCase(e.freshnessStatus)} · ${e.source.source_system}`}
+                    onClick={() => router.push(`/cases/${e.case_id}`)} />
                 ))}
               </div>
             )}
@@ -223,11 +215,11 @@ export default function MyCasesPage() {
           <span style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>My Activity</span>
           <div style={{ marginTop: primitiveSpacing[3], display: 'flex', flexDirection: 'column', gap: primitiveSpacing[2], maxHeight: 560, overflowY: 'auto' }}>
             {myEvents.length === 0 ? <Empty tokens={tokens} /> : myEvents.map((e) => (
-              <div key={e.id} onClick={() => router.push(`/cases/${e.entityRef}`)} style={{ display: 'flex', gap: primitiveSpacing[2], cursor: 'pointer', paddingBottom: primitiveSpacing[2], borderBottom: `1px solid ${tokens.border.subtle}` }}>
+              <div key={e.id} onClick={() => router.push(`/cases/${e.entity_ref}`)} style={{ display: 'flex', gap: primitiveSpacing[2], cursor: 'pointer', paddingBottom: primitiveSpacing[2], borderBottom: `1px solid ${tokens.border.subtle}` }}>
                 <span style={{ width: 7, height: 7, borderRadius: '50%', background: SEV_COLOR[e.severity](tokens), display: 'inline-block', marginTop: 5, flexShrink: 0 }} />
                 <div style={{ minWidth: 0 }}>
                   <div style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.secondary, lineHeight: 1.4 }}>{e.message}</div>
-                  <div style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.muted, fontFamily: primitiveFonts.mono }}>{new Date(e.timestamp).toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })} · {e.entityRef}</div>
+                  <div style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.muted, fontFamily: primitiveFonts.mono }}>{new Date(e.timestamp).toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })} · {e.entity_ref}</div>
                 </div>
               </div>
             ))}
@@ -240,18 +232,18 @@ export default function MyCasesPage() {
         {/* Approvals & Decisions */}
         <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.subtle}`, padding: componentTokens.cardPadding }}>
           <span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, marginBottom: primitiveSpacing[2] }}>Approvals & Decisions</span>
-          {seedDecisionRecords.slice(0, 3).map((d) => (
+          {thesisDecisionRecords.slice(0, 3).map((d) => (
             <div key={d.id} style={{ padding: `${primitiveSpacing[1]} 0`, borderBottom: `1px solid ${tokens.border.subtle}` }}>
               <span style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.primary }}>{d.rationale.slice(0, 60)}…</span>
-              <span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted, fontFamily: primitiveFonts.mono }}>{d.decisionType} · {new Date(d.decidedAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}</span>
+              <span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted, fontFamily: primitiveFonts.mono }}>{d.decision_type} · {new Date(d.decided_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}</span>
             </div>
           ))}
         </div>
 
         {/* Notifications */}
         <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.subtle}`, padding: componentTokens.cardPadding }}>
-          <span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, marginBottom: primitiveSpacing[2] }}>Notifications ({seedNotifications.filter((n) => !n.read).length} unread)</span>
-          {seedNotifications.slice(0, 4).map((n) => (
+          <span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, marginBottom: primitiveSpacing[2] }}>Notifications ({thesisNotifications.filter((n) => !n.read).length} unread)</span>
+          {thesisNotifications.slice(0, 4).map((n) => (
             <div key={n.id} style={{ padding: `${primitiveSpacing[1]} 0`, borderBottom: `1px solid ${tokens.border.subtle}`, opacity: n.read ? 0.6 : 1 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: primitiveSpacing[1] }}>
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: n.severity === 'critical' ? tokens.status.critical : n.severity === 'warning' ? tokens.status.warning : tokens.status.info, display: 'inline-block' }} />
@@ -264,10 +256,10 @@ export default function MyCasesPage() {
 
         {/* Followed Cases */}
         <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.subtle}`, padding: componentTokens.cardPadding }}>
-          <span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, marginBottom: primitiveSpacing[2] }}>Followed Cases ({seedCaseFollows.filter((f) => !f.unfollowedAt).length} active)</span>
-          {seedCaseFollows.filter((f) => !f.unfollowedAt).map((f) => (
-            <div key={f.id} style={{ padding: `${primitiveSpacing[1]} 0`, borderBottom: `1px solid ${tokens.border.subtle}`, cursor: 'pointer' }} onClick={() => router.push(`/cases/${f.caseRef}`)}>
-              <span style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.primary, fontFamily: primitiveFonts.mono }}>{f.caseRef}</span>
+          <span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, marginBottom: primitiveSpacing[2] }}>Followed Cases ({thesisCaseFollows.filter((f) => !f.unfollowedAt).length} active)</span>
+          {thesisCaseFollows.filter((f) => !f.unfollowedAt).map((f) => (
+            <div key={f.id} style={{ padding: `${primitiveSpacing[1]} 0`, borderBottom: `1px solid ${tokens.border.subtle}`, cursor: 'pointer' }} onClick={() => router.push(`/cases/${f.case_ref}`)}>
+              <span style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.primary, fontFamily: primitiveFonts.mono }}>{f.case_ref}</span>
               <span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>Notify: {f.notifyOn.join(', ')}</span>
             </div>
           ))}

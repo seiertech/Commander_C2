@@ -78,7 +78,7 @@ describe('War Room Lifecycle Engine', () => {
       expect(result.success).toBe(true);
       expect(result.warRoom).not.toBeNull();
       expect(result.warRoom!.status).toBe('monitoring');
-      expect(result.warRoom!.updatedAt).toBe(timestamp);
+      expect(result.warRoom!.updated_at).toBe(timestamp);
     });
 
     it('succeeds: monitoring → winding_down by senior_owner', () => {

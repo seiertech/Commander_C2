@@ -49,38 +49,38 @@ export const strategyPolicyStatusEnum = pgEnum('strategy_policy_status', [
 
 export const strategies = pgTable('strategies', {
   id: text('id').primaryKey(),
-  tenantId: text('tenant_id').notNull().references(() => tenants.id),
+  tenant_id: text('tenant_id').notNull().references(() => tenants.id),
   dataClassification: dataClassificationEnum('data_classification').notNull().default('configuration'),
   /** Which strategy surface this policy belongs to */
-  surfaceType: strategySurfaceTypeEnum('surface_type').notNull(),
+  surface_type: strategySurfaceTypeEnum('surface_type').notNull(),
   /** Policy version (semantic) */
-  policyVersion: text('policy_version').notNull(),
+  policy_version: text('policy_version').notNull(),
   /** Current status */
   status: strategyPolicyStatusEnum('status').notNull().default('draft'),
   /** Policy configuration (JSON — shape varies by surface type) */
   configuration: jsonb('configuration').$type<Record<string, unknown>>().notNull(),
   /** Who proposed this policy */
-  proposedBy: text('proposed_by').notNull(),
+  proposed_by: text('proposed_by').notNull(),
   /** When it was proposed */
-  proposedAt: timestamp('proposed_at', { withTimezone: true }).notNull(),
+  proposed_at: timestamp('proposed_at', { withTimezone: true }).notNull(),
   /** Approval metadata (null if not yet approved) */
   approval: jsonb('approval').$type<{
-    approvedBy: string;
-    approvedAt: string;
+    approved_by: string;
+    approved_at: string;
     condition: string;
     rationale: string;
   } | null>(),
   /** Effective from (null if not yet active) */
-  effectiveFrom: timestamp('effective_from', { withTimezone: true }),
+  effective_from: timestamp('effective_from', { withTimezone: true }),
   /** Effective until (null if still active) */
-  effectiveUntil: timestamp('effective_until', { withTimezone: true }),
+  effective_until: timestamp('effective_until', { withTimezone: true }),
   /** Simulation result reference (null if not simulated) */
-  simulationRef: text('simulation_ref'),
+  simulation_ref: text('simulation_ref'),
   /** Source provenance */
-  sourceConnectorId: text('source_connector_id').notNull(),
+  source_connector_id: text('source_connector_id').notNull(),
   sourceImportRunId: text('source_import_run_id').notNull(),
-  sourceSystem: text('source_system').notNull(),
-  sourceTimestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  source_system: text('source_system').notNull(),
+  source_timestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
+  created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updated_at: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 });

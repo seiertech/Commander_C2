@@ -80,7 +80,7 @@ export interface StrategyThresholdRef {
   /** Strategy surface type that owns these thresholds */
   strategySurface: string;
   /** Policy ID from the strategy layer */
-  policyId: string;
+  policy_id: string;
   /** Green threshold (value >= green means healthy) — for higher-is-better metrics */
   green: number;
   /** Amber threshold (value >= amber means degraded) — between amber and green */
@@ -110,7 +110,7 @@ export interface PostureMetricPeriodSnapshot {
 
 /** A single posture metric in the aggregate rollup */
 export interface PostureMetricConfig extends CommonFields {
-  entityType: 'posture-metric-config';
+  entity_type: 'posture-metric-config';
   /** Human-readable metric label */
   label: string;
   /** Short metric key (slug) for programmatic reference */

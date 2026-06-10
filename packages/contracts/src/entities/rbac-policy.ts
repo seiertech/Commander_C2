@@ -8,9 +8,9 @@ import type { CommonFields } from './common';
 
 /** RBAC policy — role-based access control rule */
 export interface RbacPolicy extends CommonFields {
-  entityType: 'rbac-policy';
-  policyId: string;
-  tenantId: string;
+  entity_type: 'rbac-policy';
+  policy_id: string;
+  tenant_id: string;
   role: string;
   permissions: string[];
   resourceScope: string;

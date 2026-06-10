@@ -3,13 +3,13 @@
 import dynamic from 'next/dynamic';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedTeamPulse } from '../../../../../../packages/contracts/src/fixtures/seed-pulse';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
   primitiveFonts, primitiveLetterSpacing, primitiveSignal, primitiveData,
 } from '../../../../../../packages/ui/src/tokens/primitives';
 import type { ApexOptions } from 'apexcharts';
+import { thesisTeamPulse } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -26,14 +26,14 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 export default function TeamPulseSlaPage() {
   const { mode, tokens } = useMode();
 
-  const teams = seedTeamPulse.filter((e) => e.level === 'team');
-  const totalBreached = teams.reduce((acc, t) => acc + t.slaBreachedCases, 0);
-  const atRiskTeams = teams.filter((t) => t.workloadBand !== 'green').length;
+  const teams = thesisTeamPulse.filter((e) => e.level === 'team');
+  const totalBreached = teams.reduce((acc, t) => acc + t.sla_breached_cases, 0);
+  const atRiskTeams = teams.filter((t) => t.workload_band !== 'green').length;
 
   const gaugeOpts: ApexOptions = {
     chart: { type: 'radialBar', background: 'transparent', sparkline: { enabled: true } },
     theme: { mode: mode === 'mission' ? 'dark' : 'light' },
-    colors: teams.map((t) => t.slaBreachedCases > 0 ? primitiveSignal.critical : t.workloadBand === 'amber' ? primitiveSignal.warning : primitiveSignal.success),
+    colors: teams.map((t) => t.sla_breached_cases > 0 ? primitiveSignal.critical : t.workload_band === 'amber' ? primitiveSignal.warning : primitiveSignal.success),
     plotOptions: {
       radialBar: {
         startAngle: -135, endAngle: 135,
@@ -42,19 +42,19 @@ export default function TeamPulseSlaPage() {
         dataLabels: { name: { show: true, fontSize: primitiveTypeScale.micro, color: tokens.text.muted, offsetY: 20 }, value: { show: true, fontSize: primitiveTypeScale.h3, color: tokens.text.primary, fontFamily: primitiveFonts.mono, offsetY: -10, formatter: (v) => `${Math.round(Number(v))}%` } },
       },
     },
-    labels: teams.map((t) => t.teamOrAnalyst),
+    labels: teams.map((t) => t.team_or_analyst),
     stroke: { lineCap: 'round' },
   };
 
   // SLA pressure % per team: (breached + at-risk) / open * 100
-  const pressureSeries = teams.map((t) => t.openCases > 0 ? Math.round((t.slaBreachedCases / t.openCases) * 100) : 0);
+  const pressureSeries = teams.map((t) => t.open_cases > 0 ? Math.round((t.sla_breached_cases / t.open_cases) * 100) : 0);
 
   const barOpts: ApexOptions = {
     chart: { type: 'bar', toolbar: { show: false }, background: 'transparent', fontFamily: primitiveFonts.body },
     theme: { mode: mode === 'mission' ? 'dark' : 'light' },
     colors: [primitiveSignal.critical, primitiveSignal.warning],
     plotOptions: { bar: { horizontal: false, columnWidth: '50%', borderRadius: 0 } },
-    xaxis: { categories: teams.map((t) => t.teamOrAnalyst), labels: { style: { colors: tokens.text.muted, fontSize: primitiveTypeScale.micro } } },
+    xaxis: { categories: teams.map((t) => t.team_or_analyst), labels: { style: { colors: tokens.text.muted, fontSize: primitiveTypeScale.micro } } },
     yaxis: { labels: { style: { colors: tokens.text.muted, fontSize: primitiveTypeScale.micro } } },
     grid: { borderColor: tokens.border.subtle, strokeDashArray: 3 },
     legend: { labels: { colors: tokens.text.secondary }, fontSize: primitiveTypeScale.caption },
@@ -63,8 +63,8 @@ export default function TeamPulseSlaPage() {
   };
 
   const barSeries = [
-    { name: 'SLA Breached', data: teams.map((t) => t.slaBreachedCases) },
-    { name: 'High Priority (at risk)', data: teams.map((t) => t.highPriorityCases) },
+    { name: 'SLA Breached', data: teams.map((t) => t.sla_breached_cases) },
+    { name: 'High Priority (at risk)', data: teams.map((t) => t.high_priority_cases) },
   ];
 
   return (
@@ -105,15 +105,15 @@ export default function TeamPulseSlaPage() {
             </thead>
             <tbody>
               {teams.map((t) => {
-                const pct = t.openCases > 0 ? Math.round((t.slaBreachedCases / t.openCases) * 100) : 0;
-                const bandColor = t.workloadBand === 'red' ? primitiveSignal.critical : t.workloadBand === 'amber' ? primitiveSignal.warning : primitiveSignal.success;
+                const pct = t.open_cases > 0 ? Math.round((t.sla_breached_cases / t.open_cases) * 100) : 0;
+                const bandColor = t.workload_band === 'red' ? primitiveSignal.critical : t.workload_band === 'amber' ? primitiveSignal.warning : primitiveSignal.success;
                 return (
                   <tr key={t.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{t.teamOrAnalyst}</td>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.openCases}</td>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: t.slaBreachedCases > 0 ? primitiveSignal.critical : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.slaBreachedCases}</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{t.team_or_analyst}</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.open_cases}</td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: t.sla_breached_cases > 0 ? primitiveSignal.critical : tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{t.sla_breached_cases}</td>
                     <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono }}>{pct}%</td>
-                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', color: '#fff', background: bandColor }}>{t.workloadBand}</span></td>
+                    <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', color: '#fff', background: bandColor }}>{t.workload_band}</span></td>
                   </tr>
                 );
               })}

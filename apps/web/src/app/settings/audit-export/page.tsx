@@ -2,9 +2,9 @@
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedEvents } from '../../../../../../packages/contracts/src/fixtures/seed-events';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisEvents } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Tenant Admin — Audit & Export
@@ -15,15 +15,15 @@ import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFon
 
 export default function SettingsAuditExportPage() {
   const { tokens } = useMode();
-  const recentEvents = [...seedEvents].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()).slice(0, 20);
-  const entityTypes = Array.from(new Set(seedEvents.map((e) => e.entityType)));
-  const criticalEvents = seedEvents.filter((e) => e.severity === 'critical').length;
-  const warningEvents = seedEvents.filter((e) => e.severity === 'warning').length;
+  const recentEvents = [...thesisEvents].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()).slice(0, 20);
+  const entityTypes = Array.from(new Set(thesisEvents.map((e) => e.entity_type)));
+  const criticalEvents = thesisEvents.filter((e) => e.severity === 'critical').length;
+  const warningEvents = thesisEvents.filter((e) => e.severity === 'warning').length;
 
   return (
     <PageContainer pretitle="Settings › Audit & Export" title="Audit & Export">
       <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
-        <Kpi tokens={tokens} label="Total Events" value={String(seedEvents.length)} />
+        <Kpi tokens={tokens} label="Total Events" value={String(thesisEvents.length)} />
         <Kpi tokens={tokens} label="Critical" value={String(criticalEvents)} accent={criticalEvents > 0 ? primitiveSignal.critical : undefined} />
         <Kpi tokens={tokens} label="Warning" value={String(warningEvents)} accent={warningEvents > 0 ? primitiveSignal.warning : undefined} />
         <Kpi tokens={tokens} label="Entity Types" value={String(entityTypes.length)} />
@@ -39,8 +39,8 @@ export default function SettingsAuditExportPage() {
                 <tr key={e.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, whiteSpace: 'nowrap' }}>{new Date(e.timestamp).toLocaleString()}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, color: '#fff', background: sevColor }}>{e.severity}</span></td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{e.entityType}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{e.entityRef}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{e.entity_type}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{e.entity_ref}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, maxWidth: 320, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={e.message}>{e.message}</td>
                 </tr>
               );

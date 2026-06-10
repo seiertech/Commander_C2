@@ -19,21 +19,21 @@ import { SEED_TENANT, SEED_SOURCE } from '../../packages/contracts/src/fixtures/
 function makeCase(overrides: Partial<Case> = {}): Case {
   return {
     id: 'case-test-001',
-    entityType: 'case',
+    entity_type: 'case',
     tenant: SEED_TENANT,
-    createdAt: '2026-02-01T08:00:00.000Z',
-    updatedAt: '2026-02-01T08:00:00.000Z',
+    created_at: '2026-02-01T08:00:00.000Z',
+    updated_at: '2026-02-01T08:00:00.000Z',
     source: SEED_SOURCE,
-    caseRef: 'CASE-TEST-001',
-    caseType: 'vulnerability',
+    case_ref: 'CASE-TEST-001',
+    case_type: 'vulnerability',
     title: 'Critical vulnerability on external server',
     status: 'prioritised',
     priority: 'P0',
     owner: 'analyst-001',
     team: 'Security Operations',
-    sla: { targetResolutionHours: 4, breached: false },
-    surfaceAttribution: 'external_attack_surface',
-    relatedEntities: [],
+    sla: { target_resolution_hours: 4, breached: false },
+    surface_attribution: 'external_attack_surface',
+    related_entities: [],
     auditTrailRef: 'audit-case-test-001',
     routingRationale: 'Auto-routed by routing engine',
     ...overrides,
@@ -92,7 +92,7 @@ describe('War Room Activation Engine', () => {
       const result = evaluateActivationCondition(caseData, {
         priority: 'P0',
         kevListed: true,
-        cvssScore: 10.0,
+        cvss_score: 10.0,
         externalFacing: true,
       });
       expect(result.shouldActivate).toBe(true);
@@ -106,7 +106,7 @@ describe('War Room Activation Engine', () => {
       const result = evaluateActivationCondition(caseData, {
         priority: 'P0',
         kevListed: true,
-        cvssScore: 9.5,
+        cvss_score: 9.5,
         externalFacing: true,
       });
       expect(result.shouldActivate).toBe(true);
@@ -118,7 +118,7 @@ describe('War Room Activation Engine', () => {
       const result = evaluateActivationCondition(caseData, {
         priority: 'P0',
         kevListed: true,
-        cvssScore: 9.4,
+        cvss_score: 9.4,
         externalFacing: true,
       });
       expect(result.shouldActivate).toBe(false);
@@ -129,7 +129,7 @@ describe('War Room Activation Engine', () => {
       const result = evaluateActivationCondition(caseData, {
         priority: 'P0',
         kevListed: false,
-        cvssScore: 10.0,
+        cvss_score: 10.0,
         externalFacing: true,
       });
       expect(result.shouldActivate).toBe(false);
@@ -140,7 +140,7 @@ describe('War Room Activation Engine', () => {
       const result = evaluateActivationCondition(caseData, {
         priority: 'P0',
         kevListed: true,
-        cvssScore: 10.0,
+        cvss_score: 10.0,
         externalFacing: false,
       });
       expect(result.shouldActivate).toBe(false);
@@ -204,7 +204,7 @@ describe('War Room Activation Engine', () => {
       };
       const warRoom = createWarRoom(activationResult, caseData, 'senior-001', '2026-02-01T08:00:00.000Z');
 
-      expect(warRoom.entityType).toBe('war-room');
+      expect(warRoom.entity_type).toBe('war-room');
       expect(warRoom.status).toBe('activated');
       expect(warRoom.activationSource).toBe('system_rule');
       expect(warRoom.boundCaseIds).toContain(caseData.id);

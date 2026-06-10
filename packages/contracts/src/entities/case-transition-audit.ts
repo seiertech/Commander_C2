@@ -25,13 +25,13 @@ export type TransitionTrigger = typeof TRANSITION_TRIGGERS[number];
 // ─── Case Transition Audit Entity ────────────────────────────────────────────
 
 export interface CaseTransitionAudit extends CommonFields {
-  entityType: 'case-transition-audit';
+  entity_type: 'case-transition-audit';
   /** Case being transitioned */
-  caseRef: string;
+  case_ref: string;
   /** Source lifecycle state */
-  fromState: CaseStatus;
+  from_state: CaseStatus;
   /** Target lifecycle state */
-  toState: CaseStatus;
+  to_state: CaseStatus;
   /** Who/what triggered the transition */
   actor: AuditActor;
   /** Machine-readable rationale */
@@ -41,7 +41,7 @@ export interface CaseTransitionAudit extends CommonFields {
   /** Gates that were verified before allowing transition */
   gatesPassed: string[];
   /** When the transition occurred */
-  transitionedAt: string;
+  transitioned_at: string;
   /** Immutable audit record flag */
   immutable: true;
 }
@@ -57,15 +57,15 @@ export function validateCaseTransitionAudit(record: CaseTransitionAudit): CaseTr
   const errors: string[] = [];
 
   if (!record.id || record.id.trim() === '') errors.push('id: required');
-  if (!record.tenant || !record.tenant.tenantId) errors.push('tenant.tenantId: required');
-  if (!record.caseRef || record.caseRef.trim() === '') errors.push('caseRef: required');
-  if (!record.fromState) errors.push('fromState: required');
-  if (!record.toState) errors.push('toState: required');
+  if (!record.tenant || !record.tenant.tenant_id) errors.push('tenant.tenant_id: required');
+  if (!record.case_ref || record.case_ref.trim() === '') errors.push('case_ref: required');
+  if (!record.from_state) errors.push('from_state: required');
+  if (!record.to_state) errors.push('to_state: required');
   if (!record.actor || !record.actor.type) errors.push('actor: required');
   if (!record.reason || record.reason.trim() === '') errors.push('reason: required');
   if (!record.triggeredBy || !TRANSITION_TRIGGERS.includes(record.triggeredBy)) errors.push(`triggeredBy: must be one of: ${TRANSITION_TRIGGERS.join(', ')}`);
   if (!Array.isArray(record.gatesPassed)) errors.push('gatesPassed: must be an array');
-  if (!record.transitionedAt || record.transitionedAt.trim() === '') errors.push('transitionedAt: required');
+  if (!record.transitioned_at || record.transitioned_at.trim() === '') errors.push('transitioned_at: required');
   if (record.immutable !== true) errors.push('immutable: must be true');
 
   return { valid: errors.length === 0, errors };

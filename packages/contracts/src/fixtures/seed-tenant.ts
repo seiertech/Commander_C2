@@ -8,15 +8,15 @@
 import type { TenantContext, SourceMetadata } from '../entities/common';
 
 export const SEED_TENANT: TenantContext = {
-  tenantId: 'tenant-001-acme-corp',
-  tenantName: 'Acme Corporation (Demo)',
+  tenant_id: 'tenant-001-acme-corp',
+  tenant_name: 'Acme Corporation (Demo)',
 };
 
 export const SEED_SOURCE: SourceMetadata = {
-  connectorId: 'connector-mock-001',
-  importRunId: 'run-seed-001',
-  sourceSystem: 'commander-seed-generator',
-  sourceTimestamp: '2026-01-15T09:00:00.000Z',
+  connector_id: 'connector-mock-001',
+  import_run_id: 'run-seed-001',
+  source_system: 'commander-seed-generator',
+  source_timestamp: '2026-01-15T09:00:00.000Z',
 };
 
 /** Generate deterministic ID for fixtures */
