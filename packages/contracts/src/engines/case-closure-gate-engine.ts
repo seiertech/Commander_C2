@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Case Closure Gate Engine — Commander C2 (Unit 12)
  *
@@ -203,7 +202,7 @@ export function evaluateGate(
     gate,
     status: passed ? 'passed' : 'failed',
     reason,
-    evaluated_at: currentTime,
+    evaluated_at: current_time,
   };
 }
 
@@ -223,13 +222,13 @@ export function evaluateAllGates(
         gate,
         status: 'not_configured' as GateStatus,
         reason: `Gate '${gate}' is not configured in the closure gate strategy`,
-        evaluated_at: currentTime,
+        evaluated_at: current_time,
       };
     }
-    return evaluateGate(gate, input, currentTime);
+    return evaluateGate(gate, input, current_time);
   });
 
-  const configuredResults = gateResults.filter((r) => r.status !== 'not_configured');
+  const configuredResults = gate_results.filter((r) => r.status !== 'not_configured');
   const allGatesPass = configuredResults.every((r) => r.status === 'passed');
 
   return {
@@ -238,7 +237,7 @@ export function evaluateAllGates(
     gate_results,
     allGatesPass,
     closurePermitted: allGatesPass,
-    evaluated_at: currentTime,
+    evaluated_at: current_time,
   };
 }
 

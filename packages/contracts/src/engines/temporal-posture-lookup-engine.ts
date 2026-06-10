@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Temporal Posture Lookup Engine — Commander C2 (Spec 39)
  *
@@ -54,7 +53,7 @@ export interface ClassificationUpdate {
 export function lookupPostureAtTime(entity_ref: string, timestamp: string, records: PostureRecord[]): PostureSnapshot | null {
   const ts = new Date(timestamp).getTime();
   const matching = records
-    .filter((r) => r.entity_ref === entityRef && new Date(r.snapshot_at).getTime() <= ts)
+    .filter((r) => r.entity_ref === entity_ref && new Date(r.snapshot_at).getTime() <= ts)
     .sort((a, b) => new Date(b.snapshot_at).getTime() - new Date(a.snapshot_at).getTime());
 
   return matching[0]?.snapshot ?? null;

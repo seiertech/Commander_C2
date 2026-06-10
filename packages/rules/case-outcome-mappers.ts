@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Case/Action Outcome Mappers (C10)
  *
@@ -41,24 +40,24 @@ export function buildIocCaseLink(params: {
   iocMatchId: string;
   case_id: string;
   linkType: IocCaseLinkType;
-  linkedAt: string;
+  linked_at: string;
 }): IocCaseLink {
   return {
     id: params.id,
     tenant: { tenant_id: params.tenant_id, tenant_name: `Tenant ${params.tenant_id}` },
-    created_at: params.linkedAt,
-    updated_at: params.linkedAt,
+    created_at: params.linked_at,
+    updated_at: params.linked_at,
     source: {
       connector_id: 'case-mapper',
       import_run_id: `link-run-${params.id}`,
       source_system: 'intelligence-case-binding',
-      source_timestamp: params.linkedAt,
+      source_timestamp: params.linked_at,
     },
     tenant_id: params.tenant_id,
     iocMatchId: params.iocMatchId,
     case_id: params.case_id,
     linkType: params.linkType,
-    linkedAt: params.linkedAt,
+    linked_at: params.linked_at,
     status: 'active',
   };
 }
@@ -70,26 +69,26 @@ export function buildIocCaseLink(params: {
 export function buildVulnerabilityCaseLink(params: {
   id: string;
   tenant_id: string;
-  evaluationId: string;
+  evaluation_id: string;
   case_id: string;
-  linkedAt: string;
+  linked_at: string;
 }): VulnerabilityCaseLink {
   return {
     id: params.id,
     tenant: { tenant_id: params.tenant_id, tenant_name: `Tenant ${params.tenant_id}` },
-    created_at: params.linkedAt,
-    updated_at: params.linkedAt,
+    created_at: params.linked_at,
+    updated_at: params.linked_at,
     source: {
       connector_id: 'case-mapper',
       import_run_id: `link-run-${params.id}`,
       source_system: 'vulnerability-case-binding',
-      source_timestamp: params.linkedAt,
+      source_timestamp: params.linked_at,
     },
     tenant_id: params.tenant_id,
-    evaluationId: params.evaluationId,
+    evaluation_id: params.evaluation_id,
     case_id: params.case_id,
     linkType: 'vulnerability',
-    linkedAt: params.linkedAt,
+    linked_at: params.linked_at,
     status: 'active',
   };
 }

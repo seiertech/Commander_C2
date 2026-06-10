@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Unit Tests — War Room Activation Engine
  *
@@ -97,7 +96,7 @@ describe('War Room Activation Engine', () => {
         externalFacing: true,
       });
       expect(result.shouldActivate).toBe(true);
-      expect(result.activation_source).toBe('system_rule');
+      expect(result.activationSource).toBe('system_rule');
       expect(result.reason).toContain('KEV');
       expect(result.reason).toContain('CVSS');
     });
@@ -111,7 +110,7 @@ describe('War Room Activation Engine', () => {
         externalFacing: true,
       });
       expect(result.shouldActivate).toBe(true);
-      expect(result.activation_source).toBe('system_rule');
+      expect(result.activationSource).toBe('system_rule');
     });
 
     it('does NOT activate with CVSS 9.4 (below threshold)', () => {
@@ -156,7 +155,7 @@ describe('War Room Activation Engine', () => {
         activeExploitation: true,
       });
       expect(result.shouldActivate).toBe(true);
-      expect(result.activation_source).toBe('system_rule');
+      expect(result.activationSource).toBe('system_rule');
       expect(result.reason).toContain('active exploitation');
     });
   });
@@ -170,7 +169,7 @@ describe('War Room Activation Engine', () => {
         activeExploitation: false,
       });
       expect(result.shouldActivate).toBe(false);
-      expect(result.activation_source).toBe('senior_decision');
+      expect(result.activationSource).toBe('senior_decision');
       expect(result.reason).toContain('Senior decision required');
     });
   });
@@ -201,13 +200,13 @@ describe('War Room Activation Engine', () => {
       const activationResult = {
         shouldActivate: true,
         reason: 'System rule: test',
-        activation_source: 'system_rule' as const,
+        activationSource: 'system_rule' as const,
       };
       const warRoom = createWarRoom(activationResult, caseData, 'senior-001', '2026-02-01T08:00:00.000Z');
 
       expect(warRoom.entity_type).toBe('war-room');
       expect(warRoom.status).toBe('activated');
-      expect(warRoom.activation_source).toBe('system_rule');
+      expect(warRoom.activationSource).toBe('system_rule');
       expect(warRoom.boundCaseIds).toContain(caseData.id);
       expect(warRoom.seniorOwnerId).toBe('senior-001');
       expect(warRoom.membership).toHaveLength(1);
@@ -223,7 +222,7 @@ describe('War Room Activation Engine', () => {
       const activationResult = {
         shouldActivate: true,
         reason: 'Test',
-        activation_source: 'system_rule' as const,
+        activationSource: 'system_rule' as const,
       };
       const warRoom = createWarRoom(activationResult, caseData, 'senior-001', '2026-02-01T08:00:00.000Z');
       const updated = bindCaseToWarRoom(warRoom, 'case-new-002');
@@ -237,7 +236,7 @@ describe('War Room Activation Engine', () => {
       const activationResult = {
         shouldActivate: true,
         reason: 'Test',
-        activation_source: 'system_rule' as const,
+        activationSource: 'system_rule' as const,
       };
       const warRoom = createWarRoom(activationResult, caseData, 'senior-001', '2026-02-01T08:00:00.000Z');
       const updated = bindCaseToWarRoom(warRoom, caseData.id);

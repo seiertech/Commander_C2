@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Unit Tests — War Room Communication Cadence Engine
  *
@@ -129,7 +128,7 @@ describe('War Room Cadence Engine', () => {
       ];
       const result = generateStructuredUpdate(warRoom, cases, recentActions);
 
-      expect(result.war_room_ref).toBe(warRoom.war_room_ref);
+      expect(result.warRoomRef).toBe(warRoom.warRoomRef);
       expect(result.status).toBe('activated');
       expect(result.boundCaseCount).toBe(warRoom.boundCaseIds.length);
       expect(result.sinceLastUpdate).toHaveLength(1);

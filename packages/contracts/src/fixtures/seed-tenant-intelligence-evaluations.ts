@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Seed Tenant Intelligence Evaluations — Deterministic Fixtures
  *

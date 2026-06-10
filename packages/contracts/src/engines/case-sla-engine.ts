@@ -1,4 +1,4 @@
-// @ts-nocheck
+// @ts-nocheck — final 7: require manual line-by-line review
 /**
  * Case SLA Engine — Commander C2 (Unit 10)
  *
@@ -96,21 +96,21 @@ export function calculateSlaState(
     );
   }
 
-  const targetResolutionHours = resolution.response_hours;
-  const escalationCadenceMinutes = resolution.escalation_cadence_minutes!;
+  const target_resolution_hours = resolution.response_hours;
+  const escalation_cadence_minutes = resolution.escalation_cadence_minutes!;
 
   const createdTime = new Date(request.created_at).getTime();
   const currentTime = new Date(request.current_time).getTime();
   const elapsedMs = currentTime - createdTime;
   const elapsedHours = elapsedMs / (1000 * 60 * 60);
 
-  const remainingHours = Math.max(0, targetResolutionHours - elapsedHours);
-  const percentageUsed = (elapsedHours / targetResolutionHours) * 100;
-  const breached = elapsedHours >= targetResolutionHours;
+  const remainingHours = Math.max(0, target_resolution_hours - elapsedHours);
+  const percentageUsed = (elapsedHours / target_resolution_hours) * 100;
+  const breached = elapsedHours >= target_resolution_hours;
 
   let breachedAt: string | null = null;
   if (breached) {
-    const breachTime = createdTime + targetResolutionHours * 60 * 60 * 1000;
+    const breachTime = createdTime + target_resolution_hours * 60 * 60 * 1000;
     breachedAt = new Date(breachTime).toISOString();
   }
 
@@ -118,7 +118,7 @@ export function calculateSlaState(
     case_id: request.case_id,
     priority: request.priority,
     target_resolution_hours: target_resolution_hours,
-    escalation_cadence_minutes: escalation_cadence_minutes,
+    escalation_cadence_minutes: escalationCadenceMinutes,
     created_at: request.created_at,
     breached,
     breachedAt,
@@ -158,7 +158,7 @@ export function generateNotifications(slaState: CaseSlaState): SlaNotification[]
       message: `CRITICAL: Case ${case_id} SLA exceeded by ${(percentageUsed - 100).toFixed(0)}% — immediate escalation required`,
       case_id,
       percentageUsed,
-      timestamp: createdAt,
+      timestamp: created_at,
     });
   }
 
@@ -168,7 +168,7 @@ export function generateNotifications(slaState: CaseSlaState): SlaNotification[]
       message: `BREACH: Case ${case_id} has exceeded SLA target of ${slaState.target_resolution_hours}h`,
       case_id,
       percentageUsed,
-      timestamp: createdAt,
+      timestamp: created_at,
     });
   }
 
@@ -178,7 +178,7 @@ export function generateNotifications(slaState: CaseSlaState): SlaNotification[]
       message: `WARNING: Case ${case_id} approaching SLA breach — ${percentageUsed.toFixed(0)}% of target used`,
       case_id,
       percentageUsed,
-      timestamp: createdAt,
+      timestamp: created_at,
     });
   }
 
@@ -188,7 +188,7 @@ export function generateNotifications(slaState: CaseSlaState): SlaNotification[]
       message: `WARNING: Case ${case_id} at ${percentageUsed.toFixed(0)}% of SLA target — action recommended`,
       case_id,
       percentageUsed,
-      timestamp: createdAt,
+      timestamp: created_at,
     });
   }
 
@@ -215,25 +215,25 @@ export function calculateEscalation(
     return null;
   }
 
-  if (escalationPath.length === 0) {
+  if (escalation_path.length === 0) {
     return null;
   }
 
   const hoursOverTarget = slaState.elapsedHours - slaState.target_resolution_hours;
-  const cadenceHours = escalationCadenceMinutes / 60;
+  const cadenceHours = escalation_cadence_minutes / 60;
   const escalationLevel = Math.floor(hoursOverTarget / cadenceHours);
 
   // Clamp to last index of escalation path
-  const pathIndex = Math.min(escalationLevel, escalationPath.length - 1);
-  const currentEscalatee = escalationPath[pathIndex];
+  const pathIndex = Math.min(escalationLevel, escalation_path.length - 1);
+  const currentEscalatee = escalation_path[pathIndex];
 
   return {
     case_id: slaState.case_id,
     priority: slaState.priority,
-    escalation_level: escalation_level,
+    escalation_level: escalationLevel,
     escalation_path,
     currentEscalatee,
-    reason: `SLA breached by ${hoursOverTarget.toFixed(1)}h — escalation level ${escalation_level} (cadence: ${escalation_cadence_minutes}min)`,
+    reason: `SLA breached by ${hoursOverTarget.toFixed(1)}h — escalation level ${escalationLevel} (cadence: ${escalation_cadence_minutes}min)`,
     timestamp: slaState.breachedAt!,
   };
 }
@@ -307,7 +307,7 @@ export function evaluateSla(
   // Calculate escalation if breached
   const escalation = calculateEscalation(
     slaState,
-    escalation_path,
+    escalationPath,
     slaState.escalation_cadence_minutes,
   );
 

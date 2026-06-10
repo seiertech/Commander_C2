@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Tenant Evaluation and IOC Match Builders (C9)
  *
@@ -35,7 +34,7 @@ export interface BuildMatchInput {
   matchedObservableId: string;
   matchType: IocMatchType;
   matchConfidence: number;
-  matchedAt: string;
+  matched_at: string;
   matchSource: string;
   evidenceReferences: string[];
   source_connector_id: string;
@@ -77,20 +76,20 @@ export function buildTenantIocMatch(input: BuildMatchInput): TenantIocMatch {
   return {
     id: input.id,
     tenant: { tenant_id: input.tenant_id, tenant_name: `Tenant ${input.tenant_id}` },
-    created_at: input.matchedAt,
-    updated_at: input.matchedAt,
+    created_at: input.matched_at,
+    updated_at: input.matched_at,
     source: {
       connector_id: input.source_connector_id,
       import_run_id: `match-run-${input.id}`,
       source_system: 'ioc-matching',
-      source_timestamp: input.matchedAt,
+      source_timestamp: input.matched_at,
     },
     tenant_id: input.tenant_id,
     ioc_id: input.ioc_id,
     matchedObservableId: input.matchedObservableId,
     matchType: input.matchType,
     matchConfidence: input.matchConfidence,
-    matchedAt: input.matchedAt,
+    matched_at: input.matched_at,
     matchSource: input.matchSource,
     evidenceReferences: input.evidenceReferences,
   };

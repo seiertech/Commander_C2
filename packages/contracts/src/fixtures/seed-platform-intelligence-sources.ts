@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Seed Platform Intelligence Sources — Deterministic Fixtures
  *
@@ -16,13 +15,13 @@ import { seedId, SEED_SOURCE } from './seed-tenant';
 const ADMIN_TENANT = { tenant_id: 'admin-tenant-001', tenant_name: 'Commander Admin (Mock)' };
 
 export const seedPlatformIntelligenceSources: PlatformIntelligenceSource[] = PLATFORM_INTELLIGENCE_SOURCE_TYPES.map(
-  (sourceType, index) => ({
+  (source_type, index) => ({
     id: seedId('pis', index + 1),
     tenant: ADMIN_TENANT,
     created_at: '2026-01-15T09:00:00.000Z',
     updated_at: '2026-01-15T09:00:00.000Z',
     source: SEED_SOURCE,
-    name: `${sourceType.replace(/_/g, ' ')} (Mock)`,
+    name: `${source_type.replace(/_/g, ' ')} (Mock)`,
     vendor: `mock-vendor-${index + 1}.example.com`,
     source_type,
     connector_class: 'D' as const,

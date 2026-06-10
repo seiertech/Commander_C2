@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Closure Gate Enforcer — Commander C2
  *
@@ -91,7 +90,7 @@ export function evaluateClosureGates(
     );
   }
 
-  const gateResults = config.gates.map((gate) => {
+  const gate_results = config.gates.map((gate) => {
     const evaluator = GATE_EVALUATORS[gate];
     if (!evaluator) {
       return { gate, passed: false, reason: `Unknown gate '${gate}' — no evaluator available` };
@@ -100,7 +99,7 @@ export function evaluateClosureGates(
     return { gate, ...result };
   });
 
-  const allGatesPass = gateResults.every((r) => r.passed);
+  const allGatesPass = gate_results.every((r) => r.passed);
 
   return {
     allGatesPass,

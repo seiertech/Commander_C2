@@ -1,4 +1,4 @@
-// @ts-nocheck
+// @ts-nocheck — final 7: require manual line-by-line review
 /**
  * Knowledge Export Registry — Commander C2
  *
@@ -239,12 +239,12 @@ export const KNOWLEDGE_DERIVATION_RULES: DerivationRule[] = [
  * Check whether an entity type is eligible for knowledge export.
  */
 export function isKnowledgeEligible(entity_type: string): entityType is KnowledgeEligibleEntityType {
-  return (KNOWLEDGE_ELIGIBLE_ENTITIES as readonly string[]).includes(entityType);
+  return (KNOWLEDGE_ELIGIBLE_ENTITIES as readonly string[]).includes(entity_type);
 }
 
 /**
  * Check whether an entity type is explicitly excluded from knowledge export.
  */
 export function isKnowledgeExcluded(entity_type: string): entityType is KnowledgeExcludedEntityType {
-  return (KNOWLEDGE_EXCLUDED_ENTITIES as readonly string[]).includes(entityType);
+  return (KNOWLEDGE_EXCLUDED_ENTITIES as readonly string[]).includes(entity_type);
 }

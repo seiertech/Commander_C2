@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Unit Tests — War Room Close-Out Report Generation
  *
@@ -55,7 +54,7 @@ describe('War Room Close-Out Report', () => {
       communicationRecords, aiRecords, decisions, evidenceChain,
     );
 
-    expect(report.war_room_ref).toBe(closedWarRoom.war_room_ref);
+    expect(report.warRoomRef).toBe(closedWarRoom.warRoomRef);
     expect(report.activationTimestamp).toBe(closedWarRoom.created_at);
     expect(report.closureTimestamp).toBeDefined();
     expect(report.totalDuration).toBeDefined();
@@ -116,7 +115,7 @@ describe('War Room Close-Out Report', () => {
       closedWarRoom, cases, auditTimeline, memberParticipation,
       communicationRecords, aiRecords, decisions, evidenceChain,
     );
-    expect(report.executiveSummary).toContain(closedWarRoom.war_room_ref);
+    expect(report.executiveSummary).toContain(closedWarRoom.warRoomRef);
     expect(report.executiveSummary).toContain('3 case(s)');
     expect(report.executiveSummary).toContain('2 resolved');
     expect(report.executiveSummary).toContain('1 decision(s)');

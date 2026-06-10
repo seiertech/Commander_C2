@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { describe, it, expect } from 'vitest';
 import type { Case } from '../../packages/contracts/src/entities/case';
 import type { RiskObject } from '../../packages/contracts/src/entities/risk-object';
@@ -314,7 +313,7 @@ describe('COIM-G — backward compatibility: existing seed cases unchanged', () 
 
 function scWith(
   attacks: AttackMapping[],
-  confidenceScore = 50,
+  confidence_score = 50,
   finding_class: 'vulnerability' | 'detection' | 'incident' = 'vulnerability',
 ): RiskObject['source_classification'] {
   return {

@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Strategy Simulation Engine — Commander C2 (Spec 43)
  * Source: Spec #32 Strategy Layer Runtime Surface
@@ -60,7 +59,7 @@ export function simulatePolicyChange(
   affected_entity_count: number
 ): SimulationResult {
   const conflicts = detectConflicts(proposedPolicy, existingPolicies);
-  const blastRadius = computeBlastRadius(proposedPolicy, affectedEntityCount);
+  const blastRadius = computeBlastRadius(proposedPolicy, affected_entity_count);
   const effectiveState = previewEffectiveState(proposedPolicy, existingPolicies);
 
   const riskFactors: string[] = [];
@@ -80,7 +79,7 @@ export function simulatePolicyChange(
     simulation_id: `sim-${proposedPolicy.id}-${Date.now()}`,
     policy_id: proposedPolicy.id,
     surface_type: proposedPolicy.surface_type,
-    blast_radius: blast_radius,
+    blast_radius: blastRadius,
     effectiveState,
     conflicts,
     risk_assessment: {
@@ -117,7 +116,7 @@ export function computeBlastRadius(
   return {
     affected_entity_count,
     affectedEntityTypes: ['case', 'risk-object'],
-    affectedCaseCount: Math.ceil(affectedEntityCount * 0.6),
+    affectedCaseCount: Math.ceil(affected_entity_count * 0.6),
     affectedBindingEvents: scope === 'tenant-wide'
       ? ['priority-recalculation', 'route-recalculation']
       : ['fusion-map-refresh'],

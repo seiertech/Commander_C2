@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Case Router — Commander C2
  *
@@ -50,13 +49,13 @@ export function resolveRouting(
   const escalationPath = config.escalation_path ?? null;
 
   if (!team) {
-    return { status: 'unresolved', team: null, escalation_path: escalation_path, source_policy: { id: routingPolicy.id, version: routingPolicy.policy_version }, reason: `No team affinity found for case type "${caseRecord.case_type}"` };
+    return { status: 'unresolved', team: null, escalation_path: escalationPath, source_policy: { id: routingPolicy.id, version: routingPolicy.policy_version }, reason: `No team affinity found for case type "${caseRecord.case_type}"` };
   }
 
   return {
     status: 'resolved',
     team,
-    escalation_path: escalation_path,
+    escalation_path: escalationPath,
     source_policy: { id: routingPolicy.id, version: routingPolicy.policy_version },
     reason: `Routed to "${team}" via team affinity for case type "${caseRecord.case_type}"`,
   };

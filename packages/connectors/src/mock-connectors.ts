@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Mock Connectors — Commander C2 (Unit 38, Connector Layer)
  *
@@ -39,7 +38,7 @@ function mockConnector(
     source: {
       connector_id: id,
       import_run_id: `mock-run-${String(index).padStart(4, '0')}`,
-      source_system: sourceType,
+      source_system: source_type,
       source_timestamp: MOCK_EPOCH,
     },
     name,

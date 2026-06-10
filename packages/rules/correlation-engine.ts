@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Correlation Engine — Commander C2 CMEP-1.0
  *
@@ -182,7 +181,7 @@ function detectCveDedup(findings: CorrelationFinding[], maxGroupSize: number): C
         groupId: '', // Assigned by caller
         correlationType: 'cve-dedup',
         findingIds: limitedFindings.map((f) => f.findingId),
-        rationale: `CVE ${cve_id} affects ${distinctEntities.size} distinct entities`,
+        rationale: `CVE ${cveId} affects ${distinctEntities.size} distinct entities`,
         blast_radius: distinctEntities.size,
       });
     }
@@ -203,7 +202,7 @@ function detectTemporalClusters(
     (a, b) => new Date(a.detected_at).getTime() - new Date(b.detected_at).getTime(),
   );
 
-  const windowMs = windowHours * 60 * 60 * 1000;
+  const windowMs = window_hours * 60 * 60 * 1000;
   const groups: CorrelationGroup[] = [];
   const used = new Set<string>();
 

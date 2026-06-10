@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Commander AI Core — Grounding & Refusal (Unit 40)
  *
@@ -172,10 +171,10 @@ function refusedOutput(capability: AiOutput['capability'], check: RefusalCheck):
  * Refuses if the case is not in the corpus (no invented cases).
  */
 export function draftCaseSummary(case_id: string, corpus: GroundingCorpus): AiOutput {
-  const ref: GroundingRef = { entity_type: 'case', entity_id: caseId };
+  const ref: GroundingRef = { entity_type: 'case', entity_id: case_id };
   const check = checkRefusal({ intent: 'draft', references: [ref] }, corpus);
   if (!check.allowed) return refusedOutput('draft', check);
-  const c = corpus.cases.find((x) => x.id === caseId)!;
+  const c = corpus.cases.find((x) => x.id === case_id)!;
   return {
     capability: 'draft',
     refused: false,
@@ -191,10 +190,10 @@ export function draftCaseSummary(case_id: string, corpus: GroundingCorpus): AiOu
  * (never invented; the routing decision belongs to the routing engine).
  */
 export function explainCaseRouting(case_id: string, corpus: GroundingCorpus): AiOutput {
-  const ref: GroundingRef = { entity_type: 'case', entity_id: caseId };
+  const ref: GroundingRef = { entity_type: 'case', entity_id: case_id };
   const check = checkRefusal({ intent: 'explain', references: [ref] }, corpus);
   if (!check.allowed) return refusedOutput('explain', check);
-  const c = corpus.cases.find((x) => x.id === caseId)!;
+  const c = corpus.cases.find((x) => x.id === case_id)!;
   return {
     capability: 'explain',
     refused: false,
@@ -208,10 +207,10 @@ export function explainCaseRouting(case_id: string, corpus: GroundingCorpus): Ai
  * Summarize risk-object treatment for an entity — grounded in supplied risk objects.
  */
 export function summarizeRiskTreatment(risk_object_id: string, corpus: GroundingCorpus): AiOutput {
-  const ref: GroundingRef = { entity_type: 'risk-object', entity_id: riskObjectId };
+  const ref: GroundingRef = { entity_type: 'risk-object', entity_id: risk_object_id };
   const check = checkRefusal({ intent: 'summarize', references: [ref] }, corpus);
   if (!check.allowed) return refusedOutput('summarize', check);
-  const r = corpus.riskObjects.find((x) => x.id === riskObjectId)!;
+  const r = corpus.riskObjects.find((x) => x.id === risk_object_id)!;
   return {
     capability: 'summarize',
     refused: false,

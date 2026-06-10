@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Seed Push Action Intents — Deterministic Fixtures
  *

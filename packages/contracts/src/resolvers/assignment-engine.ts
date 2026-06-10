@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Assignment Engine — Commander C2 Phase D4
  *
@@ -109,7 +108,7 @@ export function hasCapacity(
   snapshot: WorkloadSnapshot,
   workload_max: number,
 ): boolean {
-  return snapshot.activeCaseCount < workloadMax;
+  return snapshot.activeCaseCount < workload_max;
 }
 
 /**
@@ -120,8 +119,8 @@ export function loadFactor(
   snapshot: WorkloadSnapshot,
   workload_max: number,
 ): number {
-  if (workloadMax <= 0) return 1;
-  return snapshot.activeCaseCount / workloadMax;
+  if (workload_max <= 0) return 1;
+  return snapshot.activeCaseCount / workload_max;
 }
 
 // ─── Specialism Matcher ──────────────────────────────────────────────────────
@@ -134,7 +133,7 @@ export function matchesSpecialism(
   analystProfile: AnalystProfile,
   case_type: string,
 ): boolean {
-  return analystProfile.specialisms.includes(caseType);
+  return analystProfile.specialisms.includes(case_type);
 }
 
 /**
@@ -145,7 +144,7 @@ export function filterBySpecialism(
   case_type: string,
 ): string[] {
   return Object.entries(analysts)
-    .filter(([_, profile]) => matchesSpecialism(profile, caseType))
+    .filter(([_, profile]) => matchesSpecialism(profile, case_type))
     .map(([id]) => id);
 }
 
@@ -161,7 +160,7 @@ export function passesAntiHoarding(
   case_type: string,
   antiHoardingCap: number,
 ): boolean {
-  const currentCount = snapshot.casesByType[caseType] ?? 0;
+  const currentCount = snapshot.casesByType[case_type] ?? 0;
   return currentCount < antiHoardingCap;
 }
 
@@ -179,7 +178,7 @@ export function assignmentScore(
   workload_max: number,
   rankWeighting: Record<AnalystRank, number>,
 ): number {
-  const load = loadFactor(snapshot, workloadMax);
+  const load = loadFactor(snapshot, workload_max);
   const rankWeight = rankWeighting[analystProfile.rank] ?? 1.0;
   // Higher rankWeight = more likely to be assigned (lower score)
   // rankWeight of 1.0 (junior) → divides by 1.0 → score = load
@@ -251,11 +250,11 @@ export function assignCase(
   strategies: StrategyPolicy[],
 ): AssignmentResult {
   const { config, policy } = extractRoutingConfig(strategies);
-  const policyRef = { id: policy.id, version: policy.policy_version };
+  const policy_ref = { id: policy.id, version: policy.policy_version };
   const timestamp = new Date().toISOString();
 
   // 1. Resolve team affinity
-  const targetTeam = config.teamAffinity[caseType as string];
+  const targetTeam = config.teamAffinity[case_type as string];
   if (!targetTeam) {
     const result: AssignmentResult = {
       success: false,
@@ -264,11 +263,11 @@ export function assignCase(
       assignedTeam: null,
       routingRationale: `No team affinity configured for case type "${case_type}"`,
       escalation_path: config.escalation_path,
-      source_policy: policyRef,
+      source_policy: policy_ref,
       auditEvent: {
         type: 'assignment',
         case_id,
-        case_type: caseType as string,
+        case_type: case_type as string,
         assignedOwner: null,
         assignedOwnerId: null,
         assignedTeam: null,
@@ -288,7 +287,7 @@ export function assignCase(
 
   // 3. Filter by specialism match
   const specialismMatched = teamAnalysts
-    .filter(([_, profile]) => matchesSpecialism(profile, caseType as string));
+    .filter(([_, profile]) => matchesSpecialism(profile, case_type as string));
 
   // 4. Filter by workload capacity
   const withCapacity = specialismMatched.filter(([analystId]) => {
@@ -301,15 +300,15 @@ export function assignCase(
   const passesHoarding = withCapacity.filter(([analystId]) => {
     const snapshot = workloadSnapshots.find((s) => s.analyst_id === analystId);
     if (!snapshot) return true; // No snapshot = no cases of this type
-    return passesAntiHoarding(snapshot, caseType as string, config.antiHoardingCap);
+    return passesAntiHoarding(snapshot, case_type as string, config.antiHoardingCap);
   });
 
   // 6. Rank by assignment score
   const scored = passesHoarding.map(([analystId, profile]) => {
     const snapshot = workloadSnapshots.find((s) => s.analyst_id === analystId)
-      ?? { analyst_id: analyst_id, activeCaseCount: 0, casesByType: {} };
+      ?? { analyst_id: analystId, activeCaseCount: 0, casesByType: {} };
     const score = assignmentScore(snapshot, profile, config.workload_max, config.rankWeighting);
-    return { analyst_id: analyst_id, profile, score };
+    return { analyst_id: analystId, profile, score };
   });
 
   scored.sort((a, b) => a.score - b.score);
@@ -328,11 +327,11 @@ export function assignCase(
       assignedTeam: targetTeam,
       routingRationale: rationale,
       escalation_path: config.escalation_path,
-      source_policy: policyRef,
+      source_policy: policy_ref,
       auditEvent: {
         type: 'assignment',
         case_id,
-        case_type: caseType as string,
+        case_type: case_type as string,
         assignedOwner: winner.profile.name,
         assignedOwnerId: winner.analyst_id,
         assignedTeam: targetTeam,
@@ -357,11 +356,11 @@ export function assignCase(
     assignedTeam: targetTeam,
     routingRationale: escalationRationale,
     escalation_path: config.escalation_path,
-    source_policy: policyRef,
+    source_policy: policy_ref,
     auditEvent: {
       type: 'assignment',
       case_id,
-      case_type: caseType as string,
+      case_type: case_type as string,
       assignedOwner: null,
       assignedOwnerId: null,
       assignedTeam: targetTeam,
@@ -388,7 +387,7 @@ export function reassignCase(
   strategies: StrategyPolicy[],
 ): AssignmentResult {
   const { config, policy } = extractRoutingConfig(strategies);
-  const policyRef = { id: policy.id, version: policy.policy_version };
+  const policy_ref = { id: policy.id, version: policy.policy_version };
   const timestamp = new Date().toISOString();
 
   const targetTeam = config.teamAffinity[request.case_type as string];
@@ -400,7 +399,7 @@ export function reassignCase(
       assignedTeam: null,
       routingRationale: `Reassignment failed: no team affinity for case type "${request.case_type}"`,
       escalation_path: config.escalation_path,
-      source_policy: policyRef,
+      source_policy: policy_ref,
       auditEvent: {
         type: 'reassignment',
         case_id: request.case_id,
@@ -436,9 +435,9 @@ export function reassignCase(
   // Rank by score
   const scored = eligible.map(([analystId, profile]) => {
     const snapshot = workloadSnapshots.find((s) => s.analyst_id === analystId)
-      ?? { analyst_id: analyst_id, activeCaseCount: 0, casesByType: {} };
+      ?? { analyst_id: analystId, activeCaseCount: 0, casesByType: {} };
     const score = assignmentScore(snapshot, profile, config.workload_max, config.rankWeighting);
-    return { analyst_id: analyst_id, profile, score };
+    return { analyst_id: analystId, profile, score };
   });
 
   scored.sort((a, b) => a.score - b.score);
@@ -455,7 +454,7 @@ export function reassignCase(
       assignedTeam: targetTeam,
       routingRationale: rationale,
       escalation_path: config.escalation_path,
-      source_policy: policyRef,
+      source_policy: policy_ref,
       auditEvent: {
         type: 'reassignment',
         case_id: request.case_id,
@@ -483,7 +482,7 @@ export function reassignCase(
     assignedTeam: targetTeam,
     routingRationale: escalationRationale,
     escalation_path: config.escalation_path,
-    source_policy: policyRef,
+    source_policy: policy_ref,
     auditEvent: {
       type: 'reassignment',
       case_id: request.case_id,

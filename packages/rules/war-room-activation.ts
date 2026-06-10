@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * War Room Activation Engine — Commander C2
  *
@@ -104,7 +103,7 @@ export function evaluateActivationCondition(
   if (kevListed && cvssScore >= 9.5 && externalFacing) {
     return {
       shouldActivate: true,
-      reason: `System rule: P0 + KEV listed + CVSS ${cvss_score} (≥9.5) + external-facing. Automatic War Room activation.`,
+      reason: `System rule: P0 + KEV listed + CVSS ${cvssScore} (≥9.5) + external-facing. Automatic War Room activation.`,
       activationSource: 'system_rule',
     };
   }
@@ -193,12 +192,12 @@ export function createWarRoom(
  * @param caseId - Case ID to bind
  */
 export function bindCaseToWarRoom(warRoom: WarRoom, case_id: string): WarRoom {
-  if (warRoom.boundCaseIds.includes(caseId)) {
+  if (warRoom.boundCaseIds.includes(case_id)) {
     return warRoom; // Already bound — idempotent
   }
   return {
     ...warRoom,
-    boundCaseIds: [...warRoom.boundCaseIds, caseId],
+    boundCaseIds: [...warRoom.boundCaseIds, case_id],
     updated_at: new Date().toISOString(),
   };
 }

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { describe, it, expect } from 'vitest';
 import {
   calculateSlaState,
@@ -251,14 +250,14 @@ describe('generateNotifications — threshold-based notifications', () => {
 describe('calculateEscalation — post-breach escalation levels', () => {
   it('returns null when SLA is not breached', () => {
     const state = calculateSlaState(makeRequest('P0', 2), seedStrategies);
-    const escalation = calculateEscalation(state, escalation_path, 30);
+    const escalation = calculateEscalation(state, escalationPath, 30);
     expect(escalation).toBeNull();
   });
 
   it('returns level 0 immediately after breach (Team Lead)', () => {
     // P0: target=4h, cadence=30min. At 4.25h → 0.25h over → level 0
     const state = calculateSlaState(makeRequest('P0', 4.25), seedStrategies);
-    const escalation = calculateEscalation(state, escalation_path, 30);
+    const escalation = calculateEscalation(state, escalationPath, 30);
     expect(escalation).not.toBeNull();
     expect(escalation!.escalation_level).toBe(0);
     expect(escalation!.currentEscalatee).toBe('Team Lead');
@@ -267,7 +266,7 @@ describe('calculateEscalation — post-breach escalation levels', () => {
   it('returns level 1 after one cadence period (SOM)', () => {
     // P0: target=4h, cadence=30min. At 4.5h → 0.5h over → level 1
     const state = calculateSlaState(makeRequest('P0', 4.5), seedStrategies);
-    const escalation = calculateEscalation(state, escalation_path, 30);
+    const escalation = calculateEscalation(state, escalationPath, 30);
     expect(escalation).not.toBeNull();
     expect(escalation!.escalation_level).toBe(1);
     expect(escalation!.currentEscalatee).toBe('SOM');
@@ -276,7 +275,7 @@ describe('calculateEscalation — post-breach escalation levels', () => {
   it('returns level 2 after two cadence periods (CISO)', () => {
     // P0: target=4h, cadence=30min. At 5h → 1h over → level 2
     const state = calculateSlaState(makeRequest('P0', 5), seedStrategies);
-    const escalation = calculateEscalation(state, escalation_path, 30);
+    const escalation = calculateEscalation(state, escalationPath, 30);
     expect(escalation).not.toBeNull();
     expect(escalation!.escalation_level).toBe(2);
     expect(escalation!.currentEscalatee).toBe('CISO');
@@ -285,7 +284,7 @@ describe('calculateEscalation — post-breach escalation levels', () => {
   it('clamps to last escalation path entry for high levels', () => {
     // P0: target=4h, cadence=30min. At 10h → 6h over → level 12 → clamped to CISO
     const state = calculateSlaState(makeRequest('P0', 10), seedStrategies);
-    const escalation = calculateEscalation(state, escalation_path, 30);
+    const escalation = calculateEscalation(state, escalationPath, 30);
     expect(escalation).not.toBeNull();
     expect(escalation!.escalation_level).toBe(12);
     expect(escalation!.currentEscalatee).toBe('CISO');
@@ -299,7 +298,7 @@ describe('calculateEscalation — post-breach escalation levels', () => {
 
   it('includes reason with breach details', () => {
     const state = calculateSlaState(makeRequest('P0', 5), seedStrategies);
-    const escalation = calculateEscalation(state, escalation_path, 30);
+    const escalation = calculateEscalation(state, escalationPath, 30);
     expect(escalation!.reason).toContain('SLA breached');
     expect(escalation!.reason).toContain('30min');
   });
@@ -307,14 +306,14 @@ describe('calculateEscalation — post-breach escalation levels', () => {
   it('uses escalation cadence from strategy for P1 (120 min)', () => {
     // P1: target=24h, cadence=120min (2h). At 26h → 2h over → level 1
     const state = calculateSlaState(makeRequest('P1', 26), seedStrategies);
-    const escalation = calculateEscalation(state, escalation_path, 120);
+    const escalation = calculateEscalation(state, escalationPath, 120);
     expect(escalation!.escalation_level).toBe(1);
     expect(escalation!.currentEscalatee).toBe('SOM');
   });
 
   it('includes full escalation path in result', () => {
     const state = calculateSlaState(makeRequest('P0', 5), seedStrategies);
-    const escalation = calculateEscalation(state, escalation_path, 30);
+    const escalation = calculateEscalation(state, escalationPath, 30);
     expect(escalation!.escalation_path).toEqual(['Team Lead', 'SOM', 'CISO']);
   });
 });

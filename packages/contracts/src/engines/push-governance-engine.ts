@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Push Governance Engine — Commander C2 (Unit 42)
  * Source: Spec #32 Strategy Layer (Automation Boundary Strategy)
@@ -68,7 +67,7 @@ export function simulatePush(
       rule.conditions.some((c) => entity.current_state.includes(c));
 
     if (conditionsMet && rule.escalationTarget) {
-      wouldEscalate.push(entity.id);
+      would_escalate.push(entity.id);
     } else if (conditionsMet) {
       wouldAllow.push(entity.id);
     } else {

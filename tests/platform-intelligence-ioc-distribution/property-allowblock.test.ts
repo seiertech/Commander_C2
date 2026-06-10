@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Property-Based Tests — Allow/Block Evaluation
  *
@@ -29,8 +28,8 @@ function makeEntry(
     ioc_category: category,
     value,
     listType,
-    addedBy: 'analyst-001',
-    addedAt: '2026-01-01T00:00:00Z',
+    added_by: 'analyst-001',
+    added_at: '2026-01-01T00:00:00Z',
     reason: 'test',
     expires_at: null,
   };

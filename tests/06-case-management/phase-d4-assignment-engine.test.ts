@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Phase D4 — Assignment & Routing Engine Tests
  *
@@ -406,19 +405,19 @@ describe('Phase D4: Escalation Timeout Detection', () => {
   it('returns false when within timeout window', () => {
     const assignedAt = '2026-05-27T10:00:00.000Z';
     const currentTime = '2026-05-28T10:00:00.000Z'; // 24h later (< 48h timeout)
-    expect(isEscalationTimeoutExceeded(assignedAt, current_time, seedStrategies)).toBe(false);
+    expect(isEscalationTimeoutExceeded(assignedAt, currentTime, seedStrategies)).toBe(false);
   });
 
   it('returns true when timeout is exceeded', () => {
     const assignedAt = '2026-05-25T10:00:00.000Z';
     const currentTime = '2026-05-28T10:00:00.000Z'; // 72h later (> 48h timeout)
-    expect(isEscalationTimeoutExceeded(assignedAt, current_time, seedStrategies)).toBe(true);
+    expect(isEscalationTimeoutExceeded(assignedAt, currentTime, seedStrategies)).toBe(true);
   });
 
   it('returns true at exactly the timeout boundary', () => {
     const assignedAt = '2026-05-26T10:00:00.000Z';
     const currentTime = '2026-05-28T10:00:00.000Z'; // exactly 48h
-    expect(isEscalationTimeoutExceeded(assignedAt, current_time, seedStrategies)).toBe(true);
+    expect(isEscalationTimeoutExceeded(assignedAt, currentTime, seedStrategies)).toBe(true);
   });
 
   it('timeout value comes from strategy (not hardcoded)', () => {
@@ -510,9 +509,9 @@ describe('Phase D4: Strategy Consumption Proof (Zero Hardcoded Values)', () => {
     });
     const assignedAt = '2026-05-27T10:00:00.000Z';
     const currentTime = '2026-05-28T10:00:00.000Z'; // 24h later
-    expect(isEscalationTimeoutExceeded(assignedAt, current_time, modified)).toBe(true);
+    expect(isEscalationTimeoutExceeded(assignedAt, currentTime, modified)).toBe(true);
     // With original 48h timeout, same times would NOT exceed
-    expect(isEscalationTimeoutExceeded(assignedAt, current_time, seedStrategies)).toBe(false);
+    expect(isEscalationTimeoutExceeded(assignedAt, currentTime, seedStrategies)).toBe(false);
   });
 
   it('rankWeighting comes from strategy, not hardcoded', () => {

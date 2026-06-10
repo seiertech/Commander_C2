@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Case Reopening Trigger Engine — Commander C2 (Unit 13)
  *
@@ -218,7 +217,7 @@ export function evaluateTrigger(
     trigger,
     fired,
     reason,
-    evaluated_at: currentTime,
+    evaluated_at: current_time,
   };
 }
 
@@ -238,10 +237,10 @@ export function evaluateAllTriggers(
         trigger,
         fired: false,
         reason: `Trigger '${trigger}' is not configured in the reopening trigger strategy`,
-        evaluated_at: currentTime,
+        evaluated_at: current_time,
       };
     }
-    return evaluateTrigger(trigger, input, currentTime);
+    return evaluateTrigger(trigger, input, current_time);
   });
 
   const configuredResults = triggerResults.filter(
@@ -255,7 +254,7 @@ export function evaluateAllTriggers(
     triggerResults,
     anyTriggerFired,
     reopeningRequired: anyTriggerFired,
-    evaluated_at: currentTime,
+    evaluated_at: current_time,
   };
 }
 

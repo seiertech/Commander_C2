@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Seed Communication Threads — Deterministic Fixtures
  *
@@ -11,7 +10,7 @@ import type { CaseCommunicationThread } from '../entities/case-communication-thr
 import { seedId, SEED_TENANT, SEED_SOURCE } from './seed-tenant';
 
 export const seedCommunicationThreads: CaseCommunicationThread[] = [
-  {
+  { entity_type: "entity",
     id: seedId('comthread', 1),
     tenant: SEED_TENANT,
     created_at: '2026-01-16T08:00:00.000Z',
@@ -32,7 +31,7 @@ export const seedCommunicationThreads: CaseCommunicationThread[] = [
     message_count: 3,
     escalationCount: 0,
   },
-  {
+  { entity_type: "entity",
     id: seedId('comthread', 2),
     tenant: SEED_TENANT,
     created_at: '2026-01-16T09:00:00.000Z',
@@ -54,7 +53,7 @@ export const seedCommunicationThreads: CaseCommunicationThread[] = [
     message_count: 1,
     escalationCount: 0,
   },
-  {
+  { entity_type: "entity",
     id: seedId('comthread', 3),
     tenant: SEED_TENANT,
     created_at: '2026-01-15T14:00:00.000Z',
@@ -75,7 +74,7 @@ export const seedCommunicationThreads: CaseCommunicationThread[] = [
     message_count: 2,
     escalationCount: 1,
   },
-  {
+  { entity_type: "entity",
     id: seedId('comthread', 4),
     tenant: SEED_TENANT,
     created_at: '2026-01-14T10:00:00.000Z',

@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Exposure Engine — Commander C2 (Unit 28)
  * Source: Spec #60 Internal and External Attack Surface Framework
@@ -91,11 +90,11 @@ export function identifyBlastZones(exposures: Exposure[]): BlastZone[] {
     const combinedSeverity = assetExposures.reduce((sum, e) => sum + e.severity, 0);
 
     zones.push({
-      zoneId: `zone-${asset_ref}`,
+      zoneId: `zone-${assetRef}`,
       exposures: assetExposures.map((e) => e.id),
       combinedSeverity: Math.min(25, combinedSeverity),
       surface,
-      description: `Blast zone on asset "${asset_ref}" — ${assetExposures.length} exposures, combined severity ${combinedSeverity}.`,
+      description: `Blast zone on asset "${assetRef}" — ${assetExposures.length} exposures, combined severity ${combinedSeverity}.`,
     });
   }
 

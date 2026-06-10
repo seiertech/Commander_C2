@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Seed Vendor Advisories — Deterministic Fixtures
  *
@@ -15,7 +14,7 @@ import { seedId, SEED_SOURCE } from './seed-tenant';
 const ADMIN_TENANT = { tenant_id: 'admin-tenant-001', tenant_name: 'Commander Admin (Mock)' };
 
 export const seedVendorAdvisories: VendorAdvisory[] = [
-  {
+  { entity_type: "entity",
     id: seedId('vadv', 1),
     tenant: ADMIN_TENANT,
     created_at: '2026-01-15T09:00:00.000Z',
@@ -32,7 +31,7 @@ export const seedVendorAdvisories: VendorAdvisory[] = [
     relatedCveIds: ['CVE-2026-0001', 'CVE-2026-0042'],
     containedIocIds: [seedId('ioc', 1), seedId('ioc', 5), seedId('ioc', 7)],
   },
-  {
+  { entity_type: "entity",
     id: seedId('vadv', 2),
     tenant: ADMIN_TENANT,
     created_at: '2026-01-15T09:00:00.000Z',
@@ -49,7 +48,7 @@ export const seedVendorAdvisories: VendorAdvisory[] = [
     relatedCveIds: ['CVE-2026-0042'],
     containedIocIds: [seedId('ioc', 8)],
   },
-  {
+  { entity_type: "entity",
     id: seedId('vadv', 3),
     tenant: ADMIN_TENANT,
     created_at: '2026-01-15T09:00:00.000Z',

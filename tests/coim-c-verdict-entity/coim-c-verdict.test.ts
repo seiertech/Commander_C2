@@ -1,4 +1,4 @@
-// @ts-nocheck
+// @ts-nocheck — final 7: require manual line-by-line review
 import { describe, it, expect } from 'vitest';
 import {
   DISPOSITION_SEVERITY,
@@ -41,7 +41,7 @@ function makeValidVerdict(): Verdict {
     targetEntityType: 'asset',
     policy_ref: {
       policy_id: 'waf-rule-001',
-      policyName: 'Test Rule',
+      policy_name: 'Test Rule',
       policy_version: '1.0.0',
       policySource: 'Test Source',
     },

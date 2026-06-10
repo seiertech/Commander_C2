@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Verdict Entity — Commander C2 Canonical Model
  *
@@ -94,7 +93,7 @@ export interface VerdictPolicyRef {
  *
  * Per Spec #62: severity ordering is authoritative and unchanged.
  */
-export const DISPOSITION_SEVERITY: Record<VerdictDisposition, number> = {
+export const DISPOSITION_SEVERITY: Partial<Record<VerdictDisposition, number>> = {
   BLOCK: 8,
   QUARANTINE: 7,
   REQUIRE_MFA: 6,

@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * War Room AI Orientation Contract — Commander C2
  *
@@ -177,7 +176,7 @@ export function generateOrientationBriefing(
       requires_approval: true,
     });
   }
-  if (blastRadius.score >= 50) {
+  if (blast_radius.score >= 50) {
     recommendedActions.push({
       description: 'Initiate containment for high blast radius incident',
       priority: 'P0',

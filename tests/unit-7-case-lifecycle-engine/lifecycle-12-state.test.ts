@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { describe, it, expect } from 'vitest';
 import {
   ALLOWED_TRANSITIONS,
@@ -156,7 +155,7 @@ describe('12-State Lifecycle — getPermittedActors', () => {
 describe('12-State Lifecycle — full lifecycle walk (happy path)', () => {
   it('detected → ... → closed_by_system', () => {
     const caseId = 'case-full-walk';
-    let history: CaseLifecycleHistory = { case_id: case_id, records: [] };
+    let history: CaseLifecycleHistory = { case_id: caseId, records: [] };
     let status: CaseStatus = 'detected';
 
     const steps: [CaseStatus, CaseStatus, LifecycleActor][] = [

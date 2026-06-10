@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Strategy Layer Runtime Surface Tests — Unit 6
  *
@@ -206,7 +205,7 @@ describe('Case Lifecycle Consumption (no hardcoded values)', () => {
     expect(result.routing.status).toBe('resolved');
     expect(result.priority.status).toBe('resolved');
     expect(result.validation.status).toBe('resolved');
-    expect(result.closureGates.status).toBe('resolved');
+    expect(result.closure_gates.status).toBe('resolved');
     expect(result.reopening.status).toBe('resolved');
   });
 

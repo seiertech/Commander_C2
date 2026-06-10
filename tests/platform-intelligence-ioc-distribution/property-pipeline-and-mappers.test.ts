@@ -1,4 +1,4 @@
-// @ts-nocheck
+// @ts-nocheck — final 7: require manual line-by-line review
 /**
  * Property-Based Tests — Ingestion Pipeline, Mappers, Push, Adherence
  *
@@ -257,7 +257,7 @@ describe('Property 19: IOC matching references existing Observables without dupl
             matchedObservableId: observableId,
             matchType: 'exact',
             matchConfidence: 95,
-            matchedAt: '2026-01-01T00:00:00Z',
+            matched_at: '2026-01-01T00:00:00Z',
             matchSource: 'test-matcher',
             evidenceReferences: ['evidence-001'],
             source_connector_id: 'c1',
@@ -286,7 +286,7 @@ describe('Property 20: IOC and vulnerability case links use correct types within
             iocMatchId: 'match-001',
             case_id: 'case-001',
             linkType,
-            linkedAt: '2026-01-01T00:00:00Z',
+            linked_at: '2026-01-01T00:00:00Z',
           });
           expect(IOC_CASE_LINK_TYPES).toContain(link.linkType);
           expect(link.status).toBe('active');
@@ -300,9 +300,9 @@ describe('Property 20: IOC and vulnerability case links use correct types within
     const link = buildVulnerabilityCaseLink({
       id: 'vlink-001',
       tenant_id: 'tenant-001',
-      evaluationId: 'eval-001',
+      evaluation_id: 'eval-001',
       case_id: 'case-001',
-      linkedAt: '2026-01-01T00:00:00Z',
+      linked_at: '2026-01-01T00:00:00Z',
     });
     expect(link.linkType).toBe('vulnerability');
   });
@@ -342,7 +342,7 @@ describe('Property 22: Push intents are never live-executed in Phase 1', () => {
             action_type,
             intent_status: status,
             requestedBy: 'analyst-001',
-            requestedAt: '2026-01-01T00:00:00Z',
+            requested_at: '2026-01-01T00:00:00Z',
           });
 
           // Phase 1: no live execution status exists
@@ -386,7 +386,7 @@ describe('Property 23: Intelligence never creates adherence state directly', () 
           const evidence = mapIocMatchToEnrichmentEvidence({
             ioc_id: 'ioc-001',
             platformRecordId: 'record-001',
-            evaluationId: 'eval-001',
+            evaluation_id: 'eval-001',
             matchConfidence,
             producedAt: '2026-01-01T00:00:00Z',
           });

@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Communication Effectiveness Scorer — Commander C2
  *
@@ -188,7 +187,7 @@ function computeResponseTimeSignal(thread: CaseCommunicationThread, sla: Communi
     return thread.communicationSla.breached ? 0 : 50;
   }
 
-  const sentTime = new Date(thread.sentAt).getTime();
+  const sentTime = new Date(thread.sent_at).getTime();
   const responseTime = new Date(thread.lastResponseAt).getTime();
   const responseHours = (responseTime - sentTime) / (1000 * 60 * 60);
   const targetHours = sla.targetResponseHours;

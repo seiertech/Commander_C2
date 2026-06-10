@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Seed IOC Relationships — Deterministic Fixtures
  *

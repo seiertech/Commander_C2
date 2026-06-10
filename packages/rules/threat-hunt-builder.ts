@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Threat Hunt Record Builder
  *
@@ -29,7 +28,7 @@ export interface BuildHuntInput {
   tenant_id: string;
   triggeringIocId: string;
   triggeringMatchId: string;
-  huntType: string;
+  hunt_type: string;
   huntScope: string;
   assigned_to: string;
   proposed_at: string;
@@ -53,7 +52,7 @@ export function buildThreatHuntRecord(input: BuildHuntInput): ThreatHuntRecord {
     tenant_id: input.tenant_id,
     triggeringIocId: input.triggeringIocId,
     triggeringMatchId: input.triggeringMatchId,
-    huntType: input.huntType,
+    hunt_type: input.hunt_type,
     huntScope: input.huntScope,
     status: 'proposed',
     assigned_to: input.assigned_to,

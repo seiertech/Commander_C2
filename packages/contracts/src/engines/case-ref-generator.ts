@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Case Reference Number Generator — Commander C2
  *
@@ -110,7 +109,7 @@ export function generateCaseRef(request: CaseRefRequest): CaseRefResult {
 
   return {
     success: true,
-    case_ref: case_ref,
+    case_ref: caseRef,
     error: null,
   };
 }
@@ -120,7 +119,7 @@ export function generateCaseRef(request: CaseRefRequest): CaseRefResult {
  * Returns null if the reference is not in valid format.
  */
 export function parseCaseRef(case_ref: string): { typeAbbrev: string; sequenceNumber: number; tenantCode: string } | null {
-  const match = caseRef.match(/^CMD-([A-Z]{3})-(\d{6})-([A-Z0-9]+)$/);
+  const match = case_ref.match(/^CMD-([A-Z]{3})-(\d{6})-([A-Z0-9]+)$/);
   if (!match) return null;
   return {
     typeAbbrev: match[1],

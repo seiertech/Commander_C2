@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Seed IOC Case Links — Deterministic Fixtures
  *
