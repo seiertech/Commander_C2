@@ -15,7 +15,7 @@
 - [x] StandardsFieldMapping entity + validation
 - [x] StandardsVersionHistory entity + validation
 - [x] 13 declaration fixtures
-- [ ] Initial field mapping fixtures
+- [x] Initial field mapping fixtures
 
 ## Phase 2-11: See REBASE_STRATEGY_v2.md for full breakdown
 
@@ -29,5 +29,15 @@
 
 ## Phase 3-11: See REBASE_STRATEGY_v2.md for full breakdown
 
+## Phase 3: Event & Intelligence (OCSF 1.3.0)
+- [x] ocsf-types.ts (base event, severity, status, metadata, NATO/Admiralty, commander_ extensions)
+- [x] Signal entity (class_uid 2004, Detection Finding)
+- [x] FindingEvent entity (class_uid 2001, Security Finding + MITRE ATT&CK)
+- [x] RemediationEvent entity (class_uid 2002, Remediation Activity + OODA tempo)
+- [x] IntelligenceAssessment entity (class_uid 2005, Incident Finding + NATO grading)
+- [x] OCSF/NATO/MITRE StandardsFieldMapping fixtures (50 mappings)
+
+## Phase 4-11: See REBASE_STRATEGY_v2.md for full breakdown
+
 **Last Updated:** 2026-06-10
-**Current Phase:** 2 COMPLETE — moving to Phase 3 (Event & Intelligence — OCSF)
+**Current Phase:** 3 COMPLETE — moving to Phase 4 (Risk & Posture)
