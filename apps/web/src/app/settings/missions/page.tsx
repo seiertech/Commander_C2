@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { PageContainer } from '@/components/page-container';
@@ -38,7 +37,7 @@ export default function SettingsMissionsPage() {
               </thead>
               <tbody>
                 {thesisMissionSeeds.map((mission) => {
-                  const bindings = thesisMissionBindings.filter((b) => b.missionId === mission.id);
+                  const bindings = thesisMissionBindings.filter((b) => b.mission_id === mission.id);
                   return (
                     <tr key={mission.id}>
                       <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{mission.name}</td>
@@ -94,13 +93,13 @@ export default function SettingsMissionsPage() {
               <tbody>
                 {thesisMissionBindings.map((binding) => (
                   <tr key={binding.id}>
-                    <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.caption }}>{binding.bindingId}</td>
-                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{binding.missionId}</td>
+                    <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.caption }}>{binding.binding_id}</td>
+                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{binding.mission_id}</td>
                     <td><span className="badge bg-secondary">{binding.boundEntityType}</span></td>
                     <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{binding.entity_ref}</td>
                     <td><span className="badge bg-blue-lt">{binding.bindingMethod.replace(/_/g, ' ')}</span></td>
                     <td>{binding.confidence}%</td>
-                    <td className="text-muted">{binding.boundBy}</td>
+                    <td className="text-muted">{binding.bound_by}</td>
                     <td>
                       <span className={`badge ${binding.active ? 'bg-green-lt' : 'bg-red-lt'}`}>
                         {binding.active ? 'Active' : 'Inactive'}

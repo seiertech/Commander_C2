@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { PageContainer } from '@/components/page-container';

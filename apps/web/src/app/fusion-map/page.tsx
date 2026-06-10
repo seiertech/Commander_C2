@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { useMode } from '@/context/mode-context';
@@ -81,8 +80,8 @@ export default function FusionMapPage() {
 
   // Fixed Sankey data - correct Recharts format
   const sankeyData = useMemo(() => {
-    const nodes = [];
-    const links = [];
+    const nodes: any[] = [];
+    const links: any[] = [];
     
     // Add all unique node labels from actual data
     const nodeSet = new Set();
@@ -170,11 +169,11 @@ export default function FusionMapPage() {
                   {selectedBlastRadius.affected_nodes.map(nodeId => {
                     const node = nodeMap.get(nodeId);
                     return (
-                      <div key={node_id} style={{ 
+                      <div key={nodeId} style={{ 
                         fontSize: primitiveTypeScale.micro, 
                         color: tokens.text.secondary,
                         padding: primitiveSpacing[1],
-                        background: tokens.surface.base,
+                        background: tokens.surface.primary,
                         border: `1px solid ${tokens.border.subtle}`
                       }}>
                         {node?.label || nodeId}
@@ -198,7 +197,7 @@ export default function FusionMapPage() {
         <div style={{ height: '200px', overflow: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
             <thead>
-              <tr style={{ background: tokens.surface.base }}>
+              <tr style={{ background: tokens.surface.primary }}>
                 {['Source', 'Target', 'Relationship', 'Weight'].map((h) => (
                   <th key={h} style={{ 
                     textAlign: 'left', 
@@ -273,7 +272,7 @@ export default function FusionMapPage() {
         <div style={{ maxHeight: '200px', overflow: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.micro }}>
             <thead>
-              <tr style={{ background: tokens.surface.base }}>
+              <tr style={{ background: tokens.surface.primary }}>
                 {['Source', 'Relationship', 'Target', 'Weight'].map((h) => (
                   <th key={h} style={{ 
                     textAlign: 'left', 
@@ -349,7 +348,7 @@ export default function FusionMapPage() {
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
               <thead><tr>{['Label', 'Type', 'Domain', 'Criticality'].map((h) => <th key={h} style={{ textAlign: 'left', padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, borderBottom: `2px solid ${tokens.border.default}`, color: tokens.text.muted, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, fontSize: primitiveTypeScale.micro }}>{h}</th>)}</tr></thead>
               <tbody>{nodes.map((n) => (
-                <tr key={n.node_id} style={{ borderBottom: `1px solid ${tokens.border.subtle}`, backgroundColor: selectedNodeId === n.node_id ? tokens.surface.base : 'transparent' }}>
+                <tr key={n.node_id} style={{ borderBottom: `1px solid ${tokens.border.subtle}`, backgroundColor: selectedNodeId === n.node_id ? tokens.surface.primary : 'transparent' }}>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold, cursor: 'pointer' }} onClick={() => setSelectedNodeId(n.node_id)}>{n.label}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{n.entity_type}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted }}>{n.domain}</td>

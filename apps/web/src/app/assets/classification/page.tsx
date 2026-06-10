@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { useMode } from '@/context/mode-context';

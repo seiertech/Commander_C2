@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { useMode } from '@/context/mode-context';
@@ -32,8 +31,8 @@ export default function ControlPlaneBillingPage() {
               <tr key={l.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{l.id}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{l.licence_type}</td>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{l.current_usage.users}/{l.maxUsers}</td>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{l.current_usage.assets}/{l.maxAssets}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{l.current_usage.users}/{l.max_users}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{l.current_usage.assets}/{l.max_assets}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{l.current_usage.connectors}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{l.billingCycle}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, color: '#fff', background: l.status === 'active' ? primitiveSignal.success : primitiveSignal.neutral }}>{l.status}</span></td>

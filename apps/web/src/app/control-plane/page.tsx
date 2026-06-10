@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { colors } from '../../../../../packages/ui/src/tokens/colors';
 import { typography } from '../../../../../packages/ui/src/tokens/typography';
 import { thesisEntitlements, thesisCustomers, thesisConnectors, thesisDeployments } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
@@ -25,7 +24,7 @@ export default function ControlPlaneOverviewPage() {
     { label: 'Total Customers', value: totalCustomers },
     { label: 'Active Trials', value: activeTrials },
     { label: 'Entitlement Exceptions', value: entitlementExceptions },
-    { label: 'Connector Health', value: `${active_connectors}/${totalConnectors}` },
+    { label: 'Connector Health', value: `${activeConnectors}/${totalConnectors}` },
     { label: 'Deployment Rings', value: deploymentRings },
   ];
 

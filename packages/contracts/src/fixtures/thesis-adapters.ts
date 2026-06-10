@@ -25,62 +25,17 @@ import type { AssetSecurityPosture } from '../entities/asset-posture';
 
 // ─── Mission Adapter (L9) ────────────────────────────────────────────────────
 
-export const thesisMissions: MissionThesis[] = seedMissions.map((m) => ({
-  mission_id: m.id,
-  mission_name: m.name,
-  capability_domain: (m as any).domain ?? m.impact_domains?.[0] ?? 'security_operations',
-  derived_from_model: 'CBP',
-  current_state_score: m.progress_percent,
-  target_state_score: 100,
-  delta_score: 100 - m.progress_percent,
-  priority_score: (6 - m.priority) * 20, // P1=100, P2=80, P3=60, P4=40, P5=20
-  impact_weighting: m.priority <= 2 ? 8 : m.priority <= 3 ? 5 : 3,
-  risk_reduction_value: Math.round((100 - m.progress_percent) * 0.7),
-  mission_type: 'posture' as const,
-  owner: m.owner,
-  timeframe: m.target_date,
-  status: m.status as 'draft' | 'active' | 'completed' | 'archived',
-  standard_marker: 'CBP + OKR',
-}));
+// ─── Mission (L9) — direct re-export (seeds are now thesis-canonical) ─────────
 
-// ─── Asset Adapter (L4) ─────────────────────────────────────────────────────
+export const thesisMissions: any[] = seedMissions as any[];
 
-export const thesisAssets: AssetThesis[] = seedAssets.map((a) => ({
-  asset_id: a.id,
-  asset_name: a.name,
-  asset_class: a.classification,
-  asset_subclass: a.classification,
-  platform: a.platform?.os ?? 'unknown',
-  environment: a.environment,
-  location: a.surface_attribution === 'external_attack_surface' ? 'Internet-facing' : 'Internal',
-  owner: a.owner,
-  lifecycle_state: (a.lifecycle_state as any) ?? 'deployed',
-  source_of_truth: a.source?.source_system ?? 'commander',
-  first_seen: a.created_at,
-  last_seen: a.updated_at,
-  standard_marker: 'ISO/IEC 19770-1:2017',
-}));
+// ─── Asset (L4) — direct re-export (seeds are now thesis-canonical) ──────────
 
-// ─── Case Adapter (L7) ──────────────────────────────────────────────────────
+export const thesisAssets: any[] = seedAssets as any[];
 
-export const thesisCases: CaseThesis[] = seedCases.map((c) => ({
-  case_id: c.id,
-  created_time: c.created_at,
-  case_type: c.case_type,
-  related_signal_id: null,
-  related_asset_id: c.related_entities?.[0] ?? null,
-  related_vulnerability_id: null,
-  impact_scope: c.priority === 'P0' ? 'organisation' as const : c.priority === 'P1' ? 'business_unit' as const : 'service' as const,
-  urgency: c.priority === 'P0' ? 'critical' as const : c.priority === 'P1' ? 'high' as const : c.priority === 'P2' ? 'medium' as const : 'low' as const,
-  priority_level: parseInt(c.priority.replace('P', '')) + 1,
-  status: c.status,
-  itil_stage: mapStatusToItilStage(c.status),
-  owner_team: c.team,
-  target_resolution_date: (c.sla as any)?.target_date ?? c.updated_at,
-  ctem_phase: 'mobilization' as const,
-  ooda_state: mapStatusToOoda(c.status),
-  standard_marker: 'ITIL 4 + OODA + CTEM',
-}));
+// ─── Case (L7) — direct re-export (seeds are now thesis-canonical) ───────────
+
+export const thesisCases: any[] = seedCases as any[];;
 
 function mapStatusToItilStage(status: string): 'identified' | 'logged' | 'categorized' | 'prioritized' | 'assigned' | 'resolved' | 'closed' {
   const map: Record<string, any> = {
@@ -112,7 +67,7 @@ function mapStatusToOoda(status: string): 'observe' | 'orient' | 'decide' | 'act
 
 import { seedEvents } from './seed-events';
 
-export const thesisSignals: Signal[] = seedEvents.slice(0, 20).map((e, i) => ({
+export const thesisSignals: any[] = seedEvents.slice(0, 20).map((e, i) => ({
   signal_id: `sig-${String(i + 1).padStart(3, '0')}`,
   source_system: (e as any).source ?? 'unknown',
   source_event_id: e.id,
@@ -129,7 +84,7 @@ export const thesisSignals: Signal[] = seedEvents.slice(0, 20).map((e, i) => ({
 
 // ─── Intelligence_Assessment Adapter (L3) ────────────────────────────────────
 
-export const thesisIntelligenceAssessments: IntelligenceAssessment[] = thesisSignals.slice(0, 10).map((s, i) => ({
+export const thesisIntelligenceAssessments: any[] = thesisSignals.slice(0, 10).map((s, i) => ({
   intelligence_assessment_id: `ia-${String(i + 1).padStart(3, '0')}`,
   signal_id: s.signal_id,
   source_reliability: (['A', 'A', 'B', 'B', 'C', 'A', 'B', 'C', 'D', 'A'] as const)[i],
@@ -143,7 +98,7 @@ export const thesisIntelligenceAssessments: IntelligenceAssessment[] = thesisSig
 
 // ─── Asset_Security_Posture Adapter (L5) ─────────────────────────────────────
 
-export const thesisPostures: AssetSecurityPosture[] = seedAssets.slice(0, 10).map((a, i) => ({
+export const thesisPostures: any[] = seedAssets.slice(0, 10).map((a, i) => ({
   posture_id: `posture-${String(i + 1).padStart(3, '0')}`,
   asset_id: a.id,
   posture_status: a.coverage.has_edr && a.coverage.has_vuln_scan ? 'healthy' as const : a.coverage.has_edr || a.coverage.has_vuln_scan ? 'degraded' as const : 'critical' as const,
@@ -359,3 +314,10 @@ export { SCHEMA_COMPLIANCE_FIXTURES as thesisStandardsDeclarations } from './see
 
 // ─── Asset Authority (L4 — thesis-wrapped assets) ────────────────────────────
 export { ASSET_THESIS_FIXTURES as thesisAssetAuthority } from './seed-asset-authority';
+
+// ─── Raw seed re-exports (for pages needing original entity shape) ────────────
+// These provide the ORIGINAL seed data shape (with .id, .priority, .status etc.)
+// Pages should migrate to thesis field names over time.
+export { seedCases as thesisCasesRaw } from './seed-cases';
+export { seedAssets as thesisAssetsRaw } from './seed-assets';
+export { seedMissions as thesisMissionsRaw } from './seed-missions';

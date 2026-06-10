@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { useMode } from '@/context/mode-context';
@@ -38,10 +37,10 @@ export default function ControlPlaneTenantsPage() {
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{t.tenantDisplayName}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, color: '#fff', background: t.status === 'active' ? primitiveSignal.success : t.status === 'provisioning' ? primitiveSignal.info : primitiveSignal.neutral }}>{t.status}</span></td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{t.deploymentRegion}</td>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{t.currentUsers}/{t.maxUsers}</td>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{t.currentAssets}/{t.maxAssets}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{t.currentUsers}/{t.max_users}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{t.currentAssets}/{t.max_assets}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{t.featuresEnabled.length}</td>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{new Date(t.lastActivityAt).toLocaleDateString()}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{new Date(t.last_activity_at).toLocaleDateString()}</td>
               </tr>
             ))}</tbody>
           </table>

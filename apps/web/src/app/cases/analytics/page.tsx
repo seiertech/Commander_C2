@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import dynamic from 'next/dynamic';
@@ -172,21 +171,21 @@ export default function CaseAnalyticsPage() {
   // ─── Core metric model (memoised) ─────────────────────────────────────────
   const m = useMemo(() => {
     const all = thesisCases;
-    const openCases = all.filter((c) => !isClosed(c));
+    const openCases = all.filter((c: any) => !isClosed(c));
     const closedCases = all.filter(isClosed);
 
     // Period-scoped opened / closed
-    const openedInPeriod = all.filter((c) => created(c) >= periodStart);
-    const closedInPeriod = closedCases.filter((c) => (closedAt(c) ?? 0) >= periodStart);
-    const openedPrior = all.filter((c) => created(c) >= priorStart && created(c) < periodStart);
-    const closedPrior = closedCases.filter((c) => {
+    const openedInPeriod = all.filter((c: any) => created(c) >= periodStart);
+    const closedInPeriod = closedCases.filter((c: any) => (closedAt(c) ?? 0) >= periodStart);
+    const openedPrior = all.filter((c: any) => created(c) >= priorStart && created(c) < periodStart);
+    const closedPrior = closedCases.filter((c: any) => {
       const t = closedAt(c) ?? 0;
       return t >= priorStart && t < periodStart;
     });
 
     // MTTR (hours) for a set of closed cases at a given priority
     const mttrFor = (set: Case[], priority?: string) => {
-      const subset = set.filter((c) => isClosed(c) && (!priority || c.priority === priority));
+      const subset = set.filter((c: any) => isClosed(c) && (!priority || c.priority === priority));
       if (subset.length === 0) return null;
       const sum = subset.reduce((acc, c) => acc + ((closedAt(c)! - created(c)) / MS_PER_HOUR), 0);
       return sum / subset.length;
@@ -221,37 +220,37 @@ export default function CaseAnalyticsPage() {
       const ct = closedAt(c);
       if (ct) weekSet.add(weekStart(ct));
     });
-    const weeks = Array.from(weekSet).sort((a, b) => a - b);
-    const openedByWeek = weeks.map((w) => all.filter((c) => weekStart(created(c)) === w).length);
-    const closedByWeek = weeks.map((w) => closedCases.filter((c) => closedAt(c) !== null && weekStart(closedAt(c)!) === w).length);
+    const weeks = Array.from(weekSet).sort((a: any, b: any) => a - b);
+    const openedByWeek = weeks.map((w) => all.filter((c: any) => weekStart(created(c)) === w).length);
+    const closedByWeek = weeks.map((w) => closedCases.filter((c: any) => closedAt(c) !== null && weekStart(closedAt(c)!) === w).length);
     // Running backlog at end of each week = cumulative opened up to week end − cumulative closed up to week end
     const backlogByWeek = weeks.map((w) => {
       const weekEnd = w + 7 * MS_PER_DAY;
-      const openedToDate = all.filter((c) => created(c) < weekEnd).length;
-      const closedToDate = closedCases.filter((c) => (closedAt(c) ?? Infinity) < weekEnd).length;
+      const openedToDate = all.filter((c: any) => created(c) < weekEnd).length;
+      const closedToDate = closedCases.filter((c: any) => (closedAt(c) ?? Infinity) < weekEnd).length;
       return openedToDate - closedToDate;
     });
 
     // Priority-over-time stacked (per week, per priority — opened)
     const priorityByWeek = PRIORITIES.map((p) => ({
       name: p,
-      data: weeks.map((w) => all.filter((c) => c.priority === p && weekStart(created(c)) === w).length),
+      data: weeks.map((w) => all.filter((c: any) => c.priority === p && weekStart(created(c)) === w).length),
     }));
 
     // ── Distribution counts (open cases) ──
-    const priorityDist = PRIORITIES.map((p) => openCases.filter((c) => c.priority === p).length);
+    const priorityDist = PRIORITIES.map((p) => openCases.filter((c: any) => c.priority === p).length);
 
     const typeCounts: Record<string, number> = {};
     openCases.forEach((c) => { typeCounts[c.case_type] = (typeCounts[c.case_type] || 0) + 1; });
-    const typeSorted = Object.entries(typeCounts).sort((a, b) => b[1] - a[1]);
+    const typeSorted = Object.entries(typeCounts).sort((a: any, b: any) => b[1] - a[1]);
 
     const ownerCounts: Record<string, number> = {};
     openCases.forEach((c) => { ownerCounts[c.owner] = (ownerCounts[c.owner] || 0) + 1; });
-    const ownerSorted = Object.entries(ownerCounts).sort((a, b) => b[1] - a[1]);
+    const ownerSorted = Object.entries(ownerCounts).sort((a: any, b: any) => b[1] - a[1]);
 
     // ── MTTR by priority: target (from SLA) vs actual ──
     const targetByPriority = PRIORITIES.map((p) => {
-      const withSla = all.filter((c) => c.priority === p);
+      const withSla = all.filter((c: any) => c.priority === p);
       if (withSla.length === 0) return 0;
       // Use the modal/representative SLA target for the priority
       return Math.round(withSla.reduce((a, c) => a + c.sla.target_resolution_hours, 0) / withSla.length);
@@ -263,9 +262,9 @@ export default function CaseAnalyticsPage() {
 
     // ── SLA adherence trend (per week, closed cases that week) ──
     const adherenceByWeek = weeks.map((w) => {
-      const wk = closedCases.filter((c) => closedAt(c) !== null && weekStart(closedAt(c)!) === w);
+      const wk = closedCases.filter((c: any) => closedAt(c) !== null && weekStart(closedAt(c)!) === w);
       if (wk.length === 0) return null;
-      const met = wk.filter((c) => !c.sla.breached).length;
+      const met = wk.filter((c: any) => !c.sla.breached).length;
       return Math.round((met / wk.length) * 100);
     });
 
@@ -273,7 +272,7 @@ export default function CaseAnalyticsPage() {
     const ageingSeries = PRIORITIES.map((p) => ({
       name: p,
       data: AGE_BUCKETS.map((b) => {
-        const count = openCases.filter((c) => {
+        const count = openCases.filter((c: any) => {
           if (c.priority !== p) return false;
           const age = (now - created(c)) / MS_PER_DAY;
           return age >= b.min && age < b.max;
@@ -287,8 +286,8 @@ export default function CaseAnalyticsPage() {
     const actionsInProgress = thesisActions.filter((a) => a.status === 'in_progress').length;
 
     return {
-      open_cases: open_cases, closedCases, openedInPeriod, closedInPeriod,
-      mttr_p1: mttr_p1, mttrP1Prior, adherencePeriod, adherencePrior, reopenRate,
+      open_cases: openCases, closedCases, openedInPeriod, closedInPeriod,
+      mttr_p1: mttrP1, mttrP1Prior, adherencePeriod, adherencePrior, reopenRate,
       velocity, velocityPrior,
       weeks, openedByWeek, closedByWeek, backlogByWeek, priorityByWeek,
       priorityDist, typeSorted, ownerSorted,
@@ -470,7 +469,7 @@ export default function CaseAnalyticsPage() {
   const statusOptions = useMemo(() => Array.from(new Set(thesisCases.map((c) => statusLabel(c.status)))).sort(), []);
 
   const tableRows = useMemo(() => {
-    const rows = m.open_cases.filter((c) => {
+    const rows = m.open_cases.filter((c: any) => {
       if (fltPriority !== 'all' && c.priority !== fltPriority) return false;
       if (fltType !== 'all' && c.case_type !== fltType) return false;
       if (fltTeam !== 'all' && c.team !== fltTeam) return false;
@@ -478,7 +477,7 @@ export default function CaseAnalyticsPage() {
       return true;
     });
     const dir = sortDir === 'asc' ? 1 : -1;
-    rows.sort((a, b) => {
+    rows.sort((a: any, b: any) => {
       let cmp = 0;
       switch (sortKey) {
         case 'case_ref': cmp = a.case_ref.localeCompare(b.case_ref); break;
@@ -502,7 +501,7 @@ export default function CaseAnalyticsPage() {
 
   // ─── KPI values ───────────────────────────────────────────────────────────
   const kpiOpen = m.open_cases.length;
-  const kpiOpenPrior = thesisCases.filter((c) => !isClosed(c) && created(c) < periodStart).length;
+  const kpiOpenPrior = thesisCases.filter((c: any) => !isClosed(c) && created(c) < periodStart).length;
   const mttrDelta = m.mttr_p1 !== null && m.mttrP1Prior !== null ? m.mttr_p1 - m.mttrP1Prior : null;
   const adherenceDelta = m.adherencePrior !== null ? m.adherencePeriod - m.adherencePrior : null;
   const velocityDelta = m.velocity - m.velocityPrior;
@@ -531,7 +530,7 @@ export default function CaseAnalyticsPage() {
         <KpiCard tokens={tokens} label="Reopen Rate" value={`${m.reopenRate.toFixed(1)}%`}
           delta={null} tokensMode={mode} />
         <KpiCard tokens={tokens} label="Closed · Period" value={String(m.closedInPeriod.length)}
-          delta={m.closedInPeriod.length - m.closedCases.filter((c) => { const t = closedAt(c) ?? 0; return t >= priorStart && t < periodStart; }).length}
+          delta={m.closedInPeriod.length - m.closedCases.filter((c: any) => { const t = closedAt(c) ?? 0; return t >= priorStart && t < periodStart; }).length}
           tokensMode={mode} />
         <KpiCard tokens={tokens} label="Velocity" value={(m.velocity >= 0 ? '+' : '') + m.velocity}
           delta={velocityDelta} tokensMode={mode} hint="closed − opened" />

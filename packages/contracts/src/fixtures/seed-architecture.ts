@@ -152,7 +152,7 @@ export interface ArchitectureComponent {
   dependencies: string[];
   criticality: number;
   status: 'healthy' | 'degraded' | 'critical';
-  drift_state: 'compliant' | 'drifted' | 'unknown';
+  drift_state: 'compliant' | 'drifted' | 'minor_drift' | 'major_drift' | 'unknown'; baseline_version?: string; current_version?: string; last_scanned_at?: string;
   standard_marker: string;
 }
 

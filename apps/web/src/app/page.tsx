@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { thesisCases, thesisConnectors, thesisRiskObjects, thesisStrategies } from '../../../../packages/contracts/src/fixtures/thesis-adapters';

@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { useMode } from '@/context/mode-context';
@@ -24,7 +23,7 @@ export default function PlatformOverviewPage() {
   return (
     <PageContainer pretitle="Platform" title="Platform Overview">
       <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
-        <Kpi tokens={tokens} label="Connectors Active" value={`${active_connectors}/${thesisConnectors.length}`} accent={primitiveSignal.success} />
+        <Kpi tokens={tokens} label="Connectors Active" value={`${activeConnectors}/${thesisConnectors.length}`} accent={primitiveSignal.success} />
         <Kpi tokens={tokens} label="Frameworks" value={String(activeFrameworks)} />
         <Kpi tokens={tokens} label="KEV Advisories" value={String(kevCount)} accent={kevCount > 0 ? primitiveSignal.critical : undefined} />
         <Kpi tokens={tokens} label="Detection Rules" value={String(activeRules)} />

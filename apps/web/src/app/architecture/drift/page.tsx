@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { useMode } from '@/context/mode-context';
@@ -40,9 +39,9 @@ export default function ArchitectureDriftPage() {
                 <tr key={c.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{c.name}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, color: '#fff', background: dc }}>{c.drift_state.replace(/_/g, ' ')}</span></td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{c.baselineVersion}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: c.baselineVersion !== c.currentVersion ? primitiveSignal.warning : tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{c.currentVersion}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{new Date(c.lastScannedAt).toLocaleString()}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{c.baseline_version}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: c.baseline_version !== c.current_version ? primitiveSignal.warning : tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{c.current_version}</td>
+                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{new Date(c.last_scanned_at ?? '').toLocaleString()}</td>
                   <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{c.criticality}</td>
                 </tr>
               );
