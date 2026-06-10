@@ -13,6 +13,29 @@ export type {
 } from './standards-declaration';
 export { CONFORMANCE_LEVELS, validate_schema_compliance } from './standards-declaration';
 
+// ─── Layer 2: Architecture Classification & Topology (Thesis §6) ─────────────
+export type {
+  ArchitectureClassification,
+  TogafDomain,
+  ZachmanAspect,
+  ZachmanPerspective,
+  ArchitectureClassificationValidation,
+} from './architecture-classification';
+export { TOGAF_DOMAINS, ZACHMAN_ASPECTS, ZACHMAN_PERSPECTIVES, validate_architecture_classification } from './architecture-classification';
+
+export type {
+  TopologyNode,
+  TopologyNodeValidation,
+} from './topology-node';
+export { validate_topology_node } from './topology-node';
+
+export type {
+  TopologyEdge,
+  EdgeDirection,
+  TopologyEdgeValidation,
+} from './topology-edge';
+export { EDGE_DIRECTIONS, validate_topology_edge } from './topology-edge';
+
 export type {
   StandardsFieldMapping,
   ConformanceType,
