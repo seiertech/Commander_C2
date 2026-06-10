@@ -87,20 +87,20 @@ export default function CaseDetailPage({ params }: { params: Promise<{ id: strin
   const { mode, tokens } = useMode();
   const router = useRouter();
 
-  const caseRecord = thesisCases.find((c) => c.id === id) ?? thesisCases[0];
+  const caseRecord = thesisCases.find((c) => c.case_id === id || c.id === id) ?? thesisCases[0];
   const strategy = resolveAllStrategies(caseRecord, thesisStrategies);
   const p = primitivePriority[caseRecord.priority.toLowerCase() as keyof typeof primitivePriority];
 
   // Real joins by case id
-  const actions = thesisActions.filter((a) => a.case_id === caseRecord.id);
+  const actions = thesisActions.filter((a) => a.case_id === caseRecord.case_id);
   const subActionsByAction = (action_id: string) => thesisSubActions.filter((s) => s.action_id === action_id);
   const riskObjects = thesisRiskObjects.filter(
-    (r) => r.affected_entity_id === caseRecord.id || (r.affected_entities ?? []).includes(caseRecord.id),
+    (r) => r.affected_entity_id === caseRecord.case_id || (r.affected_entities ?? []).includes(caseRecord.case_id),
   );
-  const evidence = thesisEvidence.filter((e) => e.case_id === caseRecord.id);
+  const evidence = thesisEvidence.filter((e) => e.case_id === caseRecord.case_id);
   const relatedAssets = thesisAssets.filter((a) => caseRecord.related_entities.includes(a.id));
   const relatedCases = thesisCases.filter(
-    (c) => c.id !== caseRecord.id && c.related_entities.some((e: any) => caseRecord.related_entities.includes(e)),
+    (c) => c.case_id !== caseRecord.case_id && c.related_entities.some((e: any) => caseRecord.related_entities.includes(e)),
   );
 
   // SLA countdown
@@ -174,6 +174,11 @@ export default function CaseDetailPage({ params }: { params: Promise<{ id: strin
             <Field tokens={tokens} label="Case Type" value={titleCase(caseRecord.case_type)} />
             <Field tokens={tokens} label="Surface" value={caseRecord.surface_attribution === 'external_attack_surface' ? 'External Attack Surface' : 'Internal Attack Surface'} />
             <Field tokens={tokens} label="Created" value={new Date(caseRecord.created_at).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })} />
+            <Field tokens={tokens} label="ITIL Stage" value={titleCase(caseRecord.itil_stage)} />
+            <Field tokens={tokens} label="OODA State" value={titleCase(caseRecord.ooda_state)} />
+            <Field tokens={tokens} label="CTEM Phase" value={titleCase(caseRecord.ctem_phase)} />
+            <Field tokens={tokens} label="Impact Scope" value={titleCase(caseRecord.impact_scope)} />
+            <Field tokens={tokens} label="Urgency" value={titleCase(caseRecord.urgency)} />
             <Field tokens={tokens} label="Updated" value={new Date(caseRecord.updated_at).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })} />
             <Field tokens={tokens} label="Source" value={caseRecord.source.source_system} mono />
             <Field tokens={tokens} label="Audit Ref" value={caseRecord.auditTrailRef} mono />
@@ -220,7 +225,7 @@ export default function CaseDetailPage({ params }: { params: Promise<{ id: strin
                   </span>
                 ))}
                 {relatedCases.map((rc) => (
-                  <span key={rc.id} onClick={() => router.push(`/cases/${rc.id}`)} style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.secondary, cursor: 'pointer', textDecoration: 'underline' }}>
+                  <span key={rc.case_id} onClick={() => router.push(`/cases/${rc.case_id}`)} style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.secondary, cursor: 'pointer', textDecoration: 'underline' }}>
                     <span style={{ fontFamily: primitiveFonts.mono, color: tokens.text.muted, fontSize: primitiveTypeScale.micro }}>case</span> {rc.case_ref}
                   </span>
                 ))}
@@ -452,10 +457,10 @@ function EvidenceTab({ caseRecord, riskObjects, evidence, tokens }: {
 
 // ─── TAB 4: Communication — placeholder (no email/Teams entity exists yet) ──
 
-function CommsTab({ caseRecord, tokens }: { caseRecord: Case; tokens: Tokens }) {
-  const emails = thesisEmailCommunications.filter((e) => e.case_ref === caseRecord.id);
-  const drafts = thesisGovernedCompose.filter((d) => d.case_ref === caseRecord.id);
-  const teamsDecs = thesisTeamsDecisionEvents.filter((t) => t.case_id === caseRecord.id);
+function CommsTab({ caseRecord, tokens }: { caseRecord: any; tokens: any }) {
+  const emails = thesisEmailCommunications.filter((e) => e.case_ref === caseRecord.case_id);
+  const drafts = thesisGovernedCompose.filter((d) => d.case_ref === caseRecord.case_id);
+  const teamsDecs = thesisTeamsDecisionEvents.filter((t) => t.case_id === caseRecord.case_id);
 
   return (
     <section style={{ display: 'flex', flexDirection: 'column', gap: componentTokens.gridGap }}>
@@ -621,14 +626,14 @@ function StrategyTab({ strategy, tokens, compact }: { strategy: ReturnType<typeo
 
 // ─── TAB 6: Activity timeline (REAL seed-events for this case) ──────────────
 
-function AuditTab({ caseRecord, tokens }: { caseRecord: Case; tokens: Tokens }) {
+function AuditTab({ caseRecord, tokens }: { caseRecord: any; tokens: any }) {
   // Real activity events from seed-events.ts that reference this case, newest first.
   const sevColor: Record<string, string> = {
     critical: tokens.status.critical, warning: tokens.status.warning,
     info: tokens.status.info, success: tokens.status.success, neutral: tokens.text.muted,
   };
   const events = thesisEvents
-    .filter((e) => e.entity_type === 'case' && e.entity_ref === caseRecord.id)
+    .filter((e) => e.entity_type === 'case' && e.entity_ref === caseRecord.case_id)
     .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
   return (
@@ -653,9 +658,9 @@ function AuditTab({ caseRecord, tokens }: { caseRecord: Case; tokens: Tokens }) 
         <p style={{ margin: `${primitiveSpacing[3]} 0 0`, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>Audit ref: {caseRecord.auditTrailRef}</p>
       </Panel>
       {/* Structured Lifecycle Audit Trail (UC-206) */}
-      <Panel tokens={tokens} title="Structured Lifecycle Audit Trail" subtitle={`${thesisCaseTransitionAudits.filter((t) => t.case_ref === caseRecord.id).length} structured transition(s) for this case`}>
+      <Panel tokens={tokens} title="Structured Lifecycle Audit Trail" subtitle={`${thesisCaseTransitionAudits.filter((t) => t.case_ref === caseRecord.case_id).length} structured transition(s) for this case`}>
         {(() => {
-          const transitions = thesisCaseTransitionAudits.filter((t) => t.case_ref === caseRecord.id);
+          const transitions = thesisCaseTransitionAudits.filter((t) => t.case_ref === caseRecord.case_id);
           if (transitions.length === 0) return <Empty tokens={tokens} text="No structured transition audits for this case in seed data." />;
           return (
             <div style={{ display: 'flex', flexDirection: 'column', gap: primitiveSpacing[2] }}>

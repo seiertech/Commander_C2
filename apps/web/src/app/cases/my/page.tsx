@@ -66,7 +66,7 @@ export default function MyCasesPage() {
   // ── Real caseload ──
   const myCases = useMemo(() => thesisCases.filter((c) => c.owner === CURRENT_USER), []);
   const open = myCases.filter((c) => !isClosed(c));
-  const myIds = useMemo(() => new Set(myCases.map((c) => c.id)), [myCases]);
+  const myIds = useMemo(() => new Set(myCases.map((c) => c.case_id)), [myCases]);
 
   // Focus-ordered worklist (DERIVED ordering)
   const worklist = useMemo(() => [...open].sort((a, b) => {
@@ -161,7 +161,7 @@ export default function MyCasesPage() {
               <p style={{ margin: 0, fontSize: primitiveTypeScale.caption, color: tokens.text.muted }}>No open cases assigned to {CURRENT_USER}.</p>
             ) : (
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: primitiveSpacing[3] }}>
-                {worklist.map((c) => <CaseCard key={c.id} caseRecord={c} now={now} />)}
+                {worklist.map((c) => <CaseCard key={c.case_id} caseRecord={c} now={now} />)}
               </div>
             )}
           </Section>
