@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { thesisBlastRadius } from '../../../../../../../packages/contracts/src/fixtures/thesis-adapters';
@@ -67,7 +66,7 @@ export default function PlatformRuleSimulationPage() {
             <Stat tokens={tokens} label="Total Impact" value={`${selected.total_impact_score}/100`} accent={impactColor(selected.total_impact_score)} />
             <Stat tokens={tokens} label="Depth" value={String(selected.depth)} />
             <Stat tokens={tokens} label="Affected" value={String(selected.affected_entities.length)} />
-            <Stat tokens={tokens} label="Computed" value={new Date(selected.computedAt).toLocaleString()} />
+            <Stat tokens={tokens} label="Computed" value={new Date(selected.computed_at).toLocaleString()} />
           </div>
 
           <div style={{ overflowX: 'auto' }}>

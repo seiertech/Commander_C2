@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { useMode } from '@/context/mode-context';
@@ -36,7 +35,7 @@ export default function ControlPlaneDeploymentPage() {
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono, color: tokens.text.muted }}>{d.previousVersion}</td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, color: '#fff', background: d.status === 'deployed' ? primitiveSignal.success : d.status === 'rolling_out' ? primitiveSignal.info : primitiveSignal.neutral }}>{d.status.replace(/_/g, ' ')}</span></td>
                 <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, color: '#fff', background: d.healthCheck === 'passing' ? primitiveSignal.success : d.healthCheck === 'pending' ? primitiveSignal.neutral : primitiveSignal.warning }}>{d.healthCheck}</span></td>
-                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{new Date(d.deployedAt).toLocaleString()}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.muted, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro }}>{new Date(d.deployed_at).toLocaleString()}</td>
               </tr>
             ))}</tbody>
           </table>

@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { useState } from 'react';
@@ -142,7 +141,7 @@ export default function SearchPage() {
       )}
 
       {Object.entries(groupedResults).map(([entityType, items]) => (
-        <div className="card mb-3" key={entity_type}>
+        <div className="card mb-3" key={entityType}>
           <div className="card-header">
             <h3 className="card-title">
               {ENTITY_TYPE_LABELS[entityType] ?? entityType}

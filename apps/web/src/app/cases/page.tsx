@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { thesisCases, thesisEvents } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
@@ -15,7 +14,7 @@ import { PageContainer } from '@/components/page-container';
 import { CaseCard } from '@/components/case-card';
 import type { Case } from '../../../../../packages/contracts/src/entities/case';
 import {
-  FLOW_LANES, laneOf, isClosed, isNew, slaState, risk_score, ageLabel,
+  FLOW_LANES, laneOf, isClosed, isNew, slaState, riskScore, ageLabel,
   momentum, PRIORITIES, type FlowLane,
 } from './case-metrics';
 

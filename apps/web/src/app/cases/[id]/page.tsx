@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { use } from 'react';
@@ -94,14 +93,14 @@ export default function CaseDetailPage({ params }: { params: Promise<{ id: strin
 
   // Real joins by case id
   const actions = thesisActions.filter((a) => a.case_id === caseRecord.id);
-  const subActionsByAction = (action_id: string) => thesisSubActions.filter((s) => s.action_id === actionId);
+  const subActionsByAction = (action_id: string) => thesisSubActions.filter((s) => s.action_id === action_id);
   const riskObjects = thesisRiskObjects.filter(
     (r) => r.affected_entity_id === caseRecord.id || (r.affected_entities ?? []).includes(caseRecord.id),
   );
   const evidence = thesisEvidence.filter((e) => e.case_id === caseRecord.id);
   const relatedAssets = thesisAssets.filter((a) => caseRecord.related_entities.includes(a.id));
   const relatedCases = thesisCases.filter(
-    (c) => c.id !== caseRecord.id && c.related_entities.some((e) => caseRecord.related_entities.includes(e)),
+    (c) => c.id !== caseRecord.id && c.related_entities.some((e: any) => caseRecord.related_entities.includes(e)),
   );
 
   // SLA countdown

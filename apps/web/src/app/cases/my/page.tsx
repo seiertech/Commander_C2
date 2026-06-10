@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { useMemo } from 'react';
@@ -15,7 +14,7 @@ import { PageContainer } from '@/components/page-container';
 import { CaseCard } from '@/components/case-card';
 import type { Case } from '../../../../../../packages/contracts/src/entities/case';
 import type { ApexOptions } from 'apexcharts';
-import { slaState, risk_score, isClosed, PRIORITIES } from '../case-metrics';
+import { slaState, riskScore, isClosed, PRIORITIES } from '../case-metrics';
 import { thesisCases, thesisEvents, thesisActions, thesisSubActions, thesisRiskObjects, thesisEvidence, thesisStrategies, thesisNotifications, thesisCaseFollows, thesisDecisionRecords } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });

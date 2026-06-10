@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { useMode } from '@/context/mode-context';
@@ -48,7 +47,7 @@ export default function ControlsPage() {
           <div className="card">
             <div className="card-body">
               <div className="subheader">Total Controls</div>
-              <div className="h1 mb-0">{total_controls}</div>
+              <div className="h1 mb-0">{totalControls}</div>
             </div>
           </div>
         </div>

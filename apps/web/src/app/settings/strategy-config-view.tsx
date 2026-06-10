@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { PageContainer } from '@/components/page-container';
@@ -21,14 +20,14 @@ interface StrategyConfigViewProps {
 }
 
 export function StrategyConfigView({ surface_type, pretitle, title }: StrategyConfigViewProps) {
-  const policy = thesisStrategies.find((s) => s.surface_type === surfaceType);
+  const policy = thesisStrategies.find((s) => s.surface_type === surface_type);
 
   if (!policy) {
     return (
       <PageContainer pretitle={pretitle} title={title}>
         <div className="card">
           <div className="card-body">
-            <p className="text-muted">No strategy policy configured for surface: {STRATEGY_SURFACE_LABELS[surfaceType] ?? surfaceType}</p>
+            <p className="text-muted">No strategy policy configured for surface: {STRATEGY_SURFACE_LABELS[surface_type] ?? surface_type}</p>
           </div>
         </div>
       </PageContainer>
@@ -49,7 +48,7 @@ export function StrategyConfigView({ surface_type, pretitle, title }: StrategyCo
           <div className="row g-3">
             <div className="col-sm-6 col-lg-3">
               <div className="subheader">Surface</div>
-              <div style={{ fontSize: primitiveTypeScale.body }}>{STRATEGY_SURFACE_LABELS[surfaceType]}</div>
+              <div style={{ fontSize: primitiveTypeScale.body }}>{STRATEGY_SURFACE_LABELS[surface_type]}</div>
             </div>
             <div className="col-sm-6 col-lg-3">
               <div className="subheader">Version</div>

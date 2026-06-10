@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { PageContainer } from '@/components/page-container';
@@ -96,7 +95,7 @@ export default function SettingsSecurityPage() {
               <tbody>
                 {thesisBreakGlass.map((r) => (
                   <tr key={r.id}>
-                    <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{r.requestId}</td>
+                    <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{r.request_id}</td>
                     <td>{r.requestorId}</td>
                     <td><span className="badge bg-azure-lt">{r.scope}</span></td>
                     <td className="text-truncate" style={{ maxWidth: 220 }}>{r.reason}</td>
@@ -132,7 +131,7 @@ export default function SettingsSecurityPage() {
                 {thesisAuthSessions.map((s) => (
                   <tr key={s.id}>
                     <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{s.user_id}</td>
-                    <td className="text-muted">{s.ipAddress}</td>
+                    <td className="text-muted">{s.ip_address}</td>
                     <td>{s.mfaVerified ? <span className="badge bg-green-lt">Verified</span> : <span className="badge bg-red-lt">No MFA</span>}</td>
                     <td>{statusBadge(s.status)}</td>
                     <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{new Date(s.created_at).toLocaleString()}</td>

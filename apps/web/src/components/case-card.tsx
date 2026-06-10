@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { useRouter } from 'next/navigation';
@@ -9,7 +8,7 @@ import {
 } from '../../../../packages/ui/src/tokens/primitives';
 import type { Case } from '../../../../packages/contracts/src/entities/case';
 import {
-  slaState, risk_score, riskBand, momentum, nextBestAction, ageLabel,
+  slaState, riskScore, riskBand, momentum, nextBestAction, ageLabel,
   type Momentum,
 } from '../app/cases/case-metrics';
 

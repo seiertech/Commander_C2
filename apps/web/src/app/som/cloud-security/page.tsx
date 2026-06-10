@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { PageContainer } from '@/components/page-container';
@@ -77,7 +76,7 @@ export default function SomCloudSecurityPage() {
                 <thead><tr><th>Provider</th><th>Assets</th></tr></thead>
                 <tbody>
                   {Object.entries(cloudProviders).map(([provider, count]) => (
-                    <tr key={provider}><td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{provider}</td><td>{count}</td></tr>
+                    <tr key={provider}><td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{provider}</td><td>{String(count)}</td></tr>
                   ))}
                 </tbody>
               </table>
