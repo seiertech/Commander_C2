@@ -21,9 +21,9 @@ export default function AssetsClassificationPage() {
   // Group by asset classification
   const classMap = new Map<string, typeof thesisAssets>();
   thesisAssets.forEach((a) => {
-    const list = classMap.get(a.classification) || [];
+    const list = classMap.get(a.asset_class) || [];
     list.push(a);
-    classMap.set(a.classification, list);
+    classMap.set(a.asset_class, list);
   });
   const classifications = [...classMap.entries()].sort((a, b) => b[1].length - a[1].length);
 
@@ -97,9 +97,9 @@ export default function AssetsClassificationPage() {
               </thead>
               <tbody>
                 {thesisAssets.map((a) => (
-                  <tr key={a.id}>
-                    <td><a href={`/assets?id=${a.id}`} style={{ color: tokens.action.primary, fontSize: primitiveTypeScale.body }}>{a.name}</a></td>
-                    <td><span className="badge bg-secondary">{a.classification}</span></td>
+                  <tr key={a.asset_id}>
+                    <td><a href={`/assets?id=${a.asset_id}`} style={{ color: tokens.action.primary, fontSize: primitiveTypeScale.body }}>{a.asset_name}</a></td>
+                    <td><span className="badge bg-secondary">{a.asset_class}</span></td>
                     <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{a.assetDataClassification ?? 'unclassified'}</td>
                     <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{a.environment}</td>
                     <td>

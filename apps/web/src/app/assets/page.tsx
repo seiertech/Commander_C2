@@ -37,7 +37,7 @@ export default function AssetIntelligencePage({ searchParams }: { searchParams: 
   const { id } = use(searchParams);
   const { tokens } = useMode();
 
-  const selected = id ? thesisAssets.find((a) => a.id === id) : undefined;
+  const selected = id ? thesisAssets.find((a) => a.asset_id === id) : undefined;
 
   // ── Asset list view (no selection) ──
   if (!selected) {
@@ -66,11 +66,11 @@ export default function AssetIntelligencePage({ searchParams }: { searchParams: 
                 </thead>
                 <tbody>
                   {sorted.map((a) => (
-                    <tr key={a.id}>
+                    <tr key={a.asset_id}>
                       <td>
-                        <a href={`/assets?id=${a.id}`} style={{ color: tokens.action.primary, fontSize: primitiveTypeScale.body }}>{a.name}</a>
+                        <a href={`/assets?id=${a.asset_id}`} style={{ color: tokens.action.primary, fontSize: primitiveTypeScale.body }}>{a.asset_name}</a>
                       </td>
-                      <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{a.classification}</td>
+                      <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{a.asset_class}</td>
                       <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{a.environment}</td>
                       <td>
                         <span className={`badge ${a.surface_attribution === 'external_attack_surface' ? 'bg-azure-lt' : 'bg-purple-lt'}`}>
@@ -93,20 +93,20 @@ export default function AssetIntelligencePage({ searchParams }: { searchParams: 
   const a = selected;
 
   // 5. Case History — cases referencing this asset
-  const caseHistory = thesisCases.filter((c) => c.related_entities.includes(a.id));
+  const caseHistory = thesisCases.filter((c) => c.related_entities.includes(a.asset_id));
   // 6. Vulnerability State — vulnerability-flavoured risk objects affecting this asset
   const vulnRiskObjects = thesisRiskObjects.filter(
-    (r) => (r.affected_entities?.includes(a.id) || r.affected_entity_id === a.id) &&
+    (r) => (r.affected_entities?.includes(a.asset_id) || r.affected_entity_id === a.asset_id) &&
       (r.type === 'vulnerability_drift' || r.type === 'exposure_drift' || r.type === 'configuration_drift'),
   );
   const vulnCases = caseHistory.filter((c) => c.case_type.includes('vulnerability') || c.case_type.includes('exposure'));
   // 7. Identity Exposure — identities with access to this asset
-  const exposedIdentities = thesisIdentities.filter((i) => i.associated_assets.includes(a.id));
+  const exposedIdentities = thesisIdentities.filter((i) => i.associated_assets.includes(a.asset_id));
 
   return (
     <PageContainer
       pretitle="Identity & Asset Intelligence › Asset"
-      title={a.name}
+      title={a.asset_name}
       headerActions={
         <span className={`badge ${a.surface_attribution === 'external_attack_surface' ? 'bg-azure-lt' : 'bg-purple-lt'}`}>
           {a.surface_attribution === 'external_attack_surface' ? 'External Attack Surface' : 'Internal Attack Surface'}
@@ -122,13 +122,15 @@ export default function AssetIntelligencePage({ searchParams }: { searchParams: 
         <div className="card-header"><h3 className="card-title">Asset Overview</h3></div>
         <div className="card-body">
           <div className="row g-3">
-            <Field label="Classification" value={a.classification} />
+            <Field label="Classification" value={a.asset_class} />
             <Field label="Owner" value={a.owner} />
             <Field label="Environment" value={a.environment} />
             <Field label="Criticality" value={String(a.criticality)} />
             <Field label="Surface" value={a.surface_attribution === 'external_attack_surface' ? 'External' : 'Internal'} />
             <Field label="Tags" value={a.tags.join(', ')} />
           </div>
+            <Field label="Source of Truth" value={a.source_of_truth} />
+            <Field label="Standard" value={a.standard_marker} />
         </div>
       </div>
 
