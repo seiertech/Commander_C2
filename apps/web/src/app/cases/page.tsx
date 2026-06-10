@@ -22,17 +22,21 @@ import {
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 /**
- * Case Handling Dashboard — Commander SDR (DS-1.0, Spec 06 Phase C)
+ * Case Handling Dashboard — Commander C2 (Thesis §11 — Case & Remediation Workflow)
  *
  * Built to the governing mockup `case-handling-dashboard.png` (Mission/HUD dark)
- * and the MOCKUP_INDEX signature patterns:
+ * and the thesis lifecycle model:
  *   KPI strip → Closed-Loop Lifecycle Pipeline (hero) → instrument gauges →
  *   flow board of rich cards → live activity feed.
  *
- * This surface forces Mission chrome (the mockup is Mission mode) while the rest
- * of the app honours the toggle. All values derive from real seed data +
- * deterministic metrics (case-metrics). No mock randomness. System-First Tier 1
- * — fully usable without AI; AI as placement markers only.
+ * Use Case: UC-CASE-001 — View Case Queue
+ * Use Case: UC-CASE-003 — View Case Analytics
+ * Entities: Case (L7), Case_Management_Metric (L8), Case_Backlog_State (L8)
+ * Standards: ITIL 4, OODA, CTEM
+ *
+ * ITIL stages: identified/logged/categorized/prioritized/assigned/resolved/closed
+ * OODA states: observe/orient/decide/act
+ * CTEM phases: scoping/discovery/prioritization/validation/mobilization
  */
 
 // ── 7-stage display pipeline (named component, Spec 06 / MOCKUP_INDEX §4) ──

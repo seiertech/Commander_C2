@@ -11,27 +11,27 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/
 import { STREAM_LABELS } from '../../../../../packages/contracts/src/engines/intelligence-layer';
 
 /**
- * Asset Intelligence Surface — Unit 19 (Surface Layer)
+ * Asset Intelligence Surface — Thesis §8 (Asset Authority Layer)
  *
- * Source: Spec #69 Asset Intelligence Surface; Route Registry (path: /assets).
+ * Use Case: UC-ASSET-001 — View Asset Inventory
+ * Use Case: UC-ASSET-002 — View Asset Classification
+ * Use Case: UC-ASSET-003 — View Asset Ownership
+ * Entities: Asset (L4), Asset_Classification (L5), Software_Instance (L4)
+ * Standards: ISO/IEC 19770-1:2017, NIST CSF 2.0 (ID.AM)
  *
- * SCOPE (Unit 19) — seven-section composition for a selected asset:
+ * Seven-section composition for a selected asset:
  *   1. Asset Overview      2. Configuration State   3. Verdict History
  *   4. Behavioural Pattern 5. Case History          6. Vulnerability State
  *   7. Identity Exposure
- * Plus drill paths to cases, identities, vulnerabilities, configuration drift.
  *
  * Selection model: /assets lists assets; /assets?id=<assetId> foregrounds one
- * asset's seven-section composition. Posture Intelligence stream (Unit 14) labels
- * the posture context.
+ * asset's seven-section composition.
  *
  * Doctrinal constraints:
- *   - Consumes canonical seed fixtures + Unit 14 stream taxonomy; invents no entities.
- *   - Surface attribution preserved on overview (Assertion 10).
- *   - No enhanced-governance/RBAC overlay (Asset Intelligence is not Internal-Risk gated).
- *   - Verdict/Behavioural sections are source-fed (Class B); where no seed verdict
- *     fixture exists yet they render an explicit "awaiting connector data" state
- *     rather than inventing estate facts (AI-grounding doctrine).
+ *   - Surface attribution preserved on overview.
+ *   - No enhanced-governance/RBAC overlay.
+ *   - Verdict/Behavioural sections are source-fed; where no data exists
+ *     they render "awaiting connector data" (AI-grounding doctrine).
  *
  * Boundary: Operational App. Status: BUILD.
  */
