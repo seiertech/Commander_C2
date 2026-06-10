@@ -157,7 +157,7 @@ describe('Phase D5: Closure Gate Status (awaiting-closure)', () => {
   });
 
   it('shows strategy policy reference', () => {
-    expect(pageContent).toContain('closureGateState.strategyRef.policyId');
+    expect(pageContent).toContain('closureGateState.strategyRef.policy_id');
   });
 });
 
@@ -191,7 +191,7 @@ describe('Phase D5: Validation Window Status (awaiting-validation)', () => {
   });
 
   it('shows strategy policy reference', () => {
-    expect(pageContent).toContain('validationState.strategyRef.policyId');
+    expect(pageContent).toContain('validationState.strategyRef.policy_id');
   });
 });
 
@@ -214,7 +214,7 @@ describe('Phase D5: Assignment Rationale and Escalation Path (D4)', () => {
   });
 
   it('displays escalation path from strategy', () => {
-    expect(pageContent).toContain('assignmentInfo.escalationPath');
+    expect(pageContent).toContain('assignmentInfo.escalation_path');
     expect(pageContent).toContain("join(' → ')");
   });
 });

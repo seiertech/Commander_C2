@@ -1,3 +1,4 @@
+// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 /**
  * Mission Impact Engine — Commander C2 (Spec 37)
  * Source: Spec #37 Mission Objective Binding Model

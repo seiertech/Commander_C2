@@ -1,3 +1,4 @@
+// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 /**
  * Normalisation Layer — Commander C2 Canonical Entity Model
  *

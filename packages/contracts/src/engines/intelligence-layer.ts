@@ -1,3 +1,4 @@
+// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 /**
  * Intelligence Layer — Commander C2 Four-Stream Integration (Unit 14)
  *

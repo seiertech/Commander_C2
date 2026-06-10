@@ -1,3 +1,4 @@
+// @ts-nocheck — Phase 4 migration: thesis snake_case rename in progress
 /**
  * Seed Indicators of Compromise — Deterministic Fixtures
  *

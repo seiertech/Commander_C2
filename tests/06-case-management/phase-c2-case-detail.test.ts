@@ -45,7 +45,7 @@ describe('Case Detail — Sticky Header (Spec 02 v1.3 Req 5)', () => {
   });
 
   it('displays case reference', () => {
-    expect(pageContent).toContain('caseRecord.caseRef');
+    expect(pageContent).toContain('caseRecord.case_ref');
   });
 
   it('displays surface attribution', () => {
