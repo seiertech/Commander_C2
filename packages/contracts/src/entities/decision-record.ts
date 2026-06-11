@@ -42,17 +42,17 @@ export interface DecisionFactor {
 // ─── Decision Record Entity ──────────────────────────────────────────────────
 
 export interface DecisionRecord extends CommonFields {
-  entityType: 'decision-record';
+  entity_type: 'decision-record';
   /** Unique decision record identifier */
   recordId: string;
   /** Case this decision relates to */
-  caseRef: string;
+  case_ref: string;
   /** Rule that triggered this decision (optional) */
-  ruleRef?: string;
+  rule_ref?: string;
   /** Engine that produced this decision (optional) */
-  engineRef?: string;
+  engine_ref?: string;
   /** Type of decision */
-  decisionType: DecisionType;
+  decision_type: DecisionType;
   /** Human-readable rationale */
   rationale: string;
   /** Input factors that drove the decision */
@@ -62,13 +62,13 @@ export interface DecisionRecord extends CommonFields {
   /** Confidence in the decision (0–100) */
   confidence: number;
   /** When the decision was made */
-  decidedAt: string;
+  decided_at: string;
   /** Who made the decision */
-  decidedBy: 'system' | 'analyst';
+  decided_by: 'system' | 'analyst';
   /** Whether this decision was subsequently overridden */
   overridden: boolean;
   /** Reason for override (required when overridden) */
-  overrideReason?: string;
+  override_reason?: string;
 }
 
 // ─── Validation ──────────────────────────────────────────────────────────────
@@ -82,11 +82,11 @@ export function validateDecisionRecord(record: DecisionRecord): DecisionRecordVa
   const errors: string[] = [];
 
   if (!record.id || record.id.trim() === '') errors.push('id: required');
-  if (!record.tenant || !record.tenant.tenantId) errors.push('tenant.tenantId: required');
+  if (!record.tenant || !record.tenant.tenant_id) errors.push('tenant.tenant_id: required');
   if (!record.recordId || record.recordId.trim() === '') errors.push('recordId: required');
-  if (!record.caseRef || record.caseRef.trim() === '') errors.push('caseRef: required');
-  if (!DECISION_TYPES.includes(record.decisionType)) {
-    errors.push(`decisionType: must be one of: ${DECISION_TYPES.join(', ')}`);
+  if (!record.case_ref || record.case_ref.trim() === '') errors.push('case_ref: required');
+  if (!DECISION_TYPES.includes(record.decision_type)) {
+    errors.push(`decision_type: must be one of: ${DECISION_TYPES.join(', ')}`);
   }
   if (!record.rationale || record.rationale.trim() === '') errors.push('rationale: required');
   if (!Array.isArray(record.inputFactors)) {
@@ -101,10 +101,10 @@ export function validateDecisionRecord(record: DecisionRecord): DecisionRecordVa
   if (typeof record.confidence !== 'number' || record.confidence < 0 || record.confidence > 100) {
     errors.push('confidence: must be 0–100');
   }
-  if (!record.decidedAt || record.decidedAt.trim() === '') errors.push('decidedAt: required');
-  if (record.decidedBy !== 'system' && record.decidedBy !== 'analyst') errors.push('decidedBy: must be system or analyst');
-  if (record.overridden && (!record.overrideReason || record.overrideReason.trim() === '')) {
-    errors.push('overrideReason: required when overridden');
+  if (!record.decided_at || record.decided_at.trim() === '') errors.push('decided_at: required');
+  if (record.decided_by !== 'system' && record.decided_by !== 'analyst') errors.push('decided_by: must be system or analyst');
+  if (record.overridden && (!record.override_reason || record.override_reason.trim() === '')) {
+    errors.push('override_reason: required when overridden');
   }
 
   return { valid: errors.length === 0, errors };

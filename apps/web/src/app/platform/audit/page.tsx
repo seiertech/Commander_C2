@@ -1,9 +1,12 @@
 'use client';
 
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedEvents } from '../../../../../../packages/contracts/src/fixtures/seed-events';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisEvents, thesisCases, thesisRiskObjects, thesisBlastRadius, thesisExposures, thesisPostures, thesisConnectors, thesisActions, thesisStrategies, thesisMissions } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Platform — Audit & Logs
@@ -18,8 +21,8 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/
  */
 
 export default function PlatformAuditPage() {
-  const { tokens } = useMode();
-  const events = [...seedEvents].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+  const { mode, tokens } = useMode();
+  const events = [...thesisEvents].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
   const criticalCount = events.filter((e) => e.severity === 'critical').length;
   const warningCount = events.filter((e) => e.severity === 'warning').length;
@@ -92,8 +95,8 @@ export default function PlatformAuditPage() {
                       <SeverityBadge severity={e.severity} />
                     </td>
                     <td style={{ fontSize: primitiveTypeScale.body }}>{e.message}</td>
-                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{e.entityRef}</td>
-                    <td><span className="badge bg-secondary">{e.entityType}</span></td>
+                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{e.entity_ref}</td>
+                    <td><span className="badge bg-secondary">{e.entity_type}</span></td>
                   </tr>
                 ))}
               </tbody>
@@ -104,6 +107,26 @@ export default function PlatformAuditPage() {
               Showing 30 of {events.length} events
             </div>
           )}
+        </div>
+      </div>
+    
+      {/* §7.3 ENRICHMENT */}
+      <section style={{ marginTop: componentTokens.gridGap, padding: componentTokens.cardPadding, background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}` }}>
+        <h4 style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, margin: '0 0 8px' }}>Thesis Data Context</h4>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: primitiveSpacing[2] }}>
+        <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: primitiveTypeScale.micro, background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, marginRight: primitiveSpacing[2] }}>{casesCount} Cases</span>
+        </div>
+      </section>
+    
+      {/* Interactive Chart Section — Sweep 3 */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Risk Distribution</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Open', 'Mitigated', 'Closed'], colors: [primitiveSignal.warning, primitiveSignal.success, primitiveSignal.neutral], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisRiskObjects.filter((r) => r.treatment_state === 'open').length, thesisRiskObjects.filter((r) => r.treatment_state === 'mitigated').length, thesisRiskObjects.filter((r) => r.treatment_state !== 'open' && r.treatment_state !== 'mitigated').length]} />
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Posture Health</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Healthy', 'Degraded', 'Critical'], colors: [primitiveSignal.success, primitiveSignal.warning, primitiveSignal.critical], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisPostures.filter((p) => p.posture_status === 'healthy').length, thesisPostures.filter((p) => p.posture_status === 'degraded').length, thesisPostures.filter((p) => p.posture_status === 'critical').length]} />
         </div>
       </div>
     </PageContainer>

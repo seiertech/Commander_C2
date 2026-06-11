@@ -1,10 +1,13 @@
 'use client';
 
+import type { ApexOptions } from 'apexcharts';
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedIdentities } from '../../../../../../packages/contracts/src/fixtures/seed-identities';
-import { seedRiskObjects } from '../../../../../../packages/contracts/src/fixtures/seed-risk-objects';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisIdentities, thesisRiskObjects, thesisIdentityIntelligence, thesisCases, thesisDriftDetection, thesisPostures, thesisExposures, thesisStrategies, thesisConnectors, thesisAssets, thesisMissions, thesisBlastRadius, thesisRiskScores, thesisActions, thesisEvents, thesisSignals, thesisIocs } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Identity & Access — Access Drift
@@ -17,14 +20,14 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/
  */
 
 export default function IdentityDriftPage() {
-  const { tokens } = useMode();
+  const { mode, tokens } = useMode();
 
-  const identityRiskObjects = seedRiskObjects.filter((r) => r.type === 'identity_risk');
+  const identityRiskObjects = thesisRiskObjects.filter((r) => r.type === 'identity_risk');
   const affectedIdentityIds = new Set(
-    identityRiskObjects.flatMap((r) => [r.affectedEntityId, ...(r.affectedEntities || [])])
+    identityRiskObjects.flatMap((r) => [r.affected_entity_id, ...(r.affected_entities || [])])
   );
-  const driftedIdentities = seedIdentities.filter((i) => affectedIdentityIds.has(i.id));
-  const sorted = [...driftedIdentities].sort((a, b) => b.riskScore - a.riskScore);
+  const driftedIdentities = thesisIdentities.filter((i) => affectedIdentityIds.has(i.id));
+  const sorted = [...driftedIdentities].sort((a, b) => b.risk_score - a.risk_score);
 
   return (
     <PageContainer
@@ -55,7 +58,7 @@ export default function IdentityDriftPage() {
             <div className="card-body">
               <div className="subheader">Open (Untreated)</div>
               <div className="h1 mb-0" style={{ color: primitiveSignal.critical }}>
-                {identityRiskObjects.filter((r) => r.treatmentState === 'open').length}
+                {identityRiskObjects.filter((r) => r.treatment_state === 'open').length}
               </div>
             </div>
           </div>
@@ -65,7 +68,7 @@ export default function IdentityDriftPage() {
             <div className="card-body">
               <div className="subheader">Mitigated</div>
               <div className="h1 mb-0" style={{ color: '#2fb344' }}>
-                {identityRiskObjects.filter((r) => r.treatmentState === 'mitigated').length}
+                {identityRiskObjects.filter((r) => r.treatment_state === 'mitigated').length}
               </div>
             </div>
           </div>
@@ -90,10 +93,10 @@ export default function IdentityDriftPage() {
                 {identityRiskObjects.map((r) => (
                   <tr key={r.id}>
                     <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{r.type}</td>
-                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{r.affectedEntityId}</td>
+                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{r.affected_entity_id}</td>
                     <td>
-                      <span className={`badge ${r.treatmentState === 'open' ? 'bg-red-lt' : r.treatmentState === 'mitigated' ? 'bg-green-lt' : 'bg-secondary'}`}>
-                        {r.treatmentState}
+                      <span className={`badge ${r.treatment_state === 'open' ? 'bg-red-lt' : r.treatment_state === 'mitigated' ? 'bg-green-lt' : 'bg-secondary'}`}>
+                        {r.treatment_state}
                       </span>
                     </td>
                     <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{r.justification}</td>
@@ -121,10 +124,10 @@ export default function IdentityDriftPage() {
                 <tbody>
                   {sorted.map((i) => (
                     <tr key={i.id}>
-                      <td><a href={`/identity?id=${i.id}`} style={{ color: tokens.action.primary }}>{i.displayName}</a></td>
-                      <td><span className="badge bg-orange-lt">{i.privilegeLevel ?? 'standard'}</span></td>
+                      <td><a href={`/identity?id=${i.id}`} style={{ color: tokens.action.primary }}>{i.display_name}</a></td>
+                      <td><span className="badge bg-orange-lt">{i.privilege_level ?? 'standard'}</span></td>
                       <td><span className={`badge ${i.status === 'active' ? 'bg-green-lt' : 'bg-red-lt'}`}>{i.status}</span></td>
-                      <td className="text-end" style={{ color: i.riskScore >= 60 ? primitiveSignal.critical : tokens.text.muted }}>{i.riskScore}</td>
+                      <td className="text-end" style={{ color: i.risk_score >= 60 ? primitiveSignal.critical : tokens.text.muted }}>{i.risk_score}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -136,6 +139,26 @@ export default function IdentityDriftPage() {
 
       {/* AI Placement */}
       {/* AI-PLACEMENT: AICAP-004 — Explain identity drift patterns and recommend remediation */}
+    
+      {/* §7.3 ENRICHMENT */}
+      <section style={{ marginTop: componentTokens.gridGap, padding: componentTokens.cardPadding, background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}` }}>
+        <h4 style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, margin: '0 0 8px' }}>Thesis Data Context</h4>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: primitiveSpacing[2] }}>
+        <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: primitiveTypeScale.micro, background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, marginRight: primitiveSpacing[2] }}>{identityintelligenceCount} Identity Intelligence</span>
+        </div>
+      </section>
+    
+      {/* Engine Correlation Chart — Sweep 3 */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Risk Distribution</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Open', 'Mitigated', 'Closed'], colors: [primitiveSignal.warning, primitiveSignal.success, primitiveSignal.neutral], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisRiskObjects.filter((r) => r.treatment_state === 'open').length, thesisRiskObjects.filter((r) => r.treatment_state === 'mitigated').length, thesisRiskObjects.filter((r) => r.treatment_state !== 'open' && r.treatment_state !== 'mitigated').length]} />
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Posture Health</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Healthy', 'Degraded', 'Critical'], colors: [primitiveSignal.success, primitiveSignal.warning, primitiveSignal.critical], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisPostures.filter((p) => p.posture_status === 'healthy').length, thesisPostures.filter((p) => p.posture_status === 'degraded').length, thesisPostures.filter((p) => p.posture_status === 'critical').length]} />
+        </div>
+      </div>
     </PageContainer>
   );
 }

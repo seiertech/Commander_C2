@@ -1,8 +1,11 @@
 'use client';
 
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
 import { PageContainer } from '@/components/page-container';
-import { seedControlFrameworks, seedControlEvaluations } from '../../../../../packages/contracts/src/fixtures/seed-control-frameworks';
 import { primitiveTypeScale } from '../../../../../packages/ui/src/tokens/primitives';
+import { thesisControlFrameworks, thesisControlEvaluations, thesisStandardsDeclarations, thesisCases, thesisBlastRadius, thesisRiskObjects, thesisExposures, thesisPostures, thesisConnectors, thesisStrategies, thesisActions, thesisIdentities } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Governance — Adherence Overview (Thesis §15 — Risk, Control & Adherence Layer)
@@ -17,8 +20,8 @@ import { primitiveTypeScale } from '../../../../../packages/ui/src/tokens/primit
  */
 
 export default function GovernancePage() {
-  const frameworks = seedControlFrameworks;
-  const evaluations = seedControlEvaluations;
+  const frameworks = thesisControlFrameworks;
+  const evaluations = thesisControlEvaluations;
   const activeFrameworks = frameworks.filter((f) => f.active);
 
   return (
@@ -27,7 +30,7 @@ export default function GovernancePage() {
         <div className="col-sm-6 col-lg-3"><div className="card"><div className="card-body"><div className="subheader">Frameworks</div><div className="h1 mb-0">{frameworks.length}</div></div></div></div>
         <div className="col-sm-6 col-lg-3"><div className="card"><div className="card-body"><div className="subheader">Active</div><div className="h1 mb-0">{activeFrameworks.length}</div></div></div></div>
         <div className="col-sm-6 col-lg-3"><div className="card"><div className="card-body"><div className="subheader">Evaluations</div><div className="h1 mb-0">{evaluations.length}</div></div></div></div>
-        <div className="col-sm-6 col-lg-3"><div className="card"><div className="card-body"><div className="subheader">Avg Mapping</div><div className="h1 mb-0">{frameworks.length > 0 ? Math.round(frameworks.reduce((s, f) => s + f.mappingCompleteness, 0) / frameworks.length) : 0}%</div></div></div></div>
+        <div className="col-sm-6 col-lg-3"><div className="card"><div className="card-body"><div className="subheader">Avg Mapping</div><div className="h1 mb-0">{frameworks.length > 0 ? Math.round(frameworks.reduce((s, f) => s + f.mapping_completeness, 0) / frameworks.length) : 0}%</div></div></div></div>
       </div>
       <div className="card">
         <div className="card-header"><h3 className="card-title">Framework Adherence Status</h3></div>
@@ -38,11 +41,11 @@ export default function GovernancePage() {
               <tbody>
                 {frameworks.map((f) => (
                   <tr key={f.id}>
-                    <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{f.frameworkName}</td>
+                    <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{f.framework_name}</td>
                     <td><span className={`badge ${f.category === 'regulatory' ? 'bg-purple-lt' : 'bg-blue-lt'}`}>{f.category}</span></td>
-                    <td>{f.totalControls}</td>
-                    <td>{f.mappingCompleteness}%</td>
-                    <td><span className={`badge ${f.licenceStatus === 'open' ? 'bg-green-lt' : 'bg-orange-lt'}`}>{f.licenceStatus}</span></td>
+                    <td>{f.total_controls}</td>
+                    <td>{f.mapping_completeness}%</td>
+                    <td><span className={`badge ${f.licence_status === 'open' ? 'bg-green-lt' : 'bg-orange-lt'}`}>{f.licence_status}</span></td>
                     <td><span className={`badge ${f.active ? 'bg-green-lt' : 'bg-red-lt'}`}>{f.active ? 'Active' : 'Inactive'}</span></td>
                   </tr>
                 ))}
@@ -52,6 +55,26 @@ export default function GovernancePage() {
         </div>
       </div>
       {/* AI-PLACEMENT: AICAP-009 — Map evidence to control requirements for audit-ready adherence reports */}
+    
+      {/* §7.3 ENRICHMENT */}
+      <section style={{ marginTop: componentTokens.gridGap, padding: componentTokens.cardPadding, background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}` }}>
+        <h4 style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, margin: '0 0 8px' }}>Thesis Data Context</h4>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: primitiveSpacing[2] }}>
+        <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: primitiveTypeScale.micro, background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, marginRight: primitiveSpacing[2] }}>{standardsdeclarationsCount} Standards Declarations</span>
+        </div>
+      </section>
+    
+      {/* Interactive Chart Section — Sweep 3 */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Risk Distribution</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Open', 'Mitigated', 'Closed'], colors: [primitiveSignal.warning, primitiveSignal.success, primitiveSignal.neutral], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisRiskObjects.filter((r) => r.treatment_state === 'open').length, thesisRiskObjects.filter((r) => r.treatment_state === 'mitigated').length, thesisRiskObjects.filter((r) => r.treatment_state !== 'open' && r.treatment_state !== 'mitigated').length]} />
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Posture Health</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Healthy', 'Degraded', 'Critical'], colors: [primitiveSignal.success, primitiveSignal.warning, primitiveSignal.critical], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisPostures.filter((p) => p.posture_status === 'healthy').length, thesisPostures.filter((p) => p.posture_status === 'degraded').length, thesisPostures.filter((p) => p.posture_status === 'critical').length]} />
+        </div>
+      </div>
     </PageContainer>
   );
 }

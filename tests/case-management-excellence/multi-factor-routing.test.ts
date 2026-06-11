@@ -9,7 +9,7 @@ import type { RoutingCandidate } from '../../packages/rules/multi-factor-routing
 
 describe('Multi-Factor Routing Engine', () => {
   const baseCandidate: RoutingCandidate = {
-    analystId: 'analyst-001',
+    analyst_id: 'analyst-001',
     specialismScore: 80,
     workloadAvailabilityScore: 70,
     assetOwnershipScore: 50,
@@ -33,20 +33,20 @@ describe('Multi-Factor Routing Engine', () => {
 
     it('selects highest-scoring analyst', () => {
       const candidates: RoutingCandidate[] = [
-        { ...baseCandidate, analystId: 'low', specialismScore: 20 },
-        { ...baseCandidate, analystId: 'high', specialismScore: 100 },
-        { ...baseCandidate, analystId: 'mid', specialismScore: 60 },
+        { ...baseCandidate, analyst_id: 'low', specialismScore: 20 },
+        { ...baseCandidate, analyst_id: 'high', specialismScore: 100 },
+        { ...baseCandidate, analyst_id: 'mid', specialismScore: 60 },
       ];
 
       const result = computeRoutingDecision(candidates);
       expect(result.selectedAnalystId).toBe('high');
-      expect(result.scoredCandidates[0].analystId).toBe('high');
+      expect(result.scoredCandidates[0].analyst_id).toBe('high');
     });
 
     it('respects custom weights', () => {
       const weights = { specialism: 1.0, workloadAvailability: 0, assetOwnership: 0, rankWeighting: 0 };
       const candidate: RoutingCandidate = {
-        analystId: 'specialist',
+        analyst_id: 'specialist',
         specialismScore: 90,
         workloadAvailabilityScore: 10,
         assetOwnershipScore: 10,
@@ -61,7 +61,7 @@ describe('Multi-Factor Routing Engine', () => {
   describe('escalation threshold', () => {
     it('triggers escalation when top score below threshold', () => {
       const lowCandidate: RoutingCandidate = {
-        analystId: 'low-scorer',
+        analyst_id: 'low-scorer',
         specialismScore: 10,
         workloadAvailabilityScore: 10,
         assetOwnershipScore: 10,

@@ -18,25 +18,25 @@ import { THREAT_HUNT_STATUSES } from './intelligence-common';
 
 export interface ThreatHuntRecord extends CommonFields {
   /** Customer tenant ID */
-  tenantId: string;
+  tenant_id: string;
   /** IOC that triggered the hunt */
   triggeringIocId: string;
   /** Match that triggered the hunt */
   triggeringMatchId: string;
   /** Hunt type classification */
-  huntType: string;
+  hunt_type: string;
   /** Hunt scope */
   huntScope: string;
   /** Status lifecycle (Req 14.1) */
   status: ThreatHuntStatus;
   /** Assigned analyst */
-  assignedTo: string;
+  assigned_to: string;
   /** When proposed */
-  proposedAt: string;
+  proposed_at: string;
   /** When started (null if not started) */
-  startedAt: string | null;
+  started_at: string | null;
   /** When completed (null if not completed) */
-  completedAt: string | null;
+  completed_at: string | null;
   /** Findings reference */
   findingsRef: string;
 }
@@ -51,8 +51,8 @@ export interface ThreatHuntRecordValidation {
 export function validateThreatHuntRecord(record: ThreatHuntRecord): ThreatHuntRecordValidation {
   const errors: string[] = [];
 
-  if (!record.tenantId || record.tenantId.trim() === '') {
-    errors.push('tenantId: required');
+  if (!record.tenant_id || record.tenant_id.trim() === '') {
+    errors.push('tenant_id: required');
   }
 
   if (!record.triggeringIocId || record.triggeringIocId.trim() === '') {
@@ -71,8 +71,8 @@ export function validateThreatHuntRecord(record: ThreatHuntRecord): ThreatHuntRe
     errors.push('id: required');
   }
 
-  if (!record.tenant || !record.tenant.tenantId || record.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!record.tenant || !record.tenant.tenant_id || record.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
 
   return { valid: errors.length === 0, errors };

@@ -28,7 +28,7 @@ export type SimulationScope = typeof SIMULATION_SCOPES[number];
 
 export interface SimulationConflict {
   /** Entity affected by the conflict */
-  entityRef: string;
+  entity_ref: string;
   /** Type of conflict */
   conflictType: string;
   /** Human-readable description */
@@ -38,13 +38,13 @@ export interface SimulationConflict {
 // ─── Simulation Result Entity ────────────────────────────────────────────────
 
 export interface SimulationResult extends CommonFields {
-  entityType: 'simulation-result';
+  entity_type: 'simulation-result';
   /** Unique simulation identifier */
-  simulationId: string;
+  simulation_id: string;
   /** Rule being simulated */
-  ruleRef: string;
+  rule_ref: string;
   /** Policy being simulated (optional) */
-  policyRef?: string;
+  policy_ref?: string;
   /** When the simulation ran */
   simulatedAt: string;
   /** Who triggered the simulation */
@@ -58,7 +58,7 @@ export interface SimulationResult extends CommonFields {
   /** How many would be suppressed */
   wouldSuppress: number;
   /** Blast radius score (0–100) */
-  blastRadius: number;
+  blast_radius: number;
   /** Detected conflicts */
   conflicts: SimulationConflict[];
   /** Simulation outcome status */
@@ -78,17 +78,17 @@ export function validateSimulationResult(result: SimulationResult): SimulationRe
   const errors: string[] = [];
 
   if (!result.id || result.id.trim() === '') errors.push('id: required');
-  if (!result.tenant || !result.tenant.tenantId) errors.push('tenant.tenantId: required');
-  if (!result.simulationId || result.simulationId.trim() === '') errors.push('simulationId: required');
-  if (!result.ruleRef || result.ruleRef.trim() === '') errors.push('ruleRef: required');
+  if (!result.tenant || !result.tenant.tenant_id) errors.push('tenant.tenant_id: required');
+  if (!result.simulation_id || result.simulation_id.trim() === '') errors.push('simulation_id: required');
+  if (!result.rule_ref || result.rule_ref.trim() === '') errors.push('rule_ref: required');
   if (!result.simulatedAt || result.simulatedAt.trim() === '') errors.push('simulatedAt: required');
   if (!result.simulatedBy || result.simulatedBy.trim() === '') errors.push('simulatedBy: required');
   if (!SIMULATION_SCOPES.includes(result.scope)) {
     errors.push(`scope: must be one of: ${SIMULATION_SCOPES.join(', ')}`);
   }
   if (typeof result.impactedEntities !== 'number' || result.impactedEntities < 0) errors.push('impactedEntities: must be non-negative');
-  if (typeof result.blastRadius !== 'number' || result.blastRadius < 0 || result.blastRadius > 100) {
-    errors.push('blastRadius: must be 0–100');
+  if (typeof result.blast_radius !== 'number' || result.blast_radius < 0 || result.blast_radius > 100) {
+    errors.push('blast_radius: must be 0–100');
   }
   if (!Array.isArray(result.conflicts)) errors.push('conflicts: must be an array');
   if (!SIMULATION_STATUSES.includes(result.status)) {

@@ -231,9 +231,9 @@ describe('Unit 15 — Degradation Risk Object Template', () => {
     phase: 'observe',
     healthScore: 45,
     degradationThreshold: 60,
-    affectedEntityId: 'programme-001',
+    affected_entity_id: 'programme-001',
     owner: 'Security Operations Manager',
-    tenantId: 'tenant-001',
+    tenant_id: 'tenant-001',
   };
 
   it('creates ooda_phase_degradation type', () => {
@@ -243,7 +243,7 @@ describe('Unit 15 — Degradation Risk Object Template', () => {
 
   it('sets treatment state to open', () => {
     const r = createDegradationRiskObject(request);
-    expect(r.treatmentState).toBe('open');
+    expect(r.treatment_state).toBe('open');
   });
 
   it('justification includes phase name and score', () => {
@@ -255,13 +255,13 @@ describe('Unit 15 — Degradation Risk Object Template', () => {
 
   it('expiry trigger references the phase and threshold', () => {
     const r = createDegradationRiskObject(request);
-    expect(r.expiryOrReviewTrigger).toContain('Observe');
-    expect(r.expiryOrReviewTrigger).toContain('60');
+    expect(r.expiry_or_review_trigger).toContain('Observe');
+    expect(r.expiry_or_review_trigger).toContain('60');
   });
 
   it('affected entity type is programme', () => {
     const r = createDegradationRiskObject(request);
-    expect(r.affectedEntityType).toBe('programme');
+    expect(r.affected_entity_type).toBe('programme');
   });
 });
 
@@ -298,7 +298,7 @@ describe('Unit 15 — Command Tempo Dashboard', () => {
 
   it('records snapshot timestamp', () => {
     const r = composeCommandTempo(phases, thresholds, 60, '2026-01-18T08:00:00.000Z');
-    expect(r.snapshotAt).toBe('2026-01-18T08:00:00.000Z');
+    expect(r.snapshot_at).toBe('2026-01-18T08:00:00.000Z');
   });
 
   it('handles missing phases defensively (fills with score 0/red)', () => {

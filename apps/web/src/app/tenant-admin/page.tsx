@@ -1,7 +1,8 @@
 import { colors } from '../../../../../packages/ui/src/tokens/colors';
 import { typography } from '../../../../../packages/ui/src/tokens/typography';
 import {
-  MOCK_TENANT_PROFILE,
+
+import { thesisTenantConfigs, thesisRbacPolicies, thesisConnectors, thesisRules, thesisFeatureRegistry, thesisAssets, thesisCases, thesisStrategies, thesisMissions, thesisPostures } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';  MOCK_TENANT_PROFILE,
   MOCK_TENANT_USERS,
   MOCK_TENANT_ROLES,
   MOCK_AUTHORITY_OVERLAYS,
@@ -84,8 +85,8 @@ export default function TenantAdminOverviewPage() {
       {/* Tenant Profile */}
       <Section id="tenant-profile" title="Tenant Profile">
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '12px' }}>
-          <Field label="Tenant" value={p.tenantName} />
-          <Field label="Tenant ID" value={p.tenantId} />
+          <Field label="Tenant" value={p.tenant_name} />
+          <Field label="Tenant ID" value={p.tenant_id} />
           <Field label="Residency" value={p.residency} />
           <Field label="Environment" value={p.environment} />
           <Field label="Status" value={p.status} />
@@ -95,7 +96,7 @@ export default function TenantAdminOverviewPage() {
       {/* Users */}
       <Section id="users" title="Users">
         <Table head={['User', 'Email', 'Roles', 'Authority Overlays', 'Auth', 'Status']}
-          rows={MOCK_TENANT_USERS.map((u) => [u.displayName, u.email, u.roles.join(', '), u.authorityOverlays.join(', '), u.authStrength, u.status])} />
+          rows={MOCK_TENANT_USERS.map((u) => [u.display_name, u.email, u.roles.join(', '), u.authorityOverlays.join(', '), u.authStrength, u.status])} />
       </Section>
 
       {/* Roles */}

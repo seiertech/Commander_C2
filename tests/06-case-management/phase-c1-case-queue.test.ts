@@ -71,7 +71,7 @@ describe('Case Queue — Priority (DS-1.0 §14.1 — never colour alone)', () =>
 
 describe('Case Queue — Surface Attribution (Assertion 10)', () => {
   it('displays surface attribution on every row', () => {
-    expect(combinedContent).toContain('surfaceAttribution');
+    expect(combinedContent).toContain('surface_attribution');
     expect(combinedContent).toContain('External');
     expect(combinedContent).toContain('Internal');
   });
@@ -85,7 +85,7 @@ describe('Case Queue — Strategy Consumption (Constraint 9)', () => {
 
   it('SLA hours come from strategy resolution (not hardcoded)', () => {
     expect(combinedContent).toContain("strategy.sla.status === 'resolved'");
-    expect(combinedContent).toContain('strategy.sla.responseHours');
+    expect(combinedContent).toContain('strategy.sla.response_hours');
   });
 });
 

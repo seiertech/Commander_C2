@@ -27,9 +27,9 @@ export type DriftDetectionStatus = typeof DRIFT_DETECTION_STATUSES[number];
 // ─── Drift Detection Entity ──────────────────────────────────────────────────
 
 export interface DriftDetection extends CommonFields {
-  entityType: 'drift-detection';
+  entity_type: 'drift-detection';
   /** Engine instance that produced this detection */
-  engineId: string;
+  engine_id: string;
   /** Human-readable drift detection name */
   name: string;
   /** Category of drift detected */
@@ -37,21 +37,21 @@ export interface DriftDetection extends CommonFields {
   /** Reference to the source connector */
   sourceConnectorRef: string;
   /** Reference to the baseline configuration */
-  baselineRef: string;
+  baseline_ref: string;
   /** Description of the current observed state */
-  currentState: string;
+  current_state: string;
   /** Severity score (higher = more severe) */
   driftSeverity: number;
   /** When the drift was first detected */
-  detectedAt: string;
+  detected_at: string;
   /** When the drift was resolved (null if unresolved) */
-  resolvedAt: string | null;
+  resolved_at: string | null;
   /** Current lifecycle status */
   status: DriftDetectionStatus;
   /** Type of entity affected by the drift */
-  affectedEntityType: string;
+  affected_entity_type: string;
   /** Reference to the affected entity */
-  affectedEntityRef: string;
+  affected_entity_ref: string;
   /** Suggested remediation action (null if none) */
   remediationSuggestion: string | null;
 }
@@ -72,11 +72,11 @@ export function validateDriftDetection(record: DriftDetection): DriftDetectionVa
   if (!record.id || record.id.trim() === '') {
     errors.push('id: required');
   }
-  if (!record.tenant || !record.tenant.tenantId || record.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!record.tenant || !record.tenant.tenant_id || record.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
-  if (!record.engineId || record.engineId.trim() === '') {
-    errors.push('engineId: required');
+  if (!record.engine_id || record.engine_id.trim() === '') {
+    errors.push('engine_id: required');
   }
   if (!record.name || record.name.trim() === '') {
     errors.push('name: required');
@@ -87,26 +87,26 @@ export function validateDriftDetection(record: DriftDetection): DriftDetectionVa
   if (!record.sourceConnectorRef || record.sourceConnectorRef.trim() === '') {
     errors.push('sourceConnectorRef: required');
   }
-  if (!record.baselineRef || record.baselineRef.trim() === '') {
-    errors.push('baselineRef: required');
+  if (!record.baseline_ref || record.baseline_ref.trim() === '') {
+    errors.push('baseline_ref: required');
   }
-  if (!record.currentState || record.currentState.trim() === '') {
-    errors.push('currentState: required');
+  if (!record.current_state || record.current_state.trim() === '') {
+    errors.push('current_state: required');
   }
   if (typeof record.driftSeverity !== 'number' || record.driftSeverity < 0) {
     errors.push('driftSeverity: must be a non-negative number');
   }
-  if (!record.detectedAt || record.detectedAt.trim() === '') {
-    errors.push('detectedAt: required');
+  if (!record.detected_at || record.detected_at.trim() === '') {
+    errors.push('detected_at: required');
   }
   if (!record.status || !DRIFT_DETECTION_STATUSES.includes(record.status)) {
     errors.push(`status: must be one of: ${DRIFT_DETECTION_STATUSES.join(', ')}`);
   }
-  if (!record.affectedEntityType || record.affectedEntityType.trim() === '') {
-    errors.push('affectedEntityType: required');
+  if (!record.affected_entity_type || record.affected_entity_type.trim() === '') {
+    errors.push('affected_entity_type: required');
   }
-  if (!record.affectedEntityRef || record.affectedEntityRef.trim() === '') {
-    errors.push('affectedEntityRef: required');
+  if (!record.affected_entity_ref || record.affected_entity_ref.trim() === '') {
+    errors.push('affected_entity_ref: required');
   }
 
   return { valid: errors.length === 0, errors };

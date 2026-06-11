@@ -18,9 +18,9 @@ import { TENANT_SUBSCRIPTION_STATES } from './intelligence-common';
 
 export interface TenantIntelligenceSubscription extends CommonFields {
   /** Customer tenant ID — non-empty (Req 10.4) */
-  tenantId: string;
+  tenant_id: string;
   /** Reference to Platform_Intelligence_Source by ID (Req 10.1) */
-  sourceId: string;
+  source_id: string;
   /** Subscription state (Req 10.1/10.4) */
   subscriptionState: TenantSubscriptionState;
   /** Applicability filter criteria (valid array, Req 10.1/10.4) */
@@ -28,7 +28,7 @@ export interface TenantIntelligenceSubscription extends CommonFields {
   /** Evaluation preferences */
   evaluationPreferences: Record<string, unknown>;
   /** When the subscription was created */
-  subscribedAt: string;
+  subscribed_at: string;
 }
 
 // ─── Validation ──────────────────────────────────────────────────────────────
@@ -47,12 +47,12 @@ export function validateTenantIntelligenceSubscription(
 ): TenantIntelligenceSubscriptionValidation {
   const errors: string[] = [];
 
-  if (!sub.tenantId || sub.tenantId.trim() === '') {
-    errors.push('tenantId: required, must be a non-empty string');
+  if (!sub.tenant_id || sub.tenant_id.trim() === '') {
+    errors.push('tenant_id: required, must be a non-empty string');
   }
 
-  if (!sub.sourceId || sub.sourceId.trim() === '') {
-    errors.push('sourceId: required, must reference a Platform_Intelligence_Source');
+  if (!sub.source_id || sub.source_id.trim() === '') {
+    errors.push('source_id: required, must reference a Platform_Intelligence_Source');
   }
 
   if (!sub.subscriptionState || !TENANT_SUBSCRIPTION_STATES.includes(sub.subscriptionState)) {
@@ -69,8 +69,8 @@ export function validateTenantIntelligenceSubscription(
     errors.push('id: required');
   }
 
-  if (!sub.tenant || !sub.tenant.tenantId || sub.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!sub.tenant || !sub.tenant.tenant_id || sub.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
 
   return { valid: errors.length === 0, errors };

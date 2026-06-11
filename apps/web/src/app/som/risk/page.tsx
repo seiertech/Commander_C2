@@ -1,9 +1,11 @@
 'use client';
 
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
 import { PageContainer } from '@/components/page-container';
-import { seedRiskObjects } from '../../../../../../packages/contracts/src/fixtures/seed-risk-objects';
-import { seedCases } from '../../../../../../packages/contracts/src/fixtures/seed-cases';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisRiskObjects, thesisCases, thesisRiskScores, thesisExposures, thesisBlastRadius, thesisPostures, thesisConnectors, thesisAssets, thesisStrategies, thesisActions, thesisIdentities } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * SOM — Risk Manager
@@ -11,10 +13,10 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/
  * Route: /som/risk | Nav Group: SOM
  */
 export default function SomRiskPage() {
-  const risks = seedRiskObjects;
-  const openRisks = risks.filter((r) => r.treatmentState === 'open');
+  const risks = thesisRiskObjects;
+  const openRisks = risks.filter((r) => r.treatment_state === 'open');
   const typeBreakdown = risks.reduce((acc, r) => { acc[r.type] = (acc[r.type] || 0) + 1; return acc; }, {} as Record<string, number>);
-  const p0p1Cases = seedCases.filter((c) => c.priority === 'P0' || c.priority === 'P1');
+  const p0p1Cases = thesisCases.filter((c) => c.priority === 'P0' || c.priority === 'P1');
 
   return (
     <PageContainer pretitle="SOM › Risk Manager" title="Risk Manager" headerActions={<span className="badge bg-orange-lt">{openRisks.length} open risks</span>}>
@@ -32,7 +34,7 @@ export default function SomRiskPage() {
               <thead><tr><th>Type</th><th>Count</th><th>Open</th></tr></thead>
               <tbody>
                 {Object.entries(typeBreakdown).sort((a, b) => b[1] - a[1]).map(([type, count]) => (
-                  <tr key={type}><td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{type}</td><td>{count}</td><td>{risks.filter((r) => r.type === type && r.treatmentState === 'open').length}</td></tr>
+                  <tr key={type}><td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{type}</td><td>{count}</td><td>{risks.filter((r) => r.type === type && r.treatment_state === 'open').length}</td></tr>
                 ))}
               </tbody>
             </table>
@@ -40,6 +42,27 @@ export default function SomRiskPage() {
         </div>
       </div>
       <div className="card"><div className="card-body"><p className="text-muted mb-0">Risk Aggregation & Scoring — requires dedicated risk-manager aggregation entity with quantified risk model.</p></div></div>
+    
+      {/* §7.3 ENRICHMENT */}
+      <section style={{ marginTop: componentTokens.gridGap, padding: componentTokens.cardPadding, background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}` }}>
+        <h4 style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, margin: '0 0 8px' }}>Thesis Data Context</h4>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: primitiveSpacing[2] }}>
+        <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: primitiveTypeScale.micro, background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, marginRight: primitiveSpacing[2] }}>{riskscoresCount} Risk Scores</span>
+        <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: primitiveTypeScale.micro, background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, marginRight: primitiveSpacing[2] }}>{exposuresCount} Exposures</span>
+        </div>
+      </section>
+    
+      {/* Interactive Chart Section — Sweep 3 */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Risk Distribution</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Open', 'Mitigated', 'Closed'], colors: [primitiveSignal.warning, primitiveSignal.success, primitiveSignal.neutral], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisRiskObjects.filter((r) => r.treatment_state === 'open').length, thesisRiskObjects.filter((r) => r.treatment_state === 'mitigated').length, thesisRiskObjects.filter((r) => r.treatment_state !== 'open' && r.treatment_state !== 'mitigated').length]} />
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Posture Health</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Healthy', 'Degraded', 'Critical'], colors: [primitiveSignal.success, primitiveSignal.warning, primitiveSignal.critical], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisPostures.filter((p) => p.posture_status === 'healthy').length, thesisPostures.filter((p) => p.posture_status === 'degraded').length, thesisPostures.filter((p) => p.posture_status === 'critical').length]} />
+        </div>
+      </div>
     </PageContainer>
   );
 }

@@ -1,14 +1,13 @@
 'use client';
 
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedAssets } from '../../../../../../packages/contracts/src/fixtures/seed-assets';
-import { seedIdentities } from '../../../../../../packages/contracts/src/fixtures/seed-identities';
-import { seedCases } from '../../../../../../packages/contracts/src/fixtures/seed-cases';
-import { seedRiskObjects } from '../../../../../../packages/contracts/src/fixtures/seed-risk-objects';
-import { seedConnectors } from '../../../../../../packages/contracts/src/fixtures/seed-connectors';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
 import { STREAM_LABELS, CLASS_TO_STREAM } from '../../../../../../packages/contracts/src/engines/intelligence-layer';
+import { thesisAssets, thesisIdentities, thesisCases, thesisRiskObjects, thesisConnectors, thesisBlastRadius, thesisExposures, thesisPostures, thesisStrategies, thesisMissions, thesisRiskScores } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Internal Operating Picture — Thesis Layer
@@ -19,7 +18,7 @@ import { STREAM_LABELS, CLASS_TO_STREAM } from '../../../../../../packages/contr
  * SCOPE (Thesis):
  *   1. Internal attack surface inventory (internal_attack_surface assets/identities)
  *   2. Internal Behavioural Intelligence stream visualisation (Class B connectors) — AGGREGATE tier
- *   3. Internal attack surface case queue (cases with surfaceAttribution: internal_attack_surface)
+ *   3. Internal attack surface case queue (cases with surface_attribution: internal_attack_surface)
  *   4. Internal attack surface risk objects
  *   5. Verdict pattern visualisation (Class B) — per-identity detail IR-overlay gated
  *   6. Drill paths to cases, assets, identities, verdict patterns
@@ -56,20 +55,20 @@ const INTERNAL = 'internal_attack_surface';
 const VIEWER_HAS_INTERNAL_RISK_AUTHORITY = false as boolean;
 
 export default function InternalOperatingPicturePage() {
-  const { tokens } = useMode();
+  const { mode, tokens } = useMode();
 
   // ── 1. Internal attack surface inventory ──
-  const internalAssets = seedAssets.filter((a) => a.surfaceAttribution === INTERNAL);
-  const internalIdentities = seedIdentities.filter((i) => i.surfaceAttribution === INTERNAL);
+  const internalAssets = thesisAssets.filter((a) => a.surface_attribution === INTERNAL);
+  const internalIdentities = thesisIdentities.filter((i) => i.surface_attribution === INTERNAL);
 
   // ── 2. Internal Behavioural Intelligence stream — Class B connectors feed this stream (aggregate) ──
-  const internalBehaviouralConnectors = seedConnectors.filter((c) =>
+  const internalBehaviouralConnectors = thesisConnectors.filter((c) =>
     c.classes.some((cls) => CLASS_TO_STREAM[cls] === 'internal_behavioural'),
   );
 
   // ── 3. Internal attack surface case queue ──
-  const internalCases = seedCases
-    .filter((c) => c.surfaceAttribution === INTERNAL)
+  const internalCases = thesisCases
+    .filter((c) => c.surface_attribution === INTERNAL)
     .sort((a, b) => {
       const order: Record<string, number> = { P0: 0, P1: 1, P2: 2, P3: 3, P4: 4 };
       return (order[a.priority] ?? 4) - (order[b.priority] ?? 4);
@@ -77,12 +76,12 @@ export default function InternalOperatingPicturePage() {
 
   // ── 4. Internal attack surface risk objects ──
   const internalEntityIds = new Set<string>([
-    ...internalAssets.map((a) => a.id),
+    ...internalAssets.map((a) => a.asset_id),
     ...internalIdentities.map((i) => i.id),
-    ...internalCases.map((c) => c.id),
+    ...internalCases.map((c) => c.case_id),
   ]);
-  const internalRiskObjects = seedRiskObjects.filter((r) =>
-    r.affectedEntities?.some((id) => internalEntityIds.has(id)) || internalEntityIds.has(r.affectedEntityId),
+  const internalRiskObjects = thesisRiskObjects.filter((r) =>
+    r.affected_entities?.some((id) => internalEntityIds.has(id)) || internalEntityIds.has(r.affected_entity_id),
   );
 
   const priorityBadge = (p: string) =>
@@ -137,8 +136,8 @@ export default function InternalOperatingPicturePage() {
                   </thead>
                   <tbody>
                     {internalAssets.map((a) => (
-                      <tr key={a.id}>
-                        <td><a href={`/assets?id=${a.id}`} style={{ fontSize: primitiveTypeScale.body, color: tokens.action.primary }}>{a.name}</a></td>
+                      <tr key={a.asset_id}>
+                        <td><a href={`/assets?id=${a.asset_id}`} style={{ fontSize: primitiveTypeScale.body, color: tokens.action.primary }}>{a.asset_name}</a></td>
                         <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{a.classification}</td>
                         <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{a.environment}</td>
                         <td className="text-end">{a.criticality}</td>
@@ -172,7 +171,7 @@ export default function InternalOperatingPicturePage() {
                           <span className="status-dot me-2" style={{ display: 'inline-block', background: c.state === 'active' ? primitiveSignal.success : c.state === 'error' ? primitiveSignal.critical : primitiveSignal.neutral }} />
                           <span style={{ fontSize: primitiveTypeScale.caption }}>{c.state}</span>
                         </td>
-                        <td className="text-end text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{c.lastRunStatus}</td>
+                        <td className="text-end text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{c.last_run_status}</td>
                       </tr>
                     ))}
                     {internalBehaviouralConnectors.length === 0 && (
@@ -232,9 +231,9 @@ export default function InternalOperatingPicturePage() {
                 <table className="table table-vcenter card-table">
                   <tbody>
                     {internalCases.map((c) => (
-                      <tr key={c.id}>
+                      <tr key={c.case_id}>
                         <td style={{ width: '48px' }}><span className={`badge ${priorityBadge(c.priority)}`}>{c.priority}</span></td>
-                        <td><a href={`/cases/${c.id}`} style={{ fontSize: primitiveTypeScale.body, color: tokens.action.primary }}>{c.title}</a></td>
+                        <td><a href={`/cases/${c.case_id}`} style={{ fontSize: primitiveTypeScale.body, color: tokens.action.primary }}>{c.title}</a></td>
                         <td className="text-muted text-end" style={{ fontSize: primitiveTypeScale.caption, whiteSpace: 'nowrap' }}>{c.status}</td>
                       </tr>
                     ))}
@@ -255,7 +254,7 @@ export default function InternalOperatingPicturePage() {
                     {internalRiskObjects.map((r) => (
                       <tr key={r.id}>
                         <td style={{ fontSize: primitiveTypeScale.body }}>{r.type}</td>
-                        <td className="text-muted text-end" style={{ fontSize: primitiveTypeScale.caption }}>{r.treatmentState}</td>
+                        <td className="text-muted text-end" style={{ fontSize: primitiveTypeScale.caption }}>{r.treatment_state}</td>
                       </tr>
                     ))}
                     {internalRiskObjects.length === 0 && (
@@ -281,6 +280,51 @@ export default function InternalOperatingPicturePage() {
               <a href="/operating-picture/external" className="btn">External Operating Picture</a>
             </div>
           </div>
+        </div>
+      </div>
+    
+      {/* Cross-Entity Relationship Panel — Sweep 2 */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Blast Radius</h4>
+          {thesisBlastRadius.map((b) => (<div key={b.id} style={{ padding: '4px 0', borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between', fontSize: primitiveTypeScale.micro }}><span style={{ fontFamily: primitiveFonts.mono, color: tokens.text.primary }}>{b.originEntityRef?.slice(0,14)}</span><span style={{ color: b.total_impact_score > 50 ? primitiveSignal.critical : primitiveSignal.warning }}>{b.total_impact_score} → {b.affected_entities.length}</span></div>))}
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>High Priority Cases</h4>
+          {thesisCases.filter((c) => c.priority === 'P0' || c.priority === 'P1').slice(0,5).map((c) => (<div key={c.case_id} style={{ padding: '4px 0', borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between', fontSize: primitiveTypeScale.micro }}><span style={{ fontFamily: primitiveFonts.mono, color: tokens.text.primary }}>{c.case_id.slice(0,12)}</span><span style={{ padding: '1px 6px', color: '#fff', background: c.priority === 'P0' ? primitiveSignal.critical : primitiveSignal.warning }}>{c.priority} · {c.ooda_state}</span></div>))}
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Posture Summary</h4>
+          <div style={{ display: 'flex', gap: primitiveSpacing[3], flexWrap: 'wrap' }}>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.success }}>●</span> {thesisPostures.filter((p) => p.posture_status === 'healthy').length} healthy</span>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.warning }}>●</span> {thesisPostures.filter((p) => p.posture_status === 'degraded').length} degraded</span>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.critical }}>●</span> {thesisPostures.filter((p) => p.posture_status === 'critical').length} critical</span>
+          </div>
+          <div style={{ marginTop: primitiveSpacing[2], fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>Avg score: {Math.round(thesisPostures.reduce((a,p) => a + p.posture_score, 0) / Math.max(thesisPostures.length, 1))}/100</div>
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Exposures ({thesisExposures.length})</h4>
+          {thesisExposures.slice(0,4).map((e) => (<div key={e.id} style={{ padding: '4px 0', borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between', fontSize: primitiveTypeScale.micro }}><span style={{ color: tokens.text.primary }}>{e.exposure_type ?? e.surface ?? 'exposure'}</span><span style={{ color: e.severity === 'critical' ? primitiveSignal.critical : primitiveSignal.warning }}>{e.severity ?? 'medium'}</span></div>))}
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Connector Health</h4>
+          <div style={{ display: 'flex', gap: primitiveSpacing[3], flexWrap: 'wrap' }}>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.success }}>●</span> {thesisConnectors.filter((c) => c.state === 'active').length} active</span>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.critical }}>●</span> {thesisConnectors.filter((c) => c.state === 'error').length} error</span>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.neutral }}>●</span> {thesisConnectors.filter((c) => c.state !== 'active' && c.state !== 'error').length} other</span>
+          </div>
+        </div>
+      </div>
+    
+      {/* Interactive Chart Section — Sweep 3 */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Risk Distribution</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Open', 'Mitigated', 'Closed'], colors: [primitiveSignal.warning, primitiveSignal.success, primitiveSignal.neutral], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisRiskObjects.filter((r) => r.treatment_state === 'open').length, thesisRiskObjects.filter((r) => r.treatment_state === 'mitigated').length, thesisRiskObjects.filter((r) => r.treatment_state !== 'open' && r.treatment_state !== 'mitigated').length]} />
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Posture Health</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Healthy', 'Degraded', 'Critical'], colors: [primitiveSignal.success, primitiveSignal.warning, primitiveSignal.critical], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisPostures.filter((p) => p.posture_status === 'healthy').length, thesisPostures.filter((p) => p.posture_status === 'degraded').length, thesisPostures.filter((p) => p.posture_status === 'critical').length]} />
         </div>
       </div>
     </PageContainer>

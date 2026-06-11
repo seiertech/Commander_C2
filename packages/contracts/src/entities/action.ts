@@ -73,9 +73,9 @@ export const D3FEND_TACTIC_TYPES: D3FENDTacticType[] = [
  */
 export interface D3FENDCountermeasure {
   /** D3FEND technique ID, e.g. "D3-AL" (Application Layer) */
-  techniqueId: string;
+  technique_id: string;
   /** Human-readable technique name */
-  techniqueName: string;
+  technique_name: string;
   /** Optional D3FEND artifact reference */
   artifactRef?: string;
 }
@@ -93,17 +93,17 @@ export const MAX_COUNTERMEASURES = 10;
  * System-created; not manually editable (doctrinal assertion 1).
  */
 export interface Action extends CommonFields {
-  entityType: 'action';
+  entity_type: 'action';
   /** Reference to the owning case */
-  caseId: string;
+  case_id: string;
   /** Human-readable action title */
   title: string;
   /** Action description / remediation objective */
   description: string;
   /** Total estimated effort for all sub-actions (hours) */
-  estimatedEffortHours: number;
+  estimated_effort_hours: number;
   /** Total actual effort recorded across sub-actions (hours) */
-  actualEffortHours: number;
+  actual_effort_hours: number;
   /** Overall action status — derived from sub-action outcomes */
   status: ActionStatus;
   /** Approval reference (system-generated or routing-engine ref) */
@@ -135,11 +135,11 @@ export const ACTION_STATUSES: ActionStatus[] = [
  * Tracks target entity, execution method, outcome, and effort.
  */
 export interface SubAction extends CommonFields {
-  entityType: 'sub_action';
+  entity_type: 'sub_action';
   /** Reference to the parent Action */
-  actionId: string;
+  action_id: string;
   /** Reference to the owning case (denormalised for query efficiency) */
-  caseId: string;
+  case_id: string;
   /** Entity targeted by this sub-action (asset ID, identity ID, etc.) */
   targetEntity: string;
   /** Type of the target entity */
@@ -149,22 +149,22 @@ export interface SubAction extends CommonFields {
   /** Outcome classification */
   outcomeClassification: OutcomeClassification;
   /** Estimated effort for this sub-action (hours) */
-  estimatedEffortHours: number;
+  estimated_effort_hours: number;
   /** Actual effort recorded (hours) */
-  actualEffortHours: number;
+  actual_effort_hours: number;
   /** Approval reference for this specific sub-action */
   approvalRef: string;
   /** Assigned owner */
   owner: string;
   /** Ordering within the parent Action */
-  sequenceOrder: number;
+  sequence_order: number;
 
   // ─── D3FEND Classification (ARCH-DEBT-046) ─────────────────────────────────
   // Source: COIM v1.0 §4.3; 03_REUSABLE_OBJECT_CATALOGUE §2.3.
   // Enables remediation posture analytics and D3FEND coverage measurement.
 
   /** D3FEND tactic type — classifies the defensive intent of this sub-action. */
-  tacticType: D3FENDTacticType;
+  tactic_type: D3FENDTacticType;
   /** D3FEND countermeasures (bounded ≤ MAX_COUNTERMEASURES). */
   countermeasures: D3FENDCountermeasure[];
 }
@@ -184,17 +184,17 @@ export interface ActionValidation {
 export function validateAction(action: Action): ActionValidation {
   const errors: string[] = [];
 
-  if (!action.caseId || action.caseId.trim() === '') {
+  if (!action.case_id || action.case_id.trim() === '') {
     errors.push('caseId is required.');
   }
   if (!action.title || action.title.trim() === '') {
     errors.push('title is required.');
   }
-  if (action.estimatedEffortHours < 0) {
-    errors.push(`estimatedEffortHours must be >= 0: ${action.estimatedEffortHours}.`);
+  if (action.estimated_effort_hours < 0) {
+    errors.push(`estimatedEffortHours must be >= 0: ${action.estimated_effort_hours}.`);
   }
-  if (action.actualEffortHours < 0) {
-    errors.push(`actualEffortHours must be >= 0: ${action.actualEffortHours}.`);
+  if (action.actual_effort_hours < 0) {
+    errors.push(`actualEffortHours must be >= 0: ${action.actual_effort_hours}.`);
   }
   if (!ACTION_STATUSES.includes(action.status)) {
     errors.push(`Invalid action status: ${String(action.status)}.`);
@@ -210,10 +210,10 @@ export function validateAction(action: Action): ActionValidation {
 export function validateSubAction(subAction: SubAction): ActionValidation {
   const errors: string[] = [];
 
-  if (!subAction.actionId || subAction.actionId.trim() === '') {
+  if (!subAction.action_id || subAction.action_id.trim() === '') {
     errors.push('actionId is required.');
   }
-  if (!subAction.caseId || subAction.caseId.trim() === '') {
+  if (!subAction.case_id || subAction.case_id.trim() === '') {
     errors.push('caseId is required.');
   }
   if (!subAction.targetEntity || subAction.targetEntity.trim() === '') {
@@ -225,24 +225,24 @@ export function validateSubAction(subAction: SubAction): ActionValidation {
   if (!OUTCOME_CLASSIFICATIONS.includes(subAction.outcomeClassification)) {
     errors.push(`Invalid outcomeClassification: ${String(subAction.outcomeClassification)}.`);
   }
-  if (subAction.estimatedEffortHours < 0) {
-    errors.push(`estimatedEffortHours must be >= 0: ${subAction.estimatedEffortHours}.`);
+  if (subAction.estimated_effort_hours < 0) {
+    errors.push(`estimatedEffortHours must be >= 0: ${subAction.estimated_effort_hours}.`);
   }
-  if (subAction.actualEffortHours < 0) {
-    errors.push(`actualEffortHours must be >= 0: ${subAction.actualEffortHours}.`);
+  if (subAction.actual_effort_hours < 0) {
+    errors.push(`actualEffortHours must be >= 0: ${subAction.actual_effort_hours}.`);
   }
-  if (!D3FEND_TACTIC_TYPES.includes(subAction.tacticType)) {
-    errors.push(`Invalid D3FEND tacticType: ${String(subAction.tacticType)}.`);
+  if (!D3FEND_TACTIC_TYPES.includes(subAction.tactic_type)) {
+    errors.push(`Invalid D3FEND tactic_type: ${String(subAction.tactic_type)}.`);
   }
   if (subAction.countermeasures.length > MAX_COUNTERMEASURES) {
     errors.push(`countermeasures[] exceeds max ${MAX_COUNTERMEASURES} (${subAction.countermeasures.length}).`);
   }
   for (const cm of subAction.countermeasures) {
-    if (!cm.techniqueId || cm.techniqueId.trim() === '') {
-      errors.push('countermeasure.techniqueId is required.');
+    if (!cm.technique_id || cm.technique_id.trim() === '') {
+      errors.push('countermeasure.technique_id is required.');
     }
-    if (!cm.techniqueName || cm.techniqueName.trim() === '') {
-      errors.push('countermeasure.techniqueName is required.');
+    if (!cm.technique_name || cm.technique_name.trim() === '') {
+      errors.push('countermeasure.technique_name is required.');
     }
   }
 

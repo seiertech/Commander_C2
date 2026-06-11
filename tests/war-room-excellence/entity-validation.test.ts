@@ -25,14 +25,14 @@ describe('War Room Entity Validation', () => {
   });
 
   it('rejects War Room with missing tenant', () => {
-    const invalid = { ...seedWarRooms[0], tenant: { tenantId: '', tenantName: '' } };
+    const invalid = { ...seedWarRooms[0], tenant: { tenant_id: '', tenant_name: '' } };
     const result = validateWarRoom(invalid);
     expect(result.valid).toBe(false);
-    expect(result.errors.some((e) => e.includes('tenant.tenantId'))).toBe(true);
+    expect(result.errors.some((e) => e.includes('tenant.tenant_id'))).toBe(true);
   });
 
   it('rejects War Room with missing warRoomRef', () => {
-    const invalid = { ...seedWarRooms[0], warRoomRef: '' };
+    const invalid = { ...seedWarRooms[0], war_room_ref: '' };
     const result = validateWarRoom(invalid);
     expect(result.valid).toBe(false);
     expect(result.errors.some((e) => e.includes('warRoomRef'))).toBe(true);
@@ -46,14 +46,14 @@ describe('War Room Entity Validation', () => {
   });
 
   it('rejects War Room with missing activationReason', () => {
-    const invalid = { ...seedWarRooms[0], activationReason: '' };
+    const invalid = { ...seedWarRooms[0], activation_reason: '' };
     const result = validateWarRoom(invalid);
     expect(result.valid).toBe(false);
     expect(result.errors.some((e) => e.includes('activationReason'))).toBe(true);
   });
 
   it('rejects War Room with invalid activationSource', () => {
-    const invalid = { ...seedWarRooms[0], activationSource: 'manual' as any };
+    const invalid = { ...seedWarRooms[0], activation_source: 'manual' as any };
     const result = validateWarRoom(invalid);
     expect(result.valid).toBe(false);
     expect(result.errors.some((e) => e.includes('activationSource'))).toBe(true);
@@ -77,7 +77,7 @@ describe('War Room Entity Validation', () => {
     const invalid = {
       ...seedWarRooms[0],
       membership: [
-        { userId: 'user-1', role: 'analyst' as const, joinedAt: '2026-01-01T00:00:00.000Z', acknowledgedAt: null, leftAt: null },
+        { user_id: 'user-1', role: 'analyst' as const, joined_at: '2026-01-01T00:00:00.000Z', acknowledged_at: null, left_at: null },
       ],
     };
     const result = validateWarRoom(invalid);
@@ -89,7 +89,7 @@ describe('War Room Entity Validation', () => {
     const invalid = {
       ...seedWarRooms[0],
       membership: [
-        { userId: 'user-1', role: 'invalid_role' as any, joinedAt: '2026-01-01T00:00:00.000Z', acknowledgedAt: null, leftAt: null },
+        { user_id: 'user-1', role: 'invalid_role' as any, joined_at: '2026-01-01T00:00:00.000Z', acknowledged_at: null, left_at: null },
       ],
     };
     const result = validateWarRoom(invalid);
@@ -101,7 +101,7 @@ describe('War Room Entity Validation', () => {
     const invalid = {
       ...seedWarRooms[0],
       subscribers: [
-        { userId: 'user-1', channels: ['sms' as any], cadence: 'live' as const, subscribedAt: '2026-01-01T00:00:00.000Z', unsubscribedAt: null },
+        { user_id: 'user-1', channels: ['sms' as any], cadence: 'live' as const, subscribed_at: '2026-01-01T00:00:00.000Z', unsubscribed_at: null },
       ],
     };
     const result = validateWarRoom(invalid);
@@ -113,7 +113,7 @@ describe('War Room Entity Validation', () => {
     const invalid = {
       ...seedWarRooms[0],
       subscribers: [
-        { userId: 'user-1', channels: ['in_app' as const], cadence: 'weekly' as any, subscribedAt: '2026-01-01T00:00:00.000Z', unsubscribedAt: null },
+        { user_id: 'user-1', channels: ['in_app' as const], cadence: 'weekly' as any, subscribed_at: '2026-01-01T00:00:00.000Z', unsubscribed_at: null },
       ],
     };
     const result = validateWarRoom(invalid);
@@ -124,7 +124,7 @@ describe('War Room Entity Validation', () => {
   it('rejects War Room with zero cadence values', () => {
     const invalid = {
       ...seedWarRooms[0],
-      communicationCadence: {
+      communication_cadence: {
         activatedCadenceMinutes: 0,
         monitoringCadenceMinutes: 60,
         windingDownCadenceMinutes: 240,

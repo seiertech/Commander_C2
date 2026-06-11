@@ -8,16 +8,16 @@
 import type { CisoSummary } from '../entities/ciso-summary';
 import { SEED_TENANT, SEED_SOURCE, seedId } from './seed-tenant';
 
-const CISO_SOURCE = { ...SEED_SOURCE, sourceSystem: 'commander-executive-engine' };
+const CISO_SOURCE = { ...SEED_SOURCE, source_system: 'commander-executive-engine' };
 
 export const seedCisoSummary: CisoSummary = {
   id: seedId('ciso', 1),
-  entityType: 'ciso-summary',
+  entity_type: 'ciso-summary',
   tenant: SEED_TENANT,
-  createdAt: '2026-01-18T06:00:00.000Z',
-  updatedAt: '2026-01-18T06:00:00.000Z',
+  created_at: '2026-01-18T06:00:00.000Z',
+  updated_at: '2026-01-18T06:00:00.000Z',
   source: CISO_SOURCE,
-  generatedAt: '2026-01-18T06:00:00.000Z',
+  generated_at: '2026-01-18T06:00:00.000Z',
   posture: {
     overall: 72,
     byDomain: {
@@ -29,9 +29,9 @@ export const seedCisoSummary: CisoSummary = {
       network: 74,
     },
   },
-  riskSummary: {
+  risk_summary: {
     totalRiskObjects: 23,
-    openCount: 15,
+    open_count: 15,
     critical: 3,
     high: 5,
     medium: 4,
@@ -52,7 +52,7 @@ export const seedCisoSummary: CisoSummary = {
     avgAdherence: 81,
     nonAdherentCount: 8,
   },
-  caseSummary: {
+  case_summary: {
     totalOpen: 24,
     p0Count: 1,
     avgAge: 6.5,

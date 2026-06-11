@@ -7,19 +7,19 @@
 // ─── Types ───────────────────────────────────────────────────────────────────
 
 export interface SearchResult {
-  entityType: string;
-  entityId: string;
+  entity_type: string;
+  entity_id: string;
   title: string;
   snippet: string;
   relevanceScore: number;
   route: string;
-  tenantId: string;
+  tenant_id: string;
   lastUpdated: string;
 }
 
 export interface SearchQuery {
   query: string;
-  tenantId: string;
+  tenant_id: string;
   userRole: string;
   entityTypeFilter?: string[];
   limit?: number;
@@ -37,11 +37,11 @@ export interface SearchPlan {
 
 export interface SearchAuditRecord {
   timestamp: string;
-  userId: string;
+  user_id: string;
   query: string;
   resultCount: number;
   sensitiveFieldsAccessed: string[];
-  tenantId: string;
+  tenant_id: string;
 }
 
 // ─── Functions ───────────────────────────────────────────────────────────────
@@ -82,8 +82,8 @@ export function resolveCanonicalObject(result: SearchResult): string {
     'audit-event': '/platform/audit',
   };
 
-  const baseRoute = routeMap[result.entityType] ?? '/search';
-  return `${baseRoute}/${result.entityId}`;
+  const baseRoute = routeMap[result.entity_type] ?? '/search';
+  return `${baseRoute}/${result.entity_id}`;
 }
 
 /**
@@ -101,7 +101,7 @@ export function planQuery(query: SearchQuery): SearchPlan {
        'architecture-component', 'direction-board', 'audit-event'];
 
   // RBAC filters based on role
-  const rbacFilters: string[] = [`tenantId=${query.tenantId}`];
+  const rbacFilters: string[] = [`tenantId=${query.tenant_id}`];
   if (query.userRole === 'Security Analyst') {
     rbacFilters.push('scope=team-assigned');
   }
@@ -137,7 +137,7 @@ export function filterByRbac(results: SearchResult[], userRole: string): SearchR
   const restricted = restrictedByRole[userRole] ?? [];
   if (restricted.length === 0) return results;
 
-  return results.filter((r) => !restricted.includes(r.entityType));
+  return results.filter((r) => !restricted.includes(r.entity_type));
 }
 
 /**
@@ -145,17 +145,17 @@ export function filterByRbac(results: SearchResult[], userRole: string): SearchR
  */
 export function auditSensitiveSearch(
   query: string,
-  userId: string,
-  tenantId: string,
+  user_id: string,
+  tenant_id: string,
   resultCount: number,
   sensitiveFieldsAccessed: string[]
 ): SearchAuditRecord {
   return {
     timestamp: new Date().toISOString(),
-    userId,
+    user_id,
     query,
     resultCount,
     sensitiveFieldsAccessed,
-    tenantId,
+    tenant_id,
   };
 }

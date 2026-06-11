@@ -20,7 +20,7 @@ describe('Phishing Report Pipeline — Malicious Path', () => {
     expect(result.riskObjectRecommendation).not.toBeNull();
     expect(result.riskObjectRecommendation!.type).toBe('detection');
     expect(result.caseRecommendation).not.toBeNull();
-    expect(result.caseRecommendation!.caseType).toBe('threat-intelligence-estate-match');
+    expect(result.caseRecommendation!.case_type).toBe('threat-intelligence-estate-match');
     expect(result.caseRecommendation!.priority).toBe('P1');
   });
 

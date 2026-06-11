@@ -1,13 +1,16 @@
 'use client';
 
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
 import { useState } from 'react';
 import { PageContainer } from '@/components/page-container';
-import { seedStrategies } from '../../../../../../packages/contracts/src/fixtures/seed-strategies';
 import { STRATEGY_SURFACE_LABELS, STRATEGY_SURFACE_TYPES } from '../../../../../../packages/contracts/src/entities/strategy';
 import type { StrategySurfaceType } from '../../../../../../packages/contracts/src/entities/strategy';
 import { simulatePolicyChange } from '../../../../../../packages/contracts/src/engines/strategy-simulation-engine';
 import { primitiveTypeScale, primitiveSignal, primitiveHud } from '../../../../../../packages/ui/src/tokens/primitives';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
+import { thesisStrategies, thesisBlastRadius, thesisCases, thesisRiskObjects, thesisExposures, thesisPostures, thesisConnectors, thesisRiskScores, thesisActions, thesisIdentities, thesisMissions } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Policy Simulation — Strategy Simulation Surface (Spec 43)
@@ -25,8 +28,8 @@ export default function PolicySimulationPage() {
   const [selectedSurface, setSelectedSurface] = useState<StrategySurfaceType>('sla');
 
   // Simulate a policy change for the selected surface using existing active policy
-  const activePolicy = seedStrategies.find(
-    (p) => p.surfaceType === selectedSurface && p.status === 'active'
+  const activePolicy = thesisStrategies.find(
+    (p) => p.surface_type === selectedSurface && p.status === 'active'
   );
 
   // Create a "proposed" policy for simulation (bump version)
@@ -34,13 +37,13 @@ export default function PolicySimulationPage() {
     ? {
         ...activePolicy,
         id: `sim-proposed-${activePolicy.id}`,
-        policyVersion: activePolicy.policyVersion.replace(/(\d+)$/, (m) => String(Number(m) + 1)),
+        policy_version: activePolicy.policy_version.replace(/(\d+)$/, (m) => String(Number(m) + 1)),
         status: 'pending-approval' as const,
       }
     : null;
 
   const simulation = proposedPolicy
-    ? simulatePolicyChange(proposedPolicy, seedStrategies, 120)
+    ? simulatePolicyChange(proposedPolicy, thesisStrategies, 120)
     : null;
 
   const riskColor = (risk: string) => {
@@ -68,8 +71,8 @@ export default function PolicySimulationPage() {
       title="Policy Simulation"
       headerActions={
         simulation ? (
-          <span className={`badge ${riskColor(simulation.riskAssessment.overallRisk)}`}>
-            Risk: {simulation.riskAssessment.overallRisk.toUpperCase()}
+          <span className={`badge ${riskColor(simulation.risk_assessment.overallRisk)}`}>
+            Risk: {simulation.risk_assessment.overallRisk.toUpperCase()}
           </span>
         ) : null
       }
@@ -96,13 +99,13 @@ export default function PolicySimulationPage() {
             <div className="col-md-3">
               <label className="form-label">Current Version</label>
               <div className="form-control-plaintext">
-                {activePolicy?.policyVersion ?? '—'}
+                {activePolicy?.policy_version ?? '—'}
               </div>
             </div>
             <div className="col-md-3">
               <label className="form-label">Proposed Version</label>
               <div className="form-control-plaintext">
-                {proposedPolicy?.policyVersion ?? '—'}
+                {proposedPolicy?.policy_version ?? '—'}
               </div>
             </div>
           </div>
@@ -117,7 +120,7 @@ export default function PolicySimulationPage() {
               <div className="card">
                 <div className="card-body">
                   <div className="subheader">Scope</div>
-                  <div className="h3 mb-0">{simulation.blastRadius.scope}</div>
+                  <div className="h3 mb-0">{simulation.blast_radius.scope}</div>
                 </div>
               </div>
             </div>
@@ -125,7 +128,7 @@ export default function PolicySimulationPage() {
               <div className="card">
                 <div className="card-body">
                   <div className="subheader">Affected Entities</div>
-                  <div className="h1 mb-0">{simulation.blastRadius.affectedEntityCount}</div>
+                  <div className="h1 mb-0">{simulation.blast_radius.affected_entity_count}</div>
                 </div>
               </div>
             </div>
@@ -133,7 +136,7 @@ export default function PolicySimulationPage() {
               <div className="card">
                 <div className="card-body">
                   <div className="subheader">Affected Cases</div>
-                  <div className="h1 mb-0">{simulation.blastRadius.affectedCaseCount}</div>
+                  <div className="h1 mb-0">{simulation.blast_radius.affectedCaseCount}</div>
                 </div>
               </div>
             </div>
@@ -141,7 +144,7 @@ export default function PolicySimulationPage() {
               <div className="card">
                 <div className="card-body">
                   <div className="subheader">Binding Events</div>
-                  <div className="h3 mb-0">{simulation.blastRadius.affectedBindingEvents.length}</div>
+                  <div className="h3 mb-0">{simulation.blast_radius.affectedBindingEvents.length}</div>
                 </div>
               </div>
             </div>
@@ -202,14 +205,14 @@ export default function PolicySimulationPage() {
                 <div className="col-md-6">
                   <h4 className="subheader">Risk Assessment</h4>
                   <p>
-                    <span className={`badge ${riskColor(simulation.riskAssessment.overallRisk)} me-2`}>
-                      {simulation.riskAssessment.overallRisk.toUpperCase()}
+                    <span className={`badge ${riskColor(simulation.risk_assessment.overallRisk)} me-2`}>
+                      {simulation.risk_assessment.overallRisk.toUpperCase()}
                     </span>
-                    {simulation.riskAssessment.recommendation}
+                    {simulation.risk_assessment.recommendation}
                   </p>
-                  {simulation.riskAssessment.factors.length > 0 && (
+                  {simulation.risk_assessment.factors.length > 0 && (
                     <ul>
-                      {simulation.riskAssessment.factors.map((f, i) => (
+                      {simulation.risk_assessment.factors.map((f, i) => (
                         <li key={i}>{f}</li>
                       ))}
                     </ul>
@@ -223,6 +226,26 @@ export default function PolicySimulationPage() {
 
       {/* AI-PLACEMENT: AICAP — Simulation impact narrative generation */}
       {/* AI-PLACEMENT: AICAP — Automated rollback recommendation */}
+    
+      {/* §7.3 ENRICHMENT */}
+      <section style={{ marginTop: componentTokens.gridGap, padding: componentTokens.cardPadding, background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}` }}>
+        <h4 style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, margin: '0 0 8px' }}>Thesis Data Context</h4>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: primitiveSpacing[2] }}>
+        <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: primitiveTypeScale.micro, background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, marginRight: primitiveSpacing[2] }}>{blastradiusCount} Blast Radius</span>
+        </div>
+      </section>
+    
+      {/* Interactive Chart Section — Sweep 3 */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Risk Distribution</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Open', 'Mitigated', 'Closed'], colors: [primitiveSignal.warning, primitiveSignal.success, primitiveSignal.neutral], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisRiskObjects.filter((r) => r.treatment_state === 'open').length, thesisRiskObjects.filter((r) => r.treatment_state === 'mitigated').length, thesisRiskObjects.filter((r) => r.treatment_state !== 'open' && r.treatment_state !== 'mitigated').length]} />
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Posture Health</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Healthy', 'Degraded', 'Critical'], colors: [primitiveSignal.success, primitiveSignal.warning, primitiveSignal.critical], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisPostures.filter((p) => p.posture_status === 'healthy').length, thesisPostures.filter((p) => p.posture_status === 'degraded').length, thesisPostures.filter((p) => p.posture_status === 'critical').length]} />
+        </div>
+      </div>
     </PageContainer>
   );
 }

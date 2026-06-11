@@ -1,9 +1,12 @@
 'use client';
 
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
+import { thesisDecisionRecords, thesisCases, thesisBlastRadius, thesisRiskObjects, thesisExposures, thesisPostures, thesisConnectors, thesisStrategies, thesisActions, thesisIdentities } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { useState } from 'react';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedDecisionRecords } from '../../../../../../packages/contracts/src/fixtures/seed-decision-records';
 import { renderRationale } from '../../../../../../packages/contracts/src/engines/decision-explainability-engine';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import {
@@ -20,11 +23,11 @@ import {
  */
 
 export default function GovernanceDecisionsPage() {
-  const { tokens } = useMode();
+  const { mode, tokens } = useMode();
   const [filter, setFilter] = useState<string>('all');
 
-  const types = Array.from(new Set(seedDecisionRecords.map((d) => d.decisionType)));
-  const filtered = filter === 'all' ? seedDecisionRecords : seedDecisionRecords.filter((d) => d.decisionType === filter);
+  const types = Array.from(new Set(thesisDecisionRecords.map((d) => d.decision_type)));
+  const filtered = filter === 'all' ? thesisDecisionRecords : thesisDecisionRecords.filter((d) => d.decision_type === filter);
 
   const confidenceColor = (c: number) =>
     c >= 80 ? primitiveSignal.success : c >= 50 ? primitiveSignal.warning : primitiveSignal.critical;
@@ -33,9 +36,9 @@ export default function GovernanceDecisionsPage() {
     <PageContainer pretitle="Governance › Decision Explainability" title="Decision Records">
       {/* KPI strip */}
       <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
-        <KpiCard tokens={tokens} label="Total Decisions" value={String(seedDecisionRecords.length)} />
-        <KpiCard tokens={tokens} label="Overridden" value={String(seedDecisionRecords.filter((d) => d.overridden).length)} accent={primitiveSignal.warning} />
-        <KpiCard tokens={tokens} label="Avg Confidence" value={`${Math.round(seedDecisionRecords.reduce((a, d) => a + d.confidence, 0) / seedDecisionRecords.length)}%`} />
+        <KpiCard tokens={tokens} label="Total Decisions" value={String(thesisDecisionRecords.length)} />
+        <KpiCard tokens={tokens} label="Overridden" value={String(thesisDecisionRecords.filter((d) => d.overridden).length)} accent={primitiveSignal.warning} />
+        <KpiCard tokens={tokens} label="Avg Confidence" value={`${Math.round(thesisDecisionRecords.reduce((a, d) => a + d.confidence, 0) / thesisDecisionRecords.length)}%`} />
         <KpiCard tokens={tokens} label="Types" value={String(types.length)} />
       </section>
 
@@ -57,18 +60,18 @@ export default function GovernanceDecisionsPage() {
             <div key={d.id} style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: primitiveSpacing[2] }}>
                 <div>
-                  <span style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>{d.decisionType.replace(/_/g, ' ')}</span>
+                  <span style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>{d.decision_type.replace(/_/g, ' ')}</span>
                   <h4 style={{ fontSize: primitiveTypeScale.h4, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: `${primitiveSpacing[1]} 0 0` }}>{d.outputAction}</h4>
                 </div>
                 <span style={{ fontSize: primitiveTypeScale.kpiValue, fontFamily: primitiveFonts.mono, fontWeight: primitiveFontWeight.bold, color: confidenceColor(d.confidence) }}>{d.confidence}%</span>
               </div>
               <p style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.secondary, margin: `0 0 ${primitiveSpacing[2]}` }}>{explanation.summary}</p>
               <div style={{ display: 'flex', gap: primitiveSpacing[4], flexWrap: 'wrap', fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>
-                <span>Case: {d.caseRef}</span>
-                {d.ruleRef && <span>Rule: {d.ruleRef}</span>}
-                {d.engineRef && <span>Engine: {d.engineRef}</span>}
-                <span>By: {d.decidedBy}</span>
-                <span>{new Date(d.decidedAt).toLocaleString()}</span>
+                <span>Case: {d.case_ref}</span>
+                {d.rule_ref && <span>Rule: {d.rule_ref}</span>}
+                {d.engine_ref && <span>Engine: {d.engine_ref}</span>}
+                <span>By: {d.decided_by}</span>
+                <span>{new Date(d.decided_at).toLocaleString()}</span>
                 {d.overridden && <span style={{ color: primitiveSignal.warning }}>⚠ OVERRIDDEN</span>}
               </div>
               {explanation.factors.length > 0 && (
@@ -86,6 +89,53 @@ export default function GovernanceDecisionsPage() {
             </div>
           );
         })}
+      </div>
+    
+      {/* Cross-Entity Governance Panel — Sweep 2 */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Blast Radius</h4>
+          {thesisBlastRadius.map((b) => (<div key={b.id} style={{ padding: '4px 0', borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between', fontSize: primitiveTypeScale.micro }}><span style={{ fontFamily: primitiveFonts.mono, color: tokens.text.primary }}>{b.originEntityRef?.slice(0,14)}</span><span style={{ color: b.total_impact_score > 50 ? primitiveSignal.critical : primitiveSignal.warning }}>{b.total_impact_score} → {b.affected_entities.length}</span></div>))}
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Risk Objects ({thesisRiskObjects.length})</h4>
+          {thesisRiskObjects.map((r) => (<div key={r.id} style={{ padding: '4px 0', borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between', fontSize: primitiveTypeScale.micro }}><span style={{ color: tokens.text.primary }}>{r.type.replace(/_/g, ' ')}</span><span style={{ padding: '1px 6px', color: '#fff', background: r.treatment_state === 'open' ? primitiveSignal.warning : primitiveSignal.success }}>{r.treatment_state}</span></div>))}
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Linked Cases</h4>
+          {thesisCases.filter((c) => c.priority === 'P0' || c.priority === 'P1').slice(0,5).map((c) => (<div key={c.case_id} style={{ padding: '4px 0', borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between', fontSize: primitiveTypeScale.micro }}><span style={{ fontFamily: primitiveFonts.mono, color: tokens.text.primary }}>{c.case_id.slice(0,12)}</span><span style={{ padding: '1px 6px', color: '#fff', background: c.priority === 'P0' ? primitiveSignal.critical : primitiveSignal.warning }}>{c.priority} · {c.ooda_state}</span></div>))}
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Posture Overview</h4>
+          <div style={{ display: 'flex', gap: primitiveSpacing[3], flexWrap: 'wrap' }}>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.success }}>●</span> {thesisPostures.filter((p) => p.posture_status === 'healthy').length} healthy</span>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.warning }}>●</span> {thesisPostures.filter((p) => p.posture_status === 'degraded').length} degraded</span>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.critical }}>●</span> {thesisPostures.filter((p) => p.posture_status === 'critical').length} critical</span>
+          </div>
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Exposures ({thesisExposures.length})</h4>
+          {thesisExposures.slice(0,3).map((e) => (<div key={e.id} style={{ padding: '4px 0', borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between', fontSize: primitiveTypeScale.micro }}><span style={{ color: tokens.text.primary }}>{e.exposure_type ?? e.surface ?? 'exposure'}</span><span style={{ color: e.severity === 'critical' ? primitiveSignal.critical : primitiveSignal.warning }}>{e.severity ?? 'medium'}</span></div>))}
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Data Sources</h4>
+          <div style={{ display: 'flex', gap: primitiveSpacing[3], flexWrap: 'wrap' }}>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.success }}>●</span> {thesisConnectors.filter((c) => c.state === 'active').length} active</span>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.critical }}>●</span> {thesisConnectors.filter((c) => c.state === 'error').length} error</span>
+          </div>
+        </div>
+      </div>
+    
+      {/* Interactive Chart Section — Sweep 3 */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Risk Distribution</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Open', 'Mitigated', 'Closed'], colors: [primitiveSignal.warning, primitiveSignal.success, primitiveSignal.neutral], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisRiskObjects.filter((r) => r.treatment_state === 'open').length, thesisRiskObjects.filter((r) => r.treatment_state === 'mitigated').length, thesisRiskObjects.filter((r) => r.treatment_state !== 'open' && r.treatment_state !== 'mitigated').length]} />
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Posture Health</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Healthy', 'Degraded', 'Critical'], colors: [primitiveSignal.success, primitiveSignal.warning, primitiveSignal.critical], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisPostures.filter((p) => p.posture_status === 'healthy').length, thesisPostures.filter((p) => p.posture_status === 'degraded').length, thesisPostures.filter((p) => p.posture_status === 'critical').length]} />
+        </div>
       </div>
     </PageContainer>
   );

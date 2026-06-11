@@ -30,19 +30,19 @@ export type IdentitySignalType = typeof IDENTITY_SIGNAL_TYPES[number];
 // ─── Identity Intelligence Entity ────────────────────────────────────────────
 
 export interface IdentityIntelligence extends CommonFields {
-  entityType: 'identity-intelligence';
+  entity_type: 'identity-intelligence';
   /** Engine instance that produced this signal */
-  engineId: string;
+  engine_id: string;
   /** Reference to the identity under observation */
   identityRef: string;
   /** Category of identity signal */
   signalType: IdentitySignalType;
   /** Computed risk score (0-100) */
-  riskScore: number;
+  risk_score: number;
   /** Confidence in the detection (0-1) */
   confidence: number;
   /** When the signal was detected */
-  detectedAt: string;
+  detected_at: string;
   /** Contextual key-value pairs for the signal */
   context: Record<string, string>;
   /** Description of expected baseline behaviour */
@@ -69,11 +69,11 @@ export function validateIdentityIntelligence(record: IdentityIntelligence): Iden
   if (!record.id || record.id.trim() === '') {
     errors.push('id: required');
   }
-  if (!record.tenant || !record.tenant.tenantId || record.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!record.tenant || !record.tenant.tenant_id || record.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
-  if (!record.engineId || record.engineId.trim() === '') {
-    errors.push('engineId: required');
+  if (!record.engine_id || record.engine_id.trim() === '') {
+    errors.push('engine_id: required');
   }
   if (!record.identityRef || record.identityRef.trim() === '') {
     errors.push('identityRef: required');
@@ -81,14 +81,14 @@ export function validateIdentityIntelligence(record: IdentityIntelligence): Iden
   if (!record.signalType || !IDENTITY_SIGNAL_TYPES.includes(record.signalType)) {
     errors.push(`signalType: must be one of: ${IDENTITY_SIGNAL_TYPES.join(', ')}`);
   }
-  if (typeof record.riskScore !== 'number' || record.riskScore < 0 || record.riskScore > 100) {
-    errors.push('riskScore: must be 0-100');
+  if (typeof record.risk_score !== 'number' || record.risk_score < 0 || record.risk_score > 100) {
+    errors.push('risk_score: must be 0-100');
   }
   if (typeof record.confidence !== 'number' || record.confidence < 0 || record.confidence > 1) {
     errors.push('confidence: must be 0-1');
   }
-  if (!record.detectedAt || record.detectedAt.trim() === '') {
-    errors.push('detectedAt: required');
+  if (!record.detected_at || record.detected_at.trim() === '') {
+    errors.push('detected_at: required');
   }
   if (!record.context || typeof record.context !== 'object') {
     errors.push('context: must be a Record<string,string>');

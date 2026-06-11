@@ -4,8 +4,6 @@ import dynamic from 'next/dynamic';
 import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useMode } from '@/context/mode-context';
-import { seedCases } from '../../../../../../packages/contracts/src/fixtures/seed-cases';
-import { seedActions } from '../../../../../../packages/contracts/src/fixtures/seed-actions';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import {
   primitiveFonts,
@@ -20,6 +18,7 @@ import { PageContainer } from '@/components/page-container';
 import type { WorkspaceMode } from '../../../../../../packages/ui/src/tokens/semantic';
 import type { Case } from '../../../../../../packages/contracts/src/entities/case';
 import type { ApexOptions } from 'apexcharts';
+import { thesisCases, thesisActions, thesisRiskScores, thesisCaseStrategyBindings, thesisBlastRadius, thesisExposures, thesisPostures, thesisConnectors, thesisStrategies, thesisMissions, thesisIdentities } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -27,7 +26,7 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
  * Case Management Adherence Dashboard — Commander C2 (DS-1.0, Spec 06)
  *
  * MBA-level operating picture for SOM / Director / CISO. Every metric is
- * computed from populated canonical fixtures (seedCases + seedActions); there
+ * computed from populated canonical fixtures (thesisCases + thesisActions); there
  * is no mock/random data and no API dependency. The page is fully functional
  * WITHOUT AI (System-First Doctrine, Tier 1 — System Delivers); AI is additive
  * and marked by placement comments only.
@@ -94,9 +93,9 @@ const RANGE_OPTIONS = [
 
 const isClosed = (c: Case) => CLOSED_STATES.has(c.status);
 const isReopened = (c: Case) => REOPENED_STATES.has(c.status);
-const created = (c: Case) => new Date(c.createdAt).getTime();
+const created = (c: Case) => new Date(c.created_at).getTime();
 /** Closed cases have no explicit closedAt; updatedAt is the close timestamp. */
-const closedAt = (c: Case) => (isClosed(c) ? new Date(c.updatedAt).getTime() : null);
+const closedAt = (c: Case) => (isClosed(c) ? new Date(c.updated_at).getTime() : null);
 
 function statusLabel(status: string): string {
   if (CLOSED_STATES.has(status)) return 'Closed';
@@ -136,13 +135,13 @@ function bandColor(pct: number, tokens: ReturnType<typeof useMode>['tokens']): s
 function slaPosture(c: Case, now: number): { label: string; tone: 'critical' | 'warning' | 'success' } {
   if (c.sla.breached) return { label: 'Breached', tone: 'critical' };
   const ageHours = (now - created(c)) / MS_PER_HOUR;
-  const remaining = c.sla.targetResolutionHours - ageHours;
+  const remaining = c.sla.target_resolution_hours - ageHours;
   if (!isClosed(c) && remaining <= 0) return { label: 'Overdue', tone: 'critical' };
-  if (!isClosed(c) && remaining <= c.sla.targetResolutionHours * 0.25) return { label: 'At Risk', tone: 'warning' };
+  if (!isClosed(c) && remaining <= c.sla.target_resolution_hours * 0.25) return { label: 'At Risk', tone: 'warning' };
   return { label: isClosed(c) ? 'Met' : 'On Track', tone: 'success' };
 }
 
-type SortKey = 'caseRef' | 'priority' | 'caseType' | 'owner' | 'team' | 'age' | 'sla' | 'status';
+type SortKey = 'case_ref' | 'priority' | 'case_type' | 'owner' | 'team' | 'age' | 'sla' | 'status';
 type SortDir = 'asc' | 'desc';
 
 // ─── Component ──────────────────────────────────────────────────────────────
@@ -161,7 +160,7 @@ export default function CaseAnalyticsPage() {
 
   // Operational "now" = latest timestamp present in the dataset.
   const now = useMemo(
-    () => Math.max(...seedCases.map((c) => Math.max(created(c), new Date(c.updatedAt).getTime()))),
+    () => Math.max(...thesisCases.map((c) => Math.max(created(c), new Date(c.updated_at).getTime()))),
     [],
   );
 
@@ -171,22 +170,22 @@ export default function CaseAnalyticsPage() {
 
   // ─── Core metric model (memoised) ─────────────────────────────────────────
   const m = useMemo(() => {
-    const all = seedCases;
-    const openCases = all.filter((c) => !isClosed(c));
+    const all = thesisCases;
+    const openCases = all.filter((c: any) => !isClosed(c));
     const closedCases = all.filter(isClosed);
 
     // Period-scoped opened / closed
-    const openedInPeriod = all.filter((c) => created(c) >= periodStart);
-    const closedInPeriod = closedCases.filter((c) => (closedAt(c) ?? 0) >= periodStart);
-    const openedPrior = all.filter((c) => created(c) >= priorStart && created(c) < periodStart);
-    const closedPrior = closedCases.filter((c) => {
+    const openedInPeriod = all.filter((c: any) => created(c) >= periodStart);
+    const closedInPeriod = closedCases.filter((c: any) => (closedAt(c) ?? 0) >= periodStart);
+    const openedPrior = all.filter((c: any) => created(c) >= priorStart && created(c) < periodStart);
+    const closedPrior = closedCases.filter((c: any) => {
       const t = closedAt(c) ?? 0;
       return t >= priorStart && t < periodStart;
     });
 
     // MTTR (hours) for a set of closed cases at a given priority
     const mttrFor = (set: Case[], priority?: string) => {
-      const subset = set.filter((c) => isClosed(c) && (!priority || c.priority === priority));
+      const subset = set.filter((c: any) => isClosed(c) && (!priority || c.priority === priority));
       if (subset.length === 0) return null;
       const sum = subset.reduce((acc, c) => acc + ((closedAt(c)! - created(c)) / MS_PER_HOUR), 0);
       return sum / subset.length;
@@ -221,40 +220,40 @@ export default function CaseAnalyticsPage() {
       const ct = closedAt(c);
       if (ct) weekSet.add(weekStart(ct));
     });
-    const weeks = Array.from(weekSet).sort((a, b) => a - b);
-    const openedByWeek = weeks.map((w) => all.filter((c) => weekStart(created(c)) === w).length);
-    const closedByWeek = weeks.map((w) => closedCases.filter((c) => closedAt(c) !== null && weekStart(closedAt(c)!) === w).length);
+    const weeks = Array.from(weekSet).sort((a: any, b: any) => a - b);
+    const openedByWeek = weeks.map((w) => all.filter((c: any) => weekStart(created(c)) === w).length);
+    const closedByWeek = weeks.map((w) => closedCases.filter((c: any) => closedAt(c) !== null && weekStart(closedAt(c)!) === w).length);
     // Running backlog at end of each week = cumulative opened up to week end − cumulative closed up to week end
     const backlogByWeek = weeks.map((w) => {
       const weekEnd = w + 7 * MS_PER_DAY;
-      const openedToDate = all.filter((c) => created(c) < weekEnd).length;
-      const closedToDate = closedCases.filter((c) => (closedAt(c) ?? Infinity) < weekEnd).length;
+      const openedToDate = all.filter((c: any) => created(c) < weekEnd).length;
+      const closedToDate = closedCases.filter((c: any) => (closedAt(c) ?? Infinity) < weekEnd).length;
       return openedToDate - closedToDate;
     });
 
     // Priority-over-time stacked (per week, per priority — opened)
     const priorityByWeek = PRIORITIES.map((p) => ({
       name: p,
-      data: weeks.map((w) => all.filter((c) => c.priority === p && weekStart(created(c)) === w).length),
+      data: weeks.map((w) => all.filter((c: any) => c.priority === p && weekStart(created(c)) === w).length),
     }));
 
     // ── Distribution counts (open cases) ──
-    const priorityDist = PRIORITIES.map((p) => openCases.filter((c) => c.priority === p).length);
+    const priorityDist = PRIORITIES.map((p) => openCases.filter((c: any) => c.priority === p).length);
 
     const typeCounts: Record<string, number> = {};
-    openCases.forEach((c) => { typeCounts[c.caseType] = (typeCounts[c.caseType] || 0) + 1; });
-    const typeSorted = Object.entries(typeCounts).sort((a, b) => b[1] - a[1]);
+    openCases.forEach((c) => { typeCounts[c.case_type] = (typeCounts[c.case_type] || 0) + 1; });
+    const typeSorted = Object.entries(typeCounts).sort((a: any, b: any) => b[1] - a[1]);
 
     const ownerCounts: Record<string, number> = {};
     openCases.forEach((c) => { ownerCounts[c.owner] = (ownerCounts[c.owner] || 0) + 1; });
-    const ownerSorted = Object.entries(ownerCounts).sort((a, b) => b[1] - a[1]);
+    const ownerSorted = Object.entries(ownerCounts).sort((a: any, b: any) => b[1] - a[1]);
 
     // ── MTTR by priority: target (from SLA) vs actual ──
     const targetByPriority = PRIORITIES.map((p) => {
-      const withSla = all.filter((c) => c.priority === p);
+      const withSla = all.filter((c: any) => c.priority === p);
       if (withSla.length === 0) return 0;
       // Use the modal/representative SLA target for the priority
-      return Math.round(withSla.reduce((a, c) => a + c.sla.targetResolutionHours, 0) / withSla.length);
+      return Math.round(withSla.reduce((a, c) => a + c.sla.target_resolution_hours, 0) / withSla.length);
     });
     const actualByPriority = PRIORITIES.map((p) => {
       const v = mttrFor(closedCases, p);
@@ -263,9 +262,9 @@ export default function CaseAnalyticsPage() {
 
     // ── SLA adherence trend (per week, closed cases that week) ──
     const adherenceByWeek = weeks.map((w) => {
-      const wk = closedCases.filter((c) => closedAt(c) !== null && weekStart(closedAt(c)!) === w);
+      const wk = closedCases.filter((c: any) => closedAt(c) !== null && weekStart(closedAt(c)!) === w);
       if (wk.length === 0) return null;
-      const met = wk.filter((c) => !c.sla.breached).length;
+      const met = wk.filter((c: any) => !c.sla.breached).length;
       return Math.round((met / wk.length) * 100);
     });
 
@@ -273,7 +272,7 @@ export default function CaseAnalyticsPage() {
     const ageingSeries = PRIORITIES.map((p) => ({
       name: p,
       data: AGE_BUCKETS.map((b) => {
-        const count = openCases.filter((c) => {
+        const count = openCases.filter((c: any) => {
           if (c.priority !== p) return false;
           const age = (now - created(c)) / MS_PER_DAY;
           return age >= b.min && age < b.max;
@@ -282,13 +281,13 @@ export default function CaseAnalyticsPage() {
       }),
     }));
 
-    // ── Action throughput (uses seedActions) ──
-    const actionsCompleted = seedActions.filter((a) => a.status === 'completed').length;
-    const actionsInProgress = seedActions.filter((a) => a.status === 'in_progress').length;
+    // ── Action throughput (uses thesisActions) ──
+    const actionsCompleted = thesisActions.filter((a) => a.status === 'completed').length;
+    const actionsInProgress = thesisActions.filter((a) => a.status === 'in_progress').length;
 
     return {
-      openCases, closedCases, openedInPeriod, closedInPeriod,
-      mttrP1, mttrP1Prior, adherencePeriod, adherencePrior, reopenRate,
+      open_cases: openCases, closedCases, openedInPeriod, closedInPeriod,
+      mttr_p1: mttrP1, mttrP1Prior, adherencePeriod, adherencePrior, reopenRate,
       velocity, velocityPrior,
       weeks, openedByWeek, closedByWeek, backlogByWeek, priorityByWeek,
       priorityDist, typeSorted, ownerSorted,
@@ -465,25 +464,25 @@ export default function CaseAnalyticsPage() {
   };
 
   // ─── Table: filter + sort ─────────────────────────────────────────────────
-  const typeOptions = useMemo(() => Array.from(new Set(seedCases.map((c) => c.caseType))).sort(), []);
-  const teamOptions = useMemo(() => Array.from(new Set(seedCases.map((c) => c.team))).sort(), []);
-  const statusOptions = useMemo(() => Array.from(new Set(seedCases.map((c) => statusLabel(c.status)))).sort(), []);
+  const typeOptions = useMemo(() => Array.from(new Set(thesisCases.map((c) => c.case_type))).sort(), []);
+  const teamOptions = useMemo(() => Array.from(new Set(thesisCases.map((c) => c.team))).sort(), []);
+  const statusOptions = useMemo(() => Array.from(new Set(thesisCases.map((c) => statusLabel(c.status)))).sort(), []);
 
   const tableRows = useMemo(() => {
-    const rows = m.openCases.filter((c) => {
+    const rows = m.open_cases.filter((c: any) => {
       if (fltPriority !== 'all' && c.priority !== fltPriority) return false;
-      if (fltType !== 'all' && c.caseType !== fltType) return false;
+      if (fltType !== 'all' && c.case_type !== fltType) return false;
       if (fltTeam !== 'all' && c.team !== fltTeam) return false;
       if (fltStatus !== 'all' && statusLabel(c.status) !== fltStatus) return false;
       return true;
     });
     const dir = sortDir === 'asc' ? 1 : -1;
-    rows.sort((a, b) => {
+    rows.sort((a: any, b: any) => {
       let cmp = 0;
       switch (sortKey) {
-        case 'caseRef': cmp = a.caseRef.localeCompare(b.caseRef); break;
+        case 'case_ref': cmp = a.case_ref.localeCompare(b.case_ref); break;
         case 'priority': cmp = PRIORITIES.indexOf(a.priority) - PRIORITIES.indexOf(b.priority); break;
-        case 'caseType': cmp = a.caseType.localeCompare(b.caseType); break;
+        case 'case_type': cmp = a.case_type.localeCompare(b.case_type); break;
         case 'owner': cmp = a.owner.localeCompare(b.owner); break;
         case 'team': cmp = a.team.localeCompare(b.team); break;
         case 'age': cmp = created(a) - created(b); break; // older first when asc
@@ -493,7 +492,7 @@ export default function CaseAnalyticsPage() {
       return cmp * dir;
     });
     return rows;
-  }, [m.openCases, fltPriority, fltType, fltTeam, fltStatus, sortKey, sortDir]);
+  }, [m.open_cases, fltPriority, fltType, fltTeam, fltStatus, sortKey, sortDir]);
 
   function toggleSort(key: SortKey) {
     if (sortKey === key) setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'));
@@ -501,9 +500,9 @@ export default function CaseAnalyticsPage() {
   }
 
   // ─── KPI values ───────────────────────────────────────────────────────────
-  const kpiOpen = m.openCases.length;
-  const kpiOpenPrior = seedCases.filter((c) => !isClosed(c) && created(c) < periodStart).length;
-  const mttrDelta = m.mttrP1 !== null && m.mttrP1Prior !== null ? m.mttrP1 - m.mttrP1Prior : null;
+  const kpiOpen = m.open_cases.length;
+  const kpiOpenPrior = thesisCases.filter((c: any) => !isClosed(c) && created(c) < periodStart).length;
+  const mttrDelta = m.mttr_p1 !== null && m.mttrP1Prior !== null ? m.mttr_p1 - m.mttrP1Prior : null;
   const adherenceDelta = m.adherencePrior !== null ? m.adherencePeriod - m.adherencePrior : null;
   const velocityDelta = m.velocity - m.velocityPrior;
 
@@ -524,14 +523,14 @@ export default function CaseAnalyticsPage() {
       <section style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap }}>
         <KpiCard tokens={tokens} label="Open Cases" value={String(kpiOpen)}
           delta={kpiOpen - kpiOpenPrior} deltaGoodWhenNegative tokensMode={mode} />
-        <KpiCard tokens={tokens} label="MTTR · P1" value={m.mttrP1 !== null ? `${Math.round(m.mttrP1)}h` : '—'}
+        <KpiCard tokens={tokens} label="MTTR · P1" value={m.mttr_p1 !== null ? `${Math.round(m.mttr_p1)}h` : '—'}
           delta={mttrDelta !== null ? Math.round(mttrDelta) : null} deltaSuffix="h" deltaGoodWhenNegative tokensMode={mode} />
         <KpiGauge tokens={tokens} mode={mode} label="SLA Adherence" pct={Math.round(m.adherencePeriod)}
           delta={adherenceDelta !== null ? Math.round(adherenceDelta) : null} />
         <KpiCard tokens={tokens} label="Reopen Rate" value={`${m.reopenRate.toFixed(1)}%`}
           delta={null} tokensMode={mode} />
         <KpiCard tokens={tokens} label="Closed · Period" value={String(m.closedInPeriod.length)}
-          delta={m.closedInPeriod.length - m.closedCases.filter((c) => { const t = closedAt(c) ?? 0; return t >= priorStart && t < periodStart; }).length}
+          delta={m.closedInPeriod.length - m.closedCases.filter((c: any) => { const t = closedAt(c) ?? 0; return t >= priorStart && t < periodStart; }).length}
           tokensMode={mode} />
         <KpiCard tokens={tokens} label="Velocity" value={(m.velocity >= 0 ? '+' : '') + m.velocity}
           delta={velocityDelta} tokensMode={mode} hint="closed − opened" />
@@ -590,87 +589,42 @@ export default function CaseAnalyticsPage() {
       </section>
 
       {/* ── SECTION 9: Drill-down table ─────────────────────────────────── */}
-      <section style={{ marginTop: gap }}>
-        <div style={cardStyle(tokens)}>
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', flexWrap: 'wrap', gap: primitiveSpacing[3], marginBottom: componentTokens.cardHeaderMargin }}>
-            <div>
-              <h3 style={cardTitleStyle(tokens)}>Open Case Worklist</h3>
-              <span style={cardSubtitleStyle(tokens)}>{tableRows.length} of {m.openCases.length} open cases — click a row to open the case</span>
-            </div>
-            <div style={{ display: 'flex', gap: primitiveSpacing[2], flexWrap: 'wrap' }}>
-              <FilterSelect tokens={tokens} label="Priority" value={fltPriority} onChange={setFltPriority} options={['all', ...PRIORITIES]} />
-              <FilterSelect tokens={tokens} label="Type" value={fltType} onChange={setFltType} options={['all', ...typeOptions]} render={(o) => o === 'all' ? 'All' : titleCase(o)} />
-              <FilterSelect tokens={tokens} label="Team" value={fltTeam} onChange={setFltTeam} options={['all', ...teamOptions]} />
-              <FilterSelect tokens={tokens} label="Status" value={fltStatus} onChange={setFltStatus} options={['all', ...statusOptions]} />
-            </div>
+      {/* Cross-Entity + Engine Panel — Sweep 2 */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Blast Radius Engine</h4>
+          {thesisBlastRadius.map((b) => (<div key={b.id} style={{ padding: '4px 0', borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between', fontSize: primitiveTypeScale.micro }}><span style={{ fontFamily: primitiveFonts.mono, color: tokens.text.primary }}>{b.originEntityRef?.slice(0,14)} ({b.originEntityType})</span><span style={{ color: b.total_impact_score > 50 ? primitiveSignal.critical : primitiveSignal.warning }}>{b.total_impact_score} pts → {b.affected_entities.length} affected</span></div>))}
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Actions Pipeline</h4>
+          <div style={{ display: 'flex', gap: primitiveSpacing[3], flexWrap: 'wrap', marginBottom: primitiveSpacing[2] }}>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.success }}>●</span> {thesisActions.filter((a) => a.status === 'completed').length} completed</span>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.info }}>●</span> {thesisActions.filter((a) => a.status === 'in_progress').length} in progress</span>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.warning }}>●</span> {thesisActions.filter((a) => a.status === 'pending').length} pending</span>
           </div>
-
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
-              <thead>
-                <tr>
-                  {([
-                    ['caseRef', 'Case Ref'], ['priority', 'Priority'], ['caseType', 'Type'],
-                    ['title', 'Title'], ['owner', 'Owner'], ['team', 'Team'],
-                    ['age', 'Age'], ['sla', 'SLA'], ['status', 'Status'],
-                  ] as [string, string][]).map(([key, label]) => {
-                    const sortable = key !== 'title';
-                    const active = sortKey === key;
-                    return (
-                      <th key={key}
-                        onClick={sortable ? () => toggleSort(key as SortKey) : undefined}
-                        style={{
-                          textAlign: 'left', padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`,
-                          borderBottom: `2px solid ${tokens.border.default}`,
-                          color: tokens.text.secondary, fontWeight: primitiveFontWeight.semibold,
-                          textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow,
-                          fontSize: primitiveTypeScale.micro, cursor: sortable ? 'pointer' : 'default',
-                          whiteSpace: 'nowrap', userSelect: 'none',
-                        }}>
-                        {label}{active ? (sortDir === 'asc' ? ' ▲' : ' ▼') : ''}
-                      </th>
-                    );
-                  })}
-                </tr>
-              </thead>
-              <tbody>
-                {tableRows.map((c) => {
-                  const posture = slaPosture(c, now);
-                  const ageD = Math.floor((now - created(c)) / MS_PER_DAY);
-                  const ageH = Math.floor((now - created(c)) / MS_PER_HOUR);
-                  const toneColor = posture.tone === 'critical' ? tokens.status.critical : posture.tone === 'warning' ? tokens.status.warning : tokens.status.success;
-                  return (
-                    <tr key={c.id}
-                      onClick={() => router.push(`/cases/${c.id}`)}
-                      style={{ cursor: 'pointer', borderBottom: `1px solid ${tokens.border.subtle}` }}
-                      onMouseEnter={(e) => (e.currentTarget.style.background = tokens.surface.primary)}
-                      onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}>
-                      <td style={tdStyle(tokens)}><span style={{ fontFamily: primitiveFonts.mono }}>{c.caseRef}</span></td>
-                      <td style={tdStyle(tokens)}>
-                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: primitiveSpacing[1], color: PRIORITY_COLORS[c.priority], fontWeight: primitiveFontWeight.semibold }}>
-                          <span aria-hidden>{PRIORITY_SHAPE[c.priority]}</span>{c.priority}
-                        </span>
-                      </td>
-                      <td style={tdStyle(tokens)}>{titleCase(c.caseType)}</td>
-                      <td style={{ ...tdStyle(tokens), maxWidth: 360, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: tokens.text.primary }} title={c.title}>{c.title}</td>
-                      <td style={tdStyle(tokens)}>{c.owner}</td>
-                      <td style={tdStyle(tokens)}>{c.team}</td>
-                      <td style={{ ...tdStyle(tokens), fontFamily: primitiveFonts.mono, whiteSpace: 'nowrap' }}>{ageD >= 1 ? `${ageD}d` : `${ageH}h`}</td>
-                      <td style={tdStyle(tokens)}>
-                        <span style={{ display: 'inline-block', padding: `2px ${primitiveSpacing[2]}`, borderRadius: 0, background: toneColor, color: '#fff', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.medium, whiteSpace: 'nowrap' }}>{posture.label}</span>
-                      </td>
-                      <td style={{ ...tdStyle(tokens), whiteSpace: 'nowrap' }}>{statusLabel(c.status)}</td>
-                    </tr>
-                  );
-                })}
-                {tableRows.length === 0 && (
-                  <tr><td colSpan={9} style={{ ...tdStyle(tokens), textAlign: 'center', color: tokens.text.muted, padding: primitiveSpacing[6] }}>No cases match the current filters.</td></tr>
-                )}
-              </tbody>
-            </table>
+          {thesisActions.slice(0,3).map((a) => (<div key={a.id} style={{ padding: '4px 0', borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between', fontSize: primitiveTypeScale.micro }}><span style={{ color: tokens.text.primary }}>{a.title ?? a.action_type ?? 'action'}</span><span style={{ padding: '1px 6px', color: '#fff', background: a.status === 'completed' ? primitiveSignal.success : a.status === 'in_progress' ? primitiveSignal.info : primitiveSignal.warning }}>{a.status}</span></div>))}
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Posture Impact</h4>
+          <div style={{ display: 'flex', gap: primitiveSpacing[3], flexWrap: 'wrap' }}>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.success }}>●</span> {thesisPostures.filter((p) => p.posture_status === 'healthy').length} healthy</span>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.warning }}>●</span> {thesisPostures.filter((p) => p.posture_status === 'degraded').length} degraded</span>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.critical }}>●</span> {thesisPostures.filter((p) => p.posture_status === 'critical').length} critical</span>
+          </div>
+          <div style={{ marginTop: primitiveSpacing[2], fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>Avg: {Math.round(thesisPostures.reduce((a,p) => a + p.posture_score, 0) / Math.max(thesisPostures.length, 1))}/100</div>
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Exposure Surface ({thesisExposures.length})</h4>
+          {thesisExposures.slice(0,4).map((e) => (<div key={e.id} style={{ padding: '4px 0', borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between', fontSize: primitiveTypeScale.micro }}><span style={{ color: tokens.text.primary }}>{e.exposure_type ?? e.surface ?? 'exposure'}</span><span style={{ color: e.severity === 'critical' ? primitiveSignal.critical : primitiveSignal.warning }}>{e.severity ?? 'medium'}</span></div>))}
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Data Pipeline</h4>
+          <div style={{ display: 'flex', gap: primitiveSpacing[3], flexWrap: 'wrap' }}>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.success }}>●</span> {thesisConnectors.filter((c) => c.state === 'active').length} active</span>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.critical }}>●</span> {thesisConnectors.filter((c) => c.state === 'error').length} error</span>
           </div>
         </div>
-      </section>
+      </div>
     </PageContainer>
   );
 }

@@ -1,14 +1,11 @@
 'use client';
 
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedAssets } from '../../../../../../packages/contracts/src/fixtures/seed-assets';
-import { seedIdentities } from '../../../../../../packages/contracts/src/fixtures/seed-identities';
-import { seedCases } from '../../../../../../packages/contracts/src/fixtures/seed-cases';
-import { seedRiskObjects } from '../../../../../../packages/contracts/src/fixtures/seed-risk-objects';
-import { seedConnectors } from '../../../../../../packages/contracts/src/fixtures/seed-connectors';
-import { seedAttackClassificationAudits } from '../../../../../../packages/contracts/src/fixtures/seed-attack-classification-audits';
-import { thesisSignals, thesisIntelligenceAssessments } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisSignals, thesisIntelligenceAssessments, thesisAssets, thesisIdentities, thesisCases, thesisRiskObjects, thesisConnectors, thesisAttackClassificationAudits, thesisBlastRadius, thesisPostures, thesisStrategies, thesisMissions } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
 import { STREAM_LABELS, CLASS_TO_STREAM } from '../../../../../../packages/contracts/src/engines/intelligence-layer';
 
@@ -27,20 +24,20 @@ import { STREAM_LABELS, CLASS_TO_STREAM } from '../../../../../../packages/contr
 const EXTERNAL = 'external_attack_surface';
 
 export default function ExternalOperatingPicturePage() {
-  const { tokens } = useMode();
+  const { mode, tokens } = useMode();
 
   // ── 1. External attack surface inventory ──
-  const externalAssets = seedAssets.filter((a) => a.surfaceAttribution === EXTERNAL);
-  const externalIdentities = seedIdentities.filter((i) => i.surfaceAttribution === EXTERNAL);
+  const externalAssets = thesisAssets.filter((a) => a.surface_attribution === EXTERNAL);
+  const externalIdentities = thesisIdentities.filter((i) => i.surface_attribution === EXTERNAL);
 
   // ── 2. External Attack Intelligence stream — Class A connectors feed this stream ──
-  const externalAttackConnectors = seedConnectors.filter((c) =>
+  const externalAttackConnectors = thesisConnectors.filter((c) =>
     c.classes.some((cls) => CLASS_TO_STREAM[cls] === 'external_attack'),
   );
 
   // ── 3. External attack surface case queue ──
-  const externalCases = seedCases
-    .filter((c) => c.surfaceAttribution === EXTERNAL)
+  const externalCases = thesisCases
+    .filter((c) => c.surface_attribution === EXTERNAL)
     .sort((a, b) => {
       const order: Record<string, number> = { P0: 0, P1: 1, P2: 2, P3: 3, P4: 4 };
       return (order[a.priority] ?? 4) - (order[b.priority] ?? 4);
@@ -48,12 +45,12 @@ export default function ExternalOperatingPicturePage() {
 
   // ── 4. External attack surface risk objects (risk objects on external-attributed entities) ──
   const externalEntityIds = new Set<string>([
-    ...externalAssets.map((a) => a.id),
+    ...externalAssets.map((a) => a.asset_id),
     ...externalIdentities.map((i) => i.id),
-    ...externalCases.map((c) => c.id),
+    ...externalCases.map((c) => c.case_id),
   ]);
-  const externalRiskObjects = seedRiskObjects.filter((r) =>
-    r.affectedEntities?.some((id) => externalEntityIds.has(id)) || externalEntityIds.has(r.affectedEntityId),
+  const externalRiskObjects = thesisRiskObjects.filter((r) =>
+    r.affected_entities?.some((id) => externalEntityIds.has(id)) || externalEntityIds.has(r.affected_entity_id),
   );
 
   const priorityBadge = (p: string) =>
@@ -117,9 +114,9 @@ export default function ExternalOperatingPicturePage() {
                   </thead>
                   <tbody>
                     {externalAssets.map((a) => (
-                      <tr key={a.id}>
+                      <tr key={a.asset_id}>
                         <td>
-                          <a href={`/assets?id=${a.id}`} style={{ fontSize: primitiveTypeScale.body, color: tokens.action.primary }}>{a.name}</a>
+                          <a href={`/assets?id=${a.asset_id}`} style={{ fontSize: primitiveTypeScale.body, color: tokens.action.primary }}>{a.asset_name}</a>
                         </td>
                         <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{a.classification}</td>
                         <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{a.environment}</td>
@@ -163,7 +160,7 @@ export default function ExternalOperatingPicturePage() {
                           />
                           <span style={{ fontSize: primitiveTypeScale.caption }}>{c.state}</span>
                         </td>
-                        <td className="text-end text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{c.lastRunStatus}</td>
+                        <td className="text-end text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{c.last_run_status}</td>
                       </tr>
                     ))}
                     {externalAttackConnectors.length === 0 && (
@@ -192,12 +189,12 @@ export default function ExternalOperatingPicturePage() {
                 <table className="table table-vcenter card-table">
                   <tbody>
                     {externalCases.map((c) => (
-                      <tr key={c.id}>
+                      <tr key={c.case_id}>
                         <td style={{ width: '48px' }}>
                           <span className={`badge ${priorityBadge(c.priority)}`}>{c.priority}</span>
                         </td>
                         <td>
-                          <a href={`/cases/${c.id}`} style={{ fontSize: primitiveTypeScale.body, color: tokens.action.primary }}>{c.title}</a>
+                          <a href={`/cases/${c.case_id}`} style={{ fontSize: primitiveTypeScale.body, color: tokens.action.primary }}>{c.title}</a>
                         </td>
                         <td className="text-muted text-end" style={{ fontSize: primitiveTypeScale.caption, whiteSpace: 'nowrap' }}>{c.status}</td>
                       </tr>
@@ -222,7 +219,7 @@ export default function ExternalOperatingPicturePage() {
                     {externalRiskObjects.map((r) => (
                       <tr key={r.id}>
                         <td style={{ fontSize: primitiveTypeScale.body }}>{r.type}</td>
-                        <td className="text-muted text-end" style={{ fontSize: primitiveTypeScale.caption }}>{r.treatmentState}</td>
+                        <td className="text-muted text-end" style={{ fontSize: primitiveTypeScale.caption }}>{r.treatment_state}</td>
                       </tr>
                     ))}
                     {externalRiskObjects.length === 0 && (
@@ -257,20 +254,20 @@ export default function ExternalOperatingPicturePage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {seedAttackClassificationAudits.map((a) => {
+                    {thesisAttackClassificationAudits.map((a) => {
                       const classColor = a.classification === 'PRE_WARNED' ? primitiveSignal.warning : a.classification === 'PROTECTED' ? primitiveSignal.info : primitiveSignal.neutral;
                       return (
                         <tr key={a.id}>
-                          <td style={{ fontSize: primitiveTypeScale.body }}>{a.entityRef}</td>
+                          <td style={{ fontSize: primitiveTypeScale.body }}>{a.entity_ref}</td>
                           <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{a.entityType_target}</td>
                           <td><span className="badge" style={{ background: classColor, color: '#fff' }}>{a.classification}</span></td>
-                          <td style={{ fontSize: primitiveTypeScale.caption, color: a.priorityImpact > 0 ? primitiveSignal.critical : primitiveSignal.success }}>{a.priorityImpact > 0 ? '+' : ''}{a.priorityImpact}</td>
-                          <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>drift:{a.postureSnapshot.driftState} cov:{a.postureSnapshot.coveragePercent}%</td>
-                          <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{new Date(a.classifiedAt).toLocaleDateString()}</td>
+                          <td style={{ fontSize: primitiveTypeScale.caption, color: a.priority_impact > 0 ? primitiveSignal.critical : primitiveSignal.success }}>{a.priority_impact > 0 ? '+' : ''}{a.priority_impact}</td>
+                          <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>drift:{a.posture_snapshot.drift_state} cov:{a.posture_snapshot.coverage_percent}%</td>
+                          <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{new Date(a.classified_at).toLocaleDateString()}</td>
                         </tr>
                       );
                     })}
-                    {seedAttackClassificationAudits.length === 0 && (
+                    {thesisAttackClassificationAudits.length === 0 && (
                       <tr><td colSpan={6} className="text-muted text-center" style={{ fontSize: primitiveTypeScale.caption }}>No classifications recorded</td></tr>
                     )}
                   </tbody>
@@ -342,6 +339,43 @@ export default function ExternalOperatingPicturePage() {
               <a href="/operating-picture/internal" className="btn">Internal Operating Picture</a>
             </div>
           </div>
+        </div>
+      </div>
+    
+      {/* Cross-Entity Relationship Panel — Sweep 2 */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Blast Radius</h4>
+          {thesisBlastRadius.map((b) => (<div key={b.id} style={{ padding: '4px 0', borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between', fontSize: primitiveTypeScale.micro }}><span style={{ fontFamily: primitiveFonts.mono, color: tokens.text.primary }}>{b.originEntityRef?.slice(0,14)}</span><span style={{ color: b.total_impact_score > 50 ? primitiveSignal.critical : primitiveSignal.warning }}>{b.total_impact_score} → {b.affected_entities.length}</span></div>))}
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Posture Summary</h4>
+          <div style={{ display: 'flex', gap: primitiveSpacing[3], flexWrap: 'wrap' }}>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.success }}>●</span> {thesisPostures.filter((p) => p.posture_status === 'healthy').length} healthy</span>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.warning }}>●</span> {thesisPostures.filter((p) => p.posture_status === 'degraded').length} degraded</span>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.critical }}>●</span> {thesisPostures.filter((p) => p.posture_status === 'critical').length} critical</span>
+          </div>
+          <div style={{ marginTop: primitiveSpacing[2], fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>Avg score: {Math.round(thesisPostures.reduce((a,p) => a + p.posture_score, 0) / Math.max(thesisPostures.length, 1))}/100</div>
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Connector Health</h4>
+          <div style={{ display: 'flex', gap: primitiveSpacing[3], flexWrap: 'wrap' }}>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.success }}>●</span> {thesisConnectors.filter((c) => c.state === 'active').length} active</span>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.critical }}>●</span> {thesisConnectors.filter((c) => c.state === 'error').length} error</span>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.neutral }}>●</span> {thesisConnectors.filter((c) => c.state !== 'active' && c.state !== 'error').length} other</span>
+          </div>
+        </div>
+      </div>
+    
+      {/* Interactive Chart Section — Sweep 3 */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Risk Distribution</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Open', 'Mitigated', 'Closed'], colors: [primitiveSignal.warning, primitiveSignal.success, primitiveSignal.neutral], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisRiskObjects.filter((r) => r.treatment_state === 'open').length, thesisRiskObjects.filter((r) => r.treatment_state === 'mitigated').length, thesisRiskObjects.filter((r) => r.treatment_state !== 'open' && r.treatment_state !== 'mitigated').length]} />
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Posture Health</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Healthy', 'Degraded', 'Critical'], colors: [primitiveSignal.success, primitiveSignal.warning, primitiveSignal.critical], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisPostures.filter((p) => p.posture_status === 'healthy').length, thesisPostures.filter((p) => p.posture_status === 'degraded').length, thesisPostures.filter((p) => p.posture_status === 'critical').length]} />
         </div>
       </div>
     </PageContainer>

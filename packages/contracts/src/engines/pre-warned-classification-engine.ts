@@ -21,7 +21,7 @@ import { CLASSIFICATION_LEVELS } from '../entities/pre-warned-classification';
 
 export interface EngineSignal {
   /** Reference to the source engine output */
-  sourceRef: string;
+  source_ref: string;
   /** Which engine produced this signal */
   engineType: 'drift' | 'identity' | 'architecture' | 'vulnerability' | 'exposure';
   /** Signal severity (1-5, where 1 is most severe) */
@@ -70,7 +70,7 @@ export function classifyPreWarnedState(signals: EngineSignal[]): ClassificationR
     };
   }
 
-  const triggerSources = signals.map((s) => s.sourceRef);
+  const triggerSources = signals.map((s) => s.source_ref);
   const affectedEntityRefs = Array.from(new Set(signals.flatMap((s) => s.affectedEntityRefs)));
   const confidence = computeConfidence(signals);
 

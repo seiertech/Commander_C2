@@ -32,11 +32,11 @@ export type TopologyRelationshipType = typeof TOPOLOGY_RELATIONSHIP_TYPES[number
 
 export interface TopologyNode {
   /** Unique node identifier */
-  nodeId: string;
+  node_id: string;
   /** Type of entity this node represents */
-  entityType: TopologyNodeType;
+  entity_type: TopologyNodeType;
   /** Reference to the source entity ID */
-  entityRef: string;
+  entity_ref: string;
   /** Human-readable label */
   label: string;
   /** Security domain */
@@ -51,13 +51,13 @@ export interface TopologyNode {
 
 export interface TopologyEdge {
   /** Unique edge identifier */
-  edgeId: string;
+  edge_id: string;
   /** Source node ID */
-  sourceNodeId: string;
+  source_node_id: string;
   /** Target node ID */
-  targetNodeId: string;
+  target_node_id: string;
   /** Type of relationship */
-  relationshipType: TopologyRelationshipType;
+  relationship_type: TopologyRelationshipType;
   /** Relationship weight/strength (0-1) */
   weight: number;
   /** Whether relationship applies in both directions */
@@ -68,19 +68,19 @@ export interface TopologyEdge {
 
 export interface BlastRadiusResult {
   /** Origin node from which blast radius is computed */
-  originNodeId: string;
+  origin_node_id: string;
   /** Node IDs within the blast radius */
-  affectedNodes: string[];
+  affected_nodes: string[];
   /** Maximum traversal depth reached */
   depth: number;
   /** Aggregate impact score */
-  totalImpactScore: number;
+  total_impact_score: number;
 }
 
 // ─── Topology Snapshot (top-level entity for persistence) ────────────────────
 
 export interface TopologySnapshot extends CommonFields {
-  entityType: 'topology-snapshot';
+  entity_type: 'topology-snapshot';
   /** All nodes in this topology snapshot */
   nodes: TopologyNode[];
   /** All edges in this topology snapshot */
@@ -88,7 +88,7 @@ export interface TopologySnapshot extends CommonFields {
   /** Pre-computed blast radius results */
   blastRadiusResults: BlastRadiusResult[];
   /** Snapshot computation timestamp */
-  computedAt: string;
+  computed_at: string;
 }
 
 // ─── Validation ──────────────────────────────────────────────────────────────
@@ -107,26 +107,26 @@ export function validateTopologySnapshot(snapshot: TopologySnapshot): TopologyVa
   if (!snapshot.id || snapshot.id.trim() === '') {
     errors.push('id: required');
   }
-  if (!snapshot.tenant || !snapshot.tenant.tenantId || snapshot.tenant.tenantId.trim() === '') {
-    errors.push('tenant.tenantId: required');
+  if (!snapshot.tenant || !snapshot.tenant.tenant_id || snapshot.tenant.tenant_id.trim() === '') {
+    errors.push('tenant.tenant_id: required');
   }
   if (!Array.isArray(snapshot.nodes)) {
     errors.push('nodes: must be an array');
   } else {
     const nodeIds = new Set<string>();
     for (const node of snapshot.nodes) {
-      if (!node.nodeId || node.nodeId.trim() === '') {
-        errors.push('nodes[].nodeId: required');
+      if (!node.node_id || node.node_id.trim() === '') {
+        errors.push('nodes[].node_id: required');
       }
-      if (nodeIds.has(node.nodeId)) {
-        errors.push(`nodes[].nodeId: duplicate '${node.nodeId}'`);
+      if (nodeIds.has(node.node_id)) {
+        errors.push(`nodes[].node_id: duplicate '${node.node_id}'`);
       }
-      nodeIds.add(node.nodeId);
-      if (!TOPOLOGY_NODE_TYPES.includes(node.entityType)) {
-        errors.push(`nodes[].entityType: must be one of: ${TOPOLOGY_NODE_TYPES.join(', ')}`);
+      nodeIds.add(node.node_id);
+      if (!TOPOLOGY_NODE_TYPES.includes(node.entity_type)) {
+        errors.push(`nodes[].entity_type: must be one of: ${TOPOLOGY_NODE_TYPES.join(', ')}`);
       }
-      if (!node.entityRef || node.entityRef.trim() === '') {
-        errors.push('nodes[].entityRef: required');
+      if (!node.entity_ref || node.entity_ref.trim() === '') {
+        errors.push('nodes[].entity_ref: required');
       }
       if (!node.label || node.label.trim() === '') {
         errors.push('nodes[].label: required');
@@ -140,17 +140,17 @@ export function validateTopologySnapshot(snapshot: TopologySnapshot): TopologyVa
     errors.push('edges: must be an array');
   } else {
     for (const edge of snapshot.edges) {
-      if (!edge.edgeId || edge.edgeId.trim() === '') {
-        errors.push('edges[].edgeId: required');
+      if (!edge.edge_id || edge.edge_id.trim() === '') {
+        errors.push('edges[].edge_id: required');
       }
-      if (!edge.sourceNodeId || edge.sourceNodeId.trim() === '') {
-        errors.push('edges[].sourceNodeId: required');
+      if (!edge.source_node_id || edge.source_node_id.trim() === '') {
+        errors.push('edges[].source_node_id: required');
       }
-      if (!edge.targetNodeId || edge.targetNodeId.trim() === '') {
-        errors.push('edges[].targetNodeId: required');
+      if (!edge.target_node_id || edge.target_node_id.trim() === '') {
+        errors.push('edges[].target_node_id: required');
       }
-      if (!TOPOLOGY_RELATIONSHIP_TYPES.includes(edge.relationshipType)) {
-        errors.push(`edges[].relationshipType: must be one of: ${TOPOLOGY_RELATIONSHIP_TYPES.join(', ')}`);
+      if (!TOPOLOGY_RELATIONSHIP_TYPES.includes(edge.relationship_type)) {
+        errors.push(`edges[].relationship_type: must be one of: ${TOPOLOGY_RELATIONSHIP_TYPES.join(', ')}`);
       }
       if (typeof edge.weight !== 'number' || edge.weight < 0 || edge.weight > 1) {
         errors.push('edges[].weight: must be 0-1');
@@ -161,22 +161,22 @@ export function validateTopologySnapshot(snapshot: TopologySnapshot): TopologyVa
     errors.push('blastRadiusResults: must be an array');
   } else {
     for (const br of snapshot.blastRadiusResults) {
-      if (!br.originNodeId || br.originNodeId.trim() === '') {
-        errors.push('blastRadiusResults[].originNodeId: required');
+      if (!br.origin_node_id || br.origin_node_id.trim() === '') {
+        errors.push('blastRadiusResults[].origin_node_id: required');
       }
-      if (!Array.isArray(br.affectedNodes)) {
-        errors.push('blastRadiusResults[].affectedNodes: must be an array');
+      if (!Array.isArray(br.affected_nodes)) {
+        errors.push('blastRadiusResults[].affected_nodes: must be an array');
       }
       if (typeof br.depth !== 'number' || br.depth < 0) {
         errors.push('blastRadiusResults[].depth: must be >= 0');
       }
-      if (typeof br.totalImpactScore !== 'number' || br.totalImpactScore < 0) {
-        errors.push('blastRadiusResults[].totalImpactScore: must be >= 0');
+      if (typeof br.total_impact_score !== 'number' || br.total_impact_score < 0) {
+        errors.push('blastRadiusResults[].total_impact_score: must be >= 0');
       }
     }
   }
-  if (!snapshot.computedAt || snapshot.computedAt.trim() === '') {
-    errors.push('computedAt: required');
+  if (!snapshot.computed_at || snapshot.computed_at.trim() === '') {
+    errors.push('computed_at: required');
   }
 
   return { valid: errors.length === 0, errors };

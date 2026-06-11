@@ -20,11 +20,11 @@ export const CUSTOMER_TIERS = ['enterprise', 'professional', 'starter', 'trial']
 export type CustomerTier = typeof CUSTOMER_TIERS[number];
 
 export interface Customer extends CommonFields {
-  entityType: 'customer';
+  entity_type: 'customer';
   name: string;
   status: CustomerStatus;
   tier: CustomerTier;
-  primaryContact: string;
+  primary_contact: string;
   tenantCount: number;
   contractStartDate: string;
   contractEndDate: string;
@@ -37,11 +37,11 @@ export interface CustomerValidation { valid: boolean; errors: string[]; }
 export function validateCustomer(c: Customer): CustomerValidation {
   const errors: string[] = [];
   if (!c.id || c.id.trim() === '') errors.push('id: required');
-  if (!c.tenant?.tenantId) errors.push('tenant.tenantId: required');
+  if (!c.tenant?.tenant_id) errors.push('tenant.tenant_id: required');
   if (!c.name || c.name.trim() === '') errors.push('name: required');
   if (!CUSTOMER_STATUSES.includes(c.status)) errors.push(`status: must be one of: ${CUSTOMER_STATUSES.join(', ')}`);
   if (!CUSTOMER_TIERS.includes(c.tier)) errors.push(`tier: must be one of: ${CUSTOMER_TIERS.join(', ')}`);
-  if (!c.primaryContact || c.primaryContact.trim() === '') errors.push('primaryContact: required');
+  if (!c.primary_contact || c.primary_contact.trim() === '') errors.push('primary_contact: required');
   if (typeof c.tenantCount !== 'number' || c.tenantCount < 0) errors.push('tenantCount: must be >= 0');
   if (!c.contractStartDate) errors.push('contractStartDate: required');
   if (!c.contractEndDate) errors.push('contractEndDate: required');

@@ -23,16 +23,16 @@ import type { Finding, ProposedAction, AffectedEntityType } from '../entities/fi
 
 export interface EvaluableEntity {
   /** Canonical reference to the entity */
-  entityRef: string;
+  entity_ref: string;
   /** Kind of entity */
-  entityType: AffectedEntityType;
+  entity_type: AffectedEntityType;
   /** Attributes the rule conditions evaluate against */
   attributes: Record<string, unknown>;
 }
 
 export interface TenantExecutionContext {
   /** Tenant the execution is scoped to */
-  tenantId: string;
+  tenant_id: string;
   /** Full tenant context for emitted findings */
   tenant: TenantContext;
   /** Candidate entities within this tenant */
@@ -40,14 +40,14 @@ export interface TenantExecutionContext {
   /** Provenance for emitted findings */
   source: SourceMetadata;
   /** Evaluation timestamp (used as detectedAt) */
-  evaluatedAt: string;
+  evaluated_at: string;
 }
 
 /** Predicate deciding whether a rule matches a given entity. */
 export type RuleMatcher = (entity: EvaluableEntity, rule: RuleDefinition) => boolean;
 
 export interface RuleExecutionResult {
-  ruleRef: string;
+  rule_ref: string;
   executed: boolean;
   reason: string;
   findings: Finding[];
@@ -64,18 +64,18 @@ export function buildTenantContext(
   tenant: TenantContext,
   entities: EvaluableEntity[],
   source: SourceMetadata,
-  evaluatedAt: string,
+  evaluated_at: string,
 ): TenantExecutionContext {
   const scoped = entities.filter((e) => {
-    const t = e.attributes?.['tenantId'];
-    return t === undefined || t === tenant.tenantId;
+    const t = e.attributes?.['tenant_id'];
+    return t === undefined || t === tenant.tenant_id;
   });
   return {
-    tenantId: tenant.tenantId,
+    tenant_id: tenant.tenant_id,
     tenant,
     entities: scoped,
     source,
-    evaluatedAt,
+    evaluated_at,
   };
 }
 
@@ -92,7 +92,7 @@ export function guardActiveOnly(rule: RuleDefinition): boolean {
 // ─── emitFinding ─────────────────────────────────────────────────────────────
 
 /**
- * Construct a Finding for a rule/entity match. Deterministic dedupeKey:
+ * Construct a Finding for a rule/entity match. Deterministic dedupe_key:
  *   drift:<ruleRef>:<entityRef>
  */
 export function emitFinding(
@@ -103,23 +103,23 @@ export function emitFinding(
 ): Finding {
   const seq = options?.sequence ?? 1;
   return {
-    id: `finding-${rule.id}-${entity.entityRef}`,
-    entityType: 'finding',
+    id: `finding-${rule.id}-${entity.entity_ref}`,
+    entity_type: 'finding',
     tenant: ctx.tenant,
-    createdAt: ctx.evaluatedAt,
-    updatedAt: ctx.evaluatedAt,
+    created_at: ctx.evaluated_at,
+    updated_at: ctx.evaluated_at,
     source: ctx.source,
-    findingId: `find-${rule.id}-${String(seq).padStart(4, '0')}`,
-    ruleRef: rule.id,
-    tenantId: ctx.tenantId,
+    finding_id: `find-${rule.id}-${String(seq).padStart(4, '0')}`,
+    rule_ref: rule.id,
+    tenant_id: ctx.tenant_id,
     severity: rule.severity,
     confidence: options?.confidence ?? 75,
-    dedupeKey: `drift:${rule.id}:${entity.entityRef}`,
-    affectedEntityType: entity.entityType,
-    affectedEntityRef: entity.entityRef,
+    dedupe_key: `drift:${rule.id}:${entity.entity_ref}`,
+    affected_entity_type: entity.entity_type,
+    affected_entity_ref: entity.entity_ref,
     proposedActions: options?.proposedActions ?? [],
     status: 'new',
-    detectedAt: ctx.evaluatedAt,
+    detected_at: ctx.evaluated_at,
   };
 }
 
@@ -137,7 +137,7 @@ export function executeRule(
 ): RuleExecutionResult {
   if (!guardActiveOnly(rule)) {
     return {
-      ruleRef: rule.id,
+      rule_ref: rule.id,
       executed: false,
       reason: `Rule is "${rule.status}" — only active rules execute.`,
       findings: [],
@@ -154,7 +154,7 @@ export function executeRule(
   }
 
   return {
-    ruleRef: rule.id,
+    rule_ref: rule.id,
     executed: true,
     reason: `Executed against ${ctx.entities.length} entit${ctx.entities.length === 1 ? 'y' : 'ies'} — ${findings.length} match(es).`,
     findings,

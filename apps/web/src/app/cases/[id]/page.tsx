@@ -3,12 +3,6 @@
 import { use } from 'react';
 import { useRouter } from 'next/navigation';
 import { useMode } from '@/context/mode-context';
-import { seedCases } from '../../../../../../packages/contracts/src/fixtures/seed-cases';
-import { seedAssets } from '../../../../../../packages/contracts/src/fixtures/seed-assets';
-import { seedActions, seedSubActions } from '../../../../../../packages/contracts/src/fixtures/seed-actions';
-import { seedRiskObjects } from '../../../../../../packages/contracts/src/fixtures/seed-risk-objects';
-import { seedEvidence } from '../../../../../../packages/contracts/src/fixtures/seed-evidence';
-import { seedStrategies } from '../../../../../../packages/contracts/src/fixtures/seed-strategies';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import {
   primitiveFonts, primitiveTypeScale, primitiveLetterSpacing,
@@ -19,11 +13,7 @@ import { getNextStates } from '../../../../../../packages/contracts/src/entities
 import { LEGACY_STATUS_MAP } from '../../../../../../packages/contracts/src/entities/case';
 import type { Case, CaseStatus, CaseStatusExtended, LegacyCaseStatus } from '../../../../../../packages/contracts/src/entities/case';
 import type { SubAction, D3FENDTacticType, OutcomeClassification, Action as ActionRec } from '../../../../../../packages/contracts/src/entities/action';
-import { seedEvents } from '../../../../../../packages/contracts/src/fixtures/seed-events';
-import { seedEmailCommunications } from '../../../../../../packages/contracts/src/fixtures/seed-email-communications';
-import { seedGovernedCompose } from '../../../../../../packages/contracts/src/fixtures/seed-governed-compose';
-import { seedCaseTransitionAudits } from '../../../../../../packages/contracts/src/fixtures/seed-case-transition-audits';
-import { seedTeamsDecisionEvents } from '../../../../../../packages/contracts/src/fixtures/seed-teams-decision-events';
+import { thesisCases, thesisAssets, thesisActions, thesisSubActions, thesisRiskObjects, thesisEvidence, thesisStrategies, thesisEvents, thesisEmailCommunications, thesisGovernedCompose, thesisCaseTransitionAudits, thesisTeamsDecisionEvents } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Case Detail — Commander C2 (DS-1.0, Spec 06)
@@ -97,35 +87,35 @@ export default function CaseDetailPage({ params }: { params: Promise<{ id: strin
   const { mode, tokens } = useMode();
   const router = useRouter();
 
-  const caseRecord = seedCases.find((c) => c.id === id) ?? seedCases[0];
-  const strategy = resolveAllStrategies(caseRecord, seedStrategies);
+  const caseRecord = thesisCases.find((c) => c.case_id === id || c.id === id) ?? thesisCases[0];
+  const strategy = resolveAllStrategies(caseRecord, thesisStrategies);
   const p = primitivePriority[caseRecord.priority.toLowerCase() as keyof typeof primitivePriority];
 
   // Real joins by case id
-  const actions = seedActions.filter((a) => a.caseId === caseRecord.id);
-  const subActionsByAction = (actionId: string) => seedSubActions.filter((s) => s.actionId === actionId);
-  const riskObjects = seedRiskObjects.filter(
-    (r) => r.affectedEntityId === caseRecord.id || (r.affectedEntities ?? []).includes(caseRecord.id),
+  const actions = thesisActions.filter((a) => a.case_id === caseRecord.case_id);
+  const subActionsByAction = (action_id: string) => thesisSubActions.filter((s) => s.action_id === action_id);
+  const riskObjects = thesisRiskObjects.filter(
+    (r) => r.affected_entity_id === caseRecord.case_id || (r.affected_entities ?? []).includes(caseRecord.case_id),
   );
-  const evidence = seedEvidence.filter((e) => e.caseId === caseRecord.id);
-  const relatedAssets = seedAssets.filter((a) => caseRecord.relatedEntities.includes(a.id));
-  const relatedCases = seedCases.filter(
-    (c) => c.id !== caseRecord.id && c.relatedEntities.some((e) => caseRecord.relatedEntities.includes(e)),
+  const evidence = thesisEvidence.filter((e) => e.case_id === caseRecord.case_id);
+  const relatedAssets = thesisAssets.filter((a) => caseRecord.related_entities.includes(a.asset_id));
+  const relatedCases = thesisCases.filter(
+    (c) => c.case_id !== caseRecord.case_id && c.related_entities.some((e: any) => caseRecord.related_entities.includes(e)),
   );
 
   // SLA countdown
-  const ageHours = (Date.now() - new Date(caseRecord.createdAt).getTime()) / MS_PER_HOUR;
-  const slaHoursTarget = strategy.sla.status === 'resolved' ? strategy.sla.responseHours : caseRecord.sla.targetResolutionHours;
+  const ageHours = (Date.now() - new Date(caseRecord.created_at).getTime()) / MS_PER_HOUR;
+  const slaHoursTarget = strategy.sla.status === 'resolved' ? strategy.sla.response_hours : caseRecord.sla.target_resolution_hours;
   const slaRemaining = (slaHoursTarget ?? 0) - ageHours;
   const slaBreached = caseRecord.sla.breached || slaRemaining <= 0;
   const slaPct = Math.max(0, Math.min(100, Math.round((ageHours / (slaHoursTarget || 1)) * 100)));
   const slaColor = slaBreached ? primitiveSignal.critical : slaRemaining <= (slaHoursTarget ?? 0) * 0.25 ? primitiveSignal.warning : primitiveSignal.success;
 
   const cur = canonicalStatus(caseRecord.status);
-  const blast = caseRecord.blastRadiusScore ?? caseRecord.relatedEntities.length;
-  const affected = caseRecord.affectedEntityCount ?? caseRecord.relatedEntities.length;
+  const blast = caseRecord.blastRadiusScore ?? caseRecord.related_entities.length;
+  const affected = caseRecord.affected_entity_count ?? caseRecord.related_entities.length;
   const crownJewel = relatedAssets.some((a) => (a as { criticality?: number }).criticality !== undefined && (a as { criticality?: number }).criticality! >= 5);
-  const escalationPath = strategy.routing.status === 'resolved' && strategy.routing.escalationPath ? strategy.routing.escalationPath : ['SOM', 'CISO'];
+  const escalationPath = strategy.routing.status === 'resolved' && strategy.routing.escalation_path ? strategy.routing.escalation_path : ['SOM', 'CISO'];
 
   return (
     <div style={{ padding: componentTokens.contentPadding, display: 'flex', flexDirection: 'column', gap: componentTokens.gridGap }}>
@@ -141,10 +131,10 @@ export default function CaseDetailPage({ params }: { params: Promise<{ id: strin
           <div style={{ minWidth: 0 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: primitiveSpacing[2], flexWrap: 'wrap' }}>
               <span style={{ color: p.color, fontWeight: primitiveFontWeight.bold, fontSize: primitiveTypeScale.body }}>{p.shape} {p.label}</span>
-              <span style={{ fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.caption, color: tokens.text.muted }}>{caseRecord.caseRef}</span>
+              <span style={{ fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.caption, color: tokens.text.muted }}>{caseRecord.case_ref}</span>
               <StatusBadge status={caseRecord.status} tokens={tokens} />
-              <SurfacePill surface={caseRecord.surfaceAttribution} tokens={tokens} />
-              <span style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>{titleCase(caseRecord.caseType)}</span>
+              <SurfacePill surface={caseRecord.surface_attribution} tokens={tokens} />
+              <span style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>{titleCase(caseRecord.case_type)}</span>
             </div>
             <h1 style={{ margin: `${primitiveSpacing[2]} 0 0`, fontSize: primitiveTypeScale.h2, fontWeight: primitiveFontWeight.bold, color: tokens.text.primary, lineHeight: 1.2 }}>{caseRecord.title}</h1>
           </div>
@@ -181,13 +171,18 @@ export default function CaseDetailPage({ params }: { params: Promise<{ id: strin
           <RailPanel tokens={tokens} title="Details">
             <Field tokens={tokens} label="Owner" value={caseRecord.owner} />
             <Field tokens={tokens} label="Team" value={caseRecord.team} />
-            <Field tokens={tokens} label="Case Type" value={titleCase(caseRecord.caseType)} />
-            <Field tokens={tokens} label="Surface" value={caseRecord.surfaceAttribution === 'external_attack_surface' ? 'External Attack Surface' : 'Internal Attack Surface'} />
-            <Field tokens={tokens} label="Created" value={new Date(caseRecord.createdAt).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })} />
-            <Field tokens={tokens} label="Updated" value={new Date(caseRecord.updatedAt).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })} />
-            <Field tokens={tokens} label="Source" value={caseRecord.source.sourceSystem} mono />
+            <Field tokens={tokens} label="Case Type" value={titleCase(caseRecord.case_type)} />
+            <Field tokens={tokens} label="Surface" value={caseRecord.surface_attribution === 'external_attack_surface' ? 'External Attack Surface' : 'Internal Attack Surface'} />
+            <Field tokens={tokens} label="Created" value={new Date(caseRecord.created_at).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })} />
+            <Field tokens={tokens} label="ITIL Stage" value={titleCase(caseRecord.itil_stage)} />
+            <Field tokens={tokens} label="OODA State" value={titleCase(caseRecord.ooda_state)} />
+            <Field tokens={tokens} label="CTEM Phase" value={titleCase(caseRecord.ctem_phase)} />
+            <Field tokens={tokens} label="Impact Scope" value={titleCase(caseRecord.impact_scope)} />
+            <Field tokens={tokens} label="Urgency" value={titleCase(caseRecord.urgency)} />
+            <Field tokens={tokens} label="Updated" value={new Date(caseRecord.updated_at).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })} />
+            <Field tokens={tokens} label="Source" value={caseRecord.source.source_system} mono />
             <Field tokens={tokens} label="Audit Ref" value={caseRecord.auditTrailRef} mono />
-            <a href={`/operating-picture/${caseRecord.surfaceAttribution === 'external_attack_surface' ? 'external' : 'internal'}`} className="btn btn-sm" style={{ marginTop: primitiveSpacing[2] }}>Show in Operating Picture</a>
+            <a href={`/operating-picture/${caseRecord.surface_attribution === 'external_attack_surface' ? 'external' : 'internal'}`} className="btn btn-sm" style={{ marginTop: primitiveSpacing[2] }}>Show in Operating Picture</a>
           </RailPanel>
 
           {/* Impact (COIM-G where present) */}
@@ -210,10 +205,10 @@ export default function CaseDetailPage({ params }: { params: Promise<{ id: strin
 
           {/* Strategy summary (real resolver output) */}
           <RailPanel tokens={tokens} title="Strategy">
-            <Field tokens={tokens} label="SLA" value={strategy.sla.status === 'resolved' ? `${strategy.sla.responseHours}h` : 'Unresolved'} />
+            <Field tokens={tokens} label="SLA" value={strategy.sla.status === 'resolved' ? `${strategy.sla.response_hours}h` : 'Unresolved'} />
             <Field tokens={tokens} label="Routing" value={strategy.routing.status === 'resolved' ? strategy.routing.team ?? '—' : 'Unresolved'} />
-            <Field tokens={tokens} label="Validation" value={strategy.validation.status === 'resolved' ? `${strategy.validation.windowHours}h window` : 'Unresolved'} />
-            <Field tokens={tokens} label="Closure Gates" value={strategy.closureGates.status === 'resolved' ? `${strategy.closureGates.gates?.length ?? 0} gates` : 'Unresolved'} />
+            <Field tokens={tokens} label="Validation" value={strategy.validation.status === 'resolved' ? `${strategy.validation.window_hours}h window` : 'Unresolved'} />
+            <Field tokens={tokens} label="Closure Gates" value={strategy.closure_gates.status === 'resolved' ? `${strategy.closure_gates.gates?.length ?? 0} gates` : 'Unresolved'} />
             <Field tokens={tokens} label="Reopening" value={strategy.reopening.status === 'resolved' ? `${strategy.reopening.triggers?.length ?? 0} triggers` : 'Unresolved'} />
             <StrategyTab strategy={strategy} tokens={tokens} compact />
           </RailPanel>
@@ -230,8 +225,8 @@ export default function CaseDetailPage({ params }: { params: Promise<{ id: strin
                   </span>
                 ))}
                 {relatedCases.map((rc) => (
-                  <span key={rc.id} onClick={() => router.push(`/cases/${rc.id}`)} style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.secondary, cursor: 'pointer', textDecoration: 'underline' }}>
-                    <span style={{ fontFamily: primitiveFonts.mono, color: tokens.text.muted, fontSize: primitiveTypeScale.micro }}>case</span> {rc.caseRef}
+                  <span key={rc.case_id} onClick={() => router.push(`/cases/${rc.case_id}`)} style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.secondary, cursor: 'pointer', textDecoration: 'underline' }}>
+                    <span style={{ fontFamily: primitiveFonts.mono, color: tokens.text.muted, fontSize: primitiveTypeScale.micro }}>case</span> {rc.case_ref}
                   </span>
                 ))}
               </div>
@@ -250,10 +245,10 @@ function LifecycleTab({ caseRecord, cur, tokens, mode }: { caseRecord: Case; cur
   const nextStates = getNextStates(cur);
 
   // Synthesised completed-state timestamps spread between created and updated.
-  const t0 = new Date(caseRecord.createdAt).getTime();
-  const t1 = new Date(caseRecord.updatedAt).getTime();
+  const t0 = new Date(caseRecord.created_at).getTime();
+  const t1 = new Date(caseRecord.updated_at).getTime();
   const stampFor = (idx: number) => {
-    if (curIdx <= 0) return caseRecord.createdAt;
+    if (curIdx <= 0) return caseRecord.created_at;
     const frac = idx / Math.max(1, curIdx);
     return new Date(t0 + (t1 - t0) * frac).toISOString();
   };
@@ -320,32 +315,32 @@ function ActionsTab({ actions, subActionsByAction, tokens }: { actions: ActionRe
             headerRight={<Badge tone={ACTION_TONE[a.status] ?? 'muted'} tokens={tokens} label={titleCase(a.status)} />}>
             <div style={{ display: 'flex', gap: primitiveSpacing[4], flexWrap: 'wrap', marginBottom: primitiveSpacing[3] }}>
               <Mini tokens={tokens} label="Owner" value={a.owner} />
-              <Mini tokens={tokens} label="Est. effort" value={`${a.estimatedEffortHours}h`} />
-              <Mini tokens={tokens} label="Actual" value={`${a.actualEffortHours}h`} />
+              <Mini tokens={tokens} label="Est. effort" value={`${a.estimated_effort_hours}h`} />
+              <Mini tokens={tokens} label="Actual" value={`${a.actual_effort_hours}h`} />
               <Mini tokens={tokens} label="Approval" value={a.approvalRef} mono />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: primitiveSpacing[2] }}>
-              {subs.sort((x, y) => x.sequenceOrder - y.sequenceOrder).map((s) => (
+              {subs.sort((x, y) => x.sequence_order - y.sequence_order).map((s) => (
                 <div key={s.id} style={{ border: `1px solid ${tokens.border.subtle}`, padding: primitiveSpacing[3], background: tokens.surface.primary }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: primitiveSpacing[2] }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: primitiveSpacing[2] }}>
-                      <span style={{ fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>#{s.sequenceOrder}</span>
+                      <span style={{ fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>#{s.sequence_order}</span>
                       <span style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.primary, fontWeight: primitiveFontWeight.medium }}>{s.executionMethod}</span>
-                      <span style={{ fontSize: primitiveTypeScale.micro, padding: '1px 6px', background: D3FEND_COLOR[s.tacticType], color: '#fff', textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>{s.tacticType}</span>
+                      <span style={{ fontSize: primitiveTypeScale.micro, padding: '1px 6px', background: D3FEND_COLOR[s.tactic_type], color: '#fff', textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>{s.tactic_type}</span>
                     </div>
                     <Badge tone={OUTCOME_TONE[s.outcomeClassification]} tokens={tokens} label={titleCase(s.outcomeClassification)} />
                   </div>
                   <div style={{ display: 'flex', gap: primitiveSpacing[4], flexWrap: 'wrap', marginTop: primitiveSpacing[2] }}>
                     <Mini tokens={tokens} label="Target" value={`${s.targetEntity}`} mono />
                     <Mini tokens={tokens} label="Owner" value={s.owner} />
-                    <Mini tokens={tokens} label="Est / Actual" value={`${s.estimatedEffortHours}h / ${s.actualEffortHours}h`} />
+                    <Mini tokens={tokens} label="Est / Actual" value={`${s.estimated_effort_hours}h / ${s.actual_effort_hours}h`} />
                   </div>
                   {s.countermeasures.length > 0 && (
                     <div style={{ marginTop: primitiveSpacing[2], display: 'flex', gap: primitiveSpacing[1], flexWrap: 'wrap' }}>
                       {s.countermeasures.map((cm) => (
-                        <span key={cm.techniqueId} title={cm.techniqueName}
+                        <span key={cm.technique_id} title={cm.technique_name}
                           style={{ fontSize: primitiveTypeScale.micro, fontFamily: primitiveFonts.mono, color: tokens.text.secondary, border: `1px solid ${tokens.border.subtle}`, padding: '1px 5px' }}>
-                          {cm.techniqueId} · {cm.techniqueName}
+                          {cm.technique_id} · {cm.technique_name}
                         </span>
                       ))}
                     </div>
@@ -375,7 +370,7 @@ function EvidenceTab({ caseRecord, riskObjects, evidence, tokens }: {
       <Panel tokens={tokens} title="COIM-G Case Aggregates" subtitle="Computed from bound risk objects">
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: primitiveSpacing[3] }}>
           <Mini tokens={tokens} label="Blast Radius" value={caseRecord.blastRadiusScore !== undefined ? String(caseRecord.blastRadiusScore) : '—'} />
-          <Mini tokens={tokens} label="Affected" value={caseRecord.affectedEntityCount !== undefined ? String(caseRecord.affectedEntityCount) : '—'} />
+          <Mini tokens={tokens} label="Affected" value={caseRecord.affected_entity_count !== undefined ? String(caseRecord.affected_entity_count) : '—'} />
           <Mini tokens={tokens} label="Dwell (h)" value={caseRecord.dwellTimeHours !== undefined ? String(caseRecord.dwellTimeHours) : '—'} />
           <Mini tokens={tokens} label="Confidence" value={caseRecord.confidenceAggregate !== undefined ? `${caseRecord.confidenceAggregate}%` : '—'} />
           <Mini tokens={tokens} label="ATT&CK" value={caseRecord.attacks?.length ? `${caseRecord.attacks.length} technique(s)` : '—'} />
@@ -403,27 +398,27 @@ function EvidenceTab({ caseRecord, riskObjects, evidence, tokens }: {
         {riskObjects.length === 0 ? <Empty tokens={tokens} text="No risk objects bound to this case." /> : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: primitiveSpacing[3] }}>
             {riskObjects.map((r) => {
-              const sc = r.sourceClassification;
+              const sc = r.source_classification;
               return (
                 <div key={r.id} style={{ border: `1px solid ${tokens.border.subtle}`, padding: primitiveSpacing[3], background: tokens.surface.primary }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: primitiveSpacing[2] }}>
                     <span style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.primary, fontWeight: primitiveFontWeight.medium }}>{titleCase(r.type)}</span>
-                    <Badge tone={r.treatmentState === 'open' ? 'warning' : 'success'} tokens={tokens} label={titleCase(r.treatmentState)} />
+                    <Badge tone={r.treatment_state === 'open' ? 'warning' : 'success'} tokens={tokens} label={titleCase(r.treatment_state)} />
                   </div>
                   <p style={{ margin: `${primitiveSpacing[2]} 0`, fontSize: primitiveTypeScale.caption, color: tokens.text.secondary, lineHeight: 1.43 }}>{r.justification}</p>
                   {sc && (
                     <div style={{ display: 'flex', gap: primitiveSpacing[4], flexWrap: 'wrap', marginTop: primitiveSpacing[2] }}>
-                      <Mini tokens={tokens} label="Finding class" value={titleCase(sc.findingClass)} />
-                      <Mini tokens={tokens} label="Severity" value={`${sc.sourceSeverity.severityLevel} (${sc.sourceSeverity.severityId})`} />
-                      <Mini tokens={tokens} label="Confidence" value={`${sc.sourceConfidence.confidenceLevel} (${sc.sourceConfidence.confidenceScore}%)`} />
-                      <Mini tokens={tokens} label="Source" value={`${sc.sourceProduct.vendor} ${sc.sourceProduct.name}`} />
-                      <Mini tokens={tokens} label="Connector" value={`Class ${sc.sourceProduct.connectorClass}`} />
+                      <Mini tokens={tokens} label="Finding class" value={titleCase(sc.finding_class)} />
+                      <Mini tokens={tokens} label="Severity" value={`${sc.source_severity.severity_level} (${sc.source_severity.severity_id})`} />
+                      <Mini tokens={tokens} label="Confidence" value={`${sc.source_confidence.confidence_level} (${sc.source_confidence.confidence_score}%)`} />
+                      <Mini tokens={tokens} label="Source" value={`${sc.source_product.vendor} ${sc.source_product.name}`} />
+                      <Mini tokens={tokens} label="Connector" value={`Class ${sc.source_product.connector_class}`} />
                     </div>
                   )}
                   {sc?.attacks && sc.attacks.length > 0 && (
                     <div style={{ marginTop: primitiveSpacing[2], display: 'flex', gap: primitiveSpacing[1], flexWrap: 'wrap' }}>
                       {sc.attacks.map((t) => (
-                        <span key={t.technique} style={{ fontSize: primitiveTypeScale.micro, fontFamily: primitiveFonts.mono, color: tokens.text.secondary, border: `1px solid ${tokens.border.subtle}`, padding: '1px 5px' }}>{t.technique} · {t.techniqueName}</span>
+                        <span key={t.technique} style={{ fontSize: primitiveTypeScale.micro, fontFamily: primitiveFonts.mono, color: tokens.text.secondary, border: `1px solid ${tokens.border.subtle}`, padding: '1px 5px' }}>{t.technique} · {t.technique_name}</span>
                       ))}
                     </div>
                   )}
@@ -442,11 +437,11 @@ function EvidenceTab({ caseRecord, riskObjects, evidence, tokens }: {
             <tbody>
               {evidence.map((e) => (
                 <tr key={e.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
-                  <Td tokens={tokens}>{titleCase(e.evidenceType)}</Td>
-                  <Td tokens={tokens}><span style={{ fontFamily: primitiveFonts.mono }}>{e.source.sourceSystem}</span></Td>
+                  <Td tokens={tokens}>{titleCase(e.evidence_type)}</Td>
+                  <Td tokens={tokens}><span style={{ fontFamily: primitiveFonts.mono }}>{e.source.source_system}</span></Td>
                   <Td tokens={tokens}><span className="badge bg-secondary">{e.evidenceSource}</span></Td>
                   <Td tokens={tokens}>{e.confidence}%</Td>
-                  <Td tokens={tokens}>{new Date(e.collectedAt).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' })}</Td>
+                  <Td tokens={tokens}>{new Date(e.collected_at).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' })}</Td>
                   <Td tokens={tokens}><Badge tone={freshTone[e.freshnessStatus] ?? 'muted'} tokens={tokens} label={titleCase(e.freshnessStatus)} /></Td>
                 </tr>
               ))}
@@ -462,10 +457,10 @@ function EvidenceTab({ caseRecord, riskObjects, evidence, tokens }: {
 
 // ─── TAB 4: Communication — placeholder (no email/Teams entity exists yet) ──
 
-function CommsTab({ caseRecord, tokens }: { caseRecord: Case; tokens: Tokens }) {
-  const emails = seedEmailCommunications.filter((e) => e.caseRef === caseRecord.id);
-  const drafts = seedGovernedCompose.filter((d) => d.caseRef === caseRecord.id);
-  const teamsDecs = seedTeamsDecisionEvents.filter((t) => t.caseId === caseRecord.id);
+function CommsTab({ caseRecord, tokens }: { caseRecord: any; tokens: any }) {
+  const emails = thesisEmailCommunications.filter((e) => e.case_ref === caseRecord.case_id);
+  const drafts = thesisGovernedCompose.filter((d) => d.case_ref === caseRecord.case_id);
+  const teamsDecs = thesisTeamsDecisionEvents.filter((t) => t.case_id === caseRecord.case_id);
 
   return (
     <section style={{ display: 'flex', flexDirection: 'column', gap: componentTokens.gridGap }}>
@@ -483,9 +478,9 @@ function CommsTab({ caseRecord, tokens }: { caseRecord: Case; tokens: Tokens }) 
                 </div>
                 <div style={{ display: 'flex', gap: primitiveSpacing[4], flexWrap: 'wrap', marginTop: primitiveSpacing[2] }}>
                   <Mini tokens={tokens} label="Direction" value={titleCase(e.direction)} />
-                  <Mini tokens={tokens} label="From" value={e.senderAddress} />
+                  <Mini tokens={tokens} label="From" value={e.sender_address} />
                   <Mini tokens={tokens} label="Confidence" value={`${Math.round(e.bindingConfidence * 100)}%`} />
-                  <Mini tokens={tokens} label="Received" value={new Date(e.receivedAt).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' })} />
+                  <Mini tokens={tokens} label="Received" value={new Date(e.received_at).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' })} />
                 </div>
                 <p style={{ margin: `${primitiveSpacing[2]} 0 0`, fontSize: primitiveTypeScale.micro, color: tokens.text.muted, lineHeight: 1.4 }}>{e.bodyPreview}</p>
               </div>
@@ -529,7 +524,7 @@ function CommsTab({ caseRecord, tokens }: { caseRecord: Case; tokens: Tokens }) 
                   <Mini tokens={tokens} label="Channel" value={titleCase(d.channel)} />
                   <Mini tokens={tokens} label="Approver" value={d.approverRef} />
                   <Mini tokens={tokens} label="Recipients" value={d.recipients.join(', ')} />
-                  <Mini tokens={tokens} label="Expires" value={new Date(d.expiresAt).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' })} />
+                  <Mini tokens={tokens} label="Expires" value={new Date(d.expires_at).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' })} />
                 </div>
               </div>
             ))}
@@ -548,10 +543,10 @@ function StrategyTab({ strategy, tokens, compact }: { strategy: ReturnType<typeo
   if (compact) {
     return (
       <div style={{ marginTop: primitiveSpacing[2], display: 'flex', flexDirection: 'column', gap: primitiveSpacing[1] }}>
-        {strategy.closureGates.status === 'resolved' && strategy.closureGates.gates && strategy.closureGates.gates.length > 0 && (
+        {strategy.closure_gates.status === 'resolved' && strategy.closure_gates.gates && strategy.closure_gates.gates.length > 0 && (
           <div>
             <span style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, display: 'block' }}>Closure Gates</span>
-            <span style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.secondary }}>{strategy.closureGates.gates.map(titleCase).join(', ')}</span>
+            <span style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.secondary }}>{strategy.closure_gates.gates.map(titleCase).join(', ')}</span>
           </div>
         )}
         {strategy.reopening.status === 'resolved' && strategy.reopening.triggers && strategy.reopening.triggers.length > 0 && (
@@ -568,9 +563,9 @@ function StrategyTab({ strategy, tokens, compact }: { strategy: ReturnType<typeo
       <Panel tokens={tokens} title="SLA Strategy" subtitle="Resolved from SLA surface">
         {strategy.sla.status === 'resolved' ? (
           <div style={{ display: 'flex', gap: primitiveSpacing[4], flexWrap: 'wrap' }}>
-            <Mini tokens={tokens} label="Response" value={`${strategy.sla.responseHours}h`} />
-            <Mini tokens={tokens} label="Escalation cadence" value={strategy.sla.escalationCadenceMinutes !== null ? `${strategy.sla.escalationCadenceMinutes} min` : '—'} />
-            <Mini tokens={tokens} label="Policy" value={strategy.sla.sourcePolicy?.id ?? '—'} mono />
+            <Mini tokens={tokens} label="Response" value={`${strategy.sla.response_hours}h`} />
+            <Mini tokens={tokens} label="Escalation cadence" value={strategy.sla.escalation_cadence_minutes !== null ? `${strategy.sla.escalation_cadence_minutes} min` : '—'} />
+            <Mini tokens={tokens} label="Policy" value={strategy.sla.source_policy?.id ?? '—'} mono />
           </div>
         ) : <Unresolved tokens={tokens} />}
       </Panel>
@@ -579,8 +574,8 @@ function StrategyTab({ strategy, tokens, compact }: { strategy: ReturnType<typeo
         {strategy.routing.status === 'resolved' ? (
           <div style={{ display: 'flex', gap: primitiveSpacing[4], flexWrap: 'wrap' }}>
             <Mini tokens={tokens} label="Team" value={strategy.routing.team ?? '—'} />
-            <Mini tokens={tokens} label="Escalation" value={(strategy.routing.escalationPath ?? []).join(' → ') || '—'} />
-            <Mini tokens={tokens} label="Policy" value={strategy.routing.sourcePolicy?.id ?? '—'} mono />
+            <Mini tokens={tokens} label="Escalation" value={(strategy.routing.escalation_path ?? []).join(' → ') || '—'} />
+            <Mini tokens={tokens} label="Policy" value={strategy.routing.source_policy?.id ?? '—'} mono />
           </div>
         ) : <Unresolved tokens={tokens} />}
       </Panel>
@@ -596,7 +591,7 @@ function StrategyTab({ strategy, tokens, compact }: { strategy: ReturnType<typeo
       <Panel tokens={tokens} title="Validation Window" subtitle="Resolved from validation-window surface">
         {strategy.validation.status === 'resolved' ? (
           <div style={{ display: 'flex', gap: primitiveSpacing[4], flexWrap: 'wrap' }}>
-            <Mini tokens={tokens} label="Window" value={`${strategy.validation.windowHours}h`} />
+            <Mini tokens={tokens} label="Window" value={`${strategy.validation.window_hours}h`} />
             <Mini tokens={tokens} label="Freshness" value={`${strategy.validation.freshnessHours}h`} />
           </div>
         ) : <Unresolved tokens={tokens} />}
@@ -604,9 +599,9 @@ function StrategyTab({ strategy, tokens, compact }: { strategy: ReturnType<typeo
 
       {/* AI-PLACEMENT: AI-CASE-DETAIL-003 — Closure gate explanation */}
       <Panel tokens={tokens} title="Closure Gates" subtitle="All gates must pass for system closure">
-        {strategy.closureGates.status === 'resolved' && strategy.closureGates.gates ? (
+        {strategy.closure_gates.status === 'resolved' && strategy.closure_gates.gates ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: primitiveSpacing[1] }}>
-            {strategy.closureGates.gates.map((g) => (
+            {strategy.closure_gates.gates.map((g) => (
               <div key={g} style={{ display: 'flex', alignItems: 'center', gap: primitiveSpacing[2] }}>
                 <span style={{ width: 8, height: 8, background: tokens.text.muted, display: 'inline-block' }} />
                 <span style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.secondary }}>{titleCase(g)}</span>
@@ -631,14 +626,14 @@ function StrategyTab({ strategy, tokens, compact }: { strategy: ReturnType<typeo
 
 // ─── TAB 6: Activity timeline (REAL seed-events for this case) ──────────────
 
-function AuditTab({ caseRecord, tokens }: { caseRecord: Case; tokens: Tokens }) {
+function AuditTab({ caseRecord, tokens }: { caseRecord: any; tokens: any }) {
   // Real activity events from seed-events.ts that reference this case, newest first.
   const sevColor: Record<string, string> = {
     critical: tokens.status.critical, warning: tokens.status.warning,
     info: tokens.status.info, success: tokens.status.success, neutral: tokens.text.muted,
   };
-  const events = seedEvents
-    .filter((e) => e.entityType === 'case' && e.entityRef === caseRecord.id)
+  const events = thesisEvents
+    .filter((e) => e.entity_type === 'case' && e.entity_ref === caseRecord.case_id)
     .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
   return (
@@ -663,16 +658,16 @@ function AuditTab({ caseRecord, tokens }: { caseRecord: Case; tokens: Tokens }) 
         <p style={{ margin: `${primitiveSpacing[3]} 0 0`, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>Audit ref: {caseRecord.auditTrailRef}</p>
       </Panel>
       {/* Structured Lifecycle Audit Trail (UC-206) */}
-      <Panel tokens={tokens} title="Structured Lifecycle Audit Trail" subtitle={`${seedCaseTransitionAudits.filter((t) => t.caseRef === caseRecord.id).length} structured transition(s) for this case`}>
+      <Panel tokens={tokens} title="Structured Lifecycle Audit Trail" subtitle={`${thesisCaseTransitionAudits.filter((t) => t.case_ref === caseRecord.case_id).length} structured transition(s) for this case`}>
         {(() => {
-          const transitions = seedCaseTransitionAudits.filter((t) => t.caseRef === caseRecord.id);
+          const transitions = thesisCaseTransitionAudits.filter((t) => t.case_ref === caseRecord.case_id);
           if (transitions.length === 0) return <Empty tokens={tokens} text="No structured transition audits for this case in seed data." />;
           return (
             <div style={{ display: 'flex', flexDirection: 'column', gap: primitiveSpacing[2] }}>
               {transitions.map((t) => (
                 <div key={t.id} style={{ display: 'flex', gap: primitiveSpacing[3], padding: primitiveSpacing[2], border: `1px solid ${tokens.border.subtle}`, background: tokens.surface.primary, alignItems: 'center' }}>
-                  <span style={{ fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, color: tokens.text.muted, minWidth: 130, whiteSpace: 'nowrap' }}>{new Date(t.transitionedAt).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' })}</span>
-                  <span style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.secondary }}>{titleCase(t.fromState)} → {titleCase(t.toState)}</span>
+                  <span style={{ fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, color: tokens.text.muted, minWidth: 130, whiteSpace: 'nowrap' }}>{new Date(t.transitioned_at).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' })}</span>
+                  <span style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.secondary }}>{titleCase(t.from_state)} → {titleCase(t.to_state)}</span>
                   <span style={{ fontSize: primitiveTypeScale.micro, padding: '1px 6px', border: `1px solid ${tokens.border.default}`, color: tokens.text.muted }}>{t.triggeredBy}</span>
                   <span style={{ fontSize: primitiveTypeScale.micro, color: tokens.text.muted, flex: 1 }}>{t.reason}</span>
                 </div>

@@ -26,12 +26,12 @@ import { seedRiskObjects } from '../../packages/contracts/src/fixtures/seed-risk
 
 function makeValidClassification(): SourceClassification {
   return {
-    findingClass: 'vulnerability',
-    sourceSeverity: { severityLevel: 'critical', severityId: 5 },
-    sourceConfidence: { confidenceLevel: 'high', confidenceScore: 95 },
-    sourceProduct: { vendor: 'Tenable', name: 'Nessus', version: '10.7', connectorClass: 'C' },
-    sourceFindingUid: 'nessus-CVE-2026-1234-host-01',
-    sourceActivity: 'Vulnerability Drift',
+    finding_class: 'vulnerability',
+    source_severity: { severity_level: 'critical', severity_id: 5 },
+    source_confidence: { confidence_level: 'high', confidence_score: 95 },
+    source_product: { vendor: 'Tenable', name: 'Nessus', version: '10.7', connector_class: 'C' },
+    source_finding_uid: 'nessus-CVE-2026-1234-host-01',
+    source_activity: 'Vulnerability Drift',
     attacks: [],
     observables: [],
   };
@@ -67,34 +67,34 @@ describe('COIM-A — validateSourceClassification', () => {
 
   it('rejects severityId out of range', () => {
     const sc = makeValidClassification();
-    sc.sourceSeverity.severityId = 9;
+    sc.source_severity.severity_id = 9;
     const result = validateSourceClassification(sc);
     expect(result.valid).toBe(false);
-    expect(result.errors.join(' ')).toContain('severityId');
+    expect(result.errors.join(' ')).toContain('severity_id');
   });
 
   it('rejects confidenceScore out of range', () => {
     const sc = makeValidClassification();
-    sc.sourceConfidence.confidenceScore = 150;
+    sc.source_confidence.confidence_score = 150;
     const result = validateSourceClassification(sc);
     expect(result.valid).toBe(false);
-    expect(result.errors.join(' ')).toContain('confidenceScore');
+    expect(result.errors.join(' ')).toContain('confidence_score');
   });
 
   it('requires sourceFindingUid', () => {
     const sc = makeValidClassification();
-    sc.sourceFindingUid = '';
+    sc.source_finding_uid = '';
     const result = validateSourceClassification(sc);
     expect(result.valid).toBe(false);
-    expect(result.errors.join(' ')).toContain('sourceFindingUid');
+    expect(result.errors.join(' ')).toContain('source_finding_uid');
   });
 
   it('requires sourceProduct vendor and name', () => {
     const sc = makeValidClassification();
-    sc.sourceProduct = { vendor: '', name: '' };
+    sc.source_product = { vendor: '', name: '' };
     const result = validateSourceClassification(sc);
     expect(result.valid).toBe(false);
-    expect(result.errors.join(' ')).toContain('sourceProduct');
+    expect(result.errors.join(' ')).toContain('source_product');
   });
 
   it('enforces the bounded ATT&CK array (storage efficiency)', () => {
@@ -102,7 +102,7 @@ describe('COIM-A — validateSourceClassification', () => {
     const attack: AttackMapping = {
       tactic: 'Initial Access',
       technique: 'T1190',
-      techniqueName: 'Exploit Public-Facing Application',
+      technique_name: 'Exploit Public-Facing Application',
       version: 'v14.1',
     };
     sc.attacks = Array.from({ length: MAX_ATTACK_BINDINGS + 1 }, () => ({ ...attack }));
@@ -113,7 +113,7 @@ describe('COIM-A — validateSourceClassification', () => {
 
   it('enforces the bounded observables array (storage efficiency)', () => {
     const sc = makeValidClassification();
-    const obs: ObservableRef = { observableType: 'ip', value: '203.0.113.1' };
+    const obs: ObservableRef = { observable_type: 'ip', value: '203.0.113.1' };
     sc.observables = Array.from({ length: MAX_OBSERVABLES + 1 }, () => ({ ...obs }));
     const result = validateSourceClassification(sc);
     expect(result.valid).toBe(false);
@@ -124,31 +124,31 @@ describe('COIM-A — validateSourceClassification', () => {
 describe('COIM-A — seed fixture conformance', () => {
   it('every seed risk object carries a valid source classification', () => {
     for (const ro of seedRiskObjects) {
-      expect(ro.sourceClassification).toBeDefined();
-      const result = validateSourceClassification(ro.sourceClassification!);
+      expect(ro.source_classification).toBeDefined();
+      const result = validateSourceClassification(ro.source_classification!);
       expect(result.valid).toBe(true);
     }
   });
 
   it('every seed risk object carries the timeline model', () => {
     for (const ro of seedRiskObjects) {
-      expect(ro.firstDetectedAt).toBeTruthy();
-      expect(ro.normalisedAt).toBeTruthy();
+      expect(ro.first_detected_at).toBeTruthy();
+      expect(ro.normalised_at).toBeTruthy();
     }
   });
 
   it('normalisedAt is at or after firstDetectedAt for every seed risk object', () => {
     for (const ro of seedRiskObjects) {
-      expect(new Date(ro.normalisedAt!).getTime()).toBeGreaterThanOrEqual(
-        new Date(ro.firstDetectedAt!).getTime(),
+      expect(new Date(ro.normalised_at!).getTime()).toBeGreaterThanOrEqual(
+        new Date(ro.first_detected_at!).getTime(),
       );
     }
   });
 
   it('preserves the singular affectedEntityId for back-compatibility', () => {
     for (const ro of seedRiskObjects) {
-      expect(ro.affectedEntityId).toBeTruthy();
-      expect(ro.affectedEntities).toContain(ro.affectedEntityId);
+      expect(ro.affected_entity_id).toBeTruthy();
+      expect(ro.affected_entities).toContain(ro.affected_entity_id);
     }
   });
 });

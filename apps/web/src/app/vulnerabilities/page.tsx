@@ -1,9 +1,13 @@
 'use client';
 
+import type { ApexOptions } from 'apexcharts';
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedVulnerabilityIntelligence } from '../../../../../packages/contracts/src/fixtures/seed-vulnerability-intelligence';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
+import { thesisVulnerabilityIntelligence, thesisRiskScores, thesisExposures, thesisAssets, thesisBlastRadius, thesisCases, thesisConnectors, thesisPostures, thesisStrategies, thesisMissions, thesisRiskObjects, thesisActions, thesisIdentities, thesisEvents, thesisSignals, thesisIocs } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Vulnerability Management — Overview
@@ -17,13 +21,13 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/
  */
 
 export default function VulnerabilitiesPage() {
-  const { tokens } = useMode();
-  const vulns = seedVulnerabilityIntelligence;
-  const sorted = [...vulns].sort((a, b) => b.cvssScore - a.cvssScore);
+  const { mode, tokens } = useMode();
+  const vulns = thesisVulnerabilityIntelligence;
+  const sorted = [...vulns].sort((a, b) => b.cvss_score - a.cvss_score);
 
-  const kevCount = vulns.filter((v) => v.cisaKevStatus).length;
+  const kevCount = vulns.filter((v) => v.cisa_kev_status).length;
   const criticalCount = vulns.filter((v) => v.severity >= 4).length;
-  const avgCvss = vulns.length > 0 ? (vulns.reduce((sum, v) => sum + v.cvssScore, 0) / vulns.length).toFixed(1) : '0';
+  const avgCvss = vulns.length > 0 ? (vulns.reduce((sum, v) => sum + v.cvss_score, 0) / vulns.length).toFixed(1) : '0';
 
   return (
     <PageContainer
@@ -93,35 +97,35 @@ export default function VulnerabilitiesPage() {
               <tbody>
                 {sorted.map((v) => (
                   <tr key={v.id}>
-                    <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{v.cveId}</td>
+                    <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{v.cve_id}</td>
                     <td>
-                      <span className={`badge ${v.cvssScore >= 9 ? 'bg-red' : v.cvssScore >= 7 ? 'bg-orange' : v.cvssScore >= 4 ? 'bg-yellow' : 'bg-secondary'}`}>
-                        {v.cvssScore.toFixed(1)}
+                      <span className={`badge ${v.cvss_score >= 9 ? 'bg-red' : v.cvss_score >= 7 ? 'bg-orange' : v.cvss_score >= 4 ? 'bg-yellow' : 'bg-secondary'}`}>
+                        {v.cvss_score.toFixed(1)}
                       </span>
                     </td>
                     <td>
                       <SeverityIndicator severity={v.severity} />
                     </td>
                     <td>
-                      {v.cisaKevStatus ? (
+                      {v.cisa_kev_status ? (
                         <span className="badge bg-red-lt">KEV</span>
                       ) : (
                         <span className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>—</span>
                       )}
                     </td>
                     <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>
-                      {v.epssScore !== null ? `${(v.epssScore * 100).toFixed(0)}%` : '—'}
+                      {v.epss_score !== null ? `${(v.epss_score * 100).toFixed(0)}%` : '—'}
                     </td>
                     <td>
-                      <span className={`badge ${v.cveState === 'published' ? 'bg-green-lt' : 'bg-secondary'}`}>
-                        {v.cveState}
+                      <span className={`badge ${v.cve_state === 'published' ? 'bg-green-lt' : 'bg-secondary'}`}>
+                        {v.cve_state}
                       </span>
                     </td>
                     <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>
-                      {v.affectedProducts.length > 0 ? v.affectedProducts.join(', ') : '—'}
+                      {v.affected_products.length > 0 ? v.affected_products.join(', ') : '—'}
                     </td>
                     <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>
-                      {new Date(v.publishedAt).toLocaleDateString()}
+                      {new Date(v.published_at).toLocaleDateString()}
                     </td>
                   </tr>
                 ))}
@@ -133,6 +137,40 @@ export default function VulnerabilitiesPage() {
 
       {/* AI Placement */}
       {/* AI-PLACEMENT: AICAP-007 — Explain vulnerability context, prioritisation reasoning, and estate exposure for selected CVE */}
+    
+
+      {/* Cross-Entity: Vulnerability → Risk Correlation */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h3 style={{ fontSize: primitiveTypeScale.h4, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: `0 0 ${componentTokens.cardHeaderMargin}` }}>Blast Radius from Vulns ({thesisBlastRadius.length})</h3>
+          {thesisBlastRadius.map((b) => (
+            <div key={b.id} style={{ padding: primitiveSpacing[2], borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, color: tokens.text.primary }}>{b.originEntityRef?.slice(0,20)}</span>
+              <span style={{ padding: '2px 6px', fontSize: primitiveTypeScale.micro, color: '#fff', background: b.total_impact_score > 50 ? primitiveSignal.critical : primitiveSignal.warning }}>Impact: {b.total_impact_score}</span>
+            </div>
+          ))}
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h3 style={{ fontSize: primitiveTypeScale.h4, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: `0 0 ${componentTokens.cardHeaderMargin}` }}>Vuln-Linked Cases ({thesisCases.filter((c) => c.priority === 'P0' || c.priority === 'P1').length} high priority)</h3>
+          {thesisCases.filter((c) => c.priority === 'P0' || c.priority === 'P1').slice(0,5).map((c) => (
+            <div key={c.case_id} style={{ padding: primitiveSpacing[2], borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, color: tokens.text.primary }}>{c.case_id.slice(0,12)} — {c.ooda_state}</span>
+              <span style={{ padding: '2px 6px', fontSize: primitiveTypeScale.micro, color: '#fff', background: c.priority === 'P0' ? primitiveSignal.critical : primitiveSignal.warning }}>{c.priority}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Cross-Entity: Asset Posture Impact */}
+      <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding, marginTop: componentTokens.gridGap }}>
+        <h3 style={{ fontSize: primitiveTypeScale.h4, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: `0 0 ${componentTokens.cardHeaderMargin}` }}>Asset Posture (Vulnerability Exposure)</h3>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: primitiveSpacing[3] }}>
+          <div style={{ padding: primitiveSpacing[3], background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, borderLeft: `3px solid ${primitiveSignal.success}` }}><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>Healthy Posture</span><span style={{ fontSize: primitiveTypeScale.h4, fontFamily: primitiveFonts.mono, fontWeight: primitiveFontWeight.bold, color: primitiveSignal.success }}>{thesisPostures.filter((p) => p.posture_status === 'healthy').length}</span></div>
+          <div style={{ padding: primitiveSpacing[3], background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, borderLeft: `3px solid ${primitiveSignal.warning}` }}><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>Degraded</span><span style={{ fontSize: primitiveTypeScale.h4, fontFamily: primitiveFonts.mono, fontWeight: primitiveFontWeight.bold, color: primitiveSignal.warning }}>{thesisPostures.filter((p) => p.posture_status === 'degraded').length}</span></div>
+          <div style={{ padding: primitiveSpacing[3], background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, borderLeft: `3px solid ${primitiveSignal.critical}` }}><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>Critical</span><span style={{ fontSize: primitiveTypeScale.h4, fontFamily: primitiveFonts.mono, fontWeight: primitiveFontWeight.bold, color: primitiveSignal.critical }}>{thesisPostures.filter((p) => p.posture_status === 'critical').length}</span></div>
+          <div style={{ padding: primitiveSpacing[3], background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, borderLeft: `3px solid ${primitiveSignal.info}` }}><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>Active Connectors</span><span style={{ fontSize: primitiveTypeScale.h4, fontFamily: primitiveFonts.mono, fontWeight: primitiveFontWeight.bold, color: tokens.text.primary }}>{thesisConnectors.filter((c) => c.state === 'active').length}</span></div>
+        </div>
+      </div>
     </PageContainer>
   );
 }

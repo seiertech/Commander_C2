@@ -26,25 +26,25 @@ export const PULSE_DOMAINS: PulseDomain[] = ['team', 'domain', 'system'];
 export type WorkloadBand = 'green' | 'amber' | 'red';
 
 export interface TeamPulseEntry extends CommonFields {
-  entityType: 'team-pulse';
+  entity_type: 'team-pulse';
   /** Analyst or team identifier */
-  teamOrAnalyst: string;
+  team_or_analyst: string;
   /** Whether this is a team-level or individual-level entry */
   level: 'team' | 'individual';
   /** Total open cases assigned */
-  openCases: number;
+  open_cases: number;
   /** Cases at P0/P1 priority */
-  highPriorityCases: number;
+  high_priority_cases: number;
   /** Cases breaching SLA */
-  slaBreachedCases: number;
+  sla_breached_cases: number;
   /** Workload band (green < 10, amber 10-15, red > 15) */
-  workloadBand: WorkloadBand;
+  workload_band: WorkloadBand;
   /** Hours since last case closure */
-  hoursSinceLastClosure: number;
+  hours_since_last_closure: number;
   /** Escalation queue depth */
-  escalationQueueDepth: number;
+  escalation_queue_depth: number;
   /** Snapshot timestamp */
-  snapshotAt: string;
+  snapshot_at: string;
 }
 
 // ─── Domain Pulse ────────────────────────────────────────────────────────────
@@ -52,23 +52,23 @@ export interface TeamPulseEntry extends CommonFields {
 export type DomainHealth = 'healthy' | 'degraded' | 'critical';
 
 export interface DomainPulseEntry extends CommonFields {
-  entityType: 'domain-pulse';
+  entity_type: 'domain-pulse';
   /** Security domain name */
   domain: string;
   /** Overall domain health */
   health: DomainHealth;
   /** Cases pending validation */
-  pendingValidation: number;
+  pending_validation: number;
   /** Cases with failed validation */
-  failedValidation: number;
+  failed_validation: number;
   /** Cases blocked on closure gates */
-  closureBlockers: number;
+  closure_blockers: number;
   /** Active risk objects in this domain */
-  activeRiskObjects: number;
+  active_risk_objects: number;
   /** Mean time to resolution (hours) */
-  meanResolutionHours: number;
+  mean_resolution_hours: number;
   /** Snapshot timestamp */
-  snapshotAt: string;
+  snapshot_at: string;
 }
 
 // ─── System Pulse ────────────────────────────────────────────────────────────
@@ -76,19 +76,19 @@ export interface DomainPulseEntry extends CommonFields {
 export type EngineHealth = 'operational' | 'degraded' | 'offline';
 
 export interface SystemPulseEntry extends CommonFields {
-  entityType: 'system-pulse';
+  entity_type: 'system-pulse';
   /** Engine or subsystem name */
   subsystem: string;
   /** Health status */
   health: EngineHealth;
   /** Queue backlog depth (items waiting) */
-  queueBacklog: number;
+  queue_backlog: number;
   /** Data freshness — hours since last successful ingestion */
-  dataFreshnessHours: number;
+  data_freshness_hours: number;
   /** Processing rate (items/hour) */
-  processingRate: number;
+  processing_rate: number;
   /** Error rate (%) */
-  errorRate: number;
+  error_rate: number;
   /** Snapshot timestamp */
-  snapshotAt: string;
+  snapshot_at: string;
 }

@@ -250,7 +250,7 @@ export type AllowBlockListType = typeof ALLOW_BLOCK_LIST_TYPES[number];
  */
 export interface SourceAttributionEntry {
   /** Reporting source ID */
-  sourceId: string;
+  source_id: string;
   /** Confidence reported by this source (0–100) */
   reportedConfidence: number;
   /** Severity reported by this source (1–5) */
@@ -258,9 +258,9 @@ export interface SourceAttributionEntry {
   /** Original raw value as reported by this source */
   originalRawValue: string;
   /** First time this source reported this IOC */
-  firstSeenAt: string;
+  first_seen_at: string;
   /** Last time this source reported this IOC */
-  lastSeenAt: string;
+  last_seen_at: string;
 }
 
 /**

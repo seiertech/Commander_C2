@@ -1,9 +1,13 @@
 'use client';
 
+import type { ApexOptions } from 'apexcharts';
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedIdentities } from '../../../../../../packages/contracts/src/fixtures/seed-identities';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisIdentities, thesisIdentityIntelligence, thesisRiskScores, thesisCases, thesisRiskObjects, thesisPostures, thesisExposures, thesisStrategies, thesisConnectors, thesisBlastRadius, thesisAssets, thesisMissions, thesisActions, thesisEvents, thesisSignals, thesisIocs } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Identity & Access — Privileged Access
@@ -16,18 +20,18 @@ import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/
  */
 
 export default function PrivilegedAccessPage() {
-  const { tokens } = useMode();
+  const { mode, tokens } = useMode();
 
-  const privileged = seedIdentities.filter(
-    (i) => i.privilegeLevel === 'privileged' || i.privilegeLevel === 'super-privileged'
+  const privileged = thesisIdentities.filter(
+    (i) => i.privilege_level === 'privileged' || i.privilege_level === 'super-privileged'
   );
-  const elevated = seedIdentities.filter((i) => i.privilegeLevel === 'elevated');
-  const allPriv = [...privileged, ...elevated].sort((a, b) => b.riskScore - a.riskScore);
+  const elevated = thesisIdentities.filter((i) => i.privilege_level === 'elevated');
+  const allPriv = [...privileged, ...elevated].sort((a, b) => b.risk_score - a.risk_score);
 
-  const superPrivCount = seedIdentities.filter((i) => i.privilegeLevel === 'super-privileged').length;
-  const privCount = seedIdentities.filter((i) => i.privilegeLevel === 'privileged').length;
+  const superPrivCount = thesisIdentities.filter((i) => i.privilege_level === 'super-privileged').length;
+  const privCount = thesisIdentities.filter((i) => i.privilege_level === 'privileged').length;
   const elevCount = elevated.length;
-  const highRiskPriv = allPriv.filter((i) => i.riskScore >= 60).length;
+  const highRiskPriv = allPriv.filter((i) => i.risk_score >= 60).length;
 
   return (
     <PageContainer
@@ -97,13 +101,13 @@ export default function PrivilegedAccessPage() {
                   <tr key={i.id}>
                     <td>
                       <a href={`/identity?id=${i.id}`} style={{ color: tokens.action.primary, fontSize: primitiveTypeScale.body }}>
-                        {i.displayName}
+                        {i.display_name}
                       </a>
                       <div className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{i.email}</div>
                     </td>
                     <td>
-                      <span className={`badge ${i.privilegeLevel === 'super-privileged' ? 'bg-red-lt' : i.privilegeLevel === 'privileged' ? 'bg-orange-lt' : 'bg-yellow-lt'}`}>
-                        {i.privilegeLevel}
+                      <span className={`badge ${i.privilege_level === 'super-privileged' ? 'bg-red-lt' : i.privilege_level === 'privileged' ? 'bg-orange-lt' : 'bg-yellow-lt'}`}>
+                        {i.privilege_level}
                       </span>
                     </td>
                     <td>
@@ -117,8 +121,8 @@ export default function PrivilegedAccessPage() {
                         {i.status}
                       </span>
                     </td>
-                    <td className="text-end" style={{ color: i.riskScore >= 60 ? primitiveSignal.critical : i.riskScore >= 40 ? primitiveSignal.warning : tokens.text.muted }}>
-                      {i.riskScore}
+                    <td className="text-end" style={{ color: i.risk_score >= 60 ? primitiveSignal.critical : i.risk_score >= 40 ? primitiveSignal.warning : tokens.text.muted }}>
+                      {i.risk_score}
                     </td>
                   </tr>
                 ))}
@@ -130,6 +134,26 @@ export default function PrivilegedAccessPage() {
 
       {/* AI Placement */}
       {/* AI-PLACEMENT: AICAP-004 — Explain identity risk factors for privileged accounts */}
+    
+      {/* §7.3 ENRICHMENT */}
+      <section style={{ marginTop: componentTokens.gridGap, padding: componentTokens.cardPadding, background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}` }}>
+        <h4 style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, margin: '0 0 8px' }}>Thesis Data Context</h4>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: primitiveSpacing[2] }}>
+        <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: primitiveTypeScale.micro, background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, marginRight: primitiveSpacing[2] }}>{identityintelligenceCount} Identity Intelligence</span>
+        </div>
+      </section>
+    
+      {/* Engine Correlation Chart — Sweep 3 */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Risk Distribution</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Open', 'Mitigated', 'Closed'], colors: [primitiveSignal.warning, primitiveSignal.success, primitiveSignal.neutral], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisRiskObjects.filter((r) => r.treatment_state === 'open').length, thesisRiskObjects.filter((r) => r.treatment_state === 'mitigated').length, thesisRiskObjects.filter((r) => r.treatment_state !== 'open' && r.treatment_state !== 'mitigated').length]} />
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Posture Health</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Healthy', 'Degraded', 'Critical'], colors: [primitiveSignal.success, primitiveSignal.warning, primitiveSignal.critical], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisPostures.filter((p) => p.posture_status === 'healthy').length, thesisPostures.filter((p) => p.posture_status === 'degraded').length, thesisPostures.filter((p) => p.posture_status === 'critical').length]} />
+        </div>
+      </div>
     </PageContainer>
   );
 }

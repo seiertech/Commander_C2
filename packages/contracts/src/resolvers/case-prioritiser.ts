@@ -15,7 +15,7 @@ import type { StrategyPolicy } from '../entities/strategy';
 export interface PriorityResolution {
   status: 'resolved' | 'unresolved';
   weights: Record<string, number> | null;
-  sourcePolicy: { id: string; version: string } | null;
+  source_policy: { id: string; version: string } | null;
   reason: string;
 }
 
@@ -28,23 +28,23 @@ export function resolvePriority(
   strategies: StrategyPolicy[],
 ): PriorityResolution {
   const priorityPolicy = strategies.find(
-    (s) => s.surfaceType === 'prioritisation-weight' && s.status === 'active',
+    (s) => s.surface_type === 'prioritisation-weight' && s.status === 'active',
   );
 
   if (!priorityPolicy) {
-    return { status: 'unresolved', weights: null, sourcePolicy: null, reason: 'No active prioritisation-weight strategy policy found' };
+    return { status: 'unresolved', weights: null, source_policy: null, reason: 'No active prioritisation-weight strategy policy found' };
   }
 
   const config = priorityPolicy.configuration as { weights?: Record<string, number> };
 
   if (!config.weights || Object.keys(config.weights).length === 0) {
-    return { status: 'unresolved', weights: null, sourcePolicy: { id: priorityPolicy.id, version: priorityPolicy.policyVersion }, reason: 'Prioritisation weight strategy has no weights configured' };
+    return { status: 'unresolved', weights: null, source_policy: { id: priorityPolicy.id, version: priorityPolicy.policy_version }, reason: 'Prioritisation weight strategy has no weights configured' };
   }
 
   return {
     status: 'resolved',
     weights: config.weights,
-    sourcePolicy: { id: priorityPolicy.id, version: priorityPolicy.policyVersion },
+    source_policy: { id: priorityPolicy.id, version: priorityPolicy.policy_version },
     reason: `Resolved ${Object.keys(config.weights).length} prioritisation weights`,
   };
 }

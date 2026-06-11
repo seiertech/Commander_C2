@@ -39,11 +39,11 @@ export interface CorrelationFinding {
   /** Finding identifier */
   findingId: string;
   /** CVE identifier (if applicable) */
-  cveId: string | null;
+  cve_id: string | null;
   /** Affected entity identifier */
-  affectedEntityId: string;
+  affected_entity_id: string;
   /** Detection timestamp (ISO 8601) */
-  detectedAt: string;
+  detected_at: string;
   /** ATT&CK technique IDs mapped to this finding */
   attackTechniques: string[];
   /** Severity score (0–100) */
@@ -61,7 +61,7 @@ export interface CorrelationGroup {
   /** Rationale for the correlation */
   rationale: string;
   /** Blast radius (number of distinct affected entities) */
-  blastRadius: number;
+  blast_radius: number;
 }
 
 export type CorrelationType =
@@ -165,10 +165,10 @@ function detectCveDedup(findings: CorrelationFinding[], maxGroupSize: number): C
   const cveMap = new Map<string, CorrelationFinding[]>();
 
   for (const finding of findings) {
-    if (finding.cveId) {
-      const existing = cveMap.get(finding.cveId) ?? [];
+    if (finding.cve_id) {
+      const existing = cveMap.get(finding.cve_id) ?? [];
       existing.push(finding);
-      cveMap.set(finding.cveId, existing);
+      cveMap.set(finding.cve_id, existing);
     }
   }
 
@@ -176,13 +176,13 @@ function detectCveDedup(findings: CorrelationFinding[], maxGroupSize: number): C
   for (const [cveId, cveFindings] of cveMap) {
     if (cveFindings.length >= 2) {
       const limitedFindings = cveFindings.slice(0, maxGroupSize);
-      const distinctEntities = new Set(limitedFindings.map((f) => f.affectedEntityId));
+      const distinctEntities = new Set(limitedFindings.map((f) => f.affected_entity_id));
       groups.push({
         groupId: '', // Assigned by caller
         correlationType: 'cve-dedup',
         findingIds: limitedFindings.map((f) => f.findingId),
         rationale: `CVE ${cveId} affects ${distinctEntities.size} distinct entities`,
-        blastRadius: distinctEntities.size,
+        blast_radius: distinctEntities.size,
       });
     }
   }
@@ -192,17 +192,17 @@ function detectCveDedup(findings: CorrelationFinding[], maxGroupSize: number): C
 
 function detectTemporalClusters(
   findings: CorrelationFinding[],
-  windowHours: number,
+  window_hours: number,
   maxGroupSize: number,
 ): CorrelationGroup[] {
   if (findings.length < 2) return [];
 
   // Sort by detection time
   const sorted = [...findings].sort(
-    (a, b) => new Date(a.detectedAt).getTime() - new Date(b.detectedAt).getTime(),
+    (a, b) => new Date(a.detected_at).getTime() - new Date(b.detected_at).getTime(),
   );
 
-  const windowMs = windowHours * 60 * 60 * 1000;
+  const windowMs = window_hours * 60 * 60 * 1000;
   const groups: CorrelationGroup[] = [];
   const used = new Set<string>();
 
@@ -210,24 +210,24 @@ function detectTemporalClusters(
     if (used.has(sorted[i].findingId)) continue;
 
     const cluster: CorrelationFinding[] = [sorted[i]];
-    const startTime = new Date(sorted[i].detectedAt).getTime();
+    const startTime = new Date(sorted[i].detected_at).getTime();
 
     for (let j = i + 1; j < sorted.length && cluster.length < maxGroupSize; j++) {
       if (used.has(sorted[j].findingId)) continue;
-      const time = new Date(sorted[j].detectedAt).getTime();
+      const time = new Date(sorted[j].detected_at).getTime();
       if (time - startTime <= windowMs) {
         cluster.push(sorted[j]);
       }
     }
 
     if (cluster.length >= 2) {
-      const distinctEntities = new Set(cluster.map((f) => f.affectedEntityId));
+      const distinctEntities = new Set(cluster.map((f) => f.affected_entity_id));
       groups.push({
         groupId: '',
         correlationType: 'temporal-cluster',
         findingIds: cluster.map((f) => f.findingId),
-        rationale: `${cluster.length} findings within ${windowHours}h window`,
-        blastRadius: distinctEntities.size,
+        rationale: `${cluster.length} findings within ${window_hours}h window`,
+        blast_radius: distinctEntities.size,
       });
       cluster.forEach((f) => used.add(f.findingId));
     }
@@ -244,7 +244,7 @@ function detectBlastRadius(
   if (findings.length < threshold) return [];
 
   // Group by similarity (same CVE or same technique set)
-  const distinctEntities = new Set(findings.map((f) => f.affectedEntityId));
+  const distinctEntities = new Set(findings.map((f) => f.affected_entity_id));
   if (distinctEntities.size >= threshold) {
     const limitedFindings = findings.slice(0, maxGroupSize);
     return [{
@@ -252,7 +252,7 @@ function detectBlastRadius(
       correlationType: 'blast-radius',
       findingIds: limitedFindings.map((f) => f.findingId),
       rationale: `Blast radius: ${distinctEntities.size} distinct entities affected (threshold: ${threshold})`,
-      blastRadius: distinctEntities.size,
+      blast_radius: distinctEntities.size,
     }];
   }
 
@@ -274,13 +274,13 @@ function detectAttackChains(
 
   if (allTechniques.size >= minLength) {
     const limitedFindings = withTechniques.slice(0, maxGroupSize);
-    const distinctEntities = new Set(limitedFindings.map((f) => f.affectedEntityId));
+    const distinctEntities = new Set(limitedFindings.map((f) => f.affected_entity_id));
     return [{
       groupId: '',
       correlationType: 'attack-chain',
       findingIds: limitedFindings.map((f) => f.findingId),
       rationale: `Attack chain: ${allTechniques.size} techniques across ${limitedFindings.length} findings`,
-      blastRadius: distinctEntities.size,
+      blast_radius: distinctEntities.size,
     }];
   }
 

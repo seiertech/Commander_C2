@@ -43,21 +43,21 @@ export type TreatmentState = 'open' | 'mitigated' | 'accepted' | 'transferred';
 
 /** Risk Object — a discrete risk condition bound to cases and entities */
 export interface RiskObject extends CommonFields {
-  entityType: 'risk-object';
+  entity_type: 'risk-object';
   /** Risk object type */
   type: RiskObjectType;
   /** ID of the affected entity (asset, identity, case, etc.) */
-  affectedEntityId: string;
+  affected_entity_id: string;
   /** Type of the affected entity */
-  affectedEntityType: string;
+  affected_entity_type: string;
   /** Justification for this risk object's creation */
   justification: string;
   /** Owner responsible for treatment */
   owner: string;
   /** Current treatment state */
-  treatmentState: TreatmentState;
+  treatment_state: TreatmentState;
   /** Expiry or review trigger condition */
-  expiryOrReviewTrigger: string;
+  expiry_or_review_trigger: string;
 
   // ─── COIM-A augmentation (additive, optional) ──────────────────────────────
   // Source: DEC-coim-ocsf-source-classification-architecture; COIM v1.0 §4.1, §4.12.
@@ -70,19 +70,19 @@ export interface RiskObject extends CommonFields {
    * optional at the type level for additive back-compatibility with records
    * created before COIM-A. Resolves ARCH-DEBT-039.
    */
-  sourceClassification?: SourceClassification;
+  source_classification?: SourceClassification;
 
   /**
    * Plural affected entities. Retains singular `affectedEntityId` above for
    * back-compatibility; `affectedEntities[]` is the COIM-aligned form.
    */
-  affectedEntities?: string[];
+  affected_entities?: string[];
 
   // ─── Timeline model (COIM-A; resolves ARCH-DEBT-045 Risk Object portion) ───
   /** When the source first detected the finding (source timestamp). */
-  firstDetectedAt?: string;
+  first_detected_at?: string;
   /** When the source last confirmed the finding (source timestamp). */
-  lastConfirmedAt?: string;
+  last_confirmed_at?: string;
   /** When Commander normalisation completed (system timestamp). */
-  normalisedAt?: string;
+  normalised_at?: string;
 }

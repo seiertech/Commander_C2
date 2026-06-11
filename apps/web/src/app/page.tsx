@@ -1,11 +1,8 @@
 'use client';
 
+import { thesisCases, thesisConnectors, thesisRiskObjects, thesisStrategies } from '../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedCases } from '../../../../packages/contracts/src/fixtures/seed-cases';
-import { seedConnectors } from '../../../../packages/contracts/src/fixtures/seed-connectors';
-import { seedRiskObjects } from '../../../../packages/contracts/src/fixtures/seed-risk-objects';
-import { seedStrategies } from '../../../../packages/contracts/src/fixtures/seed-strategies';
 import { primitiveTypeScale, primitiveSignal } from '../../../../packages/ui/src/tokens/primitives';
 import {
   OODA_PHASES,
@@ -52,8 +49,8 @@ export default function CommandCentrePage() {
 
   // ── OODA phase-health thresholds — strategy-sourced (no hardcoded thresholds) ──
   // operational-tempo strategy supplies healthy/degraded/critical tempo thresholds.
-  const tempoStrategy = seedStrategies.find(
-    (s) => s.surfaceType === 'operational-tempo' && s.status === 'active',
+  const tempoStrategy = thesisStrategies.find(
+    (s) => s.surface_type === 'operational-tempo' && s.status === 'active',
   );
   const tempoCfg = (tempoStrategy?.configuration as { tempoThresholds?: { healthy: number; degraded: number; critical: number } } | undefined)?.tempoThresholds;
   // greenMin = healthy band floor; amberMin = degraded band floor; below amberMin = red.
@@ -64,16 +61,16 @@ export default function CommandCentrePage() {
   const degradationThreshold = tempoCfg ? tempoCfg.degraded : 70;
 
   // ── OODA phase-health inputs derived deterministically from canonical seed state ──
-  const activeConnectors = seedConnectors.filter((c) => c.state === 'active').length;
-  const connectorHealthRatio = seedConnectors.length > 0 ? activeConnectors / seedConnectors.length : 0;
-  const freshConnectors = seedConnectors.filter((c) => c.lastRunStatus === 'success').length;
-  const signalFreshnessRatio = seedConnectors.length > 0 ? freshConnectors / seedConnectors.length : 0;
+  const activeConnectors = thesisConnectors.filter((c) => c.state === 'active').length;
+  const connectorHealthRatio = thesisConnectors.length > 0 ? activeConnectors / thesisConnectors.length : 0;
+  const freshConnectors = thesisConnectors.filter((c) => c.last_run_status === 'success').length;
+  const signalFreshnessRatio = thesisConnectors.length > 0 ? freshConnectors / thesisConnectors.length : 0;
 
-  const openCases = seedCases.filter((c) => c.status === 'open' || c.status === 'in-progress');
-  const breachedCases = seedCases.filter((c) => c.sla.breached).length;
-  const routingHealthRatio = seedCases.length > 0 ? (seedCases.length - breachedCases) / seedCases.length : 1;
-  const activeStrategies = seedStrategies.filter((s) => s.status === 'active').length;
-  const strategyEffectivenessRatio = seedStrategies.length > 0 ? activeStrategies / seedStrategies.length : 0;
+  const openCases = thesisCases.filter((c) => c.status === 'open' || c.status === 'in-progress');
+  const breachedCases = thesisCases.filter((c) => c.sla.breached).length;
+  const routingHealthRatio = thesisCases.length > 0 ? (thesisCases.length - breachedCases) / thesisCases.length : 1;
+  const activeStrategies = thesisStrategies.filter((s) => s.status === 'active').length;
+  const strategyEffectivenessRatio = thesisStrategies.length > 0 ? activeStrategies / thesisStrategies.length : 0;
 
   const observe = calculateObserveHealth(
     { connectorHealthRatio, signalFreshnessRatio, coverageCompletenessRatio: connectorHealthRatio },
@@ -94,7 +91,7 @@ export default function CommandCentrePage() {
       executionLatencyHours: breachedCases > 0 ? 8 : 2,
       targetLatencyHours: 4,
       successRateRatio: routingHealthRatio,
-      validationPendingCount: seedCases.filter((c) => c.status === 'awaiting-validation').length,
+      validationPendingCount: thesisCases.filter((c) => c.status === 'awaiting-validation').length,
       failedActionCount: breachedCases,
       closureTempoHours: 2,
       targetClosureTempoHours: 2,
@@ -109,27 +106,27 @@ export default function CommandCentrePage() {
 
   // ── Case queue overview ──
   const priorityOrder = ['P0', 'P1', 'P2', 'P3', 'P4'] as const;
-  const casesByPriority = priorityOrder.map((p) => ({ key: p, count: seedCases.filter((c) => c.priority === p).length }));
+  const casesByPriority = priorityOrder.map((p) => ({ key: p, count: thesisCases.filter((c) => c.priority === p).length }));
   const statusOrder = ['open', 'in-progress', 'awaiting-validation', 'awaiting-closure', 'closed', 'reopened'] as const;
   const casesByStatus = statusOrder
-    .map((s) => ({ key: s, count: seedCases.filter((c) => c.status === s).length }))
+    .map((s) => ({ key: s, count: thesisCases.filter((c) => c.status === s).length }))
     .filter((s) => s.count > 0);
-  const externalCount = seedCases.filter((c) => c.surfaceAttribution === 'external_attack_surface').length;
-  const internalCount = seedCases.filter((c) => c.surfaceAttribution === 'internal_attack_surface').length;
+  const externalCount = thesisCases.filter((c) => c.surface_attribution === 'external_attack_surface').length;
+  const internalCount = thesisCases.filter((c) => c.surface_attribution === 'internal_attack_surface').length;
 
   // ── Risk object overview ──
   const riskByType = Array.from(
-    seedRiskObjects.reduce((m, r) => m.set(r.type, (m.get(r.type) ?? 0) + 1), new Map<string, number>()),
+    thesisRiskObjects.reduce((m, r) => m.set(r.type, (m.get(r.type) ?? 0) + 1), new Map<string, number>()),
   ).map(([key, count]) => ({ key, count }));
   const riskByTreatment = Array.from(
-    seedRiskObjects.reduce((m, r) => m.set(r.treatmentState, (m.get(r.treatmentState) ?? 0) + 1), new Map<string, number>()),
+    thesisRiskObjects.reduce((m, r) => m.set(r.treatment_state, (m.get(r.treatment_state) ?? 0) + 1), new Map<string, number>()),
   ).map(([key, count]) => ({ key, count }));
 
   // ── Connector health overview ──
-  const errorConnectors = seedConnectors.filter((c) => c.state === 'error');
+  const errorConnectors = thesisConnectors.filter((c) => c.state === 'error');
 
   // ── Mission-critical alerts (active P0 conditions) ──
-  const p0Cases = seedCases.filter((c) => c.priority === 'P0');
+  const p0Cases = thesisCases.filter((c) => c.priority === 'P0');
 
   return (
     <PageContainer
@@ -278,7 +275,7 @@ export default function CommandCentrePage() {
               <div className="table-responsive">
                 <table className="table table-vcenter card-table">
                   <tbody>
-                    {seedConnectors.map((c) => (
+                    {thesisConnectors.map((c) => (
                       <tr key={c.id}>
                         <td>
                           <span

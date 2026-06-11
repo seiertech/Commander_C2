@@ -10,23 +10,23 @@
 // ─── Types ───────────────────────────────────────────────────────────────────
 
 export interface InboundEmail {
-  messageId: string;
+  message_id: string;
   subject: string;
   senderDomain: string;
-  threadId: string | null;
-  receivedAt: string;
+  thread_id: string | null;
+  received_at: string;
   bodySnippet: string;
 }
 
 export interface CaseReference {
-  caseRef: string;
+  case_ref: string;
   title: string;
   threadIds: string[];
   senderDomains: string[];
 }
 
 export interface EmailBindingResult {
-  caseRef: string | null;
+  case_ref: string | null;
   confidence: number; // 0-100
   status: 'bound' | 'unmatched' | 'duplicate';
 }
@@ -49,12 +49,12 @@ export function bindEmailToCase(
     let confidence = 0;
 
     // Thread ID match is strongest signal
-    if (email.threadId && caseRef.threadIds.includes(email.threadId)) {
+    if (email.thread_id && caseRef.threadIds.includes(email.thread_id)) {
       confidence += 60;
     }
 
     // Subject similarity (contains case ref or title keywords)
-    if (email.subject.includes(caseRef.caseRef)) {
+    if (email.subject.includes(caseRef.case_ref)) {
       confidence += 30;
     } else if (caseRef.title && email.subject.toLowerCase().includes(caseRef.title.toLowerCase())) {
       confidence += 20;
@@ -73,13 +73,13 @@ export function bindEmailToCase(
 
   if (bestMatch && bestConfidence >= 50) {
     return {
-      caseRef: bestMatch.caseRef,
+      case_ref: bestMatch.case_ref,
       confidence: Math.min(100, bestConfidence),
       status: 'bound',
     };
   }
 
-  return { caseRef: null, confidence: bestConfidence, status: 'unmatched' };
+  return { case_ref: null, confidence: bestConfidence, status: 'unmatched' };
 }
 
 /**
@@ -123,19 +123,19 @@ export function rejectDuplicate(
   existing: InboundEmail[],
 ): boolean {
   // Exact message ID match — definite duplicate
-  if (existing.some((e) => e.messageId === email.messageId)) {
+  if (existing.some((e) => e.message_id === email.message_id)) {
     return true;
   }
 
   // Same thread, same sender, same subject within 60 seconds — probable duplicate
   const duplicateWindow = 60_000; // 60 seconds
-  const emailTime = new Date(email.receivedAt).getTime();
+  const emailTime = new Date(email.received_at).getTime();
 
   return existing.some((e) => {
-    if (e.threadId !== email.threadId) return false;
+    if (e.thread_id !== email.thread_id) return false;
     if (e.senderDomain !== email.senderDomain) return false;
     if (e.subject !== email.subject) return false;
-    const existingTime = new Date(e.receivedAt).getTime();
+    const existingTime = new Date(e.received_at).getTime();
     return Math.abs(emailTime - existingTime) < duplicateWindow;
   });
 }

@@ -57,12 +57,12 @@ export const OBSERVABLE_TYPES: ObservableType[] = [
  * bound to multiple Risk Objects via the many-to-many binding table.
  */
 export interface Observable extends CommonFields {
-  entityType: 'observable';
+  entity_type: 'observable';
 
   // ─── Source-owned fields (immutable after write) ─────────────────────────
 
   /** Observable type classification (ip/domain/hash/url/email/certificate/process/file) */
-  observableType: ObservableType;
+  observable_type: ObservableType;
 
   /** Observable value (the indicator itself — IP address, domain name, hash, etc.) */
   value: string;
@@ -89,9 +89,9 @@ export interface ObservableRiskObjectBinding {
   /** Observable entity ID */
   observableId: string;
   /** Risk Object entity ID */
-  riskObjectId: string;
+  risk_object_id: string;
   /** When this binding was created */
-  boundAt: string;
+  bound_at: string;
 }
 
 // ─── Validation ──────────────────────────────────────────────────────────────
@@ -117,9 +117,9 @@ export function validateObservable(observable: Observable): ObservableValidation
   const errors: string[] = [];
 
   // observableType must be a known type
-  if (!OBSERVABLE_TYPES.includes(observable.observableType)) {
+  if (!OBSERVABLE_TYPES.includes(observable.observable_type)) {
     errors.push(
-      `observableType: unknown type "${observable.observableType}". Must be one of: ${OBSERVABLE_TYPES.join(', ')}`,
+      `observable_type: unknown type "${observable.observable_type}". Must be one of: ${OBSERVABLE_TYPES.join(', ')}`,
     );
   }
 

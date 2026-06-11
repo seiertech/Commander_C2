@@ -1,12 +1,14 @@
 'use client';
 
+import type { ApexOptions } from 'apexcharts';
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
 import { use } from 'react';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { seedIdentities } from '../../../../../packages/contracts/src/fixtures/seed-identities';
-import { seedAssets } from '../../../../../packages/contracts/src/fixtures/seed-assets';
-import { seedCases } from '../../../../../packages/contracts/src/fixtures/seed-cases';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
+import { thesisIdentities, thesisAssets, thesisCases, thesisIdentityIntelligence, thesisRiskScores, thesisPostures, thesisRiskObjects, thesisExposures, thesisStrategies, thesisConnectors, thesisMissions, thesisBlastRadius, thesisActions, thesisEvents, thesisSignals, thesisIocs } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Identity Intelligence Surface — Thesis Layer
@@ -48,18 +50,18 @@ const VIEWER_HAS_INTERNAL_RISK_AUTHORITY = false as boolean;
 
 export default function IdentityIntelligencePage({ searchParams }: { searchParams: Promise<{ id?: string }> }) {
   const { id } = use(searchParams);
-  const { tokens } = useMode();
+  const { mode, tokens } = useMode();
 
-  const selected = id ? seedIdentities.find((i) => i.id === id) : undefined;
+  const selected = id ? thesisIdentities.find((i) => i.id === id) : undefined;
 
   // ── List view ──
   if (!selected) {
-    const sorted = [...seedIdentities].sort((a, b) => b.riskScore - a.riskScore);
+    const sorted = [...thesisIdentities].sort((a, b) => b.risk_score - a.risk_score);
     return (
       <PageContainer
         pretitle="Identity & Asset Intelligence › Identities"
         title="Identity Intelligence"
-        headerActions={<span className="badge bg-blue-lt">{seedIdentities.length} identities</span>}
+        headerActions={<span className="badge bg-blue-lt">{thesisIdentities.length} identities</span>}
       >
         <div className="card">
           <div className="card-header">
@@ -77,13 +79,13 @@ export default function IdentityIntelligencePage({ searchParams }: { searchParam
                 <tbody>
                   {sorted.map((i) => (
                     <tr key={i.id}>
-                      <td><a href={`/identity?id=${i.id}`} style={{ color: tokens.action.primary, fontSize: primitiveTypeScale.body }}>{i.displayName}</a></td>
+                      <td><a href={`/identity?id=${i.id}`} style={{ color: tokens.action.primary, fontSize: primitiveTypeScale.body }}>{i.display_name}</a></td>
                       <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{i.classification}</td>
                       <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{i.department}</td>
                       <td>
                         <span className={`badge ${i.status === 'active' ? 'bg-green-lt' : i.status === 'suspended' ? 'bg-orange-lt' : 'bg-secondary'}`}>{i.status}</span>
                       </td>
-                      <td className="text-end" style={{ color: i.riskScore >= 50 ? primitiveSignal.critical : tokens.text.muted }}>{i.riskScore}</td>
+                      <td className="text-end" style={{ color: i.risk_score >= 50 ? primitiveSignal.critical : tokens.text.muted }}>{i.risk_score}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -96,16 +98,16 @@ export default function IdentityIntelligencePage({ searchParams }: { searchParam
   }
 
   const i = selected;
-  const caseHistory = seedCases.filter((c) => c.relatedEntities.includes(i.id));
-  const relatedAssets = seedAssets.filter((a) => i.associatedAssets.includes(a.id));
+  const caseHistory = thesisCases.filter((c) => c.related_entities.includes(i.id));
+  const relatedAssets = thesisAssets.filter((a) => i.associated_assets.includes(a.asset_id));
 
   return (
     <PageContainer
       pretitle="Identity & Asset Intelligence › Identity"
-      title={i.displayName}
+      title={i.display_name}
       headerActions={
-        <span className={`badge ${i.surfaceAttribution === 'external_attack_surface' ? 'bg-azure-lt' : 'bg-purple-lt'}`}>
-          {i.surfaceAttribution === 'external_attack_surface' ? 'External Attack Surface' : 'Internal Attack Surface'}
+        <span className={`badge ${i.surface_attribution === 'external_attack_surface' ? 'bg-azure-lt' : 'bg-purple-lt'}`}>
+          {i.surface_attribution === 'external_attack_surface' ? 'External Attack Surface' : 'Internal Attack Surface'}
         </span>
       }
     >
@@ -122,11 +124,11 @@ export default function IdentityIntelligencePage({ searchParams }: { searchParam
             <Field label="Role" value={i.role} />
             <Field label="Department" value={i.department} />
             <Field label="Status" value={i.status} />
-            <Field label="Privilege" value={i.privilegeLevel ?? 'unknown'} />
+            <Field label="Privilege" value={i.privilege_level ?? 'unknown'} />
             <Field label="Auth Strength" value={i.authenticationStrength ?? 'unknown'} />
             <Field label="Last Authenticated" value={i.lastAuthenticatedAt ? new Date(i.lastAuthenticatedAt).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' }) : 'unknown'} />
-            <Field label="Surface" value={i.surfaceAttribution === 'external_attack_surface' ? 'External' : 'Internal'} />
-            <Field label="Risk Score" value={String(i.riskScore)} alert={i.riskScore >= 50} />
+            <Field label="Surface" value={i.surface_attribution === 'external_attack_surface' ? 'External' : 'Internal'} />
+            <Field label="Risk Score" value={String(i.risk_score)} alert={i.risk_score >= 50} />
           </div>
         </div>
       </div>
@@ -149,7 +151,7 @@ export default function IdentityIntelligencePage({ searchParams }: { searchParam
           {relatedAssets.length > 0 ? (
             <div className="d-flex flex-column gap-1">
               {relatedAssets.map((a) => (
-                <a key={a.id} href={`/assets?id=${a.id}`} style={{ fontSize: primitiveTypeScale.body, color: tokens.action.primary }}>{a.name}</a>
+                <a key={a.asset_id} href={`/assets?id=${a.asset_id}`} style={{ fontSize: primitiveTypeScale.body, color: tokens.action.primary }}>{a.asset_name}</a>
               ))}
             </div>
           ) : (
@@ -210,9 +212,9 @@ export default function IdentityIntelligencePage({ searchParams }: { searchParam
             <table className="table table-vcenter card-table">
               <tbody>
                 {caseHistory.map((c) => (
-                  <tr key={c.id}>
+                  <tr key={c.case_id}>
                     <td style={{ width: '48px' }}><span className={`badge ${c.priority === 'P0' ? 'bg-red' : c.priority === 'P1' ? 'bg-orange' : 'bg-secondary'}`}>{c.priority}</span></td>
-                    <td><a href={`/cases/${c.id}`} style={{ color: tokens.action.primary, fontSize: primitiveTypeScale.body }}>{c.title}</a></td>
+                    <td><a href={`/cases/${c.case_id}`} style={{ color: tokens.action.primary, fontSize: primitiveTypeScale.body }}>{c.title}</a></td>
                     <td className="text-muted text-end" style={{ fontSize: primitiveTypeScale.caption }}>{c.status}</td>
                   </tr>
                 ))}
@@ -230,7 +232,7 @@ export default function IdentityIntelligencePage({ searchParams }: { searchParam
         <div className="card-header"><h3 className="card-title">Risk Trajectory</h3></div>
         <div className="card-body">
           <div className="d-flex align-items-baseline gap-2 mb-2">
-            <span className="h1 mb-0" style={{ color: i.riskScore >= 50 ? primitiveSignal.critical : tokens.text.primary }}>{i.riskScore}</span>
+            <span className="h1 mb-0" style={{ color: i.risk_score >= 50 ? primitiveSignal.critical : tokens.text.primary }}>{i.risk_score}</span>
             <span className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>composite risk score (0–100)</span>
           </div>
           {i.riskFactors && i.riskFactors.length > 0 ? (
@@ -258,6 +260,43 @@ export default function IdentityIntelligencePage({ searchParams }: { searchParam
           <a href="/cases" className="btn">Cases</a>
           <a href="/assets" className="btn">Assets</a>
           <a href="/operating-picture/internal" className="btn">Internal Operating Picture</a>
+        </div>
+      </div>
+    
+
+      {/* Cross-Entity: Identity → Risk + Cases */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h3 style={{ fontSize: primitiveTypeScale.h4, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: `0 0 ${componentTokens.cardHeaderMargin}` }}>Identity Risk Scores</h3>
+          {thesisRiskScores.filter((s) => s.scoredEntityType === 'identity').map((s) => (
+            <div key={s.id} style={{ padding: primitiveSpacing[2], borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, color: tokens.text.primary }}>{s.scoredEntityRef.slice(0,20)}</span>
+              <span style={{ padding: '2px 6px', fontSize: primitiveTypeScale.micro, color: '#fff', background: s.risk_score > 70 ? primitiveSignal.critical : s.risk_score > 40 ? primitiveSignal.warning : primitiveSignal.success }}>{s.risk_score}</span>
+            </div>
+          ))}
+          {thesisRiskScores.filter((s) => s.scoredEntityType === 'identity').length === 0 && <span style={{ color: tokens.text.muted, fontSize: primitiveTypeScale.caption }}>No identity-specific scores</span>}
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h3 style={{ fontSize: primitiveTypeScale.h4, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: `0 0 ${componentTokens.cardHeaderMargin}` }}>Identity-Linked Risk Objects</h3>
+          {thesisRiskObjects.filter((r) => r.affected_entity_type === 'identity').map((r) => (
+            <div key={r.id} style={{ padding: primitiveSpacing[2], borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ color: tokens.text.primary, fontSize: primitiveTypeScale.caption }}>{r.type.replace(/_/g, ' ')}</span>
+              <span style={{ padding: '2px 6px', fontSize: primitiveTypeScale.micro, color: '#fff', background: r.treatment_state === 'open' ? primitiveSignal.warning : primitiveSignal.success }}>{r.treatment_state}</span>
+            </div>
+          ))}
+          {thesisRiskObjects.filter((r) => r.affected_entity_type === 'identity').length === 0 && <span style={{ color: tokens.text.muted, fontSize: primitiveTypeScale.caption }}>No identity risks</span>}
+        </div>
+      </div>
+    
+      {/* Engine Correlation Chart — Sweep 3 */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Risk Distribution</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Open', 'Mitigated', 'Closed'], colors: [primitiveSignal.warning, primitiveSignal.success, primitiveSignal.neutral], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisRiskObjects.filter((r) => r.treatment_state === 'open').length, thesisRiskObjects.filter((r) => r.treatment_state === 'mitigated').length, thesisRiskObjects.filter((r) => r.treatment_state !== 'open' && r.treatment_state !== 'mitigated').length]} />
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Posture Health</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Healthy', 'Degraded', 'Critical'], colors: [primitiveSignal.success, primitiveSignal.warning, primitiveSignal.critical], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisPostures.filter((p) => p.posture_status === 'healthy').length, thesisPostures.filter((p) => p.posture_status === 'degraded').length, thesisPostures.filter((p) => p.posture_status === 'critical').length]} />
         </div>
       </div>
     </PageContainer>

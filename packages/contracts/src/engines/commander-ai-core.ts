@@ -44,8 +44,8 @@ export interface GroundingCorpus {
 
 /** A single grounded reference — an id the output is anchored to. */
 export interface GroundingRef {
-  entityType: 'case' | 'risk-object' | 'asset' | 'identity';
-  entityId: string;
+  entity_type: 'case' | 'risk-object' | 'asset' | 'identity';
+  entity_id: string;
 }
 
 /** Result of attempting to ground a set of referenced ids against the corpus. */
@@ -64,11 +64,11 @@ export interface GroundingResult {
  */
 export function groundReferences(refs: GroundingRef[], corpus: GroundingCorpus): GroundingResult {
   const has = (ref: GroundingRef): boolean => {
-    switch (ref.entityType) {
-      case 'case': return corpus.cases.some((c) => c.id === ref.entityId);
-      case 'risk-object': return corpus.riskObjects.some((r) => r.id === ref.entityId);
-      case 'asset': return corpus.assets.some((a) => a.id === ref.entityId);
-      case 'identity': return corpus.identities.some((i) => i.id === ref.entityId);
+    switch (ref.entity_type) {
+      case 'case': return corpus.cases.some((c) => c.id === ref.entity_id);
+      case 'risk-object': return corpus.riskObjects.some((r) => r.id === ref.entity_id);
+      case 'asset': return corpus.assets.some((a) => a.id === ref.entity_id);
+      case 'identity': return corpus.identities.some((i) => i.id === ref.entity_id);
       default: return false;
     }
   };
@@ -170,17 +170,17 @@ function refusedOutput(capability: AiOutput['capability'], check: RefusalCheck):
  * Draft a case summary — grounded strictly in the supplied case record.
  * Refuses if the case is not in the corpus (no invented cases).
  */
-export function draftCaseSummary(caseId: string, corpus: GroundingCorpus): AiOutput {
-  const ref: GroundingRef = { entityType: 'case', entityId: caseId };
+export function draftCaseSummary(case_id: string, corpus: GroundingCorpus): AiOutput {
+  const ref: GroundingRef = { entity_type: 'case', entity_id: case_id };
   const check = checkRefusal({ intent: 'draft', references: [ref] }, corpus);
   if (!check.allowed) return refusedOutput('draft', check);
-  const c = corpus.cases.find((x) => x.id === caseId)!;
+  const c = corpus.cases.find((x) => x.id === case_id)!;
   return {
     capability: 'draft',
     refused: false,
     refusalReasons: [],
-    text: `${c.caseRef} (${c.priority}, ${c.status}): ${c.title}. Owner ${c.owner}, team ${c.team}. ` +
-      `Surface: ${c.surfaceAttribution}. Routing rationale: ${c.routingRationale}`,
+    text: `${c.case_ref} (${c.priority}, ${c.status}): ${c.title}. Owner ${c.owner}, team ${c.team}. ` +
+      `Surface: ${c.surface_attribution}. Routing rationale: ${c.routingRationale}`,
     groundedIn: [ref],
   };
 }
@@ -189,16 +189,16 @@ export function draftCaseSummary(caseId: string, corpus: GroundingCorpus): AiOut
  * Explain a case's routing — grounded in the case's own recorded rationale
  * (never invented; the routing decision belongs to the routing engine).
  */
-export function explainCaseRouting(caseId: string, corpus: GroundingCorpus): AiOutput {
-  const ref: GroundingRef = { entityType: 'case', entityId: caseId };
+export function explainCaseRouting(case_id: string, corpus: GroundingCorpus): AiOutput {
+  const ref: GroundingRef = { entity_type: 'case', entity_id: case_id };
   const check = checkRefusal({ intent: 'explain', references: [ref] }, corpus);
   if (!check.allowed) return refusedOutput('explain', check);
-  const c = corpus.cases.find((x) => x.id === caseId)!;
+  const c = corpus.cases.find((x) => x.id === case_id)!;
   return {
     capability: 'explain',
     refused: false,
     refusalReasons: [],
-    text: `${c.caseRef} was routed to ${c.team} (owner ${c.owner}). Recorded rationale: ${c.routingRationale}`,
+    text: `${c.case_ref} was routed to ${c.team} (owner ${c.owner}). Recorded rationale: ${c.routingRationale}`,
     groundedIn: [ref],
   };
 }
@@ -206,16 +206,16 @@ export function explainCaseRouting(caseId: string, corpus: GroundingCorpus): AiO
 /**
  * Summarize risk-object treatment for an entity — grounded in supplied risk objects.
  */
-export function summarizeRiskTreatment(riskObjectId: string, corpus: GroundingCorpus): AiOutput {
-  const ref: GroundingRef = { entityType: 'risk-object', entityId: riskObjectId };
+export function summarizeRiskTreatment(risk_object_id: string, corpus: GroundingCorpus): AiOutput {
+  const ref: GroundingRef = { entity_type: 'risk-object', entity_id: risk_object_id };
   const check = checkRefusal({ intent: 'summarize', references: [ref] }, corpus);
   if (!check.allowed) return refusedOutput('summarize', check);
-  const r = corpus.riskObjects.find((x) => x.id === riskObjectId)!;
+  const r = corpus.riskObjects.find((x) => x.id === risk_object_id)!;
   return {
     capability: 'summarize',
     refused: false,
     refusalReasons: [],
-    text: `Risk object ${r.id} (${r.type}) is ${r.treatmentState}. ${r.justification} Owner: ${r.owner}.`,
+    text: `Risk object ${r.id} (${r.type}) is ${r.treatment_state}. ${r.justification} Owner: ${r.owner}.`,
     groundedIn: [ref],
   };
 }
@@ -228,15 +228,15 @@ export function navigateToEntity(query: string, corpus: GroundingCorpus): AiOutp
   const q = query.trim().toLowerCase();
   const matches: GroundingRef[] = [];
   for (const c of corpus.cases) {
-    if (c.caseRef.toLowerCase().includes(q) || c.title.toLowerCase().includes(q)) {
-      matches.push({ entityType: 'case', entityId: c.id });
+    if (c.case_ref.toLowerCase().includes(q) || c.title.toLowerCase().includes(q)) {
+      matches.push({ entity_type: 'case', entity_id: c.id });
     }
   }
   for (const a of corpus.assets) {
-    if (a.name.toLowerCase().includes(q)) matches.push({ entityType: 'asset', entityId: a.id });
+    if (a.name.toLowerCase().includes(q)) matches.push({ entity_type: 'asset', entity_id: a.id });
   }
   for (const i of corpus.identities) {
-    if (i.displayName.toLowerCase().includes(q)) matches.push({ entityType: 'identity', entityId: i.id });
+    if (i.display_name.toLowerCase().includes(q)) matches.push({ entity_type: 'identity', entity_id: i.id });
   }
   return {
     capability: 'navigate',
@@ -271,21 +271,21 @@ export function logAiExecution(
 ): AuditEvent {
   return {
     id: auditId,
-    entityType: 'audit-event',
+    entity_type: 'audit-event',
     tenant,
-    createdAt: at,
-    updatedAt: at,
+    created_at: at,
+    updated_at: at,
     source: {
-      connectorId: 'commander-ai-core',
-      importRunId: `ai-${auditId}`,
-      sourceSystem: 'commander-ai-core',
-      sourceTimestamp: at,
+      connector_id: 'commander-ai-core',
+      import_run_id: `ai-${auditId}`,
+      source_system: 'commander-ai-core',
+      source_timestamp: at,
     },
     actor: COMMANDER_AI_ACTOR,
     action: output.refused ? `ai-${output.capability}-refused` : `ai-${output.capability}`,
-    entityRef: {
-      entityType: output.groundedIn[0]?.entityType ?? 'none',
-      entityId: output.groundedIn[0]?.entityId ?? 'none',
+    entity_ref: {
+      entity_type: output.groundedIn[0]?.entity_type ?? 'none',
+      entity_id: output.groundedIn[0]?.entity_id ?? 'none',
     },
     sourceSignal: null,
     priorState: null,

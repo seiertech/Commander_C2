@@ -1,9 +1,8 @@
 'use client';
 
 import { PageContainer } from '@/components/page-container';
-import { seedMissions } from '../../../../../../packages/contracts/src/fixtures/seed-missions';
-import { seedMissionBindings } from '../../../../../../packages/contracts/src/fixtures/seed-mission-bindings';
 import { primitiveTypeScale } from '../../../../../../packages/ui/src/tokens/primitives';
+import { thesisMissions, thesisMissionBindings, thesisTenantConfigs, thesisRbacPolicies, thesisConnectors, thesisRules, thesisFeatureRegistry, thesisAssets, thesisCases, thesisStrategies, thesisPostures } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Settings — Mission Configuration
@@ -20,7 +19,7 @@ export default function SettingsMissionsPage() {
       <div className="card mb-3">
         <div className="card-header d-flex justify-content-between align-items-center">
           <h3 className="card-title">Strategic Missions</h3>
-          <span className="badge bg-blue-lt">{seedMissions.length} missions</span>
+          <span className="badge bg-blue-lt">{thesisMissions.length} missions</span>
         </div>
         <div className="card-body p-0">
           <div className="table-responsive">
@@ -37,8 +36,8 @@ export default function SettingsMissionsPage() {
                 </tr>
               </thead>
               <tbody>
-                {seedMissions.map((mission) => {
-                  const bindings = seedMissionBindings.filter((b) => b.missionId === mission.id);
+                {thesisMissions.map((mission) => {
+                  const bindings = thesisMissionBindings.filter((b) => b.mission_id === mission.id);
                   return (
                     <tr key={mission.id}>
                       <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.body }}>{mission.name}</td>
@@ -57,7 +56,7 @@ export default function SettingsMissionsPage() {
                         <span className="badge bg-blue-lt">{bindings.length} bound</span>
                       </td>
                       <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>
-                        {mission.bindingRules.map((r) => `${r.ruleType}:${r.pattern}`).join(', ') || 'None'}
+                        {mission.bindingRules.map((r: any) => `${r.rule_type}:${r.pattern}`).join(', ') || 'None'}
                       </td>
                       <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>
                         {mission.reviewedBy ? `${mission.reviewedBy} (${new Date(mission.reviewedAt!).toLocaleDateString()})` : 'Pending'}
@@ -92,15 +91,15 @@ export default function SettingsMissionsPage() {
                 </tr>
               </thead>
               <tbody>
-                {seedMissionBindings.map((binding) => (
+                {thesisMissionBindings.map((binding) => (
                   <tr key={binding.id}>
-                    <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.caption }}>{binding.bindingId}</td>
-                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{binding.missionId}</td>
+                    <td style={{ fontWeight: 600, fontSize: primitiveTypeScale.caption }}>{binding.binding_id}</td>
+                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{binding.mission_id}</td>
                     <td><span className="badge bg-secondary">{binding.boundEntityType}</span></td>
-                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{binding.entityRef}</td>
+                    <td className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>{binding.entity_ref}</td>
                     <td><span className="badge bg-blue-lt">{binding.bindingMethod.replace(/_/g, ' ')}</span></td>
                     <td>{binding.confidence}%</td>
-                    <td className="text-muted">{binding.boundBy}</td>
+                    <td className="text-muted">{binding.bound_by}</td>
                     <td>
                       <span className={`badge ${binding.active ? 'bg-green-lt' : 'bg-red-lt'}`}>
                         {binding.active ? 'Active' : 'Inactive'}
@@ -116,6 +115,20 @@ export default function SettingsMissionsPage() {
 
       <div className="text-muted" style={{ fontSize: primitiveTypeScale.caption }}>
         Mission binding management (add/remove/approve) will be fully interactive in a future release. Current display is read-only from seed data.
+      </div>
+    
+      {/* Configuration Context — Sweep 3 */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>Tenant Configs</span><span style={{ fontSize: primitiveTypeScale.kpiValue, fontFamily: primitiveFonts.mono, fontWeight: primitiveFontWeight.bold, color: tokens.text.primary }}>{thesisTenantConfigs.length}</span></div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>RBAC Policies</span><span style={{ fontSize: primitiveTypeScale.kpiValue, fontFamily: primitiveFonts.mono, fontWeight: primitiveFontWeight.bold, color: tokens.text.primary }}>{thesisRbacPolicies.length}</span></div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>Connectors</span><span style={{ fontSize: primitiveTypeScale.kpiValue, fontFamily: primitiveFonts.mono, fontWeight: primitiveFontWeight.bold, color: tokens.text.primary }}>{thesisConnectors.length}</span></div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>Rules</span><span style={{ fontSize: primitiveTypeScale.kpiValue, fontFamily: primitiveFonts.mono, fontWeight: primitiveFontWeight.bold, color: tokens.text.primary }}>{thesisRules.length}</span></div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>Assets</span><span style={{ fontSize: primitiveTypeScale.kpiValue, fontFamily: primitiveFonts.mono, fontWeight: primitiveFontWeight.bold, color: tokens.text.primary }}>{thesisAssets.length}</span></div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>Cases</span><span style={{ fontSize: primitiveTypeScale.kpiValue, fontFamily: primitiveFonts.mono, fontWeight: primitiveFontWeight.bold, color: tokens.text.primary }}>{thesisCases.length}</span></div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>Strategies</span><span style={{ fontSize: primitiveTypeScale.kpiValue, fontFamily: primitiveFonts.mono, fontWeight: primitiveFontWeight.bold, color: tokens.text.primary }}>{thesisStrategies.length}</span></div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>Missions</span><span style={{ fontSize: primitiveTypeScale.kpiValue, fontFamily: primitiveFonts.mono, fontWeight: primitiveFontWeight.bold, color: tokens.text.primary }}>{thesisMissions.length}</span></div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>Postures</span><span style={{ fontSize: primitiveTypeScale.kpiValue, fontFamily: primitiveFonts.mono, fontWeight: primitiveFontWeight.bold, color: tokens.text.primary }}>{thesisPostures.length}</span></div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow }}>Features</span><span style={{ fontSize: primitiveTypeScale.kpiValue, fontFamily: primitiveFonts.mono, fontWeight: primitiveFontWeight.bold, color: tokens.text.primary }}>{thesisFeatureRegistry.length}</span></div>
       </div>
     </PageContainer>
   );

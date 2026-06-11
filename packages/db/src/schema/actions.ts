@@ -52,18 +52,18 @@ export const d3fendTacticTypeEnum = pgEnum('d3fend_tactic_type', [
 
 export const actions = pgTable('actions', {
   id: text('id').primaryKey(),
-  tenantId: text('tenant_id').notNull().references(() => tenants.id),
+  tenant_id: text('tenant_id').notNull().references(() => tenants.id),
   dataClassification: dataClassificationEnum('data_classification').notNull().default('case'),
   /** Reference to the owning case (application-layer enforced, no FK) */
-  caseId: text('case_id').notNull(),
+  case_id: text('case_id').notNull(),
   /** Human-readable action title */
   title: text('title').notNull(),
   /** Action description / remediation objective */
   description: text('description').notNull(),
   /** Total estimated effort for all sub-actions (hours) */
-  estimatedEffortHours: real('estimated_effort_hours').notNull().default(0),
+  estimated_effort_hours: real('estimated_effort_hours').notNull().default(0),
   /** Total actual effort recorded across sub-actions (hours) */
-  actualEffortHours: real('actual_effort_hours').notNull().default(0),
+  actual_effort_hours: real('actual_effort_hours').notNull().default(0),
   /** Overall action status */
   status: actionStatusEnum('status').notNull().default('planned'),
   /** Approval reference */
@@ -71,24 +71,24 @@ export const actions = pgTable('actions', {
   /** Owner assigned via routing engine */
   owner: text('owner').notNull(),
   /** Source provenance */
-  sourceConnectorId: text('source_connector_id').notNull(),
+  source_connector_id: text('source_connector_id').notNull(),
   sourceImportRunId: text('source_import_run_id').notNull(),
-  sourceSystem: text('source_system').notNull(),
-  sourceTimestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  source_system: text('source_system').notNull(),
+  source_timestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
+  created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updated_at: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 });
 
 // ─── Sub-Actions Table ───────────────────────────────────────────────────────
 
 export const subActions = pgTable('sub_actions', {
   id: text('id').primaryKey(),
-  tenantId: text('tenant_id').notNull().references(() => tenants.id),
+  tenant_id: text('tenant_id').notNull().references(() => tenants.id),
   dataClassification: dataClassificationEnum('data_classification').notNull().default('case'),
   /** Reference to parent action */
-  actionId: text('action_id').notNull().references(() => actions.id),
+  action_id: text('action_id').notNull().references(() => actions.id),
   /** Reference to the owning case (denormalised, application-layer enforced) */
-  caseId: text('case_id').notNull(),
+  case_id: text('case_id').notNull(),
   /** Entity targeted by this sub-action */
   targetEntity: text('target_entity').notNull(),
   /** Type of the target entity */
@@ -98,27 +98,27 @@ export const subActions = pgTable('sub_actions', {
   /** Outcome classification */
   outcomeClassification: outcomeClassificationEnum('outcome_classification').notNull().default('pending'),
   /** Estimated effort (hours) */
-  estimatedEffortHours: real('estimated_effort_hours').notNull().default(0),
+  estimated_effort_hours: real('estimated_effort_hours').notNull().default(0),
   /** Actual effort (hours) */
-  actualEffortHours: real('actual_effort_hours').notNull().default(0),
+  actual_effort_hours: real('actual_effort_hours').notNull().default(0),
   /** Approval reference */
   approvalRef: text('approval_ref').notNull(),
   /** Owner assigned via routing engine */
   owner: text('owner').notNull(),
   /** Ordering within the parent Action */
-  sequenceOrder: integer('sequence_order').notNull().default(0),
+  sequence_order: integer('sequence_order').notNull().default(0),
 
   // ─── D3FEND Classification (ARCH-DEBT-046) ─────────────────────────────────
   /** D3FEND tactic type */
-  tacticType: d3fendTacticTypeEnum('tactic_type').notNull(),
+  tactic_type: d3fendTacticTypeEnum('tactic_type').notNull(),
   /** D3FEND countermeasures (bounded JSONB array, max 10 entries) */
   countermeasures: jsonb('countermeasures').notNull().default('[]'),
 
   /** Source provenance */
-  sourceConnectorId: text('source_connector_id').notNull(),
+  source_connector_id: text('source_connector_id').notNull(),
   sourceImportRunId: text('source_import_run_id').notNull(),
-  sourceSystem: text('source_system').notNull(),
-  sourceTimestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  source_system: text('source_system').notNull(),
+  source_timestamp: timestamp('source_timestamp', { withTimezone: true }).notNull(),
+  created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updated_at: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 });

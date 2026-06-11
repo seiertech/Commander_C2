@@ -1,11 +1,14 @@
 'use client';
 
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
 import { PageContainer } from '@/components/page-container';
-import { seedStrategies } from '../../../../../../packages/contracts/src/fixtures/seed-strategies';
 import { STRATEGY_SURFACE_LABELS } from '../../../../../../packages/contracts/src/entities/strategy';
 import type { StrategySurfaceType } from '../../../../../../packages/contracts/src/entities/strategy';
 import { primitiveTypeScale, primitiveHud } from '../../../../../../packages/ui/src/tokens/primitives';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
+import { thesisStrategies, thesisMissions, thesisRiskObjects, thesisCases, thesisBlastRadius, thesisExposures, thesisPostures, thesisConnectors, thesisActions, thesisIdentities } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Strategy Centre — Unified Configuration Surface (Spec 43)
@@ -19,15 +22,15 @@ import { componentTokens } from '../../../../../../packages/ui/src/tokens/compon
  */
 
 export default function StrategyCentrePage() {
-  const policies = seedStrategies;
+  const policies = thesisStrategies;
   const activePolicies = policies.filter((p) => p.status === 'active');
   const pendingApproval = policies.filter((p) => p.status === 'pending-approval');
-  const surfacesCovered = new Set(activePolicies.map((p) => p.surfaceType)).size;
+  const surfacesCovered = new Set(activePolicies.map((p) => p.surface_type)).size;
 
   // Build a lookup: surface → active policy
   const surfacePolicyMap = new Map<StrategySurfaceType, typeof policies[number]>();
   for (const p of activePolicies) {
-    surfacePolicyMap.set(p.surfaceType, p);
+    surfacePolicyMap.set(p.surface_type, p);
   }
 
   const statusBadge = (status: string) => {
@@ -118,12 +121,12 @@ export default function StrategyCentrePage() {
                           <span className="text-secondary">—</span>
                         )}
                       </td>
-                      <td>{policy?.policyVersion ?? '—'}</td>
+                      <td>{policy?.policy_version ?? '—'}</td>
                       <td>{policy ? statusBadge(policy.status) : <span className="badge bg-secondary">No policy</span>}</td>
-                      <td>{policy ? new Date(policy.updatedAt).toLocaleDateString() : '—'}</td>
+                      <td>{policy ? new Date(policy.updated_at).toLocaleDateString() : '—'}</td>
                       <td>
                         {policy?.approval ? (
-                          <span className="badge bg-green-lt" title={`${policy.approval.approvedAt ? new Date(policy.approval.approvedAt).toLocaleDateString() : ''} — ${policy.approval.rationale ?? ''}`}>{policy.approval.approvedBy}</span>
+                          <span className="badge bg-green-lt" title={`${policy.approval.approved_at ? new Date(policy.approval.approved_at).toLocaleDateString() : ''} — ${policy.approval.rationale ?? ''}`}>{policy.approval.approved_by}</span>
                         ) : (
                           <span className="text-secondary">—</span>
                         )}
@@ -139,6 +142,27 @@ export default function StrategyCentrePage() {
 
       {/* AI-PLACEMENT: AICAP — Strategy policy recommendation engine */}
       {/* AI-PLACEMENT: AICAP — Strategy conflict resolution advisor */}
+    
+      {/* §7.3 ENRICHMENT */}
+      <section style={{ marginTop: componentTokens.gridGap, padding: componentTokens.cardPadding, background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}` }}>
+        <h4 style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, margin: '0 0 8px' }}>Thesis Data Context</h4>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: primitiveSpacing[2] }}>
+        <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: primitiveTypeScale.micro, background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, marginRight: primitiveSpacing[2] }}>{missionsCount} Missions</span>
+        <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: primitiveTypeScale.micro, background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, marginRight: primitiveSpacing[2] }}>{riskobjectsCount} Risk Objects</span>
+        </div>
+      </section>
+    
+      {/* Interactive Chart Section — Sweep 3 */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Risk Distribution</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Open', 'Mitigated', 'Closed'], colors: [primitiveSignal.warning, primitiveSignal.success, primitiveSignal.neutral], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisRiskObjects.filter((r) => r.treatment_state === 'open').length, thesisRiskObjects.filter((r) => r.treatment_state === 'mitigated').length, thesisRiskObjects.filter((r) => r.treatment_state !== 'open' && r.treatment_state !== 'mitigated').length]} />
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Posture Health</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Healthy', 'Degraded', 'Critical'], colors: [primitiveSignal.success, primitiveSignal.warning, primitiveSignal.critical], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisPostures.filter((p) => p.posture_status === 'healthy').length, thesisPostures.filter((p) => p.posture_status === 'degraded').length, thesisPostures.filter((p) => p.posture_status === 'critical').length]} />
+        </div>
+      </div>
     </PageContainer>
   );
 }

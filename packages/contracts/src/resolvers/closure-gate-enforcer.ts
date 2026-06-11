@@ -27,9 +27,9 @@ export interface ClosureGateResult {
   /** Whether ALL gates pass (case can proceed to closed) */
   allGatesPass: boolean;
   /** Individual gate results */
-  gateResults: { gate: string; passed: boolean; reason: string }[];
+  gate_results: { gate: string; passed: boolean; reason: string }[];
   /** Strategy reference for audit */
-  strategyRef: { policyId: string; policyVersion: string };
+  strategyRef: { policy_id: string; policy_version: string };
 }
 
 /**
@@ -73,7 +73,7 @@ export function evaluateClosureGates(
   strategies: StrategyPolicy[],
 ): ClosureGateResult {
   const policy = strategies.find(
-    (s) => s.surfaceType === 'closure-gate' && s.status === 'active',
+    (s) => s.surface_type === 'closure-gate' && s.status === 'active',
   );
 
   if (!policy) {
@@ -90,7 +90,7 @@ export function evaluateClosureGates(
     );
   }
 
-  const gateResults = config.gates.map((gate) => {
+  const gate_results = config.gates.map((gate) => {
     const evaluator = GATE_EVALUATORS[gate];
     if (!evaluator) {
       return { gate, passed: false, reason: `Unknown gate '${gate}' — no evaluator available` };
@@ -99,14 +99,14 @@ export function evaluateClosureGates(
     return { gate, ...result };
   });
 
-  const allGatesPass = gateResults.every((r) => r.passed);
+  const allGatesPass = gate_results.every((r) => r.passed);
 
   return {
     allGatesPass,
-    gateResults,
+    gate_results,
     strategyRef: {
-      policyId: policy.id,
-      policyVersion: policy.policyVersion,
+      policy_id: policy.id,
+      policy_version: policy.policy_version,
     },
   };
 }

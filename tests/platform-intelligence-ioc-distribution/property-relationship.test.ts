@@ -18,18 +18,18 @@ import type { IocRelationshipState } from '../../packages/contracts/src/entities
 function makeRelationship(overrides: Partial<IocRelationship> = {}): IocRelationship {
   return {
     id: 'rel-0001',
-    tenant: { tenantId: 'tenant-001', tenantName: 'Test' },
-    createdAt: '2026-01-01T00:00:00Z',
-    updatedAt: '2026-01-01T00:00:00Z',
-    source: { connectorId: 'c1', importRunId: 'r1', sourceSystem: 'test', sourceTimestamp: '2026-01-01T00:00:00Z' },
-    iocId: 'ioc-0001',
+    tenant: { tenant_id: 'tenant-001', tenant_name: 'Test' },
+    created_at: '2026-01-01T00:00:00Z',
+    updated_at: '2026-01-01T00:00:00Z',
+    source: { connector_id: 'c1', import_run_id: 'r1', source_system: 'test', source_timestamp: '2026-01-01T00:00:00Z' },
+    ioc_id: 'ioc-0001',
     relatedEntityId: 'entity-0001',
     relatedEntityType: 'cve',
     relationshipState: 'unclassified',
     confidence: 50,
     establishedAt: '2026-01-01T00:00:00Z',
     lastUpdatedAt: '2026-01-01T00:00:00Z',
-    evidenceRef: 'evidence-ref-001',
+    evidence_ref: 'evidence-ref-001',
     stateHistory: [],
     ...overrides,
   };
@@ -45,7 +45,7 @@ describe('Property 8: Relationship cardinality and IOC independence', () => {
           // IOC can have any relationship state — including states not related to CVE
           const rel = makeRelationship({ relationshipState: state });
           // An IOC with no CVE relationship is valid (independence)
-          expect(rel.iocId).toBeDefined();
+          expect(rel.ioc_id).toBeDefined();
           expect(IOC_RELATIONSHIP_STATES).toContain(rel.relationshipState);
         },
       ),
@@ -66,7 +66,7 @@ describe('Property 8: Relationship cardinality and IOC independence', () => {
             }),
           );
           // All share the same iocId but different relatedEntityIds
-          const iocIds = new Set(relationships.map(r => r.iocId));
+          const iocIds = new Set(relationships.map(r => r.ioc_id));
           expect(iocIds.size).toBe(1); // same IOC
           expect(relationships.length).toBe(entityIds.length); // multiple relationships
         },

@@ -14,7 +14,7 @@ export interface TopologyComponent {
 
 export interface TopologyFinding {
   componentId: string;
-  findingType: 'single_point_of_failure' | 'circular_dependency' | 'orphaned' | 'over_connected';
+  finding_type: 'single_point_of_failure' | 'circular_dependency' | 'orphaned' | 'over_connected';
   severity: number;
   description: string;
 }
@@ -33,7 +33,7 @@ export interface PolicyConflict {
 
 export interface DependencyRiskResult {
   componentId: string;
-  riskScore: number; // 0-100
+  risk_score: number; // 0-100
   factors: string[];
 }
 
@@ -53,7 +53,7 @@ export function analyseTopology(components: TopologyComponent[]): TopologyFindin
     if (component.deps.length === 0 && dependedOnBy.length === 0 && components.length > 1) {
       findings.push({
         componentId: component.id,
-        findingType: 'orphaned',
+        finding_type: 'orphaned',
         severity: 2,
         description: `Component "${component.id}" has no dependencies and nothing depends on it.`,
       });
@@ -63,7 +63,7 @@ export function analyseTopology(components: TopologyComponent[]): TopologyFindin
     if (component.criticality >= 4 && dependedOnBy.length >= 3) {
       findings.push({
         componentId: component.id,
-        findingType: 'single_point_of_failure',
+        finding_type: 'single_point_of_failure',
         severity: 5,
         description: `Component "${component.id}" (criticality ${component.criticality}) has ${dependedOnBy.length} dependents — single point of failure.`,
       });
@@ -73,7 +73,7 @@ export function analyseTopology(components: TopologyComponent[]): TopologyFindin
     if (component.deps.length >= 5) {
       findings.push({
         componentId: component.id,
-        findingType: 'over_connected',
+        finding_type: 'over_connected',
         severity: 3,
         description: `Component "${component.id}" depends on ${component.deps.length} other components — over-connected.`,
       });
@@ -87,7 +87,7 @@ export function analyseTopology(components: TopologyComponent[]): TopologyFindin
         if (component.id < depId) {
           findings.push({
             componentId: component.id,
-            findingType: 'circular_dependency',
+            finding_type: 'circular_dependency',
             severity: 4,
             description: `Circular dependency between "${component.id}" and "${depId}".`,
           });
@@ -157,7 +157,7 @@ export function assessDependencyRisk(
 
   return {
     componentId: component.id,
-    riskScore: Math.min(100, riskScore),
+    risk_score: Math.min(100, riskScore),
     factors,
   };
 }

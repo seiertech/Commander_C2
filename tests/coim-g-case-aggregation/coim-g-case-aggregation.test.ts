@@ -30,30 +30,30 @@ import { seedRiskObjects } from '../../packages/contracts/src/fixtures/seed-risk
 const baseRisk = (overrides: Partial<RiskObject>): RiskObject =>
   ({
     id: 'risk-object-9001',
-    entityType: 'risk-object',
-    tenant: { tenantId: 'tenant-001-acme-corp', tenantName: 'Acme Corp' },
-    createdAt: '2026-01-18T06:00:00.000Z',
-    updatedAt: '2026-01-18T06:00:00.000Z',
+    entity_type: 'risk-object',
+    tenant: { tenant_id: 'tenant-001-acme-corp', tenant_name: 'Acme Corp' },
+    created_at: '2026-01-18T06:00:00.000Z',
+    updated_at: '2026-01-18T06:00:00.000Z',
     source: {
-      connectorId: 'conn-test',
-      importRunId: 'run-test',
-      sourceSystem: 'commander-test',
-      sourceTimestamp: '2026-01-18T06:00:00.000Z',
+      connector_id: 'conn-test',
+      import_run_id: 'run-test',
+      source_system: 'commander-test',
+      source_timestamp: '2026-01-18T06:00:00.000Z',
     },
     type: 'vulnerability_drift',
-    affectedEntityId: 'asset-0001',
-    affectedEntityType: 'asset',
+    affected_entity_id: 'asset-0001',
+    affected_entity_type: 'asset',
     justification: 'test',
     owner: 'test',
-    treatmentState: 'open',
-    expiryOrReviewTrigger: 'test',
+    treatment_state: 'open',
+    expiry_or_review_trigger: 'test',
     ...overrides,
   }) as RiskObject;
 
 const attack = (technique: string, subTechnique?: string): AttackMapping => ({
   tactic: 'Initial Access',
   technique,
-  techniqueName: `Technique ${technique}`,
+  technique_name: `Technique ${technique}`,
   subTechnique,
   version: 'v14.1',
 });
@@ -67,8 +67,8 @@ describe('COIM-G — Case aggregate fields (additive, optional)', () => {
   });
 
   it('Case type accepts affectedEntityCount (optional)', () => {
-    const c: Partial<Case> = { affectedEntityCount: 3 };
-    expect(c.affectedEntityCount).toBe(3);
+    const c: Partial<Case> = { affected_entity_count: 3 };
+    expect(c.affected_entity_count).toBe(3);
   });
 
   it('Case type accepts blastRadiusScore (optional)', () => {
@@ -92,12 +92,12 @@ describe('COIM-G — Case aggregate fields (additive, optional)', () => {
   });
 
   it('all COIM-G fields are optional — case without them is valid shape', () => {
-    const minimal: Pick<Case, 'entityType' | 'caseRef' | 'priority'> = {
-      entityType: 'case',
-      caseRef: 'CASE-TEST',
+    const minimal: Pick<Case, 'entity_type' | 'case_ref' | 'priority'> = {
+      entity_type: 'case',
+      case_ref: 'CASE-TEST',
       priority: 'P2',
     };
-    expect(minimal.entityType).toBe('case');
+    expect(minimal.entity_type).toBe('case');
   });
 });
 
@@ -106,8 +106,8 @@ describe('COIM-G — Case aggregate fields (additive, optional)', () => {
 describe('COIM-G — computeCaseAggregation: ATT&CK aggregation', () => {
   it('unions ATT&CK bindings across bound risk objects', () => {
     const ros = [
-      baseRisk({ sourceClassification: scWith([attack('T1190')]) }),
-      baseRisk({ sourceClassification: scWith([attack('T1078')]) }),
+      baseRisk({ source_classification: scWith([attack('T1190')]) }),
+      baseRisk({ source_classification: scWith([attack('T1078')]) }),
     ];
     const agg = computeCaseAggregation(ros, '2026-01-18T06:00:00.000Z');
     expect(agg.attacks.map((a) => a.technique).sort()).toEqual(['T1078', 'T1190']);
@@ -115,8 +115,8 @@ describe('COIM-G — computeCaseAggregation: ATT&CK aggregation', () => {
 
   it('deduplicates identical technique bindings', () => {
     const ros = [
-      baseRisk({ sourceClassification: scWith([attack('T1190')]) }),
-      baseRisk({ sourceClassification: scWith([attack('T1190')]) }),
+      baseRisk({ source_classification: scWith([attack('T1190')]) }),
+      baseRisk({ source_classification: scWith([attack('T1190')]) }),
     ];
     const agg = computeCaseAggregation(ros, '2026-01-18T06:00:00.000Z');
     expect(agg.attacks).toHaveLength(1);
@@ -124,7 +124,7 @@ describe('COIM-G — computeCaseAggregation: ATT&CK aggregation', () => {
 
   it('treats sub-techniques as distinct from their parent technique', () => {
     const ros = [
-      baseRisk({ sourceClassification: scWith([attack('T1078'), attack('T1078', 'T1078.001')]) }),
+      baseRisk({ source_classification: scWith([attack('T1078'), attack('T1078', 'T1078.001')]) }),
     ];
     const agg = computeCaseAggregation(ros, '2026-01-18T06:00:00.000Z');
     expect(agg.attacks).toHaveLength(2);
@@ -132,7 +132,7 @@ describe('COIM-G — computeCaseAggregation: ATT&CK aggregation', () => {
 
   it('bounds aggregated ATT&CK bindings to MAX_CASE_ATTACK_BINDINGS', () => {
     const many = Array.from({ length: 60 }, (_, i) => attack(`T${1000 + i}`));
-    const ros = [baseRisk({ sourceClassification: scWith(many) })];
+    const ros = [baseRisk({ source_classification: scWith(many) })];
     const agg = computeCaseAggregation(ros, '2026-01-18T06:00:00.000Z');
     expect(agg.attacks.length).toBe(MAX_CASE_ATTACK_BINDINGS);
   });
@@ -149,31 +149,31 @@ describe('COIM-G — computeCaseAggregation: ATT&CK aggregation', () => {
 describe('COIM-G — computeCaseAggregation: affected entities + blast radius', () => {
   it('counts distinct affected entities via plural affectedEntities[]', () => {
     const ros = [
-      baseRisk({ affectedEntities: ['asset-0001', 'asset-0002'] }),
-      baseRisk({ affectedEntities: ['asset-0002', 'asset-0003'] }),
+      baseRisk({ affected_entities: ['asset-0001', 'asset-0002'] }),
+      baseRisk({ affected_entities: ['asset-0002', 'asset-0003'] }),
     ];
     const agg = computeCaseAggregation(ros, '2026-01-18T06:00:00.000Z');
-    expect(agg.affectedEntityCount).toBe(3);
+    expect(agg.affected_entity_count).toBe(3);
   });
 
   it('falls back to singular affectedEntityId when plural is absent', () => {
     const ros = [
-      baseRisk({ affectedEntityId: 'asset-0001', affectedEntities: undefined }),
-      baseRisk({ affectedEntityId: 'asset-0002', affectedEntities: undefined }),
+      baseRisk({ affected_entity_id: 'asset-0001', affected_entities: undefined }),
+      baseRisk({ affected_entity_id: 'asset-0002', affected_entities: undefined }),
     ];
     const agg = computeCaseAggregation(ros, '2026-01-18T06:00:00.000Z');
-    expect(agg.affectedEntityCount).toBe(2);
+    expect(agg.affected_entity_count).toBe(2);
   });
 
   it('blast radius is 10 points per affected entity, saturating at 100', () => {
-    const ros = [baseRisk({ affectedEntities: ['a', 'b', 'c'] })];
+    const ros = [baseRisk({ affected_entities: ['a', 'b', 'c'] })];
     const agg = computeCaseAggregation(ros, '2026-01-18T06:00:00.000Z');
     expect(agg.blastRadiusScore).toBe(30);
   });
 
   it('blast radius never exceeds MAX_BLAST_RADIUS_SCORE', () => {
     const entities = Array.from({ length: 20 }, (_, i) => `asset-${i}`);
-    const ros = [baseRisk({ affectedEntities: entities })];
+    const ros = [baseRisk({ affected_entities: entities })];
     const agg = computeCaseAggregation(ros, '2026-01-18T06:00:00.000Z');
     expect(agg.blastRadiusScore).toBe(MAX_BLAST_RADIUS_SCORE);
   });
@@ -184,21 +184,21 @@ describe('COIM-G — computeCaseAggregation: affected entities + blast radius', 
 describe('COIM-G — computeCaseAggregation: dwell time (ARCH-DEBT-045)', () => {
   it('computes whole-hour dwell from earliest firstDetectedAt to case creation', () => {
     const ros = [
-      baseRisk({ firstDetectedAt: '2026-01-18T00:00:00.000Z' }),
-      baseRisk({ firstDetectedAt: '2026-01-17T22:00:00.000Z' }), // earliest
+      baseRisk({ first_detected_at: '2026-01-18T00:00:00.000Z' }),
+      baseRisk({ first_detected_at: '2026-01-17T22:00:00.000Z' }), // earliest
     ];
     const agg = computeCaseAggregation(ros, '2026-01-18T06:00:00.000Z');
     expect(agg.dwellTimeHours).toBe(8); // 22:00 → 06:00 next day
   });
 
   it('returns undefined when no bound risk object carries firstDetectedAt', () => {
-    const ros = [baseRisk({ firstDetectedAt: undefined })];
+    const ros = [baseRisk({ first_detected_at: undefined })];
     const agg = computeCaseAggregation(ros, '2026-01-18T06:00:00.000Z');
     expect(agg.dwellTimeHours).toBeUndefined();
   });
 
   it('clamps negative spans (detection after case creation) to 0', () => {
-    const ros = [baseRisk({ firstDetectedAt: '2026-01-18T10:00:00.000Z' })];
+    const ros = [baseRisk({ first_detected_at: '2026-01-18T10:00:00.000Z' })];
     const agg = computeCaseAggregation(ros, '2026-01-18T06:00:00.000Z');
     expect(agg.dwellTimeHours).toBe(0);
   });
@@ -209,8 +209,8 @@ describe('COIM-G — computeCaseAggregation: dwell time (ARCH-DEBT-045)', () => 
 describe('COIM-G — computeCaseAggregation: confidence + finding-class breakdown', () => {
   it('averages source confidence across bound risk objects (rounded)', () => {
     const ros = [
-      baseRisk({ sourceClassification: scWith([], 90) }),
-      baseRisk({ sourceClassification: scWith([], 95) }),
+      baseRisk({ source_classification: scWith([], 90) }),
+      baseRisk({ source_classification: scWith([], 95) }),
     ];
     const agg = computeCaseAggregation(ros, '2026-01-18T06:00:00.000Z');
     expect(agg.confidenceAggregate).toBe(93); // round(92.5)
@@ -223,9 +223,9 @@ describe('COIM-G — computeCaseAggregation: confidence + finding-class breakdow
 
   it('counts bound risk objects per finding class', () => {
     const ros = [
-      baseRisk({ sourceClassification: scWith([], 50, 'vulnerability') }),
-      baseRisk({ sourceClassification: scWith([], 50, 'vulnerability') }),
-      baseRisk({ sourceClassification: scWith([], 50, 'detection') }),
+      baseRisk({ source_classification: scWith([], 50, 'vulnerability') }),
+      baseRisk({ source_classification: scWith([], 50, 'vulnerability') }),
+      baseRisk({ source_classification: scWith([], 50, 'detection') }),
     ];
     const agg = computeCaseAggregation(ros, '2026-01-18T06:00:00.000Z');
     expect(agg.findingClassBreakdown).toEqual({ vulnerability: 2, detection: 1 });
@@ -238,7 +238,7 @@ describe('COIM-G — computeCaseAggregation: confidence + finding-class breakdow
 
   it('handles an empty risk-object set without throwing', () => {
     const agg = computeCaseAggregation([], '2026-01-18T06:00:00.000Z');
-    expect(agg.affectedEntityCount).toBe(0);
+    expect(agg.affected_entity_count).toBe(0);
     expect(agg.blastRadiusScore).toBe(0);
     expect(agg.attacks).toEqual([]);
     expect(agg.dwellTimeHours).toBeUndefined();
@@ -252,13 +252,13 @@ describe('COIM-G — computeCaseAggregation: confidence + finding-class breakdow
 describe('COIM-G — seed case 0001 cached aggregates match resolver output', () => {
   it('cached aggregates on case-0001 equal computeCaseAggregation over its bound risk object', () => {
     const case1 = seedCases.find((c) => c.id === 'case-0001')!;
-    // risk-object-0003 is bound to case-0001 (affectedEntities: [case-0001]).
-    const bound = seedRiskObjects.filter((ro) => ro.affectedEntities?.includes('case-0001'));
+    // risk-object-0003 is bound to case-0001 (affected_entities: [case-0001]).
+    const bound = seedRiskObjects.filter((ro) => ro.affected_entities?.includes('case-0001'));
     expect(bound.length).toBeGreaterThan(0);
 
-    const agg = computeCaseAggregation(bound, case1.createdAt);
+    const agg = computeCaseAggregation(bound, case1.created_at);
     expect(case1.attacks).toEqual(agg.attacks);
-    expect(case1.affectedEntityCount).toBe(agg.affectedEntityCount);
+    expect(case1.affected_entity_count).toBe(agg.affected_entity_count);
     expect(case1.blastRadiusScore).toBe(agg.blastRadiusScore);
     expect(case1.dwellTimeHours).toBe(agg.dwellTimeHours);
     expect(case1.confidenceAggregate).toBe(agg.confidenceAggregate);
@@ -277,16 +277,16 @@ describe('COIM-G — backward compatibility: existing seed cases unchanged', () 
   it('all 30 seed cases retain required governance fields (no regression)', () => {
     expect(seedCases).toHaveLength(30);
     for (const c of seedCases) {
-      expect(c.entityType).toBe('case');
-      expect(c.caseRef).toBeTruthy();
-      expect(c.caseType).toBeTruthy();
+      expect(c.entity_type).toBe('case');
+      expect(c.case_ref).toBeTruthy();
+      expect(c.case_type).toBeTruthy();
       expect(c.status).toBeTruthy();
       expect(c.priority).toBeTruthy();
       expect(c.owner).toBeTruthy();
       expect(c.routingRationale).toBeTruthy();
       expect(c.auditTrailRef).toBeTruthy();
-      expect(c.sla.targetResolutionHours).toBeGreaterThan(0);
-      expect(['internal_attack_surface', 'external_attack_surface']).toContain(c.surfaceAttribution);
+      expect(c.sla.target_resolution_hours).toBeGreaterThan(0);
+      expect(['internal_attack_surface', 'external_attack_surface']).toContain(c.surface_attribution);
     }
   });
 
@@ -294,7 +294,7 @@ describe('COIM-G — backward compatibility: existing seed cases unchanged', () 
     for (const c of seedCases) {
       if (c.id === 'case-0001') continue;
       expect(c.attacks).toBeUndefined();
-      expect(c.affectedEntityCount).toBeUndefined();
+      expect(c.affected_entity_count).toBeUndefined();
       expect(c.blastRadiusScore).toBeUndefined();
       expect(c.dwellTimeHours).toBeUndefined();
       expect(c.confidenceAggregate).toBeUndefined();
@@ -304,7 +304,7 @@ describe('COIM-G — backward compatibility: existing seed cases unchanged', () 
 
   it('no seed case has a manual-creation source (Doctrinal Assertion 1)', () => {
     for (const c of seedCases) {
-      expect(c.source.sourceSystem).not.toContain('manual');
+      expect(c.source.source_system).not.toContain('manual');
     }
   });
 });
@@ -313,15 +313,15 @@ describe('COIM-G — backward compatibility: existing seed cases unchanged', () 
 
 function scWith(
   attacks: AttackMapping[],
-  confidenceScore = 50,
-  findingClass: 'vulnerability' | 'detection' | 'incident' = 'vulnerability',
-): RiskObject['sourceClassification'] {
+  confidence_score = 50,
+  finding_class: 'vulnerability' | 'detection' | 'incident' = 'vulnerability',
+): RiskObject['source_classification'] {
   return {
-    findingClass,
-    sourceSeverity: { severityLevel: 'high', severityId: 4 },
-    sourceConfidence: { confidenceLevel: 'high', confidenceScore },
-    sourceProduct: { vendor: 'Test', name: 'Test Scanner' },
-    sourceFindingUid: 'test-uid',
+    finding_class,
+    source_severity: { severity_level: 'high', severity_id: 4 },
+    source_confidence: { confidence_level: 'high', confidence_score: confidence_score },
+    source_product: { vendor: 'Test', name: 'Test Scanner' },
+    source_finding_uid: 'test-uid',
     attacks,
     observables: [],
   };
