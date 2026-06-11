@@ -18,7 +18,7 @@ import { PageContainer } from '@/components/page-container';
 import type { WorkspaceMode } from '../../../../../../packages/ui/src/tokens/semantic';
 import type { Case } from '../../../../../../packages/contracts/src/entities/case';
 import type { ApexOptions } from 'apexcharts';
-import { thesisCases, thesisActions, thesisRiskScores, thesisCaseStrategyBindings } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisCases, thesisActions, thesisRiskScores, thesisCaseStrategyBindings, thesisBlastRadius, thesisExposures, thesisPostures, thesisConnectors } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -589,96 +589,42 @@ export default function CaseAnalyticsPage() {
       </section>
 
       {/* ── SECTION 9: Drill-down table ─────────────────────────────────── */}
-      <section style={{ marginTop: gap }}>
-        <div style={cardStyle(tokens)}>
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', flexWrap: 'wrap', gap: primitiveSpacing[3], marginBottom: componentTokens.cardHeaderMargin }}>
-            <div>
-              <h3 style={cardTitleStyle(tokens)}>Open Case Worklist</h3>
-              <span style={cardSubtitleStyle(tokens)}>{tableRows.length} of {m.open_cases.length} open cases — click a row to open the case</span>
-            </div>
-            <div style={{ display: 'flex', gap: primitiveSpacing[2], flexWrap: 'wrap' }}>
-              <FilterSelect tokens={tokens} label="Priority" value={fltPriority} onChange={setFltPriority} options={['all', ...PRIORITIES]} />
-              <FilterSelect tokens={tokens} label="Type" value={fltType} onChange={setFltType} options={['all', ...typeOptions]} render={(o) => o === 'all' ? 'All' : titleCase(o)} />
-              <FilterSelect tokens={tokens} label="Team" value={fltTeam} onChange={setFltTeam} options={['all', ...teamOptions]} />
-              <FilterSelect tokens={tokens} label="Status" value={fltStatus} onChange={setFltStatus} options={['all', ...statusOptions]} />
-            </div>
+      {/* Cross-Entity + Engine Panel — Sweep 2 */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Blast Radius Engine</h4>
+          {thesisBlastRadius.map((b) => (<div key={b.id} style={{ padding: '4px 0', borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between', fontSize: primitiveTypeScale.micro }}><span style={{ fontFamily: primitiveFonts.mono, color: tokens.text.primary }}>{b.originEntityRef?.slice(0,14)} ({b.originEntityType})</span><span style={{ color: b.total_impact_score > 50 ? primitiveSignal.critical : primitiveSignal.warning }}>{b.total_impact_score} pts → {b.affected_entities.length} affected</span></div>))}
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Actions Pipeline</h4>
+          <div style={{ display: 'flex', gap: primitiveSpacing[3], flexWrap: 'wrap', marginBottom: primitiveSpacing[2] }}>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.success }}>●</span> {thesisActions.filter((a) => a.status === 'completed').length} completed</span>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.info }}>●</span> {thesisActions.filter((a) => a.status === 'in_progress').length} in progress</span>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.warning }}>●</span> {thesisActions.filter((a) => a.status === 'pending').length} pending</span>
           </div>
-
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
-              <thead>
-                <tr>
-                  {([
-                    ['case_ref', 'Case Ref'], ['priority', 'Priority'], ['case_type', 'Type'],
-                    ['title', 'Title'], ['owner', 'Owner'], ['team', 'Team'],
-                    ['age', 'Age'], ['sla', 'SLA'], ['status', 'Status'],
-                  ] as [string, string][]).map(([key, label]) => {
-                    const sortable = key !== 'title';
-                    const active = sortKey === key;
-                    return (
-                      <th key={key}
-                        onClick={sortable ? () => toggleSort(key as SortKey) : undefined}
-                        style={{
-                          textAlign: 'left', padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`,
-                          borderBottom: `2px solid ${tokens.border.default}`,
-                          color: tokens.text.secondary, fontWeight: primitiveFontWeight.semibold,
-                          textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow,
-                          fontSize: primitiveTypeScale.micro, cursor: sortable ? 'pointer' : 'default',
-                          whiteSpace: 'nowrap', userSelect: 'none',
-                        }}>
-                        {label}{active ? (sortDir === 'asc' ? ' ▲' : ' ▼') : ''}
-                      </th>
-                    );
-                  })}
-                </tr>
-              </thead>
-              <tbody>
-                {tableRows.map((c) => {
-                  const posture = slaPosture(c, now);
-                  const ageD = Math.floor((now - created(c)) / MS_PER_DAY);
-                  const ageH = Math.floor((now - created(c)) / MS_PER_HOUR);
-                  const toneColor = posture.tone === 'critical' ? tokens.status.critical : posture.tone === 'warning' ? tokens.status.warning : tokens.status.success;
-                  return (
-                    <tr key={c.id}
-                      onClick={() => router.push(`/cases/${c.id}`)}
-                      style={{ cursor: 'pointer', borderBottom: `1px solid ${tokens.border.subtle}` }}
-                      onMouseEnter={(e) => (e.currentTarget.style.background = tokens.surface.primary)}
-                      onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}>
-                      <td style={tdStyle(tokens)}><span style={{ fontFamily: primitiveFonts.mono }}>{c.case_ref}</span></td>
-                      <td style={tdStyle(tokens)}>
-                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: primitiveSpacing[1], color: PRIORITY_COLORS[c.priority], fontWeight: primitiveFontWeight.semibold }}>
-                          <span aria-hidden>{PRIORITY_SHAPE[c.priority]}</span>{c.priority}
-                        </span>
-                      </td>
-                      <td style={tdStyle(tokens)}>{titleCase(c.case_type)}</td>
-                      <td style={{ ...tdStyle(tokens), maxWidth: 360, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: tokens.text.primary }} title={c.title}>{c.title}</td>
-                      <td style={tdStyle(tokens)}>{c.owner}</td>
-                      <td style={tdStyle(tokens)}>{c.team}</td>
-                      <td style={{ ...tdStyle(tokens), fontFamily: primitiveFonts.mono, whiteSpace: 'nowrap' }}>{ageD >= 1 ? `${ageD}d` : `${ageH}h`}</td>
-                      <td style={tdStyle(tokens)}>
-                        <span style={{ display: 'inline-block', padding: `2px ${primitiveSpacing[2]}`, borderRadius: 0, background: toneColor, color: '#fff', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.medium, whiteSpace: 'nowrap' }}>{posture.label}</span>
-                      </td>
-                      <td style={{ ...tdStyle(tokens), whiteSpace: 'nowrap' }}>{statusLabel(c.status)}</td>
-                    </tr>
-                  );
-                })}
-                {tableRows.length === 0 && (
-                  <tr><td colSpan={9} style={{ ...tdStyle(tokens), textAlign: 'center', color: tokens.text.muted, padding: primitiveSpacing[6] }}>No cases match the current filters.</td></tr>
-                )}
-              </tbody>
-            </table>
+          {thesisActions.slice(0,3).map((a) => (<div key={a.id} style={{ padding: '4px 0', borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between', fontSize: primitiveTypeScale.micro }}><span style={{ color: tokens.text.primary }}>{a.title ?? a.action_type ?? 'action'}</span><span style={{ padding: '1px 6px', color: '#fff', background: a.status === 'completed' ? primitiveSignal.success : a.status === 'in_progress' ? primitiveSignal.info : primitiveSignal.warning }}>{a.status}</span></div>))}
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Posture Impact</h4>
+          <div style={{ display: 'flex', gap: primitiveSpacing[3], flexWrap: 'wrap' }}>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.success }}>●</span> {thesisPostures.filter((p) => p.posture_status === 'healthy').length} healthy</span>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.warning }}>●</span> {thesisPostures.filter((p) => p.posture_status === 'degraded').length} degraded</span>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.critical }}>●</span> {thesisPostures.filter((p) => p.posture_status === 'critical').length} critical</span>
+          </div>
+          <div style={{ marginTop: primitiveSpacing[2], fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>Avg: {Math.round(thesisPostures.reduce((a,p) => a + p.posture_score, 0) / Math.max(thesisPostures.length, 1))}/100</div>
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Exposure Surface ({thesisExposures.length})</h4>
+          {thesisExposures.slice(0,4).map((e) => (<div key={e.id} style={{ padding: '4px 0', borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between', fontSize: primitiveTypeScale.micro }}><span style={{ color: tokens.text.primary }}>{e.exposure_type ?? e.surface ?? 'exposure'}</span><span style={{ color: e.severity === 'critical' ? primitiveSignal.critical : primitiveSignal.warning }}>{e.severity ?? 'medium'}</span></div>))}
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Data Pipeline</h4>
+          <div style={{ display: 'flex', gap: primitiveSpacing[3], flexWrap: 'wrap' }}>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.success }}>●</span> {thesisConnectors.filter((c) => c.state === 'active').length} active</span>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.critical }}>●</span> {thesisConnectors.filter((c) => c.state === 'error').length} error</span>
           </div>
         </div>
-      </section>
-    
-      {/* §7.3 ENRICHMENT */}
-      <section style={{ marginTop: componentTokens.gridGap, padding: componentTokens.cardPadding, background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}` }}>
-        <h4 style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, margin: '0 0 8px' }}>Thesis Data Context</h4>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: primitiveSpacing[2] }}>
-        <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: primitiveTypeScale.micro, background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, marginRight: primitiveSpacing[2] }}>{riskscoresCount} Risk Scores</span>
-        <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: primitiveTypeScale.micro, background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, marginRight: primitiveSpacing[2] }}>{casestrategybindingsCount} Case Strategy Bindings</span>
-        </div>
-      </section>
+      </div>
     </PageContainer>
   );
 }

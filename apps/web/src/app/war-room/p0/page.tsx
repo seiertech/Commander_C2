@@ -7,7 +7,7 @@ import {
   primitiveSignal, primitiveSpacing, primitiveGlow, primitiveHud, primitiveFontWeight, primitivePriority,
 } from '../../../../../../packages/ui/src/tokens/primitives';
 import { resolveAllStrategies } from '../../../../../../packages/contracts/src/resolvers/case-strategy-resolver';
-import { thesisCases, thesisActions, thesisSubActions, thesisStrategies, thesisWarRooms, thesisTeamsDecisionEvents, thesisRiskObjects } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisCases, thesisActions, thesisSubActions, thesisStrategies, thesisWarRooms, thesisTeamsDecisionEvents, thesisRiskObjects, thesisBlastRadius, thesisExposures, thesisPostures, thesisConnectors } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * P0 Zero-Day War Room — Commander C2 (DS-1.0, Spec 06 / Spec 24)

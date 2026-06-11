@@ -9,7 +9,7 @@ import {
   primitiveFonts, primitiveLetterSpacing, primitiveSignal, primitiveData,
 } from '../../../../../../packages/ui/src/tokens/primitives';
 import type { ApexOptions } from 'apexcharts';
-import { thesisRules, thesisModels, thesisAutomationRules, thesisFeatureRegistry, thesisSystemPulse, thesisConnectors } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisRules, thesisModels, thesisAutomationRules, thesisFeatureRegistry, thesisSystemPulse, thesisConnectors, thesisBlastRadius, thesisRiskObjects, thesisExposures, thesisPostures, thesisAssets } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -70,51 +70,30 @@ export default function PlatformDataQualityPage() {
   return (
     <PageContainer pretitle="Platform › Data Quality" title="Data Quality Overview">
       {/* KPI strip */}
-      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
-        <KpiCard tokens={tokens} label="Quality Score" value={`${qualityScore}%`} accent={qualityScore >= 85 ? primitiveSignal.success : qualityScore >= 70 ? primitiveSignal.warning : primitiveSignal.critical} />
-        <KpiCard tokens={tokens} label="Avg Freshness" value={`${avgFreshness}h`} accent={Number(avgFreshness) > 2 ? primitiveSignal.warning : undefined} />
-        <KpiCard tokens={tokens} label="Error Rate" value={`${avgErrorRate}%`} accent={Number(avgErrorRate) > 3 ? primitiveSignal.warning : undefined} />
-        <KpiCard tokens={tokens} label="Model Accuracy" value={`${avgModelAccuracy}%`} accent={avgModelAccuracy >= 90 ? primitiveSignal.success : primitiveSignal.warning} />
-      </section>
-
-      {/* Quality gauge and breakdown */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
-        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <h3 style={{ fontSize: primitiveTypeScale.h4, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: `0 0 ${componentTokens.cardHeaderMargin}`, alignSelf: 'flex-start' }}>Overall Quality</h3>
-          <Chart type="radialBar" height={200} options={{ ...gaugeOpts, colors: [qualityScore >= 85 ? primitiveSignal.success : qualityScore >= 70 ? primitiveSignal.warning : primitiveSignal.critical], labels: ['Quality'] }} series={[qualityScore]} />
-        </div>
-
+      {/* Cross-Entity + Engine Panel — Sweep 2 */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
         <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
-          <h3 style={{ fontSize: primitiveTypeScale.h4, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: `0 0 ${componentTokens.cardHeaderMargin}` }}>Quality Dimensions</h3>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: primitiveSpacing[3] }}>
-            <QualityDimension tokens={tokens} label="Data Freshness" value={`${avgFreshness}h avg`} status={Number(avgFreshness) <= 1 ? 'good' : Number(avgFreshness) <= 2 ? 'fair' : 'poor'} />
-            <QualityDimension tokens={tokens} label="Processing Errors" value={`${avgErrorRate}% avg`} status={Number(avgErrorRate) <= 1 ? 'good' : Number(avgErrorRate) <= 3 ? 'fair' : 'poor'} />
-            <QualityDimension tokens={tokens} label="Model Accuracy" value={`${avgModelAccuracy}%`} status={avgModelAccuracy >= 90 ? 'good' : avgModelAccuracy >= 80 ? 'fair' : 'poor'} />
-            <QualityDimension tokens={tokens} label="False Positives" value={`${avgFPR}% avg`} status={Number(avgFPR) <= 3 ? 'good' : Number(avgFPR) <= 7 ? 'fair' : 'poor'} />
-            <QualityDimension tokens={tokens} label="Active Rules" value={`${activeRules}/${thesisRules.length}`} status={activeRules >= thesisRules.length * 0.7 ? 'good' : 'fair'} />
-            <QualityDimension tokens={tokens} label="Feature Coverage" value={`${enabledFeatures}/${thesisFeatureRegistry.length}`} status={enabledFeatures >= thesisFeatureRegistry.length * 0.5 ? 'good' : 'fair'} />
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Blast Radius Engine</h4>
+          {thesisBlastRadius.map((b) => (<div key={b.id} style={{ padding: '4px 0', borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between', fontSize: primitiveTypeScale.micro }}><span style={{ fontFamily: primitiveFonts.mono, color: tokens.text.primary }}>{b.originEntityRef?.slice(0,14)} ({b.originEntityType})</span><span style={{ color: b.total_impact_score > 50 ? primitiveSignal.critical : primitiveSignal.warning }}>{b.total_impact_score} pts → {b.affected_entities.length} affected</span></div>))}
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Active Risk Objects ({thesisRiskObjects.filter((r) => r.treatment_state === 'open').length} open)</h4>
+          {thesisRiskObjects.map((r) => (<div key={r.id} style={{ padding: '4px 0', borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between', fontSize: primitiveTypeScale.micro }}><span style={{ color: tokens.text.primary }}>{r.type.replace(/_/g, ' ')}</span><span style={{ padding: '1px 6px', color: '#fff', background: r.treatment_state === 'open' ? primitiveSignal.warning : primitiveSignal.success }}>{r.treatment_state}</span></div>))}
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Posture Impact</h4>
+          <div style={{ display: 'flex', gap: primitiveSpacing[3], flexWrap: 'wrap' }}>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.success }}>●</span> {thesisPostures.filter((p) => p.posture_status === 'healthy').length} healthy</span>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.warning }}>●</span> {thesisPostures.filter((p) => p.posture_status === 'degraded').length} degraded</span>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.critical }}>●</span> {thesisPostures.filter((p) => p.posture_status === 'critical').length} critical</span>
           </div>
+          <div style={{ marginTop: primitiveSpacing[2], fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>Avg: {Math.round(thesisPostures.reduce((a,p) => a + p.posture_score, 0) / Math.max(thesisPostures.length, 1))}/100</div>
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Exposure Surface ({thesisExposures.length})</h4>
+          {thesisExposures.slice(0,4).map((e) => (<div key={e.id} style={{ padding: '4px 0', borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between', fontSize: primitiveTypeScale.micro }}><span style={{ color: tokens.text.primary }}>{e.exposure_type ?? e.surface ?? 'exposure'}</span><span style={{ color: e.severity === 'critical' ? primitiveSignal.critical : primitiveSignal.warning }}>{e.severity ?? 'medium'}</span></div>))}
         </div>
       </div>
-
-      {/* Platform entity counts summary */}
-      <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
-        <h3 style={{ fontSize: primitiveTypeScale.h4, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: `0 0 ${componentTokens.cardHeaderMargin}` }}>Platform Entity Summary</h3>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: componentTokens.gridGap }}>
-          <SummaryItem tokens={tokens} label="Rules" value={thesisRules.length} sublabel={`${activeRules} active, ${suppressionRules} suppression`} />
-          <SummaryItem tokens={tokens} label="Models" value={thesisModels.length} sublabel={`${thesisModels.filter((m) => m.status === 'active').length} active`} />
-          <SummaryItem tokens={tokens} label="Automation" value={thesisAutomationRules.length} sublabel={`${thesisAutomationRules.filter((a) => a.status === 'active').length} active`} />
-          <SummaryItem tokens={tokens} label="Features" value={thesisFeatureRegistry.length} sublabel={`${enabledFeatures} enabled`} />
-        </div>
-      </div>
-    
-      {/* §7.3 ENRICHMENT */}
-      <section style={{ marginTop: componentTokens.gridGap, padding: componentTokens.cardPadding, background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}` }}>
-        <h4 style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, margin: '0 0 8px' }}>Thesis Data Context</h4>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: primitiveSpacing[2] }}>
-        <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: primitiveTypeScale.micro, background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, marginRight: primitiveSpacing[2] }}>{connectorsCount} Connectors</span>
-        </div>
-      </section>
     </PageContainer>
   );
 }

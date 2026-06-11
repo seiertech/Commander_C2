@@ -1,6 +1,6 @@
 'use client';
 
-import { thesisModels, thesisRiskScores } from '../../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisModels, thesisRiskScores, thesisCases, thesisBlastRadius, thesisRiskObjects, thesisExposures, thesisPostures, thesisConnectors } from '../../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { componentTokens } from '../../../../../../../packages/ui/src/tokens/components';
