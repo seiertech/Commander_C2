@@ -2,7 +2,7 @@
 
 import { colors } from '../../../../../../packages/ui/src/tokens/colors';
 import { typography } from '../../../../../../packages/ui/src/tokens/typography';
-import { thesisEntitlements } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisEntitlements, thesisCustomers, thesisDeployments, thesisLicences, thesisTenantConfigs, thesisSupportOperations, thesisFeatureRegistry, thesisModels, thesisRules, thesisConnectors } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Commercial Control Plane — Entitlement Manifest Editor

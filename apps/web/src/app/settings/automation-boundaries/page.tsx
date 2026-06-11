@@ -1,6 +1,7 @@
 'use client';
 import { StrategyConfigView } from '../strategy-config-view';
-/** Tenant Admin — Automation Boundaries. Data: strategy.ts (automation-boundary surface) + seed-strategies */
+
+import { thesisTenantConfigs, thesisRbacPolicies, thesisConnectors, thesisRules, thesisFeatureRegistry, thesisAssets, thesisCases, thesisStrategies, thesisMissions, thesisPostures } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';/** Tenant Admin — Automation Boundaries. Data: strategy.ts (automation-boundary surface) + seed-strategies */
 export default function SettingsAutomationBoundariesPage() {
   return <StrategyConfigView surface_type="automation-boundary" pretitle="Settings › Automation Boundaries" title="Automation Boundary Strategy" />;
 }

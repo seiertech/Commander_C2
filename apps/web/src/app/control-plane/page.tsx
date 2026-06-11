@@ -1,6 +1,6 @@
 import { colors } from '../../../../../packages/ui/src/tokens/colors';
 import { typography } from '../../../../../packages/ui/src/tokens/typography';
-import { thesisEntitlements, thesisCustomers, thesisConnectors, thesisDeployments } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisEntitlements, thesisCustomers, thesisConnectors, thesisDeployments, thesisLicences, thesisTenantConfigs, thesisSupportOperations, thesisFeatureRegistry, thesisModels, thesisRules } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Commercial Control Plane — Operator Command Home
