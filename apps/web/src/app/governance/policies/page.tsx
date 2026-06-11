@@ -4,7 +4,7 @@ import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
-import { thesisControlRequirements, thesisControlFrameworks } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisControlRequirements, thesisControlFrameworks, thesisStandardsDeclarations } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Governance — Policies & Standards
@@ -45,6 +45,14 @@ export default function GovernancePoliciesPage() {
           </table>
         </div>
       </div>
+    
+      {/* §7.3 ENRICHMENT */}
+      <section style={{ marginTop: componentTokens.gridGap, padding: componentTokens.cardPadding, background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}` }}>
+        <h4 style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, margin: '0 0 8px' }}>Thesis Data Context</h4>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: primitiveSpacing[2] }}>
+        <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: primitiveTypeScale.micro, background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, marginRight: primitiveSpacing[2] }}>{standardsdeclarationsCount} Standards Declarations</span>
+        </div>
+      </section>
     </PageContainer>
   );
 }

@@ -5,7 +5,7 @@ import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
 import { STREAM_LABELS } from '../../../../../packages/contracts/src/engines/intelligence-layer';
-import { thesisAssets, thesisCases, thesisIdentities, thesisRiskObjects } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisAssets, thesisCases, thesisIdentities, thesisRiskObjects, thesisPostures } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Asset Intelligence Surface — Thesis §8 (Asset Authority Layer)
@@ -250,6 +250,14 @@ export default function AssetIntelligencePage({ searchParams }: { searchParams: 
           <a href="/architecture" className="btn">Configuration Drift<span className="badge bg-secondary ms-2">SCAFFOLD</span></a>
         </div>
       </div>
+    
+      {/* §7.3 ENRICHMENT */}
+      <section style={{ marginTop: componentTokens.gridGap, padding: componentTokens.cardPadding, background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}` }}>
+        <h4 style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, margin: '0 0 8px' }}>Thesis Data Context</h4>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: primitiveSpacing[2] }}>
+        <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: primitiveTypeScale.micro, background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, marginRight: primitiveSpacing[2] }}>{posturesCount} Postures</span>
+        </div>
+      </section>
     </PageContainer>
   );
 }

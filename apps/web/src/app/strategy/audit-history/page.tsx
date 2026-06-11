@@ -4,7 +4,7 @@ import { PageContainer } from '@/components/page-container';
 import { STRATEGY_SURFACE_LABELS } from '../../../../../../packages/contracts/src/entities/strategy';
 import { primitiveTypeScale, primitiveHud } from '../../../../../../packages/ui/src/tokens/primitives';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
-import { thesisStrategies } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisStrategies, thesisDecisionRecords } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Strategy Audit History — Policy Change Timeline (Spec 43)
@@ -134,6 +134,14 @@ export default function StrategyAuditHistoryPage() {
 
       {/* AI-PLACEMENT: AICAP — Audit anomaly detection and alerting */}
       {/* AI-PLACEMENT: AICAP — Policy change impact narrative */}
+    
+      {/* §7.3 ENRICHMENT */}
+      <section style={{ marginTop: componentTokens.gridGap, padding: componentTokens.cardPadding, background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}` }}>
+        <h4 style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, margin: '0 0 8px' }}>Thesis Data Context</h4>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: primitiveSpacing[2] }}>
+        <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: primitiveTypeScale.micro, background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, marginRight: primitiveSpacing[2] }}>{decisionrecordsCount} Decision Records</span>
+        </div>
+      </section>
     </PageContainer>
   );
 }
