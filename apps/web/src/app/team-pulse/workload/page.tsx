@@ -9,7 +9,7 @@ import {
   primitiveFonts, primitiveLetterSpacing, primitiveSignal, primitiveData,
 } from '../../../../../../packages/ui/src/tokens/primitives';
 import type { ApexOptions } from 'apexcharts';
-import { thesisTeamPulse } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisTeamPulse, thesisCases } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -130,6 +130,14 @@ export default function TeamPulseWorkloadPage() {
           </table>
         </div>
       </div>
+    
+      {/* §7.3 ENRICHMENT */}
+      <section style={{ marginTop: componentTokens.gridGap, padding: componentTokens.cardPadding, background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}` }}>
+        <h4 style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, margin: '0 0 8px' }}>Thesis Data Context</h4>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: primitiveSpacing[2] }}>
+        <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: primitiveTypeScale.micro, background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, marginRight: primitiveSpacing[2] }}>{casesCount} Cases</span>
+        </div>
+      </section>
     </PageContainer>
   );
 }
