@@ -3,7 +3,7 @@
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
-import { thesisControlFrameworks, thesisFrameworkControls, thesisControlEvaluations, thesisControlMappings, thesisStandardsDeclarations } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisControlFrameworks, thesisFrameworkControls, thesisControlEvaluations, thesisControlMappings, thesisStandardsDeclarations, thesisCases, thesisBlastRadius, thesisRiskObjects, thesisExposures, thesisPostures, thesisConnectors } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Control Coverage — Overview

@@ -5,7 +5,7 @@ import { STRATEGY_SURFACE_LABELS } from '../../../../../../packages/contracts/sr
 import type { StrategySurfaceType } from '../../../../../../packages/contracts/src/entities/strategy';
 import { primitiveTypeScale, primitiveHud } from '../../../../../../packages/ui/src/tokens/primitives';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
-import { thesisStrategies, thesisMissions, thesisRiskObjects } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisStrategies, thesisMissions, thesisRiskObjects, thesisCases, thesisBlastRadius, thesisExposures, thesisPostures, thesisConnectors } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Strategy Centre — Unified Configuration Surface (Spec 43)

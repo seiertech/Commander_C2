@@ -7,7 +7,7 @@ import type { StrategySurfaceType } from '../../../../../../packages/contracts/s
 import { simulatePolicyChange } from '../../../../../../packages/contracts/src/engines/strategy-simulation-engine';
 import { primitiveTypeScale, primitiveSignal, primitiveHud } from '../../../../../../packages/ui/src/tokens/primitives';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
-import { thesisStrategies, thesisBlastRadius } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisStrategies, thesisBlastRadius, thesisCases, thesisRiskObjects, thesisExposures, thesisPostures, thesisConnectors, thesisRiskScores } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Policy Simulation — Strategy Simulation Surface (Spec 43)

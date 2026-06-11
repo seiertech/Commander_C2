@@ -2,7 +2,7 @@
 
 import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale } from '../../../../../packages/ui/src/tokens/primitives';
-import { thesisControlFrameworks, thesisControlEvaluations, thesisStandardsDeclarations } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisControlFrameworks, thesisControlEvaluations, thesisStandardsDeclarations, thesisCases, thesisBlastRadius, thesisRiskObjects, thesisExposures, thesisPostures, thesisConnectors } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Governance — Adherence Overview (Thesis §15 — Risk, Control & Adherence Layer)

@@ -28,7 +28,7 @@ import {
   primitiveLetterSpacing,
 } from '../../../../../packages/ui/src/tokens/primitives';
 import type { PostureTimePeriod, PostureMetricConfig } from '../../../../../packages/contracts/src/entities/posture-metrics-config';
-import { thesisPostureMetrics, thesisPostureAccountability } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisPostureMetrics, thesisPostureAccountability, thesisCases, thesisBlastRadius, thesisRiskObjects, thesisExposures, thesisConnectors, thesisAssets } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 export default function PosturePage() {
   const { tokens } = useMode();
@@ -52,100 +52,32 @@ export default function PosturePage() {
       headerActions={<TimeRangeToggle activePeriod={activePeriod} onChange={setActivePeriod} />}
     >
       {/* 4×3 metric grid */}
-      <section
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: componentTokens.gridGap,
-          marginBottom: componentTokens.gridGap,
-        }}
-      >
-        {thesisPostureMetrics.map((metric) => (
-          <div key={metric.metricKey}>
-            <PostureMetricCard
-              metric={metric}
-              activePeriod={getActivePeriodSnapshot(metric)}
-              onExpand={() => handleExpand(metric.metricKey)}
-            />
-
-            {/* Inline expansion panel */}
-            {expandedMetric === metric.metricKey && (
-              <div
-                style={{
-                  marginTop: primitiveSpacing[1],
-                  background: tokens.surface.elevated,
-                  border: `1px solid ${tokens.border.default}`,
-                  padding: componentTokens.cardPadding,
-                }}
-              >
-                <h4 style={{
-                  fontSize: primitiveTypeScale.caption,
-                  fontWeight: primitiveFontWeight.semibold,
-                  color: tokens.text.primary,
-                  margin: `0 0 ${primitiveSpacing[2]}`,
-                }}>
-                  {metric.label} — Detail
-                </h4>
-
-                {/* Period comparison table */}
-                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.micro }}>
-                  <thead>
-                    <tr>
-                      {['Period', 'Current', 'Previous', 'Delta', 'Trend', 'Band'].map((h) => (
-                        <th
-                          key={h}
-                          style={{
-                            textAlign: 'left',
-                            padding: `${primitiveSpacing[1]} ${primitiveSpacing[2]}`,
-                            borderBottom: `1px solid ${tokens.border.default}`,
-                            color: tokens.text.muted,
-                            fontWeight: primitiveFontWeight.semibold,
-                            textTransform: 'uppercase',
-                            letterSpacing: primitiveLetterSpacing.eyebrow,
-                          }}
-                        >
-                          {h}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {metric.periods.map((p) => {
-                      const delta = p.currentValue - p.previousValue;
-                      const bandColour = p.band === 'green' ? primitiveSignal.success : p.band === 'amber' ? primitiveSignal.warning : primitiveSignal.critical;
-                      return (
-                        <tr key={p.period} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
-                          <td style={{ padding: `${primitiveSpacing[1]} ${primitiveSpacing[2]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{p.period.toUpperCase()}</td>
-                          <td style={{ padding: `${primitiveSpacing[1]} ${primitiveSpacing[2]}`, fontFamily: primitiveFonts.mono, color: tokens.text.secondary }}>{p.currentValue}{metric.unit === '%' ? '%' : ''}</td>
-                          <td style={{ padding: `${primitiveSpacing[1]} ${primitiveSpacing[2]}`, fontFamily: primitiveFonts.mono, color: tokens.text.muted }}>{p.previousValue}{metric.unit === '%' ? '%' : ''}</td>
-                          <td style={{ padding: `${primitiveSpacing[1]} ${primitiveSpacing[2]}`, fontFamily: primitiveFonts.mono, color: delta >= 0 ? primitiveSignal.success : primitiveSignal.critical }}>{delta >= 0 ? '+' : ''}{delta.toFixed(1)}</td>
-                          <td style={{ padding: `${primitiveSpacing[1]} ${primitiveSpacing[2]}`, color: tokens.text.secondary }}>{p.trend === 'up' ? '▲' : p.trend === 'down' ? '▼' : '—'}</td>
-                          <td style={{ padding: `${primitiveSpacing[1]} ${primitiveSpacing[2]}` }}><span style={{ padding: '1px 6px', fontSize: primitiveTypeScale.micro, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', color: '#fff', background: bandColour, borderRadius: '2px' }}>{p.band}</span></td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-
-                {/* Threshold reference */}
-                <div style={{ marginTop: primitiveSpacing[2], fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>
-                  Strategy: <strong>{metric.thresholds.strategySurface}</strong> (policy: {metric.thresholds.policy_id}) —
-                  Green ≥ {metric.thresholds.green}, Amber ≥ {metric.thresholds.amber}
-                  {!metric.higherIsBetter && ' (lower is better — thresholds inverted)'}
-                </div>
-              </div>
-            )}
-          </div>
-        ))}
-      </section>
-    
-      {/* §7.3 ENRICHMENT */}
-      <section style={{ marginTop: componentTokens.gridGap, padding: componentTokens.cardPadding, background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}` }}>
-        <h4 style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, margin: '0 0 8px' }}>Thesis Data Context</h4>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: primitiveSpacing[2] }}>
-        <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: primitiveTypeScale.micro, background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, marginRight: primitiveSpacing[2] }}>{postureaccountabilityCount} Posture Accountability</span>
+      {/* Cross-Entity Governance Panel — Sweep 2 */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Blast Radius</h4>
+          {thesisBlastRadius.map((b) => (<div key={b.id} style={{ padding: '4px 0', borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between', fontSize: primitiveTypeScale.micro }}><span style={{ fontFamily: primitiveFonts.mono, color: tokens.text.primary }}>{b.originEntityRef?.slice(0,14)}</span><span style={{ color: b.total_impact_score > 50 ? primitiveSignal.critical : primitiveSignal.warning }}>{b.total_impact_score} → {b.affected_entities.length}</span></div>))}
         </div>
-      </section>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Risk Objects ({thesisRiskObjects.length})</h4>
+          {thesisRiskObjects.map((r) => (<div key={r.id} style={{ padding: '4px 0', borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between', fontSize: primitiveTypeScale.micro }}><span style={{ color: tokens.text.primary }}>{r.type.replace(/_/g, ' ')}</span><span style={{ padding: '1px 6px', color: '#fff', background: r.treatment_state === 'open' ? primitiveSignal.warning : primitiveSignal.success }}>{r.treatment_state}</span></div>))}
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Linked Cases</h4>
+          {thesisCases.filter((c) => c.priority === 'P0' || c.priority === 'P1').slice(0,5).map((c) => (<div key={c.case_id} style={{ padding: '4px 0', borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between', fontSize: primitiveTypeScale.micro }}><span style={{ fontFamily: primitiveFonts.mono, color: tokens.text.primary }}>{c.case_id.slice(0,12)}</span><span style={{ padding: '1px 6px', color: '#fff', background: c.priority === 'P0' ? primitiveSignal.critical : primitiveSignal.warning }}>{c.priority} · {c.ooda_state}</span></div>))}
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Exposures ({thesisExposures.length})</h4>
+          {thesisExposures.slice(0,3).map((e) => (<div key={e.id} style={{ padding: '4px 0', borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between', fontSize: primitiveTypeScale.micro }}><span style={{ color: tokens.text.primary }}>{e.exposure_type ?? e.surface ?? 'exposure'}</span><span style={{ color: e.severity === 'critical' ? primitiveSignal.critical : primitiveSignal.warning }}>{e.severity ?? 'medium'}</span></div>))}
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Data Sources</h4>
+          <div style={{ display: 'flex', gap: primitiveSpacing[3], flexWrap: 'wrap' }}>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.success }}>●</span> {thesisConnectors.filter((c) => c.state === 'active').length} active</span>
+            <span style={{ fontSize: primitiveTypeScale.micro }}><span style={{ color: primitiveSignal.critical }}>●</span> {thesisConnectors.filter((c) => c.state === 'error').length} error</span>
+          </div>
+        </div>
+      </div>
     </PageContainer>
   );
 }

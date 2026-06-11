@@ -4,7 +4,7 @@ import { PageContainer } from '@/components/page-container';
 import { STRATEGY_SURFACE_LABELS } from '../../../../../../packages/contracts/src/entities/strategy';
 import { primitiveTypeScale, primitiveHud } from '../../../../../../packages/ui/src/tokens/primitives';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
-import { thesisStrategies, thesisDecisionRecords } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisStrategies, thesisDecisionRecords, thesisCases, thesisBlastRadius, thesisRiskObjects, thesisExposures, thesisPostures, thesisConnectors } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Strategy Audit History — Policy Change Timeline (Spec 43)
