@@ -2,7 +2,7 @@
 
 import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
-import { thesisAssets, thesisRiskObjects } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisAssets, thesisRiskObjects, thesisArchitectureIntelligence } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * SOM — Architecture Manager
@@ -38,6 +38,14 @@ export default function SomArchitecturePage() {
         </div>
       </div>
       <div className="card"><div className="card-body"><p className="text-muted mb-0">Architecture Topology — entity not yet built. Requires: architecture-topology entity with dependency graph and trust boundaries.</p></div></div>
+    
+      {/* §7.3 ENRICHMENT */}
+      <section style={{ marginTop: componentTokens.gridGap, padding: componentTokens.cardPadding, background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}` }}>
+        <h4 style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, margin: '0 0 8px' }}>Thesis Data Context</h4>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: primitiveSpacing[2] }}>
+        <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: primitiveTypeScale.micro, background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, marginRight: primitiveSpacing[2] }}>{architectureintelligenceCount} Architecture Intelligence</span>
+        </div>
+      </section>
     </PageContainer>
   );
 }
