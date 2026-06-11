@@ -1,5 +1,9 @@
 'use client';
 
+import type { ApexOptions } from 'apexcharts';
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { componentTokens } from '../../../../../packages/ui/src/tokens/components';
@@ -8,7 +12,7 @@ import { ReactFlow, Background, Controls, Node, Edge, Position } from '@xyflow/r
 import { useMemo, useState } from 'react';
 
 import '@xyflow/react/dist/style.css';
-import { thesisTopology, thesisAssets, thesisBlastRadius, thesisCases, thesisRiskObjects, thesisArchitectureIntelligence } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisTopology, thesisAssets, thesisBlastRadius, thesisCases, thesisRiskObjects, thesisArchitectureIntelligence, thesisExposures, thesisPostures, thesisStrategies, thesisMissions } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Fusion Map — Relationship Graph
@@ -18,7 +22,7 @@ import { thesisTopology, thesisAssets, thesisBlastRadius, thesisCases, thesisRis
 {/* AI-PLACEMENT: AICAP-FUSION-001 — Commander AI relationship insight */}
 
 export default function FusionMapPage() {
-  const { tokens } = useMode();
+  const { mode, tokens } = useMode();
   const { nodes, edges, blastRadiusResults } = thesisTopology;
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
   
@@ -396,6 +400,18 @@ export default function FusionMapPage() {
               <span style={{ padding: '2px 6px', fontSize: primitiveTypeScale.micro, color: '#fff', background: ai.severity >= 7 ? primitiveSignal.critical : primitiveSignal.warning }}>{ai.severity}/10</span>
             </div>
           ))}
+        </div>
+      </div>
+    
+      {/* Engine Correlation Chart — Sweep 3 */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Risk Distribution</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Open', 'Mitigated', 'Closed'], colors: [primitiveSignal.warning, primitiveSignal.success, primitiveSignal.neutral], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisRiskObjects.filter((r) => r.treatment_state === 'open').length, thesisRiskObjects.filter((r) => r.treatment_state === 'mitigated').length, thesisRiskObjects.filter((r) => r.treatment_state !== 'open' && r.treatment_state !== 'mitigated').length]} />
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Posture Health</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Healthy', 'Degraded', 'Critical'], colors: [primitiveSignal.success, primitiveSignal.warning, primitiveSignal.critical], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisPostures.filter((p) => p.posture_status === 'healthy').length, thesisPostures.filter((p) => p.posture_status === 'degraded').length, thesisPostures.filter((p) => p.posture_status === 'critical').length]} />
         </div>
       </div>
     </PageContainer>

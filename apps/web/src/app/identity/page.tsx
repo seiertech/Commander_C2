@@ -1,10 +1,14 @@
 'use client';
 
+import type { ApexOptions } from 'apexcharts';
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
 import { use } from 'react';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
-import { thesisIdentities, thesisAssets, thesisCases, thesisIdentityIntelligence, thesisRiskScores, thesisPostures, thesisRiskObjects } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisIdentities, thesisAssets, thesisCases, thesisIdentityIntelligence, thesisRiskScores, thesisPostures, thesisRiskObjects, thesisExposures, thesisStrategies, thesisConnectors } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Identity Intelligence Surface — Thesis Layer
@@ -46,7 +50,7 @@ const VIEWER_HAS_INTERNAL_RISK_AUTHORITY = false as boolean;
 
 export default function IdentityIntelligencePage({ searchParams }: { searchParams: Promise<{ id?: string }> }) {
   const { id } = use(searchParams);
-  const { tokens } = useMode();
+  const { mode, tokens } = useMode();
 
   const selected = id ? thesisIdentities.find((i) => i.id === id) : undefined;
 
@@ -281,6 +285,18 @@ export default function IdentityIntelligencePage({ searchParams }: { searchParam
             </div>
           ))}
           {thesisRiskObjects.filter((r) => r.affected_entity_type === 'identity').length === 0 && <span style={{ color: tokens.text.muted, fontSize: primitiveTypeScale.caption }}>No identity risks</span>}
+        </div>
+      </div>
+    
+      {/* Engine Correlation Chart — Sweep 3 */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Risk Distribution</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Open', 'Mitigated', 'Closed'], colors: [primitiveSignal.warning, primitiveSignal.success, primitiveSignal.neutral], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisRiskObjects.filter((r) => r.treatment_state === 'open').length, thesisRiskObjects.filter((r) => r.treatment_state === 'mitigated').length, thesisRiskObjects.filter((r) => r.treatment_state !== 'open' && r.treatment_state !== 'mitigated').length]} />
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Posture Health</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Healthy', 'Degraded', 'Critical'], colors: [primitiveSignal.success, primitiveSignal.warning, primitiveSignal.critical], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisPostures.filter((p) => p.posture_status === 'healthy').length, thesisPostures.filter((p) => p.posture_status === 'degraded').length, thesisPostures.filter((p) => p.posture_status === 'critical').length]} />
         </div>
       </div>
     </PageContainer>

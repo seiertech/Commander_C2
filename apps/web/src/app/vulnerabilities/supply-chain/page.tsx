@@ -1,6 +1,10 @@
 'use client';
 
-import { thesisIocs, thesisVulnerabilityIntelligence, thesisAssets, thesisCases, thesisRiskScores, thesisBlastRadius, thesisExposures, thesisPostures } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import type { ApexOptions } from 'apexcharts';
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
+import { thesisIocs, thesisVulnerabilityIntelligence, thesisAssets, thesisCases, thesisRiskScores, thesisBlastRadius, thesisExposures, thesisPostures, thesisStrategies, thesisMissions, thesisConnectors } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
@@ -20,7 +24,7 @@ import {
 {/* AI-PLACEMENT: AICAP-VULN-003 — Commander AI supply chain risk correlation */}
 
 export default function VulnerabilitiesSupplyChainPage() {
-  const { tokens } = useMode();
+  const { mode, tokens } = useMode();
 
   const supplyChainIocs = thesisIocs.filter((ioc) =>
     ioc.ioc_category === 'package_name' || ioc.ioc_category === 'container_image' || ioc.ioc_category === 'file_hash_sha256'

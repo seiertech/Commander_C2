@@ -1,5 +1,9 @@
 'use client';
 
+import type { ApexOptions } from 'apexcharts';
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
@@ -7,7 +11,7 @@ import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
   primitiveFonts, primitiveLetterSpacing, primitiveSignal,
 } from '../../../../../../packages/ui/src/tokens/primitives';
-import { thesisIocs, thesisSignals, thesisIntelligenceAssessments, thesisCases, thesisRiskScores, thesisAssets, thesisBlastRadius, thesisConnectors } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisIocs, thesisSignals, thesisIntelligenceAssessments, thesisCases, thesisRiskScores, thesisAssets, thesisBlastRadius, thesisConnectors, thesisExposures, thesisPostures } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Intelligence — Threat Hunt Operations
@@ -22,7 +26,7 @@ import { thesisIocs, thesisSignals, thesisIntelligenceAssessments, thesisCases, 
 {/* AI-PLACEMENT: AICAP-HUNT-001 — Commander AI threat hunt hypothesis generation */}
 
 export default function IntelligenceThreatHuntsPage() {
-  const { tokens } = useMode();
+  const { mode, tokens } = useMode();
 
   const totalIocs = thesisIocs.length;
   const activeIocs = thesisIocs.filter((i) => i.active).length;

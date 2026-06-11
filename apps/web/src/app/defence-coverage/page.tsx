@@ -1,5 +1,9 @@
 'use client';
 
+import type { ApexOptions } from 'apexcharts';
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { componentTokens } from '../../../../../packages/ui/src/tokens/components';
@@ -7,7 +11,7 @@ import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
   primitiveFonts, primitiveLetterSpacing, primitiveSignal, primitiveData,
 } from '../../../../../packages/ui/src/tokens/primitives';
-import { thesisIocs, thesisRules, thesisSecurityToolIntelligence, thesisControlFrameworks, thesisCases, thesisAssets, thesisBlastRadius, thesisRiskScores, thesisExposures } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisIocs, thesisRules, thesisSecurityToolIntelligence, thesisControlFrameworks, thesisCases, thesisAssets, thesisBlastRadius, thesisRiskScores, thesisExposures, thesisPostures } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Defence Coverage — ATT&CK / D3FEND Heatmap
@@ -24,7 +28,7 @@ import { thesisIocs, thesisRules, thesisSecurityToolIntelligence, thesisControlF
 {/* AI-PLACEMENT: AICAP-DEFENCE-001 — Commander AI attack/defence gap mapping */}
 
 export default function DefenceCoveragePage() {
-  const { tokens } = useMode();
+  const { mode, tokens } = useMode();
 
   const totalRules = thesisRules.length;
   const activeRules = thesisRules.filter((r) => r.status === 'active').length;

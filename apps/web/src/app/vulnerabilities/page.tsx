@@ -1,9 +1,13 @@
 'use client';
 
+import type { ApexOptions } from 'apexcharts';
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
-import { thesisVulnerabilityIntelligence, thesisRiskScores, thesisExposures, thesisAssets, thesisBlastRadius, thesisCases, thesisConnectors, thesisPostures } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisVulnerabilityIntelligence, thesisRiskScores, thesisExposures, thesisAssets, thesisBlastRadius, thesisCases, thesisConnectors, thesisPostures, thesisStrategies, thesisMissions } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Vulnerability Management — Overview
@@ -17,7 +21,7 @@ import { thesisVulnerabilityIntelligence, thesisRiskScores, thesisExposures, the
  */
 
 export default function VulnerabilitiesPage() {
-  const { tokens } = useMode();
+  const { mode, tokens } = useMode();
   const vulns = thesisVulnerabilityIntelligence;
   const sorted = [...vulns].sort((a, b) => b.cvss_score - a.cvss_score);
 

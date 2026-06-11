@@ -1,10 +1,14 @@
 'use client';
 
+import type { ApexOptions } from 'apexcharts';
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
-import { thesisArchitectureComponents, thesisBlastRadius, thesisCases, thesisRiskObjects, thesisAssets, thesisDriftDetection, thesisConnectors } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisArchitectureComponents, thesisBlastRadius, thesisCases, thesisRiskObjects, thesisAssets, thesisDriftDetection, thesisConnectors, thesisExposures, thesisPostures, thesisStrategies } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Architecture — Dependencies
@@ -14,7 +18,7 @@ import { thesisArchitectureComponents, thesisBlastRadius, thesisCases, thesisRis
 {/* AI-PLACEMENT: AICAP-ARCH-003 — Commander AI dependency risk chain analysis */}
 
 export default function ArchitectureDependenciesPage() {
-  const { tokens } = useMode();
+  const { mode, tokens } = useMode();
   const withDeps = thesisArchitectureComponents.filter((c) => c.dependencies.length > 0);
   const totalDeps = thesisArchitectureComponents.reduce((a, c) => a + c.dependencies.length, 0);
   const criticalWithDeps = withDeps.filter((c) => c.criticality <= 2).length;
@@ -72,6 +76,18 @@ export default function ArchitectureDependenciesPage() {
               <span style={{ padding: '1px 6px', color: '#fff', background: c.priority === 'P0' ? primitiveSignal.critical : primitiveSignal.warning }}>{c.priority} · {c.ooda_state}</span>
             </div>
           ))}
+        </div>
+      </div>
+    
+      {/* Engine Correlation Chart — Sweep 3 */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Risk Distribution</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Open', 'Mitigated', 'Closed'], colors: [primitiveSignal.warning, primitiveSignal.success, primitiveSignal.neutral], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisRiskObjects.filter((r) => r.treatment_state === 'open').length, thesisRiskObjects.filter((r) => r.treatment_state === 'mitigated').length, thesisRiskObjects.filter((r) => r.treatment_state !== 'open' && r.treatment_state !== 'mitigated').length]} />
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Posture Health</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Healthy', 'Degraded', 'Critical'], colors: [primitiveSignal.success, primitiveSignal.warning, primitiveSignal.critical], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisPostures.filter((p) => p.posture_status === 'healthy').length, thesisPostures.filter((p) => p.posture_status === 'degraded').length, thesisPostures.filter((p) => p.posture_status === 'critical').length]} />
         </div>
       </div>
     </PageContainer>

@@ -1,5 +1,9 @@
 'use client';
 
+import type { ApexOptions } from 'apexcharts';
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
@@ -7,7 +11,7 @@ import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
   primitiveFonts, primitiveLetterSpacing, primitiveSignal,
 } from '../../../../../../packages/ui/src/tokens/primitives';
-import { thesisVulnerabilityIntelligence, thesisRiskScores, thesisAssets, thesisCases, thesisBlastRadius, thesisExposures, thesisPostures, thesisConnectors } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisVulnerabilityIntelligence, thesisRiskScores, thesisAssets, thesisCases, thesisBlastRadius, thesisExposures, thesisPostures, thesisConnectors, thesisStrategies, thesisMissions } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Vulnerability Management — SSVC Decision Flow
@@ -22,7 +26,7 @@ import { thesisVulnerabilityIntelligence, thesisRiskScores, thesisAssets, thesis
 {/* AI-PLACEMENT: AICAP-SSVC-001 — Commander AI SSVC decision recommendation */}
 
 export default function VulnerabilitiesSsvcPage() {
-  const { tokens } = useMode();
+  const { mode, tokens } = useMode();
 
   const totalVulns = thesisVulnerabilityIntelligence.length;
   const withKev = thesisVulnerabilityIntelligence.filter((v) => v.cisa_kev_status).length;

@@ -1,6 +1,10 @@
 'use client';
 
-import { thesisVulnerabilityIntelligence, thesisAssets, thesisCases, thesisRiskScores, thesisBlastRadius, thesisExposures, thesisPostures } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import type { ApexOptions } from 'apexcharts';
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
+import { thesisVulnerabilityIntelligence, thesisAssets, thesisCases, thesisRiskScores, thesisBlastRadius, thesisExposures, thesisPostures, thesisStrategies, thesisMissions, thesisConnectors } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
@@ -20,7 +24,7 @@ import {
 {/* AI-PLACEMENT: AICAP-VULN-002 — Commander AI patch prioritisation recommendation */}
 
 export default function VulnerabilitiesPatchesPage() {
-  const { tokens } = useMode();
+  const { mode, tokens } = useMode();
 
   const published = thesisVulnerabilityIntelligence.filter((v) => v.cve_state === 'published');
   const withEpss = published.filter((v) => v.epss_score !== null);

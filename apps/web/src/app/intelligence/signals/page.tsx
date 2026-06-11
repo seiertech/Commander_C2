@@ -1,5 +1,9 @@
 'use client';
 
+import type { ApexOptions } from 'apexcharts';
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
@@ -7,7 +11,7 @@ import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
   primitiveFonts, primitiveLetterSpacing, primitiveSignal, primitiveData,
 } from '../../../../../../packages/ui/src/tokens/primitives';
-import { thesisSignals, thesisEventIntelligence, thesisConnectors, thesisRiskScores, thesisCases, thesisAssets, thesisBlastRadius } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisSignals, thesisEventIntelligence, thesisConnectors, thesisRiskScores, thesisCases, thesisAssets, thesisBlastRadius, thesisExposures, thesisPostures, thesisStrategies } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Intelligence — Signal Pipeline
@@ -23,7 +27,7 @@ import { thesisSignals, thesisEventIntelligence, thesisConnectors, thesisRiskSco
 {/* AI-PLACEMENT: AICAP-SIGNAL-001 — Commander AI signal triage prioritisation */}
 
 export default function IntelligenceSignalsPage() {
-  const { tokens } = useMode();
+  const { mode, tokens } = useMode();
 
   const totalSignals = thesisSignals.length;
   const criticalSignals = thesisSignals.filter((s) => s.severity >= 4).length;

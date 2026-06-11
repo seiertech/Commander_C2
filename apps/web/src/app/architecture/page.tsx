@@ -1,10 +1,14 @@
 'use client';
 
+import type { ApexOptions } from 'apexcharts';
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { componentTokens } from '../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
-import { thesisArchitectureClassifications, thesisTopologyNodes, thesisArchitectureIntelligence, thesisTopologyEdges, thesisAssets, thesisBlastRadius, thesisDriftDetection, thesisRiskObjects, thesisConnectors } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisArchitectureClassifications, thesisTopologyNodes, thesisArchitectureIntelligence, thesisTopologyEdges, thesisAssets, thesisBlastRadius, thesisDriftDetection, thesisRiskObjects, thesisConnectors, thesisPostures, thesisExposures, thesisStrategies, thesisCases } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Architecture — Overview (Thesis §6 — Architecture Classification & Topology)
@@ -17,7 +21,7 @@ import { thesisArchitectureClassifications, thesisTopologyNodes, thesisArchitect
 {/* AI-PLACEMENT: AICAP-ARCH-001 — Commander AI architecture risk assessment */}
 
 export default function ArchitectureOverviewPage() {
-  const { tokens } = useMode();
+  const { mode, tokens } = useMode();
   const classifications = thesisArchitectureClassifications;
   const nodes = thesisTopologyNodes;
   const byDomain = { business: 0, data: 0, application: 0, technology: 0 };
@@ -147,6 +151,18 @@ export default function ArchitectureOverviewPage() {
               <span style={{ padding: '2px 6px', fontSize: primitiveTypeScale.micro, color: '#fff', background: d.driftSeverity >= 7 ? primitiveSignal.critical : primitiveSignal.warning }}>{d.driftSeverity}/10</span>
             </div>
           ))}
+        </div>
+      </div>
+    
+      {/* Engine Correlation Chart — Sweep 3 */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Risk Distribution</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Open', 'Mitigated', 'Closed'], colors: [primitiveSignal.warning, primitiveSignal.success, primitiveSignal.neutral], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisRiskObjects.filter((r) => r.treatment_state === 'open').length, thesisRiskObjects.filter((r) => r.treatment_state === 'mitigated').length, thesisRiskObjects.filter((r) => r.treatment_state !== 'open' && r.treatment_state !== 'mitigated').length]} />
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Posture Health</h4>
+          <Chart type="donut" height={200} options={{ chart: { type: 'donut', background: 'transparent' }, labels: ['Healthy', 'Degraded', 'Critical'], colors: [primitiveSignal.success, primitiveSignal.warning, primitiveSignal.critical], legend: { position: 'bottom', labels: { colors: tokens.text.secondary }, fontSize: '11px' }, dataLabels: { enabled: true }, theme: { mode: mode === 'mission' ? 'dark' : 'light' } }} series={[thesisPostures.filter((p) => p.posture_status === 'healthy').length, thesisPostures.filter((p) => p.posture_status === 'degraded').length, thesisPostures.filter((p) => p.posture_status === 'critical').length]} />
         </div>
       </div>
     </PageContainer>

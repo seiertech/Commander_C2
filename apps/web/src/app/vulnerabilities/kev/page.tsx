@@ -1,6 +1,10 @@
 'use client';
 
-import { thesisVulnerabilityIntelligence, thesisRiskScores, thesisCases, thesisAssets, thesisBlastRadius, thesisExposures, thesisPostures } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import type { ApexOptions } from 'apexcharts';
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
+import { thesisVulnerabilityIntelligence, thesisRiskScores, thesisCases, thesisAssets, thesisBlastRadius, thesisExposures, thesisPostures, thesisStrategies, thesisMissions, thesisConnectors } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
@@ -20,7 +24,7 @@ import {
 {/* AI-PLACEMENT: AICAP-VULN-001 — Commander AI KEV prioritisation recommendation */}
 
 export default function VulnerabilitiesKevPage() {
-  const { tokens } = useMode();
+  const { mode, tokens } = useMode();
 
   const kevEntries = thesisVulnerabilityIntelligence.filter((v) => v.cisa_kev_status);
   const criticalEntries = thesisVulnerabilityIntelligence.filter((v) => v.severity >= 4);
