@@ -2,7 +2,7 @@
 
 import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
-import { thesisRiskObjects, thesisCases, thesisRiskScores, thesisExposures } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisRiskObjects, thesisCases, thesisRiskScores, thesisExposures, thesisBlastRadius, thesisPostures, thesisConnectors, thesisAssets } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * SOM — Risk Manager

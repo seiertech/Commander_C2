@@ -2,7 +2,7 @@
 
 import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
-import { thesisCases, thesisTeamPulse } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisCases, thesisTeamPulse, thesisRiskObjects, thesisBlastRadius, thesisExposures, thesisPostures, thesisConnectors, thesisAssets } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * SOM — Security Operations Manager (Thesis §12 — Capacity/Maturity/Performance)

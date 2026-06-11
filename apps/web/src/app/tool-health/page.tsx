@@ -2,7 +2,7 @@
 
 import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
-import { thesisConnectors, thesisSystemPulse } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisConnectors, thesisSystemPulse, thesisCases, thesisBlastRadius, thesisRiskObjects, thesisExposures, thesisPostures } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Tool Health — Overview

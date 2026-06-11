@@ -2,7 +2,7 @@
 
 import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
-import { thesisAssets, thesisRiskObjects, thesisArchitectureIntelligence } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisAssets, thesisRiskObjects, thesisArchitectureIntelligence, thesisCases, thesisBlastRadius, thesisExposures, thesisPostures, thesisConnectors } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * SOM — Architecture Manager
