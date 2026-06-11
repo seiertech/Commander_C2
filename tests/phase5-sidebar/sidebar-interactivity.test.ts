@@ -20,8 +20,8 @@ const sidebarSource = readFileSync(SIDEBAR_PATH, 'utf-8');
  */
 
 describe('Phase 5 — Sidebar Interactivity', () => {
-  it('OPERATIONAL_NAV_GROUPS has exactly 19 groups', () => {
-    expect(OPERATIONAL_NAV_GROUPS.length).toBe(19);
+  it('OPERATIONAL_NAV_GROUPS has exactly 18 groups', () => {
+    expect(OPERATIONAL_NAV_GROUPS.length).toBe(18);
   });
 
   it('every group has an id field', () => {

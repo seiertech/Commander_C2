@@ -73,17 +73,18 @@ describe('Operational App Shell', () => {
     expect(labels).toContain('Architecture');
   });
 
-  it('has 19 sidebar navigation groups', () => {
-    expect(OPERATIONAL_NAV_GROUPS.length).toBe(19);
+  it('has 18 sidebar navigation groups (UIAA §6 restructure)', () => {
+    expect(OPERATIONAL_NAV_GROUPS.length).toBe(18);
   });
 
-  it('sidebar groups include Case Management, Vulnerability Management, Platform, Tenant Admin, SOM', () => {
+  it('sidebar groups include Case Management, Vulnerability Management, Platform, Intelligence, Risk Management, SOM', () => {
     const ids = OPERATIONAL_NAV_GROUPS.map((g) => g.id);
     expect(ids).toContain('case-management');
     expect(ids).toContain('vulnerability-management');
     expect(ids).toContain('platform');
     expect(ids).toContain('som');
-    expect(ids).toContain('tenant-admin');
+    expect(ids).toContain('intelligence');
+    expect(ids).toContain('risk-management');
   });
 
   it('shell.tsx exists', () => {

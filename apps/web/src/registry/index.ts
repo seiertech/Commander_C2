@@ -15,6 +15,7 @@ export { controlPlaneRoutes } from './control-plane-routes';
 export {
   TOP_NAV_WORKSPACES,
   OPERATIONAL_NAV_GROUPS,
+  TENANT_ADMIN_NAV_ITEMS,
   CONTROL_PLANE_NAV_ITEMS,
   CONTROL_PLANE_TOP_NAV,
 } from './nav-groups';
