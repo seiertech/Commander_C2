@@ -3,7 +3,7 @@
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
-import { thesisIdentities, thesisRiskObjects, thesisIdentityIntelligence } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisIdentities, thesisRiskObjects, thesisIdentityIntelligence, thesisCases, thesisDriftDetection, thesisPostures } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Identity & Access — Access Drift

@@ -8,7 +8,7 @@ import { ReactFlow, Background, Controls, Node, Edge, Position } from '@xyflow/r
 import { useMemo, useState } from 'react';
 
 import '@xyflow/react/dist/style.css';
-import { thesisTopology, thesisAssets } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisTopology, thesisAssets, thesisBlastRadius, thesisCases, thesisRiskObjects, thesisArchitectureIntelligence } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Fusion Map — Relationship Graph
@@ -376,13 +376,28 @@ export default function FusionMapPage() {
         </div>
       </div>
     
-      {/* §7.3 ENRICHMENT */}
-      <section style={{ marginTop: componentTokens.gridGap, padding: componentTokens.cardPadding, background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}` }}>
-        <h4 style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, margin: '0 0 8px' }}>Thesis Data Context</h4>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: primitiveSpacing[2] }}>
-        <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: primitiveTypeScale.micro, background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, marginRight: primitiveSpacing[2] }}>{assetsCount} Assets</span>
+
+      {/* Cross-Entity: Fusion Map → Blast Radius + Cases */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h3 style={{ fontSize: primitiveTypeScale.h4, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: `0 0 ${componentTokens.cardHeaderMargin}` }}>Blast Radius ({thesisBlastRadius.length})</h3>
+          {thesisBlastRadius.map((b) => (
+            <div key={b.id} style={{ padding: primitiveSpacing[2], borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, color: tokens.text.primary }}>{b.originEntityRef?.slice(0,16)} ({b.originEntityType})</span>
+              <span style={{ padding: '2px 6px', fontSize: primitiveTypeScale.micro, color: '#fff', background: b.total_impact_score > 50 ? primitiveSignal.critical : primitiveSignal.warning }}>{b.total_impact_score} → {b.affected_entities.length} entities</span>
+            </div>
+          ))}
         </div>
-      </section>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h3 style={{ fontSize: primitiveTypeScale.h4, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: `0 0 ${componentTokens.cardHeaderMargin}` }}>Architecture Intelligence ({thesisArchitectureIntelligence.length})</h3>
+          {thesisArchitectureIntelligence.map((ai) => (
+            <div key={ai.id} style={{ padding: primitiveSpacing[2], borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ color: tokens.text.primary, fontSize: primitiveTypeScale.caption }}>{ai.name}</span>
+              <span style={{ padding: '2px 6px', fontSize: primitiveTypeScale.micro, color: '#fff', background: ai.severity >= 7 ? primitiveSignal.critical : primitiveSignal.warning }}>{ai.severity}/10</span>
+            </div>
+          ))}
+        </div>
+      </div>
     </PageContainer>
   );
 }

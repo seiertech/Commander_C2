@@ -4,7 +4,7 @@ import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
-import { thesisArchitectureComponents, thesisBlastRadius } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisArchitectureComponents, thesisBlastRadius, thesisCases, thesisRiskObjects, thesisAssets, thesisDriftDetection, thesisConnectors } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Architecture — Dependencies
@@ -50,6 +50,28 @@ export default function ArchitectureDependenciesPage() {
               );
             })}</tbody>
           </table>
+        </div>
+      </div>
+    
+      {/* Cross-Entity Relationship Panel */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Risk Objects</h4>
+          {thesisRiskObjects.map((r) => (
+            <div key={r.id} style={{ padding: '4px 0', borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between', fontSize: primitiveTypeScale.micro }}>
+              <span style={{ color: tokens.text.primary }}>{r.type.replace(/_/g, ' ')}</span>
+              <span style={{ padding: '1px 6px', color: '#fff', background: r.treatment_state === 'open' ? primitiveSignal.warning : primitiveSignal.success }}>{r.treatment_state}</span>
+            </div>
+          ))}
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Related Cases</h4>
+          {thesisCases.filter((c) => c.priority === 'P0' || c.priority === 'P1').slice(0,5).map((c) => (
+            <div key={c.case_id} style={{ padding: '4px 0', borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between', fontSize: primitiveTypeScale.micro }}>
+              <span style={{ fontFamily: primitiveFonts.mono, color: tokens.text.primary }}>{c.case_id.slice(0,12)}</span>
+              <span style={{ padding: '1px 6px', color: '#fff', background: c.priority === 'P0' ? primitiveSignal.critical : primitiveSignal.warning }}>{c.priority} · {c.ooda_state}</span>
+            </div>
+          ))}
         </div>
       </div>
     </PageContainer>

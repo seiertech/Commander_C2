@@ -4,7 +4,7 @@ import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { componentTokens } from '../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
-import { thesisExposures, thesisExposureEngine, thesisAssets, thesisRiskObjects } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisExposures, thesisExposureEngine, thesisAssets, thesisRiskObjects, thesisBlastRadius, thesisCases, thesisConnectors, thesisPostures } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Exposure Management — Attack Surface
@@ -48,15 +48,47 @@ export default function ExposurePage() {
         </div>
       </div>
     
-      {/* §7.3 ENRICHMENT */}
-      <section style={{ marginTop: componentTokens.gridGap, padding: componentTokens.cardPadding, background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}` }}>
-        <h4 style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, margin: '0 0 8px' }}>Thesis Data Context</h4>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: primitiveSpacing[2] }}>
-        <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: primitiveTypeScale.micro, background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, marginRight: primitiveSpacing[2] }}>{exposureengineCount} Exposure Engine</span>
-        <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: primitiveTypeScale.micro, background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, marginRight: primitiveSpacing[2] }}>{assetsCount} Assets</span>
-        <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: primitiveTypeScale.micro, background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, marginRight: primitiveSpacing[2] }}>{riskobjectsCount} Risk Objects</span>
+
+      {/* Cross-Entity: Exposure → Blast Radius */}
+      <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding, marginTop: componentTokens.gridGap }}>
+        <h3 style={{ fontSize: primitiveTypeScale.h4, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: `0 0 ${componentTokens.cardHeaderMargin}` }}>Blast Radius Impact ({thesisBlastRadius.length} computations)</h3>
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
+            <thead><tr>{['Origin Entity', 'Type', 'Impact Score', 'Affected Count', 'Depth'].map((h) => <th key={h} style={{ textAlign: 'left', padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, borderBottom: `2px solid ${tokens.border.default}`, color: tokens.text.muted, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, fontSize: primitiveTypeScale.micro }}>{h}</th>)}</tr></thead>
+            <tbody>{thesisBlastRadius.map((b) => (
+              <tr key={b.id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, color: tokens.text.primary }}>{b.originEntityRef}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.secondary }}>{b.originEntityType}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}` }}><span style={{ padding: '2px 8px', fontSize: primitiveTypeScale.micro, color: '#fff', background: b.total_impact_score > 50 ? primitiveSignal.critical : primitiveSignal.warning }}>{b.total_impact_score}</span></td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{b.affected_entities.length}</td>
+                <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{b.depth}</td>
+              </tr>
+            ))}</tbody>
+          </table>
         </div>
-      </section>
+      </div>
+
+      {/* Cross-Entity: Linked Cases + Posture */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h3 style={{ fontSize: primitiveTypeScale.h4, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: `0 0 ${componentTokens.cardHeaderMargin}` }}>Related Cases ({thesisCases.filter((c) => c.ctem_phase === 'mobilization').length} in mobilisation)</h3>
+          {thesisCases.filter((c) => c.ctem_phase === 'mobilization').slice(0, 5).map((c) => (
+            <div key={c.case_id} style={{ padding: primitiveSpacing[2], borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, color: tokens.text.primary }}>{c.case_id.slice(0,12)}</span>
+              <span style={{ padding: '2px 6px', fontSize: primitiveTypeScale.micro, color: '#fff', background: c.priority === 'P0' ? primitiveSignal.critical : primitiveSignal.warning }}>{c.priority}</span>
+            </div>
+          ))}
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h3 style={{ fontSize: primitiveTypeScale.h4, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: `0 0 ${componentTokens.cardHeaderMargin}` }}>Exposure-Linked Posture ({thesisPostures.filter((p) => p.posture_status !== 'healthy').length} degraded/critical)</h3>
+          {thesisPostures.filter((p) => p.posture_status !== 'healthy').map((p) => (
+            <div key={p.posture_id} style={{ padding: primitiveSpacing[2], borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, color: tokens.text.primary }}>{p.asset_id.slice(0,12)}</span>
+              <span style={{ padding: '2px 6px', fontSize: primitiveTypeScale.micro, color: '#fff', background: p.posture_status === 'critical' ? primitiveSignal.critical : primitiveSignal.warning }}>{p.posture_status} ({p.posture_score})</span>
+            </div>
+          ))}
+        </div>
+      </div>
     </PageContainer>
   );
 }

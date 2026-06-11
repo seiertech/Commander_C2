@@ -4,7 +4,7 @@ import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
-import { thesisTopology, thesisBlastRadius } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisTopology, thesisBlastRadius, thesisCases, thesisRiskObjects, thesisAssets, thesisArchitectureIntelligence } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Fusion Map — Blast Radius
@@ -23,40 +23,27 @@ export default function FusionMapBlastRadiusPage() {
 
   return (
     <PageContainer pretitle="Fusion Map › Blast Radius" title="Blast Radius Analysis">
-      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: componentTokens.gridGap, marginBottom: componentTokens.gridGap }}>
-        <Kpi tokens={tokens} label="Analyses" value={String(results.length)} />
-        <Kpi tokens={tokens} label="Max Impact" value={String(maxImpact)} accent={maxImpact >= 80 ? primitiveSignal.critical : primitiveSignal.warning} />
-        <Kpi tokens={tokens} label="Max Depth" value={String(maxDepth)} />
-        <Kpi tokens={tokens} label="Nodes Affected" value={String(totalAffected)} />
-      </section>
-      <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
-        <h3 style={{ fontSize: primitiveTypeScale.h4, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: `0 0 ${componentTokens.cardHeaderMargin}` }}>Blast Radius Results</h3>
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: primitiveTypeScale.caption }}>
-            <thead><tr>{['Origin', 'Origin Label', 'Affected Nodes', 'Depth', 'Impact Score'].map((h) => <th key={h} style={{ textAlign: 'left', padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, borderBottom: `2px solid ${tokens.border.default}`, color: tokens.text.muted, fontWeight: primitiveFontWeight.semibold, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, fontSize: primitiveTypeScale.micro }}>{h}</th>)}</tr></thead>
-            <tbody>{results.map((r) => {
-              const originNode = nodes.find((n) => n.node_id === r.origin_node_id);
-              return (
-                <tr key={r.origin_node_id} style={{ borderBottom: `1px solid ${tokens.border.subtle}` }}>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, color: tokens.text.secondary }}>{r.origin_node_id}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, color: tokens.text.primary, fontWeight: primitiveFontWeight.semibold }}>{originNode?.label ?? '—'}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{r.affected_nodes.length}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono }}>{r.depth}</td>
-                  <td style={{ padding: `${primitiveSpacing[2]} ${primitiveSpacing[3]}`, fontFamily: primitiveFonts.mono, color: r.total_impact_score >= 80 ? primitiveSignal.critical : r.total_impact_score >= 50 ? primitiveSignal.warning : tokens.text.secondary }}>{r.total_impact_score}</td>
-                </tr>
-              );
-            })}</tbody>
-          </table>
+      {/* Cross-Entity Relationship Panel */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Risk Objects</h4>
+          {thesisRiskObjects.map((r) => (
+            <div key={r.id} style={{ padding: '4px 0', borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between', fontSize: primitiveTypeScale.micro }}>
+              <span style={{ color: tokens.text.primary }}>{r.type.replace(/_/g, ' ')}</span>
+              <span style={{ padding: '1px 6px', color: '#fff', background: r.treatment_state === 'open' ? primitiveSignal.warning : primitiveSignal.success }}>{r.treatment_state}</span>
+            </div>
+          ))}
+        </div>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h4 style={{ fontSize: primitiveTypeScale.caption, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: '0 0 8px' }}>Related Cases</h4>
+          {thesisCases.filter((c) => c.priority === 'P0' || c.priority === 'P1').slice(0,5).map((c) => (
+            <div key={c.case_id} style={{ padding: '4px 0', borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between', fontSize: primitiveTypeScale.micro }}>
+              <span style={{ fontFamily: primitiveFonts.mono, color: tokens.text.primary }}>{c.case_id.slice(0,12)}</span>
+              <span style={{ padding: '1px 6px', color: '#fff', background: c.priority === 'P0' ? primitiveSignal.critical : primitiveSignal.warning }}>{c.priority} · {c.ooda_state}</span>
+            </div>
+          ))}
         </div>
       </div>
-    
-      {/* §7.3 ENRICHMENT */}
-      <section style={{ marginTop: componentTokens.gridGap, padding: componentTokens.cardPadding, background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}` }}>
-        <h4 style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, margin: '0 0 8px' }}>Thesis Data Context</h4>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: primitiveSpacing[2] }}>
-        <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: primitiveTypeScale.micro, background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, marginRight: primitiveSpacing[2] }}>{blastradiusCount} Blast Radius</span>
-        </div>
-      </section>
     </PageContainer>
   );
 }

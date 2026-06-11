@@ -3,7 +3,7 @@
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
-import { thesisIdentities, thesisIdentityIntelligence } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisIdentities, thesisIdentityIntelligence, thesisRiskScores, thesisCases, thesisRiskObjects, thesisPostures } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Identity & Access — Privileged Access

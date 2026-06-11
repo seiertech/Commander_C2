@@ -4,7 +4,7 @@ import { PageContainer } from '@/components/page-container';
 import { REFUSAL_REASONS, REFUSAL_LABELS } from '../../../../../packages/contracts/src/engines/commander-ai-core';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
 
-import { thesisCases, thesisSignals, thesisAssets } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisCases, thesisSignals, thesisAssets, thesisRiskObjects, thesisBlastRadius, thesisExposures, thesisConnectors, thesisPostures } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 /**
  * Commander AI — Status Overview
  *

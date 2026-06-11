@@ -3,7 +3,7 @@
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale } from '../../../../../../packages/ui/src/tokens/primitives';
-import { thesisAssets, thesisRiskScores } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisAssets, thesisRiskScores, thesisBlastRadius, thesisCases, thesisPostures } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Assets — Classification View

@@ -5,7 +5,7 @@ import { PageContainer } from '@/components/page-container';
 import { planQuery } from '../../../../../packages/contracts/src/engines/universal-search-engine';
 import type { SearchResult } from '../../../../../packages/contracts/src/engines/universal-search-engine';
 import { primitiveTypeScale } from '../../../../../packages/ui/src/tokens/primitives';
-import { thesisSearchConfigs, thesisAssets, thesisCases } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisSearchConfigs, thesisAssets, thesisCases, thesisRiskObjects, thesisBlastRadius, thesisConnectors, thesisExposures, thesisIdentities } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Universal Search — Commander C2 (Spec 42)

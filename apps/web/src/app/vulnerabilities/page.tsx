@@ -3,7 +3,7 @@
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
-import { thesisVulnerabilityIntelligence, thesisRiskScores, thesisExposures, thesisAssets } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisVulnerabilityIntelligence, thesisRiskScores, thesisExposures, thesisAssets, thesisBlastRadius, thesisCases, thesisConnectors, thesisPostures } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Vulnerability Management — Overview
@@ -134,15 +134,39 @@ export default function VulnerabilitiesPage() {
       {/* AI Placement */}
       {/* AI-PLACEMENT: AICAP-007 — Explain vulnerability context, prioritisation reasoning, and estate exposure for selected CVE */}
     
-      {/* §7.3 ENRICHMENT */}
-      <section style={{ marginTop: componentTokens.gridGap, padding: componentTokens.cardPadding, background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}` }}>
-        <h4 style={{ fontSize: primitiveTypeScale.caption, color: tokens.text.muted, textTransform: 'uppercase', letterSpacing: primitiveLetterSpacing.eyebrow, margin: '0 0 8px' }}>Thesis Data Context</h4>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: primitiveSpacing[2] }}>
-        <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: primitiveTypeScale.micro, background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, marginRight: primitiveSpacing[2] }}>{riskscoresCount} Risk Scores</span>
-        <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: primitiveTypeScale.micro, background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, marginRight: primitiveSpacing[2] }}>{exposuresCount} Exposures</span>
-        <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: primitiveTypeScale.micro, background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, marginRight: primitiveSpacing[2] }}>{assetsCount} Assets</span>
+
+      {/* Cross-Entity: Vulnerability → Risk Correlation */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: componentTokens.gridGap, marginTop: componentTokens.gridGap }}>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h3 style={{ fontSize: primitiveTypeScale.h4, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: `0 0 ${componentTokens.cardHeaderMargin}` }}>Blast Radius from Vulns ({thesisBlastRadius.length})</h3>
+          {thesisBlastRadius.map((b) => (
+            <div key={b.id} style={{ padding: primitiveSpacing[2], borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, color: tokens.text.primary }}>{b.originEntityRef?.slice(0,20)}</span>
+              <span style={{ padding: '2px 6px', fontSize: primitiveTypeScale.micro, color: '#fff', background: b.total_impact_score > 50 ? primitiveSignal.critical : primitiveSignal.warning }}>Impact: {b.total_impact_score}</span>
+            </div>
+          ))}
         </div>
-      </section>
+        <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding }}>
+          <h3 style={{ fontSize: primitiveTypeScale.h4, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: `0 0 ${componentTokens.cardHeaderMargin}` }}>Vuln-Linked Cases ({thesisCases.filter((c) => c.priority === 'P0' || c.priority === 'P1').length} high priority)</h3>
+          {thesisCases.filter((c) => c.priority === 'P0' || c.priority === 'P1').slice(0,5).map((c) => (
+            <div key={c.case_id} style={{ padding: primitiveSpacing[2], borderBottom: `1px solid ${tokens.border.subtle}`, display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ fontFamily: primitiveFonts.mono, fontSize: primitiveTypeScale.micro, color: tokens.text.primary }}>{c.case_id.slice(0,12)} — {c.ooda_state}</span>
+              <span style={{ padding: '2px 6px', fontSize: primitiveTypeScale.micro, color: '#fff', background: c.priority === 'P0' ? primitiveSignal.critical : primitiveSignal.warning }}>{c.priority}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Cross-Entity: Asset Posture Impact */}
+      <div style={{ background: tokens.surface.elevated, border: `1px solid ${tokens.border.default}`, padding: componentTokens.cardPadding, marginTop: componentTokens.gridGap }}>
+        <h3 style={{ fontSize: primitiveTypeScale.h4, fontWeight: primitiveFontWeight.semibold, color: tokens.text.primary, margin: `0 0 ${componentTokens.cardHeaderMargin}` }}>Asset Posture (Vulnerability Exposure)</h3>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: primitiveSpacing[3] }}>
+          <div style={{ padding: primitiveSpacing[3], background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, borderLeft: `3px solid ${primitiveSignal.success}` }}><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>Healthy Posture</span><span style={{ fontSize: primitiveTypeScale.h4, fontFamily: primitiveFonts.mono, fontWeight: primitiveFontWeight.bold, color: primitiveSignal.success }}>{thesisPostures.filter((p) => p.posture_status === 'healthy').length}</span></div>
+          <div style={{ padding: primitiveSpacing[3], background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, borderLeft: `3px solid ${primitiveSignal.warning}` }}><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>Degraded</span><span style={{ fontSize: primitiveTypeScale.h4, fontFamily: primitiveFonts.mono, fontWeight: primitiveFontWeight.bold, color: primitiveSignal.warning }}>{thesisPostures.filter((p) => p.posture_status === 'degraded').length}</span></div>
+          <div style={{ padding: primitiveSpacing[3], background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, borderLeft: `3px solid ${primitiveSignal.critical}` }}><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>Critical</span><span style={{ fontSize: primitiveTypeScale.h4, fontFamily: primitiveFonts.mono, fontWeight: primitiveFontWeight.bold, color: primitiveSignal.critical }}>{thesisPostures.filter((p) => p.posture_status === 'critical').length}</span></div>
+          <div style={{ padding: primitiveSpacing[3], background: tokens.surface.base, border: `1px solid ${tokens.border.subtle}`, borderLeft: `3px solid ${primitiveSignal.info}` }}><span style={{ display: 'block', fontSize: primitiveTypeScale.micro, color: tokens.text.muted }}>Active Connectors</span><span style={{ fontSize: primitiveTypeScale.h4, fontFamily: primitiveFonts.mono, fontWeight: primitiveFontWeight.bold, color: tokens.text.primary }}>{thesisConnectors.filter((c) => c.state === 'active').length}</span></div>
+        </div>
+      </div>
     </PageContainer>
   );
 }
