@@ -1,6 +1,6 @@
 'use client';
 
-import { thesisCases, thesisEvents, thesisRiskObjects, thesisBlastRadius, thesisExposures, thesisPostures, thesisConnectors, thesisActions, thesisStrategies } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisCases, thesisEvents, thesisRiskObjects, thesisBlastRadius, thesisExposures, thesisPostures, thesisConnectors, thesisActions, thesisStrategies, thesisIdentities, thesisMissions } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';

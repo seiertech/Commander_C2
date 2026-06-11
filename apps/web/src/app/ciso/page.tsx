@@ -1,10 +1,13 @@
 'use client';
 
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { componentTokens } from '../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
-import { thesisCisoSummary, thesisMissions, thesisPostureMetrics, thesisRiskObjects, thesisCases, thesisExposures, thesisConnectors, thesisBlastRadius, thesisStrategies, thesisActions } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisCisoSummary, thesisMissions, thesisPostureMetrics, thesisRiskObjects, thesisCases, thesisExposures, thesisConnectors, thesisBlastRadius, thesisStrategies, thesisActions, thesisIdentities, thesisArchitectureIntelligence } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * CISO Dashboard — Executive Posture Summary
@@ -14,7 +17,7 @@ import { thesisCisoSummary, thesisMissions, thesisPostureMetrics, thesisRiskObje
 {/* AI-PLACEMENT: AICAP-CISO-001 — Commander AI executive briefing generation */}
 
 export default function CisoDashboardPage() {
-  const { tokens } = useMode();
+  const { mode, tokens } = useMode();
   const s = thesisCisoSummary;
   const postureColor = s.posture.overall >= 80 ? primitiveSignal.success : s.posture.overall >= 60 ? primitiveSignal.warning : primitiveSignal.critical;
   const trendLabel = s.trend === 'improving' ? '↑ Improving' : s.trend === 'degrading' ? '↓ Degrading' : '→ Stable';

@@ -1,8 +1,11 @@
 'use client';
 
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
 import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
-import { thesisCases, thesisAssets, thesisIdentities, thesisRiskObjects, thesisMissions, thesisPostureMetrics, thesisBlastRadius, thesisExposures, thesisConnectors } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisCases, thesisAssets, thesisIdentities, thesisRiskObjects, thesisMissions, thesisPostureMetrics, thesisBlastRadius, thesisExposures, thesisConnectors, thesisStrategies, thesisActions } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * SOM — CISO Dashboard

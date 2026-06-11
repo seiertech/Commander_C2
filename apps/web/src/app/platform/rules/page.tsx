@@ -1,6 +1,9 @@
 'use client';
 
-import { thesisRules, thesisFindings, thesisRiskScores, thesisCases, thesisBlastRadius, thesisExposures, thesisPostures, thesisConnectors } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
+import { thesisRules, thesisFindings, thesisRiskScores, thesisCases, thesisBlastRadius, thesisExposures, thesisPostures, thesisConnectors, thesisStrategies, thesisMissions } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { useState } from 'react';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
@@ -21,7 +24,7 @@ import {
 {/* AI-PLACEMENT: AICAP-PLATFORM-001 — Commander AI rule tuning recommendation */}
 
 export default function PlatformRulesPage() {
-  const { tokens } = useMode();
+  const { mode, tokens } = useMode();
   const [filter, setFilter] = useState<string>('all');
 
   const ruleTypes = Array.from(new Set(thesisRules.map((r) => r.rule_type)));

@@ -18,7 +18,7 @@ import { PageContainer } from '@/components/page-container';
 import type { WorkspaceMode } from '../../../../../../packages/ui/src/tokens/semantic';
 import type { Case } from '../../../../../../packages/contracts/src/entities/case';
 import type { ApexOptions } from 'apexcharts';
-import { thesisCases, thesisActions, thesisRiskScores, thesisCaseStrategyBindings, thesisBlastRadius, thesisExposures, thesisPostures, thesisConnectors } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisCases, thesisActions, thesisRiskScores, thesisCaseStrategyBindings, thesisBlastRadius, thesisExposures, thesisPostures, thesisConnectors, thesisStrategies, thesisMissions, thesisIdentities } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 

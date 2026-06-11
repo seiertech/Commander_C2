@@ -1,5 +1,8 @@
 'use client';
 
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
 /**
  * Posture — Aggregate Command Centre (Thesis §9 — Asset Security Posture)
  *
@@ -28,10 +31,10 @@ import {
   primitiveLetterSpacing,
 } from '../../../../../packages/ui/src/tokens/primitives';
 import type { PostureTimePeriod, PostureMetricConfig } from '../../../../../packages/contracts/src/entities/posture-metrics-config';
-import { thesisPostureMetrics, thesisPostureAccountability, thesisCases, thesisBlastRadius, thesisRiskObjects, thesisExposures, thesisConnectors, thesisAssets } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisPostureMetrics, thesisPostureAccountability, thesisCases, thesisBlastRadius, thesisRiskObjects, thesisExposures, thesisConnectors, thesisAssets, thesisStrategies, thesisMissions, thesisIdentities } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 export default function PosturePage() {
-  const { tokens } = useMode();
+  const { mode, tokens } = useMode();
   const [activePeriod, setActivePeriod] = useState<PostureTimePeriod>('24h');
   const [expandedMetric, setExpandedMetric] = useState<string | null>(null);
 
