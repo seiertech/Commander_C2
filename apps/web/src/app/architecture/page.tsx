@@ -8,7 +8,7 @@ import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { componentTokens } from '../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
-import { thesisArchitectureClassifications, thesisTopologyNodes, thesisArchitectureIntelligence, thesisTopologyEdges, thesisAssets, thesisBlastRadius, thesisDriftDetection, thesisRiskObjects, thesisConnectors, thesisPostures, thesisExposures, thesisStrategies, thesisCases } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisArchitectureClassifications, thesisTopologyNodes, thesisArchitectureIntelligence, thesisTopologyEdges, thesisAssets, thesisBlastRadius, thesisDriftDetection, thesisRiskObjects, thesisConnectors, thesisPostures, thesisExposures, thesisStrategies, thesisCases, thesisMissions, thesisRiskScores, thesisActions, thesisIdentities, thesisEvents, thesisSignals, thesisIocs } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Architecture — Overview (Thesis §6 — Architecture Classification & Topology)

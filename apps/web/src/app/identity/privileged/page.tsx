@@ -7,7 +7,7 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
-import { thesisIdentities, thesisIdentityIntelligence, thesisRiskScores, thesisCases, thesisRiskObjects, thesisPostures, thesisExposures, thesisStrategies, thesisConnectors, thesisBlastRadius } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisIdentities, thesisIdentityIntelligence, thesisRiskScores, thesisCases, thesisRiskObjects, thesisPostures, thesisExposures, thesisStrategies, thesisConnectors, thesisBlastRadius, thesisAssets, thesisMissions, thesisActions, thesisEvents, thesisSignals, thesisIocs } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Identity & Access — Privileged Access

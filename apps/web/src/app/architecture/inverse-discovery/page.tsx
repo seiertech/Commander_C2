@@ -11,7 +11,7 @@ import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
   primitiveFonts, primitiveLetterSpacing, primitiveSignal,
 } from '../../../../../../packages/ui/src/tokens/primitives';
-import { thesisArchitectureIntelligence, thesisAssets, thesisRiskObjects, thesisCases, thesisBlastRadius, thesisConnectors, thesisExposures, thesisPostures, thesisStrategies, thesisRiskScores } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisArchitectureIntelligence, thesisAssets, thesisRiskObjects, thesisCases, thesisBlastRadius, thesisConnectors, thesisExposures, thesisPostures, thesisStrategies, thesisRiskScores, thesisMissions, thesisActions, thesisIdentities, thesisEvents, thesisSignals, thesisIocs } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Architecture — Inverse Discovery

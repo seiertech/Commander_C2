@@ -11,7 +11,7 @@ import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
   primitiveFonts, primitiveLetterSpacing, primitiveSignal,
 } from '../../../../../../packages/ui/src/tokens/primitives';
-import { thesisIocs, thesisSignals, thesisCases, thesisRiskObjects, thesisAssets, thesisBlastRadius, thesisConnectors, thesisExposures, thesisPostures, thesisStrategies } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisIocs, thesisSignals, thesisCases, thesisRiskObjects, thesisAssets, thesisBlastRadius, thesisConnectors, thesisExposures, thesisPostures, thesisStrategies, thesisMissions, thesisRiskScores, thesisActions, thesisIdentities, thesisEvents } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Intelligence — IOC Lifecycle

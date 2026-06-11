@@ -12,7 +12,7 @@ import { ReactFlow, Background, Controls, Node, Edge, Position } from '@xyflow/r
 import { useMemo, useState } from 'react';
 
 import '@xyflow/react/dist/style.css';
-import { thesisTopology, thesisAssets, thesisBlastRadius, thesisCases, thesisRiskObjects, thesisArchitectureIntelligence, thesisExposures, thesisPostures, thesisStrategies, thesisMissions } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisTopology, thesisAssets, thesisBlastRadius, thesisCases, thesisRiskObjects, thesisArchitectureIntelligence, thesisExposures, thesisPostures, thesisStrategies, thesisMissions, thesisConnectors, thesisRiskScores, thesisActions, thesisIdentities, thesisEvents, thesisSignals, thesisIocs } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Fusion Map — Relationship Graph

@@ -8,7 +8,7 @@ import { use } from 'react';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
-import { thesisIdentities, thesisAssets, thesisCases, thesisIdentityIntelligence, thesisRiskScores, thesisPostures, thesisRiskObjects, thesisExposures, thesisStrategies, thesisConnectors } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisIdentities, thesisAssets, thesisCases, thesisIdentityIntelligence, thesisRiskScores, thesisPostures, thesisRiskObjects, thesisExposures, thesisStrategies, thesisConnectors, thesisMissions, thesisBlastRadius, thesisActions, thesisEvents, thesisSignals, thesisIocs } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Identity Intelligence Surface — Thesis Layer

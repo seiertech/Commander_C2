@@ -8,7 +8,7 @@ import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
-import { thesisTopology, thesisMissions, thesisAssets, thesisCases, thesisRiskObjects, thesisBlastRadius, thesisPostures, thesisExposures, thesisStrategies, thesisConnectors } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisTopology, thesisMissions, thesisAssets, thesisCases, thesisRiskObjects, thesisBlastRadius, thesisPostures, thesisExposures, thesisStrategies, thesisConnectors, thesisRiskScores, thesisActions, thesisIdentities, thesisEvents, thesisSignals, thesisIocs } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Fusion Map — Mission Overlay

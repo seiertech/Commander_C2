@@ -11,7 +11,7 @@ import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
   primitiveFonts, primitiveLetterSpacing, primitiveSignal, primitiveData,
 } from '../../../../../../packages/ui/src/tokens/primitives';
-import { thesisIntelligenceAssessments, thesisSignals, thesisCases, thesisRiskScores, thesisAssets, thesisRiskObjects, thesisConnectors, thesisExposures, thesisPostures, thesisStrategies } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisIntelligenceAssessments, thesisSignals, thesisCases, thesisRiskScores, thesisAssets, thesisRiskObjects, thesisConnectors, thesisExposures, thesisPostures, thesisStrategies, thesisMissions, thesisBlastRadius, thesisActions, thesisIdentities, thesisEvents, thesisIocs } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Intelligence — Confidence Console

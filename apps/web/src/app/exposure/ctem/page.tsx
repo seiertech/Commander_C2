@@ -9,7 +9,7 @@ import {
   primitiveFonts, primitiveLetterSpacing, primitiveSignal, primitiveData,
 } from '../../../../../../packages/ui/src/tokens/primitives';
 import type { ApexOptions } from 'apexcharts';
-import { thesisExposures, thesisExposureEngine, thesisCases, thesisAssets, thesisRiskObjects, thesisBlastRadius, thesisConnectors, thesisPostures, thesisIdentities, thesisStrategies, thesisMissions } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisExposures, thesisExposureEngine, thesisCases, thesisAssets, thesisRiskObjects, thesisBlastRadius, thesisConnectors, thesisPostures, thesisIdentities, thesisStrategies, thesisMissions, thesisRiskScores, thesisActions, thesisEvents, thesisSignals, thesisIocs } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 

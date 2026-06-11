@@ -11,7 +11,7 @@ import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
   primitiveFonts, primitiveLetterSpacing, primitiveSignal,
 } from '../../../../../../packages/ui/src/tokens/primitives';
-import { thesisIocs, thesisSignals, thesisIntelligenceAssessments, thesisCases, thesisRiskScores, thesisAssets, thesisBlastRadius, thesisConnectors, thesisExposures, thesisPostures } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisIocs, thesisSignals, thesisIntelligenceAssessments, thesisCases, thesisRiskScores, thesisAssets, thesisBlastRadius, thesisConnectors, thesisExposures, thesisPostures, thesisMissions, thesisStrategies, thesisRiskObjects, thesisActions, thesisIdentities, thesisEvents } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Intelligence — Threat Hunt Operations

@@ -9,7 +9,7 @@ import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
 import { STREAM_LABELS } from '../../../../../packages/contracts/src/engines/intelligence-layer';
-import { thesisAssets, thesisCases, thesisIdentities, thesisRiskObjects, thesisPostures, thesisBlastRadius, thesisExposures, thesisConnectors, thesisStrategies, thesisMissions } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisAssets, thesisCases, thesisIdentities, thesisRiskObjects, thesisPostures, thesisBlastRadius, thesisExposures, thesisConnectors, thesisStrategies, thesisMissions, thesisRiskScores, thesisActions, thesisEvents, thesisSignals, thesisIocs } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Asset Intelligence Surface — Thesis §8 (Asset Authority Layer)

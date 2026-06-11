@@ -11,7 +11,7 @@ import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
   primitiveFonts, primitiveLetterSpacing, primitiveSignal, primitiveData,
 } from '../../../../../../packages/ui/src/tokens/primitives';
-import { thesisSignals, thesisEventIntelligence, thesisConnectors, thesisRiskScores, thesisCases, thesisAssets, thesisBlastRadius, thesisExposures, thesisPostures, thesisStrategies } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisSignals, thesisEventIntelligence, thesisConnectors, thesisRiskScores, thesisCases, thesisAssets, thesisBlastRadius, thesisExposures, thesisPostures, thesisStrategies, thesisMissions, thesisRiskObjects, thesisActions, thesisIdentities, thesisEvents, thesisIocs } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Intelligence — Signal Pipeline

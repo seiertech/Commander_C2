@@ -11,7 +11,7 @@ import {
   primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
   primitiveFonts, primitiveLetterSpacing, primitiveSignal, primitiveData,
 } from '../../../../../packages/ui/src/tokens/primitives';
-import { thesisIocs, thesisRules, thesisSecurityToolIntelligence, thesisControlFrameworks, thesisCases, thesisAssets, thesisBlastRadius, thesisRiskScores, thesisExposures, thesisPostures } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { thesisIocs, thesisRules, thesisSecurityToolIntelligence, thesisControlFrameworks, thesisCases, thesisAssets, thesisBlastRadius, thesisRiskScores, thesisExposures, thesisPostures, thesisMissions, thesisStrategies, thesisRiskObjects, thesisConnectors, thesisActions, thesisIdentities, thesisEvents, thesisSignals } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Defence Coverage — ATT&CK / D3FEND Heatmap
