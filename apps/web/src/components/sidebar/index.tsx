@@ -234,12 +234,13 @@ const SIDEBAR_STYLES = `
   /* ── Brand block (expanded) ── */
   .navbar-vertical.commander-nav .navbar-brand {
     flex-shrink: 0;
-    padding: 1.25rem 1.25rem 1.125rem;
+    padding: 0 1.25rem;
     border-bottom: 1px solid var(--tblr-border-color);
-    min-height: 72px;
+    height: 56px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    box-sizing: border-box;
   }
 
   .navbar-vertical.commander-nav .navbar-brand-text {
@@ -268,7 +269,7 @@ const SIDEBAR_STYLES = `
   /* ── Brand block (collapsed) ── */
   .navbar-vertical.commander-nav .navbar-brand-icon {
     flex-shrink: 0;
-    height: 72px;
+    height: 56px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -276,6 +277,7 @@ const SIDEBAR_STYLES = `
     text-decoration: none;
     color: var(--tblr-nav-link-color);
     transition: color 150ms ease;
+    box-sizing: border-box;
   }
 
   .navbar-vertical.commander-nav .navbar-brand-icon:hover {

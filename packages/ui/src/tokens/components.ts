@@ -9,7 +9,7 @@ import { primitiveSpacing, primitiveRadii } from './primitives';
 
 export const componentTokens = {
   topbarHeight: '56px',
-  sidebarWidth: '264px',
+  sidebarWidth: '280px',
   sidebarRail: '72px',
 
   // Top navigation sizing — Requirement 18.1
