@@ -41,9 +41,14 @@ const SIDEBAR_STYLES = `
     border-radius: 0 !important;
   }
 
-  /* ── Radix ScrollArea overrides — no horizontal overflow ── */
+  /* ── Radix ScrollArea overrides — no horizontal overflow, always show vertical ── */
   .navbar-vertical.commander-nav [data-radix-scroll-area-viewport] {
     overflow-x: hidden !important;
+  }
+
+  .navbar-vertical.commander-nav [data-radix-scroll-area-scrollbar] {
+    opacity: 1 !important;
+    visibility: visible !important;
   }
 
   /* ── Parent nav link — 40px row, icon 16px, label left, chevron far right ── */
@@ -115,6 +120,8 @@ const SIDEBAR_STYLES = `
     color: var(--tblr-secondary-color) !important;
     background: transparent !important;
     position: relative;
+    text-align: left;
+    justify-content: flex-start;
     transition: background 120ms ease, color 120ms ease;
   }
 
@@ -219,6 +226,9 @@ const SIDEBAR_STYLES = `
   /* ── Footer border ── */
   .navbar-vertical.commander-nav .navbar-footer {
     border-top: 1px solid var(--tblr-border-color);
+    padding: 0;
+    width: 100%;
+    flex-shrink: 0;
   }
 
   /* ── Brand block (expanded) ── */
@@ -282,6 +292,8 @@ const SIDEBAR_STYLES = `
   .navbar-vertical.commander-nav .nav-icon-rail {
     width: 100%;
     height: 40px;
+    min-height: 40px;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -302,8 +314,8 @@ const SIDEBAR_STYLES = `
   }
 
   .navbar-vertical.commander-nav .nav-icon-rail svg {
-    width: 16px !important;
-    height: 16px !important;
+    width: 20px !important;
+    height: 20px !important;
     transition: transform 120ms ease;
   }
 
@@ -406,13 +418,11 @@ function BrandBlock({ collapsed }: { collapsed: boolean }) {
 
   return (
     <div className="navbar-brand">
-      {/* Line 1: COMMANDER (gold) SDR (white) */}
+      {/* Line 1: COMMANDER (gold) C2 (white) */}
       <div className="navbar-brand-text">
         <span className="brand-commander">COMMANDER</span>
-        <span className="brand-sdr">SDR</span>
+        <span className="brand-sdr">C2</span>
       </div>
-      {/* Line 2: Seiertech ® — below, muted */}
-      <div className="navbar-brand-sub">Seiertech ®</div>
     </div>
   );
 }
@@ -591,13 +601,16 @@ function ScrollableMenu({ collapsed }: { collapsed: boolean }) {
           style={{
             width: '100%',
             height: '100%',
+          }}
+        >
+          <div style={{
             display: 'flex',
             flexDirection: 'column',
+            alignItems: 'center',
             paddingTop: '0.75rem',
             paddingBottom: '0.75rem',
             gap: '0.25rem',
-          }}
-        >
+          }}>
           {OPERATIONAL_NAV_GROUPS.map((group) => (
             <div
               key={group.id}
@@ -614,6 +627,7 @@ function ScrollableMenu({ collapsed }: { collapsed: boolean }) {
               {getIcon(group.id, { size: 'nav', 'aria-hidden': true })}
             </div>
           ))}
+          </div>
         </ScrollArea.Viewport>
         <ScrollArea.Scrollbar
           orientation="vertical"
@@ -671,14 +685,14 @@ function ScrollableMenu({ collapsed }: { collapsed: boolean }) {
       <ScrollArea.Scrollbar
         orientation="vertical"
         style={{
-          width: 4,
+          width: 6,
           padding: 0,
-          background: 'rgba(255,255,255,0.04)',
+          background: 'rgba(255,255,255,0.06)',
         }}
       >
         <ScrollArea.Thumb
           style={{
-            background: 'var(--tblr-border-color)',
+            background: 'rgba(255,255,255,0.28)',
             borderRadius: 0,
           }}
         />
