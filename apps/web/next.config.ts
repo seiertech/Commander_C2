@@ -12,6 +12,16 @@ const nextConfig: NextConfig = {
   // causes duplicate module resolution and breaks the App Router layout context.
   outputFileTracingRoot: resolve(__dirname, '../..'),
 
+  // Skip type checking during build — handled separately in CI/dev.
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+
+  // Skip ESLint during build — handled separately in CI/dev.
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+
   // Prevent pnpm symlink resolution from producing mixed-case module paths.
   webpack: (config) => {
     config.resolve = config.resolve ?? {};
