@@ -6,6 +6,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const nextConfig: NextConfig = {
+  // Standalone output — required for Amplify SSR compute bundling.
+  // Prevents ENOTDIR errors caused by pnpm hoisted symlinks conflicting
+  // with Amplify's mkdir calls during compute bundle creation.
+  output: 'standalone',
+
   // Explicitly set the workspace root to the monorepo root (two levels up from
   // apps/web/) so Next.js does not infer it from a stray package-lock.json
   // higher in the tree. Without this, Windows path casing mismatch (C:\ vs c:\)
