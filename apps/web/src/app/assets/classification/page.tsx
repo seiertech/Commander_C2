@@ -22,6 +22,7 @@ import { componentTokens } from '../../../../../../packages/ui/src/tokens/compon
 
 export default function AssetsClassificationPage() {
   const { mode, tokens } = useMode();
+  const riskscoresCount = thesisRiskScores?.length ?? 0;
 
   // Group by asset classification
   const classMap = new Map<string, typeof thesisAssets>();

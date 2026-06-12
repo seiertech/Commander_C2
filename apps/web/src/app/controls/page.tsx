@@ -21,6 +21,8 @@ import { componentTokens } from '../../../../../packages/ui/src/tokens/component
 
 export default function ControlsPage() {
   const { mode, tokens } = useMode();
+  const controlmappingsCount = thesisControlMappings?.length ?? 0;
+  const standardsdeclarationsCount = thesisStandardsDeclarations?.length ?? 0;
   const frameworks = thesisControlFrameworks;
   const controls = thesisFrameworkControls;
   const evaluations = thesisControlEvaluations;

@@ -23,6 +23,7 @@ import { componentTokens } from '../../../../../../packages/ui/src/tokens/compon
 
 export default function PlatformAuditPage() {
   const { mode, tokens } = useMode();
+  const casesCount = thesisCases?.length ?? 0;
   const events = [...thesisEvents].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
   const criticalCount = events.filter((e) => e.severity === 'critical').length;

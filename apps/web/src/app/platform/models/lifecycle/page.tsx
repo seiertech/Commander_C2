@@ -36,6 +36,7 @@ const stageColor = (status: string) => {
 
 export default function PlatformModelLifecyclePage() {
   const { mode, tokens } = useMode();
+  const riskscoresCount = thesisRiskScores?.length ?? 0;
 
   const modelsByStage = LIFECYCLE_STAGES.map((stage) => ({
     stage,

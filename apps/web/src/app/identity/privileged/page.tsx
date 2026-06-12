@@ -22,6 +22,7 @@ import { componentTokens } from '../../../../../../packages/ui/src/tokens/compon
 
 export default function PrivilegedAccessPage() {
   const { mode, tokens } = useMode();
+  const identityintelligenceCount = thesisIdentityIntelligence?.length ?? 0;
 
   const privileged = thesisIdentities.filter(
     (i) => i.privilege_level === 'privileged' || i.privilege_level === 'super-privileged'

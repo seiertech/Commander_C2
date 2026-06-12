@@ -22,6 +22,7 @@ import { componentTokens } from '../../../../../../packages/ui/src/tokens/compon
 
 export default function IdentityDriftPage() {
   const { mode, tokens } = useMode();
+  const identityintelligenceCount = thesisIdentityIntelligence?.length ?? 0;
 
   const identityRiskObjects = thesisRiskObjects.filter((r) => r.type === 'identity_risk');
   const affectedIdentityIds = new Set(

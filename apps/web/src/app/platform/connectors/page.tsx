@@ -22,6 +22,7 @@ import { componentTokens } from '../../../../../../packages/ui/src/tokens/compon
 
 export default function PlatformConnectorsPage() {
   const { mode, tokens } = useMode();
+  const systempulseCount = thesisSystemPulse?.length ?? 0;
   const connectors = thesisConnectors;
 
   const activeCount = connectors.filter((c) => c.state === 'active').length;
