@@ -268,6 +268,19 @@ export const OPERATIONAL_NAV_GROUPS: NavGroup[] = [
       { label: 'P0 Overlay', path: '/fusion-map/p0', status: 'SCAFFOLD' },
     ],
   },
+  // ─── Group 19 — Tenant Admin ──────────────────────────────────────────────
+  {
+    id: 'tenant-admin',
+    label: 'Tenant Admin',
+    subItems: [
+      { label: 'Overview', path: '/settings/tenant', status: 'SCAFFOLD' },
+      { label: 'Users & Access', path: '/settings/users-rbac', status: 'SCAFFOLD' },
+      { label: 'Baseline Configuration', path: '/settings/baselines', status: 'SCAFFOLD' },
+      { label: 'Rules & Models', path: '/settings/rules', status: 'SCAFFOLD' },
+      { label: 'AI Configuration', path: '/settings/commander-ai', status: 'SCAFFOLD' },
+      { label: 'Audit & Export', path: '/settings/audit-export', status: 'SCAFFOLD' },
+    ],
+  },
 ];
 
 /** Tenant Admin sidebar items */
