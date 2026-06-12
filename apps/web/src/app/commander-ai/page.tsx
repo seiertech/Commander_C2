@@ -6,9 +6,10 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 import { PageContainer } from '@/components/page-container';
 import { REFUSAL_REASONS, REFUSAL_LABELS } from '../../../../../packages/contracts/src/engines/commander-ai-core';
-import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
+import { primitiveTypeScale, primitiveSignal, primitiveSpacing, primitiveLetterSpacing, primitiveFontWeight } from '../../../../../packages/ui/src/tokens/primitives';
 
 import { thesisCases, thesisSignals, thesisAssets, thesisRiskObjects, thesisBlastRadius, thesisExposures, thesisConnectors, thesisPostures, thesisStrategies, thesisMissions, thesisRiskScores, thesisActions, thesisIdentities, thesisEvents, thesisIocs } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { componentTokens } from '../../../../../packages/ui/src/tokens/components';
 /**
  * Commander AI — Status Overview
  *

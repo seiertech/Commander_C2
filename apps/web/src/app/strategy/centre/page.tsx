@@ -6,7 +6,7 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 import { PageContainer } from '@/components/page-container';
 import { STRATEGY_SURFACE_LABELS } from '../../../../../../packages/contracts/src/entities/strategy';
 import type { StrategySurfaceType } from '../../../../../../packages/contracts/src/entities/strategy';
-import { primitiveTypeScale, primitiveHud } from '../../../../../../packages/ui/src/tokens/primitives';
+import { primitiveTypeScale, primitiveHud, primitiveSpacing, primitiveLetterSpacing, primitiveFontWeight, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { thesisStrategies, thesisMissions, thesisRiskObjects, thesisCases, thesisBlastRadius, thesisExposures, thesisPostures, thesisConnectors, thesisActions, thesisIdentities } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 

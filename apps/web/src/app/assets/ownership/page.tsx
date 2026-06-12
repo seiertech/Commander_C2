@@ -6,8 +6,9 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { primitiveTypeScale } from '../../../../../../packages/ui/src/tokens/primitives';
+import { primitiveTypeScale, primitiveSpacing, primitiveLetterSpacing, primitiveFontWeight, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
 import { thesisAssets, thesisPostures, thesisRiskObjects, thesisCases, thesisExposures, thesisBlastRadius, thesisStrategies, thesisConnectors, thesisMissions, thesisRiskScores, thesisActions, thesisIdentities, thesisEvents, thesisSignals, thesisIocs } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 
 /**
  * Assets — Ownership View
@@ -29,6 +30,8 @@ export default function AssetsOwnershipPage() {
     ownerMap.set(a.owner, list);
   });
   const owners = [...ownerMap.entries()].sort((a, b) => b[1].length - a[1].length);
+
+  const posturesCount = thesisPostures.length;
 
   return (
     <PageContainer

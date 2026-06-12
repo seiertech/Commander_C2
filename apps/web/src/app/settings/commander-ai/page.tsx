@@ -1,9 +1,10 @@
 'use client';
 
 import { PageContainer } from '@/components/page-container';
-import { primitiveTypeScale } from '../../../../../../packages/ui/src/tokens/primitives';
+import { primitiveTypeScale, primitiveLetterSpacing, primitiveFontWeight, primitiveFonts } from '../../../../../../packages/ui/src/tokens/primitives';
 
 import { thesisTenantConfigs, thesisRbacPolicies, thesisConnectors, thesisRules, thesisFeatureRegistry, thesisAssets, thesisCases, thesisStrategies, thesisMissions, thesisPostures } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 /**
  * Tenant Admin — Commander AI Configuration
  *

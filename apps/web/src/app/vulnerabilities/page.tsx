@@ -6,8 +6,9 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
+import { primitiveTypeScale, primitiveSignal, primitiveSpacing, primitiveFontWeight, primitiveFonts } from '../../../../../packages/ui/src/tokens/primitives';
 import { thesisVulnerabilityIntelligence, thesisRiskScores, thesisExposures, thesisAssets, thesisBlastRadius, thesisCases, thesisConnectors, thesisPostures, thesisStrategies, thesisMissions, thesisRiskObjects, thesisActions, thesisIdentities, thesisEvents, thesisSignals, thesisIocs } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { componentTokens } from '../../../../../packages/ui/src/tokens/components';
 
 /**
  * Vulnerability Management — Overview

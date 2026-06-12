@@ -4,8 +4,9 @@ import dynamic from 'next/dynamic';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 import { PageContainer } from '@/components/page-container';
-import { primitiveTypeScale } from '../../../../../packages/ui/src/tokens/primitives';
+import { primitiveTypeScale, primitiveSpacing, primitiveLetterSpacing, primitiveFontWeight, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
 import { thesisControlFrameworks, thesisControlEvaluations, thesisStandardsDeclarations, thesisCases, thesisBlastRadius, thesisRiskObjects, thesisExposures, thesisPostures, thesisConnectors, thesisStrategies, thesisActions, thesisIdentities } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { componentTokens } from '../../../../../packages/ui/src/tokens/components';
 
 /**
  * Governance — Adherence Overview (Thesis §15 — Risk, Control & Adherence Layer)

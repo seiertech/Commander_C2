@@ -7,9 +7,10 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 import { use } from 'react';
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { primitiveTypeScale, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
+import { primitiveTypeScale, primitiveSignal, primitiveSpacing, primitiveLetterSpacing, primitiveFontWeight } from '../../../../../packages/ui/src/tokens/primitives';
 import { STREAM_LABELS } from '../../../../../packages/contracts/src/engines/intelligence-layer';
 import { thesisAssets, thesisCases, thesisIdentities, thesisRiskObjects, thesisPostures, thesisBlastRadius, thesisExposures, thesisConnectors, thesisStrategies, thesisMissions, thesisRiskScores, thesisActions, thesisEvents, thesisSignals, thesisIocs } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { componentTokens } from '../../../../../packages/ui/src/tokens/components';
 
 /**
  * Asset Intelligence Surface — Thesis §8 (Asset Authority Layer)
@@ -42,10 +43,12 @@ export default function AssetIntelligencePage({ searchParams }: { searchParams: 
   const { mode, tokens } = useMode();
 
   const selected = id ? thesisAssets.find((a) => a.asset_id === id) : undefined;
+  const posturesCount = thesisPostures.length;
 
   // ── Asset list view (no selection) ──
   if (!selected) {
     const sorted = [...thesisAssets].sort((a, b) => b.criticality - a.criticality);
+
     return (
       <PageContainer
         pretitle="Identity & Asset Intelligence › Assets"

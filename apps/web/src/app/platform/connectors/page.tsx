@@ -6,8 +6,9 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
 import { CONNECTOR_CLASS_LABELS } from '../../../../../../packages/contracts/src/entities/common';
-import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { primitiveTypeScale, primitiveSignal, primitiveSpacing, primitiveLetterSpacing, primitiveFontWeight } from '../../../../../../packages/ui/src/tokens/primitives';
 import { thesisConnectors, thesisSystemPulse, thesisCases, thesisBlastRadius, thesisRiskObjects, thesisExposures, thesisPostures, thesisAssets, thesisStrategies, thesisMissions } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 
 /**
  * Platform — Connectors & Data Sources

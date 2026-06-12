@@ -8,7 +8,7 @@ import { PageContainer } from '@/components/page-container';
 import { STRATEGY_SURFACE_LABELS, STRATEGY_SURFACE_TYPES } from '../../../../../../packages/contracts/src/entities/strategy';
 import type { StrategySurfaceType } from '../../../../../../packages/contracts/src/entities/strategy';
 import { simulatePolicyChange } from '../../../../../../packages/contracts/src/engines/strategy-simulation-engine';
-import { primitiveTypeScale, primitiveSignal, primitiveHud } from '../../../../../../packages/ui/src/tokens/primitives';
+import { primitiveTypeScale, primitiveSignal, primitiveHud, primitiveSpacing, primitiveLetterSpacing, primitiveFontWeight } from '../../../../../../packages/ui/src/tokens/primitives';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { thesisStrategies, thesisBlastRadius, thesisCases, thesisRiskObjects, thesisExposures, thesisPostures, thesisConnectors, thesisRiskScores, thesisActions, thesisIdentities, thesisMissions } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 

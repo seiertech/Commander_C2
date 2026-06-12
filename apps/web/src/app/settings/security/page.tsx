@@ -1,8 +1,9 @@
 'use client';
 
 import { PageContainer } from '@/components/page-container';
-import { primitiveTypeScale } from '../../../../../../packages/ui/src/tokens/primitives';
+import { primitiveTypeScale, primitiveLetterSpacing, primitiveFontWeight, primitiveFonts } from '../../../../../../packages/ui/src/tokens/primitives';
 import { thesisAuthSessions, thesisBreakGlass, thesisRbacPolicies, thesisTenantConfigs, thesisConnectors, thesisRules, thesisFeatureRegistry, thesisAssets, thesisCases, thesisStrategies, thesisMissions, thesisPostures } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 
 /**
  * Security Settings — Platform Security & Hardening (Spec 35)

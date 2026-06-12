@@ -1,8 +1,8 @@
 import { colors } from '../../../../../packages/ui/src/tokens/colors';
 import { typography } from '../../../../../packages/ui/src/tokens/typography';
+import { thesisTenantConfigs, thesisRbacPolicies, thesisConnectors, thesisRules, thesisFeatureRegistry, thesisAssets, thesisCases, thesisStrategies, thesisMissions, thesisPostures } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import {
-
-import { thesisTenantConfigs, thesisRbacPolicies, thesisConnectors, thesisRules, thesisFeatureRegistry, thesisAssets, thesisCases, thesisStrategies, thesisMissions, thesisPostures } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';  MOCK_TENANT_PROFILE,
+  MOCK_TENANT_PROFILE,
   MOCK_TENANT_USERS,
   MOCK_TENANT_ROLES,
   MOCK_AUTHORITY_OVERLAYS,

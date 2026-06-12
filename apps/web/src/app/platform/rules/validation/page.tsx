@@ -10,9 +10,8 @@ import {
   type RuleSpec,
 } from '../../../../../../../packages/contracts/src/engines/rule-validation-engine';
 import { componentTokens } from '../../../../../../../packages/ui/src/tokens/components';
-import { import { thesisFindings, thesisRules, thesisCases, thesisBlastRadius, thesisRiskObjects, thesisExposures, thesisPostures, thesisConnectors, thesisStrategies, thesisMissions } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';  primitiveTypeScale, primitiveSpacing, primitiveFontWeight,
-  primitiveFonts, primitiveLetterSpacing, primitiveSignal,
-} from '../../../../../../../packages/ui/src/tokens/primitives';
+import { primitiveTypeScale, primitiveSpacing, primitiveFontWeight, primitiveFonts, primitiveLetterSpacing, primitiveSignal } from '../../../../../../../packages/ui/src/tokens/primitives';
+import { thesisFindings, thesisRules, thesisCases, thesisBlastRadius, thesisRiskObjects, thesisExposures, thesisPostures, thesisConnectors, thesisStrategies, thesisMissions } from '../../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 
 /**
  * Platform — Rule Validation (Pre-Activation Status)

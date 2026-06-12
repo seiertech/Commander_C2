@@ -19,6 +19,7 @@ import type { WorkspaceMode } from '../../../../../../packages/ui/src/tokens/sem
 import type { Case } from '../../../../../../packages/contracts/src/entities/case';
 import type { ApexOptions } from 'apexcharts';
 import { thesisCases, thesisActions, thesisRiskScores, thesisCaseStrategyBindings, thesisBlastRadius, thesisExposures, thesisPostures, thesisConnectors, thesisStrategies, thesisMissions, thesisIdentities } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 

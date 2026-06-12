@@ -5,9 +5,10 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 import { useMode } from '@/context/mode-context';
 import { PageContainer } from '@/components/page-container';
-import { primitiveTypeScale, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
+import { primitiveTypeScale, primitiveSignal, primitiveSpacing, primitiveFontWeight, primitiveFonts } from '../../../../../../packages/ui/src/tokens/primitives';
 import { STREAM_LABELS, CLASS_TO_STREAM } from '../../../../../../packages/contracts/src/engines/intelligence-layer';
 import { thesisAssets, thesisIdentities, thesisCases, thesisRiskObjects, thesisConnectors, thesisBlastRadius, thesisExposures, thesisPostures, thesisStrategies, thesisMissions, thesisRiskScores } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 
 /**
  * Internal Operating Picture — Thesis Layer

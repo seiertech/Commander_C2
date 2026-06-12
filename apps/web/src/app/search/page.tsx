@@ -8,8 +8,9 @@ import { useState } from 'react';
 import { PageContainer } from '@/components/page-container';
 import { planQuery } from '../../../../../packages/contracts/src/engines/universal-search-engine';
 import type { SearchResult } from '../../../../../packages/contracts/src/engines/universal-search-engine';
-import { primitiveTypeScale } from '../../../../../packages/ui/src/tokens/primitives';
+import { primitiveTypeScale, primitiveSpacing, primitiveLetterSpacing, primitiveFontWeight, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
 import { thesisSearchConfigs, thesisAssets, thesisCases, thesisRiskObjects, thesisBlastRadius, thesisConnectors, thesisExposures, thesisIdentities, thesisPostures, thesisStrategies, thesisMissions, thesisRiskScores, thesisActions, thesisEvents, thesisSignals, thesisIocs } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { componentTokens } from '../../../../../packages/ui/src/tokens/components';
 
 /**
  * Universal Search — Commander C2 (Spec 42)
