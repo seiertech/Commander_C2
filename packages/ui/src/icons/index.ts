@@ -23,6 +23,7 @@ import {
   Globe,
   HeartPulse,
   LayoutDashboard,
+  Monitor,
   Moon,
   Network,
   Radar,
@@ -94,6 +95,7 @@ export const ICON_MAP = {
   'system-pulse': Activity,
   // Additional modules
   'tenant-admin': Building,
+  'control-plane': Monitor,
   // ── Header utility icons (Task 4.3) ────────────────────────────────────
   'search': Search,
   'theme-light': Sun,
