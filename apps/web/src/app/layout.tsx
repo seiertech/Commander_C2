@@ -1,4 +1,9 @@
 import type { Metadata } from 'next';
+
+// Force all routes to be dynamically rendered — no static prerendering.
+// All pages use 'use client' with useMode() context hook which requires
+// ModeProvider, unavailable during static generation at build time.
+export const dynamic = 'force-dynamic';
 import { Inter } from 'next/font/google';
 import { Suspense } from 'react';
 // Tabler CSS — loaded first so Commander token overrides take precedence
