@@ -7,6 +7,7 @@ import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale, primitiveSignal, primitiveFonts, primitiveSpacing, primitiveFontWeight, primitiveLetterSpacing } from '../../../../../../packages/ui/src/tokens/primitives';
 import { thesisAssets, thesisConnectors, thesisCloudSecurityPosture, thesisCases, thesisBlastRadius, thesisRiskObjects, thesisExposures, thesisPostures, thesisStrategies, thesisMissions, thesisActions } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
+import { useMode } from '@/context/mode-context';
 
 /**
  * SOM — Cloud Security Manager
@@ -14,6 +15,7 @@ import { componentTokens } from '../../../../../../packages/ui/src/tokens/compon
  * Route: /som/cloud-security | Nav Group: SOM
  */
 export default function SomCloudSecurityPage() {
+  const { mode, tokens } = useMode();
   const cloudAssets = thesisAssets.filter((a) => a.platform?.cloud_provider);
   const cloudProviders = cloudAssets.reduce((acc, a) => { const p = a.platform!.cloud_provider!; acc[p] = (acc[p] || 0) + 1; return acc; }, {} as Record<string, number>);
   const cloudConnectors = thesisConnectors.filter((c) => c.source_type.includes('aws') || c.source_type.includes('azure') || c.source_type.includes('gcp'));

@@ -9,3 +9,4 @@ dist/
 coverage/
 !apps/web/src/app/coverage/
 .turbo/
+apps/web/tsconfig.tsbuildinfo

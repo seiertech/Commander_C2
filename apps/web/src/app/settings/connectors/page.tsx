@@ -5,6 +5,7 @@ import { CONNECTOR_CLASS_LABELS } from '../../../../../../packages/contracts/src
 import { primitiveTypeScale, primitiveLetterSpacing, primitiveFontWeight, primitiveFonts } from '../../../../../../packages/ui/src/tokens/primitives';
 import { thesisConnectors, thesisTenantConfigs, thesisRbacPolicies, thesisRules, thesisFeatureRegistry, thesisAssets, thesisCases, thesisStrategies, thesisMissions, thesisPostures } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
+import { useMode } from '@/context/mode-context';
 
 /**
  * Tenant Admin — Connectors & Data Sources
@@ -15,6 +16,7 @@ import { componentTokens } from '../../../../../../packages/ui/src/tokens/compon
  */
 
 export default function SettingsConnectorsPage() {
+  const { mode, tokens } = useMode();
   return (
     <PageContainer pretitle="Settings › Connectors & Data Sources" title="Connector Configuration">
       <div className="card mb-3">

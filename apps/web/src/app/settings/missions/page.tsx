@@ -4,6 +4,7 @@ import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale, primitiveLetterSpacing, primitiveFontWeight, primitiveFonts } from '../../../../../../packages/ui/src/tokens/primitives';
 import { thesisMissions, thesisMissionBindings, thesisTenantConfigs, thesisRbacPolicies, thesisConnectors, thesisRules, thesisFeatureRegistry, thesisAssets, thesisCases, thesisStrategies, thesisPostures } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
+import { useMode } from '@/context/mode-context';
 
 /**
  * Settings — Mission Configuration
@@ -14,6 +15,7 @@ import { componentTokens } from '../../../../../../packages/ui/src/tokens/compon
  * Route: /settings/missions | Boundary: operational
  */
 export default function SettingsMissionsPage() {
+  const { mode, tokens } = useMode();
   return (
     <PageContainer pretitle="Settings › Mission Control" title="Mission Configuration">
       {/* Mission list */}

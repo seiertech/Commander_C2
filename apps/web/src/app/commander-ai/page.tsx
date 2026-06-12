@@ -10,6 +10,7 @@ import { primitiveTypeScale, primitiveSignal, primitiveSpacing, primitiveLetterS
 
 import { thesisCases, thesisSignals, thesisAssets, thesisRiskObjects, thesisBlastRadius, thesisExposures, thesisConnectors, thesisPostures, thesisStrategies, thesisMissions, thesisRiskScores, thesisActions, thesisIdentities, thesisEvents, thesisIocs } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { componentTokens } from '../../../../../packages/ui/src/tokens/components';
+import { useMode } from '@/context/mode-context';
 /**
  * Commander AI — Status Overview
  *
@@ -30,6 +31,11 @@ const MODES = [
 ];
 
 export default function CommanderAiPage() {
+  const { mode, tokens } = useMode();
+  const assetsCount = thesisAssets?.length ?? 0;
+  const casesCount = thesisCases?.length ?? 0;
+  const signalsCount = thesisSignals?.length ?? 0;
+
   return (
     <PageContainer
       pretitle="Platform › Commander AI"

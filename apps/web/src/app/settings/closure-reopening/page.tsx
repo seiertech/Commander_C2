@@ -4,9 +4,11 @@ import { STRATEGY_SURFACE_LABELS } from '../../../../../../packages/contracts/sr
 import { primitiveTypeScale, primitiveLetterSpacing, primitiveFontWeight, primitiveFonts } from '../../../../../../packages/ui/src/tokens/primitives';
 import { thesisStrategies, thesisTenantConfigs, thesisRbacPolicies, thesisConnectors, thesisRules, thesisFeatureRegistry, thesisAssets, thesisCases, thesisMissions, thesisPostures } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
+import { useMode } from '@/context/mode-context';
 
 /** Tenant Admin — Closure & Reopening. Data: strategy.ts (closure-gate + reopening-trigger) + seed-strategies */
 export default function SettingsClosureReopeningPage() {
+  const { mode, tokens } = useMode();
   const closurePolicy = thesisStrategies.find((s) => s.surface_type === 'closure-gate');
   const reopeningPolicy = thesisStrategies.find((s) => s.surface_type === 'reopening-trigger');
 

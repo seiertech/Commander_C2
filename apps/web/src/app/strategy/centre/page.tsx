@@ -9,6 +9,7 @@ import type { StrategySurfaceType } from '../../../../../../packages/contracts/s
 import { primitiveTypeScale, primitiveHud, primitiveSpacing, primitiveLetterSpacing, primitiveFontWeight, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { thesisStrategies, thesisMissions, thesisRiskObjects, thesisCases, thesisBlastRadius, thesisExposures, thesisPostures, thesisConnectors, thesisActions, thesisIdentities } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { useMode } from '@/context/mode-context';
 
 /**
  * Strategy Centre — Unified Configuration Surface (Spec 43)
@@ -22,6 +23,10 @@ import { thesisStrategies, thesisMissions, thesisRiskObjects, thesisCases, thesi
  */
 
 export default function StrategyCentrePage() {
+  const { mode, tokens } = useMode();
+  const missionsCount = thesisMissions?.length ?? 0;
+  const riskobjectsCount = thesisRiskObjects?.length ?? 0;
+
   const policies = thesisStrategies;
   const activePolicies = policies.filter((p) => p.status === 'active');
   const pendingApproval = policies.filter((p) => p.status === 'pending-approval');

@@ -11,6 +11,7 @@ import type { SearchResult } from '../../../../../packages/contracts/src/engines
 import { primitiveTypeScale, primitiveSpacing, primitiveLetterSpacing, primitiveFontWeight, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
 import { thesisSearchConfigs, thesisAssets, thesisCases, thesisRiskObjects, thesisBlastRadius, thesisConnectors, thesisExposures, thesisIdentities, thesisPostures, thesisStrategies, thesisMissions, thesisRiskScores, thesisActions, thesisEvents, thesisSignals, thesisIocs } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { componentTokens } from '../../../../../packages/ui/src/tokens/components';
+import { useMode } from '@/context/mode-context';
 
 /**
  * Universal Search — Commander C2 (Spec 42)
@@ -50,6 +51,10 @@ const ENTITY_TYPE_LABELS: Record<string, string> = {
 };
 
 export default function SearchPage() {
+  const { mode, tokens } = useMode();
+  const assetsCount = thesisAssets?.length ?? 0;
+  const casesCount = thesisCases?.length ?? 0;
+
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [hasSearched, setHasSearched] = useState(false);

@@ -7,6 +7,7 @@ import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale, primitiveSignal, primitiveSpacing, primitiveLetterSpacing, primitiveFontWeight } from '../../../../../../packages/ui/src/tokens/primitives';
 import { thesisAssets, thesisRiskObjects, thesisArchitectureIntelligence, thesisCases, thesisBlastRadius, thesisExposures, thesisPostures, thesisConnectors, thesisStrategies, thesisMissions, thesisActions } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
+import { useMode } from '@/context/mode-context';
 
 /**
  * SOM — Architecture Manager
@@ -14,6 +15,9 @@ import { componentTokens } from '../../../../../../packages/ui/src/tokens/compon
  * Route: /som/architecture | Nav Group: SOM
  */
 export default function SomArchitecturePage() {
+  const { mode, tokens } = useMode();
+  const architectureintelligenceCount = thesisArchitectureIntelligence?.length ?? 0;
+
   const configDrift = thesisRiskObjects.filter((r) => r.type === 'configuration_drift');
   const networkPositions = thesisAssets.reduce((acc, a) => { const pos = a.network_position || 'unknown'; acc[pos] = (acc[pos] || 0) + 1; return acc; }, {} as Record<string, number>);
 

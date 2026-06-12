@@ -7,6 +7,7 @@ import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale, primitiveSignal, primitiveSpacing, primitiveLetterSpacing, primitiveFontWeight } from '../../../../../../packages/ui/src/tokens/primitives';
 import { thesisConnectors, thesisSystemPulse, thesisCases, thesisBlastRadius, thesisRiskObjects, thesisExposures, thesisPostures, thesisStrategies, thesisActions, thesisIdentities } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
+import { useMode } from '@/context/mode-context';
 
 /**
  * Tool Health — Source Freshness
@@ -16,6 +17,9 @@ import { componentTokens } from '../../../../../../packages/ui/src/tokens/compon
  */
 
 export default function ToolHealthFreshnessPage() {
+  const { mode, tokens } = useMode();
+  const systempulseCount = thesisSystemPulse?.length ?? 0;
+
   const now = new Date('2026-01-18T12:00:00.000Z').getTime();
   const sorted = [...thesisConnectors].sort((a, b) => {
     const aTime = a.last_run_at ? new Date(a.last_run_at).getTime() : 0;

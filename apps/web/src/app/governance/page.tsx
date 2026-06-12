@@ -7,6 +7,7 @@ import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale, primitiveSpacing, primitiveLetterSpacing, primitiveFontWeight, primitiveSignal } from '../../../../../packages/ui/src/tokens/primitives';
 import { thesisControlFrameworks, thesisControlEvaluations, thesisStandardsDeclarations, thesisCases, thesisBlastRadius, thesisRiskObjects, thesisExposures, thesisPostures, thesisConnectors, thesisStrategies, thesisActions, thesisIdentities } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { componentTokens } from '../../../../../packages/ui/src/tokens/components';
+import { useMode } from '@/context/mode-context';
 
 /**
  * Governance — Adherence Overview (Thesis §15 — Risk, Control & Adherence Layer)
@@ -21,6 +22,9 @@ import { componentTokens } from '../../../../../packages/ui/src/tokens/component
  */
 
 export default function GovernancePage() {
+  const { mode, tokens } = useMode();
+  const standardsdeclarationsCount = thesisStandardsDeclarations?.length ?? 0;
+
   const frameworks = thesisControlFrameworks;
   const evaluations = thesisControlEvaluations;
   const activeFrameworks = frameworks.filter((f) => f.active);

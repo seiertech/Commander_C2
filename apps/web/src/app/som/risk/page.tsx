@@ -7,6 +7,7 @@ import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale, primitiveSignal, primitiveSpacing, primitiveLetterSpacing, primitiveFontWeight } from '../../../../../../packages/ui/src/tokens/primitives';
 import { thesisRiskObjects, thesisCases, thesisRiskScores, thesisExposures, thesisBlastRadius, thesisPostures, thesisConnectors, thesisAssets, thesisStrategies, thesisActions, thesisIdentities } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
+import { useMode } from '@/context/mode-context';
 
 /**
  * SOM — Risk Manager
@@ -14,6 +15,10 @@ import { componentTokens } from '../../../../../../packages/ui/src/tokens/compon
  * Route: /som/risk | Nav Group: SOM
  */
 export default function SomRiskPage() {
+  const { mode, tokens } = useMode();
+  const exposuresCount = thesisExposures?.length ?? 0;
+  const riskscoresCount = thesisRiskScores?.length ?? 0;
+
   const risks = thesisRiskObjects;
   const openRisks = risks.filter((r) => r.treatment_state === 'open');
   const typeBreakdown = risks.reduce((acc, r) => { acc[r.type] = (acc[r.type] || 0) + 1; return acc; }, {} as Record<string, number>);

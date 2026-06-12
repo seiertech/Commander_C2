@@ -5,6 +5,7 @@ import { primitiveTypeScale, primitiveLetterSpacing, primitiveFontWeight, primit
 
 import { thesisTenantConfigs, thesisRbacPolicies, thesisConnectors, thesisRules, thesisFeatureRegistry, thesisAssets, thesisCases, thesisStrategies, thesisMissions, thesisPostures } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
+import { useMode } from '@/context/mode-context';
 /**
  * Tenant Admin — Commander AI Configuration
  *
@@ -24,6 +25,7 @@ const MODES = [
 ];
 
 export default function SettingsCommanderAiPage() {
+  const { mode, tokens } = useMode();
   return (
     <PageContainer pretitle="Settings › Commander AI" title="Commander AI Configuration">
       <div className="card mb-3">

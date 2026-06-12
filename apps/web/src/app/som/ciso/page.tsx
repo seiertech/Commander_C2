@@ -7,6 +7,7 @@ import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale, primitiveSignal, primitiveSpacing, primitiveLetterSpacing } from '../../../../../../packages/ui/src/tokens/primitives';
 import { thesisCases, thesisAssets, thesisIdentities, thesisRiskObjects, thesisMissions, thesisPostureMetrics, thesisBlastRadius, thesisExposures, thesisConnectors, thesisStrategies, thesisActions } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
+import { useMode } from '@/context/mode-context';
 
 /**
  * SOM — CISO Dashboard
@@ -19,6 +20,10 @@ import { componentTokens } from '../../../../../../packages/ui/src/tokens/compon
  */
 
 export default function CisoDashboardPage() {
+  const { mode, tokens } = useMode();
+  const missionsCount = thesisMissions?.length ?? 0;
+  const posturemetricsCount = thesisPostureMetrics?.length ?? 0;
+
   const cases = thesisCases;
   const p0Cases = cases.filter((c) => c.priority === 'P0');
   const p1Cases = cases.filter((c) => c.priority === 'P1');

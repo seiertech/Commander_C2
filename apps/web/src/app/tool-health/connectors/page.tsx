@@ -8,6 +8,7 @@ import { CONNECTOR_CLASS_LABELS } from '../../../../../../packages/contracts/src
 import { primitiveTypeScale, primitiveSpacing, primitiveLetterSpacing, primitiveFontWeight, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
 import { thesisConnectors, thesisSystemPulse, thesisCases, thesisBlastRadius, thesisRiskObjects, thesisExposures, thesisPostures, thesisAssets, thesisStrategies, thesisActions } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
+import { useMode } from '@/context/mode-context';
 
 /**
  * Tool Health — Connectors Detail
@@ -17,6 +18,9 @@ import { componentTokens } from '../../../../../../packages/ui/src/tokens/compon
  */
 
 export default function ToolHealthConnectorsPage() {
+  const { mode, tokens } = useMode();
+  const systempulseCount = thesisSystemPulse?.length ?? 0;
+
   return (
     <PageContainer pretitle="Tool Health › Connectors" title="Connector Health" headerActions={<span className="badge bg-blue-lt">{thesisConnectors.length} connectors</span>}>
       <div className="card">

@@ -7,6 +7,7 @@ import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale, primitiveSignal, primitiveSpacing, primitiveLetterSpacing, primitiveFontWeight } from '../../../../../packages/ui/src/tokens/primitives';
 import { thesisConnectors, thesisSystemPulse, thesisCases, thesisBlastRadius, thesisRiskObjects, thesisExposures, thesisPostures, thesisStrategies, thesisActions, thesisIdentities } from '../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { componentTokens } from '../../../../../packages/ui/src/tokens/components';
+import { useMode } from '@/context/mode-context';
 
 /**
  * Tool Health — Overview
@@ -17,6 +18,9 @@ import { componentTokens } from '../../../../../packages/ui/src/tokens/component
  */
 
 export default function ToolHealthPage() {
+  const { mode, tokens } = useMode();
+  const systempulseCount = thesisSystemPulse?.length ?? 0;
+
   const connectors = thesisConnectors;
   const active = connectors.filter((c) => c.state === 'active').length;
   const errored = connectors.filter((c) => c.state === 'error').length;

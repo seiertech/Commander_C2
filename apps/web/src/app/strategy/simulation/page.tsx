@@ -11,6 +11,7 @@ import { simulatePolicyChange } from '../../../../../../packages/contracts/src/e
 import { primitiveTypeScale, primitiveSignal, primitiveHud, primitiveSpacing, primitiveLetterSpacing, primitiveFontWeight } from '../../../../../../packages/ui/src/tokens/primitives';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { thesisStrategies, thesisBlastRadius, thesisCases, thesisRiskObjects, thesisExposures, thesisPostures, thesisConnectors, thesisRiskScores, thesisActions, thesisIdentities, thesisMissions } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { useMode } from '@/context/mode-context';
 
 /**
  * Policy Simulation — Strategy Simulation Surface (Spec 43)
@@ -25,6 +26,9 @@ import { thesisStrategies, thesisBlastRadius, thesisCases, thesisRiskObjects, th
  */
 
 export default function PolicySimulationPage() {
+  const { mode, tokens } = useMode();
+  const blastradiusCount = thesisBlastRadius?.length ?? 0;
+
   const [selectedSurface, setSelectedSurface] = useState<StrategySurfaceType>('sla');
 
   // Simulate a policy change for the selected surface using existing active policy

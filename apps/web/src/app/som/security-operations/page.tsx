@@ -7,6 +7,7 @@ import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale, primitiveSignal, primitiveSpacing, primitiveLetterSpacing, primitiveFontWeight } from '../../../../../../packages/ui/src/tokens/primitives';
 import { thesisCases, thesisTeamPulse, thesisRiskObjects, thesisBlastRadius, thesisExposures, thesisPostures, thesisConnectors, thesisAssets, thesisStrategies, thesisMissions } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
+import { useMode } from '@/context/mode-context';
 
 /**
  * SOM — Security Operations Manager (Thesis §12 — Capacity/Maturity/Performance)
@@ -19,6 +20,9 @@ import { componentTokens } from '../../../../../../packages/ui/src/tokens/compon
  */
 
 export default function SecurityOperationsPage() {
+  const { mode, tokens } = useMode();
+  const teampulseCount = thesisTeamPulse?.length ?? 0;
+
   const cases = thesisCases;
   const openCases = cases.filter((c) => c.status !== 'closed_by_system' && c.status !== 'closed');
 

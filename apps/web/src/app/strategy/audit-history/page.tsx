@@ -8,6 +8,7 @@ import { STRATEGY_SURFACE_LABELS } from '../../../../../../packages/contracts/sr
 import { primitiveTypeScale, primitiveHud, primitiveSpacing, primitiveLetterSpacing, primitiveFontWeight, primitiveSignal } from '../../../../../../packages/ui/src/tokens/primitives';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
 import { thesisStrategies, thesisDecisionRecords, thesisCases, thesisBlastRadius, thesisRiskObjects, thesisExposures, thesisPostures, thesisConnectors, thesisActions } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
+import { useMode } from '@/context/mode-context';
 
 /**
  * Strategy Audit History — Policy Change Timeline (Spec 43)
@@ -31,6 +32,9 @@ interface AuditEntry {
 }
 
 export default function StrategyAuditHistoryPage() {
+  const { mode, tokens } = useMode();
+  const decisionrecordsCount = thesisDecisionRecords?.length ?? 0;
+
   // Derive audit entries from seed strategy policy data
   const auditEntries: AuditEntry[] = thesisStrategies.map((policy) => ({
     date: policy.updated_at,

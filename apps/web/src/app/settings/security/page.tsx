@@ -4,6 +4,7 @@ import { PageContainer } from '@/components/page-container';
 import { primitiveTypeScale, primitiveLetterSpacing, primitiveFontWeight, primitiveFonts } from '../../../../../../packages/ui/src/tokens/primitives';
 import { thesisAuthSessions, thesisBreakGlass, thesisRbacPolicies, thesisTenantConfigs, thesisConnectors, thesisRules, thesisFeatureRegistry, thesisAssets, thesisCases, thesisStrategies, thesisMissions, thesisPostures } from '../../../../../../packages/contracts/src/fixtures/thesis-adapters';
 import { componentTokens } from '../../../../../../packages/ui/src/tokens/components';
+import { useMode } from '@/context/mode-context';
 
 /**
  * Security Settings — Platform Security & Hardening (Spec 35)
@@ -17,6 +18,7 @@ import { componentTokens } from '../../../../../../packages/ui/src/tokens/compon
  */
 
 export default function SettingsSecurityPage() {
+  const { mode, tokens } = useMode();
   const activeSessions = thesisAuthSessions.filter((s) => s.status === 'active');
   const pendingBreakGlass = thesisBreakGlass.filter((r) => r.status === 'pending');
   const activeRbacPolicies = thesisRbacPolicies.filter((p) => p.active);
