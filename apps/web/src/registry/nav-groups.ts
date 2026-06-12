@@ -281,26 +281,6 @@ export const OPERATIONAL_NAV_GROUPS: NavGroup[] = [
       { label: 'Audit & Export', path: '/settings/audit-export', status: 'SCAFFOLD' },
     ],
   },
-  // ─── Group 20 — Control Plane (Seiertech Internal) ────────────────────────
-  {
-    id: 'control-plane',
-    label: 'Control Plane',
-    badge: 'INTERNAL',
-    subItems: [
-      { label: 'Command Overview', path: '/control-plane', status: 'SCAFFOLD' },
-      { label: 'Customers', path: '/control-plane/customers', status: 'SCAFFOLD' },
-      { label: 'Tenants', path: '/control-plane/tenants', status: 'SCAFFOLD' },
-      { label: 'Licences & Entitlements', path: '/control-plane/licences', status: 'SCAFFOLD' },
-      { label: 'Product & Feature Control', path: '/control-plane/features', status: 'SCAFFOLD' },
-      { label: 'AI & Model Control', path: '/control-plane/ai-models', status: 'SCAFFOLD' },
-      { label: 'Rule & Policy Packs', path: '/control-plane/rule-packs', status: 'SCAFFOLD' },
-      { label: 'Baseline Profiles', path: '/control-plane/baselines', status: 'SCAFFOLD' },
-      { label: 'Deployment & Release', path: '/control-plane/deployment', status: 'SCAFFOLD' },
-      { label: 'Support Operations', path: '/control-plane/support', status: 'SCAFFOLD' },
-      { label: 'Billing / Usage', path: '/control-plane/billing', status: 'SCAFFOLD' },
-      { label: 'Operator Audit', path: '/control-plane/audit', status: 'SCAFFOLD' },
-    ],
-  },
 ];
 
 /** Tenant Admin sidebar items */
